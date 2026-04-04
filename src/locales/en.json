@@ -1,3 +1,15 @@
 {
-  "common.calendar": "Calendar"
+  "common.calendar": "Calendar",
+  "month.name.1": "January",
+  "month.name.2": "February",
+  "month.name.3": "March",
+  "month.name.4": "April",
+  "month.name.5": "May",
+  "month.name.6": "June",
+  "month.name.7": "July",
+  "month.name.8": "August",
+  "month.name.9": "September",
+  "month.name.10": "October",
+  "month.name.11": "November",
+  "month.name.12": "December"
 }

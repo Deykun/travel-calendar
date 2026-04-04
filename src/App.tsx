@@ -1,10 +1,13 @@
-import { useTranslation } from "react-i18next";
+import { Calendar } from "./features/calendar/components/calendar";
+import { ButtonUpdate } from "./features/integrations/components/button-update";
 
 function App() {
-  const { t } = useTranslation();
   return (
     <>
-      <h1 className={cn("text-xl")}>{t("common.calendar")}</h1>
+      <div>
+        <ButtonUpdate />
+      </div>
+      <Calendar />
     </>
   );
 }
