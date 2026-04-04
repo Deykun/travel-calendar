@@ -1,0 +1,8 @@
+import { useTranslation } from "react-i18next";
+
+function App() {
+  const { t } = useTranslation();
+  return <>{t("common.calendar")}</>;
+}
+
+export default App;
