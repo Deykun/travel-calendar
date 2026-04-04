@@ -11,3 +11,8 @@ export function getDateRange(from: string, to: string): string[] {
 
   return dates;
 }
+
+// 2026-03-28 -> 03-28
+export function getDateWithoutYear(date: string): string {
+  return date.split("-").slice(1).join("-");
+}

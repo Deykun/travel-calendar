@@ -13,7 +13,7 @@ export type DataStoreState = {
     lastUpdate: DateLike | undefined;
   };
   summaryByDay: {
-    [dayKey: string]: number;
+    [dayKey: string]: string[] | undefined;
   };
   placesByKey: {
     [placeKey: string]: MetadataPlace | undefined;
@@ -45,5 +45,9 @@ export const useDataStore = create<DataStoreState>()(
     { name: "dataStore" },
   ),
 );
+
+export const setIntegration = (newStore: DataStoreState) => {
+  useDataStore.setState(newStore);
+};
 
 export default useDataStore;

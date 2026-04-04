@@ -1,6 +1,9 @@
 import { getDataFromNomads } from "../actions/get-data-from-nomads";
+import useDataStore from "../stores/use-data-store";
 
 export const ButtonUpdate = () => {
+  const lastUpdate = useDataStore((store) => store.integration.lastUpdate);
+
   return (
     <button
       onClick={() =>
@@ -9,7 +12,7 @@ export const ButtonUpdate = () => {
         })
       }
     >
-      Update
+      Update {lastUpdate}
     </button>
   );
 };

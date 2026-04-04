@@ -1,3 +1,5 @@
+import { setIntegration } from "../stores/use-data-store";
+import { getSummaryFromDay } from "../utils/get-summary-from-day";
 import {
   getDataFromTrips,
   type IntegrationNomadsTrip,
@@ -20,13 +22,20 @@ export const getDataFromNomads = async ({ username }: Params) => {
     (response) => response.json(),
   )) as unknown as IntegrationNomadsApiResponse;
 
-  console.log(response);
+  const { dataByDay, placesByKey } = getDataFromTrips(response.trips);
 
-  const x = getDataFromTrips(response.trips);
+  const summaryByDay = getSummaryFromDay(dataByDay);
 
-  // getPlaceKey
-
-  console.log(x);
+  setIntegration({
+    status: "ready",
+    integration: {
+      type: "nomads.com",
+      lastUpdate: Date.now(),
+    },
+    summaryByDay,
+    dataByDay,
+    placesByKey,
+  });
 
   return response;
 };
