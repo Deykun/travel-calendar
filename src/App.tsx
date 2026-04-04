@@ -1,10 +1,9 @@
-import { useTranslation } from "react-i18next";
+import { Calendar } from "./features/calendar/components/calendar";
 
 function App() {
-  const { t } = useTranslation();
   return (
     <>
-      <h1 className={cn("text-xl")}>{t("common.calendar")}</h1>
+      <Calendar />
     </>
   );
 }
