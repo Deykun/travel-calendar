@@ -6,6 +6,7 @@ export const ButtonUpdate = () => {
 
   return (
     <button
+      className="btn btn-strong btn-sm btn-ic-l"
       onClick={() =>
         getDataFromNomads({
           username: "deykun",
