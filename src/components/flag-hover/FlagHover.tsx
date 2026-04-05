@@ -33,11 +33,11 @@ export const FlagHover = ({
             "pointer-events-none",
             "duration-150",
             {
-              "w-[140px] flex-wrap": countries.length > 5,
+              "w-35 flex-wrap": countries.length > 5,
             },
           )}
         >
-          {countries.map((country, index) => {
+          {countries.map((country) => {
             return (
               <span className="flex flex-col gap-0.5 text-xs text-gray-600 tracking-wider">
                 <img
@@ -48,6 +48,7 @@ export const FlagHover = ({
                     "rounded-full drop-shadow",
                     "saturate-80",
                   )}
+                  loading="lazy"
                   key={country}
                   // https://purecatamphetamine.github.io/country-flag-icons/1x1/index.html
                   src={`https://purecatamphetamine.github.io/country-flag-icons/1x1/${fallbackFlags[country.toUpperCase()] || country.toUpperCase()}.svg`}

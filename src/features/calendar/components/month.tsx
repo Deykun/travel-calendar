@@ -17,9 +17,7 @@ export const Month = ({ className = "", month }: Props) => {
     (store) => store.summaryByMonth[month.monthNumber],
   );
 
-  const daysAbroadPercentage = monthSummary
-    ? (100 * monthSummary.daysAbroad.length) / monthSummary.total
-    : 0;
+  const daysAbroad = monthSummary?.daysAbroad.length || 0;
   const visitedCountries = monthSummary?.countries?.length || 0;
   // {visitedCountries}
 
@@ -28,21 +26,21 @@ export const Month = ({ className = "", month }: Props) => {
   return (
     <article
       className={cn(
-        "p-5 rounded-4xl",
+        "p-5 pt-3 rounded-4xl",
         "bg-[#e7eff4]",
         "bg-[linear-gradient(45deg,transparent,white,white)]",
         "text-center relative",
+        "drop-shadow-md",
         className,
       )}
     >
-      <h2 className="text-md font-semibold mb-4">{t(month.name)} </h2>
+      <h2 className="text-xl font-semibold mb-4">{t(month.name)} </h2>
       <span
         className={cn("absolute top-5 right-5", "text-xs text-gray-600", {
-          "text-green-800 font-semibold":
-            monthSummary?.daysAbroad.length === daysInMonth,
+          "text-green-800 font-semibold": daysAbroad == daysInMonth,
         })}
       >
-        {monthSummary?.daysAbroad.length || 0} / {daysInMonth}
+        {daysAbroad || 0} / {daysInMonth}
       </span>
       <div className={cn("grid grid-cols-7 gap-x-2 gap-y-3")}>
         {month.days.map((day) => (
