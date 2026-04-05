@@ -25,6 +25,9 @@ export type DataStoreState = {
     type: IntegrationType | undefined;
     lastUpdate: DateLike | undefined;
   };
+  summary: {
+    maxCountriesInDay: number;
+  };
   summaryByDay: {
     [dayKey: string]: SummaryDay | undefined;
   };
@@ -44,6 +47,9 @@ const emptyStore: DataStoreState = {
   integration: {
     type: undefined,
     lastUpdate: undefined,
+  },
+  summary: {
+    maxCountriesInDay: 0,
   },
   summaryByDay: {},
   summaryByMonth: {},

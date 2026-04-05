@@ -13,6 +13,9 @@ type Props = {
 export const Day = ({ className = "", dayNumber, dayKey }: Props) => {
   const { t } = useTranslation();
   const daySummary = useDataStore((store) => store.summaryByDay[dayKey]);
+  const maxCountriesInDay = useDataStore(
+    (store) => store.summary.maxCountriesInDay,
+  );
 
   const total = (daySummary?.countries || []).filter(
     (country) => country !== "pl",
@@ -20,10 +23,20 @@ export const Day = ({ className = "", dayNumber, dayKey }: Props) => {
 
   return (
     <span
-      className={cn("relative", "inline-flex items-center flex-col", className)}
+      className={cn(
+        "relative",
+        "inline-flex items-center flex-col gap-1",
+        className,
+      )}
     >
       <IconTravel total={total} />
-      <p className="text-xs text-gray-600">{dayNumber}</p>
+      <p
+        className={cn("text-xs text-gray-600 tracking-wider", {
+          ["text-[#664300] font-bold"]: maxCountriesInDay === total,
+        })}
+      >
+        {dayNumber}
+      </p>
     </span>
   );
 };

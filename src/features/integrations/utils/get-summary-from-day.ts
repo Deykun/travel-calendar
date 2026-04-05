@@ -2,7 +2,10 @@ import { getDaysInMonth } from "@/features/calendar/utils/get-days";
 import { getDateWithoutYear, getMonthWithoutDay } from "../../../utils/date";
 import type { DataStoreState } from "../stores/use-data-store";
 
-type Response = Pick<DataStoreState, "summaryByDay" | "summaryByMonth">;
+type Response = Pick<
+  DataStoreState,
+  "summaryByDay" | "summaryByMonth" | "summary"
+>;
 
 export const getSummaryFromDay = (
   dataByDay: DataStoreState["dataByDay"],
@@ -30,39 +33,68 @@ export const getSummaryFromDay = (
     return stack;
   }, {});
 
-  const summaryByMonth: DataStoreState["summaryByMonth"] = Object.values(
+  const {
+    summaryByMonth,
+    summary,
+  }: Pick<DataStoreState, "summaryByMonth" | "summary"> = Object.values(
     summaryByDay,
-  ).reduce((stack: DataStoreState["summaryByMonth"], summaryDay) => {
-    if (!summaryDay) {
-      return stack;
-    }
+  ).reduce(
+    (stack: Pick<DataStoreState, "summaryByMonth" | "summary">, summaryDay) => {
+      if (!summaryDay) {
+        return stack;
+      }
 
-    const monthNumber = getMonthWithoutDay(summaryDay.dayKey);
+      const monthNumber = getMonthWithoutDay(summaryDay.dayKey);
 
-    if (!stack[monthNumber]) {
-      stack[monthNumber] = {
-        monthNumber,
-        countries: [],
-        daysAbroad: [],
-        total: getDaysInMonth(monthNumber),
-      };
-    }
+      if (!stack.summaryByMonth[monthNumber]) {
+        stack.summaryByMonth[monthNumber] = {
+          monthNumber,
+          countries: [],
+          daysAbroad: [],
+          total: getDaysInMonth(monthNumber),
+        };
+      }
 
-    stack[monthNumber].countries = Array.from(
-      new Set([...summaryDay.countries, ...stack[monthNumber].countries]),
-    );
+      if (
+        summaryDay.countries.filter((country) => country !== "pl").length >
+        stack.summary.maxCountriesInDay
+      ) {
+        stack.summary.maxCountriesInDay = summaryDay.countries.filter(
+          (country) => country !== "pl",
+        ).length;
+      }
 
-    if (summaryDay.countries.filter((country) => country !== "pl").length > 0) {
-      stack[monthNumber].daysAbroad = Array.from(
-        new Set([summaryDay.dayKey, ...stack[monthNumber].daysAbroad]),
+      stack.summaryByMonth[monthNumber].countries = Array.from(
+        new Set([
+          ...summaryDay.countries,
+          ...stack.summaryByMonth[monthNumber].countries,
+        ]),
       );
-    }
 
-    return stack;
-  }, {});
+      if (
+        summaryDay.countries.filter((country) => country !== "pl").length > 0
+      ) {
+        stack.summaryByMonth[monthNumber].daysAbroad = Array.from(
+          new Set([
+            summaryDay.dayKey,
+            ...stack.summaryByMonth[monthNumber].daysAbroad,
+          ]),
+        );
+      }
+
+      return stack;
+    },
+    {
+      summaryByMonth: {},
+      summary: {
+        maxCountriesInDay: 0,
+      },
+    },
+  );
 
   return {
     summaryByDay,
     summaryByMonth,
+    summary,
   };
 };

@@ -24,7 +24,8 @@ export const getDataFromNomads = async ({ username }: Params) => {
 
   const { dataByDay, placesByKey } = getDataFromTrips(response.trips);
 
-  const { summaryByDay, summaryByMonth } = getSummaryFromDay(dataByDay);
+  const { summaryByDay, summaryByMonth, summary } =
+    getSummaryFromDay(dataByDay);
 
   setIntegration({
     status: "ready",
@@ -32,6 +33,7 @@ export const getDataFromNomads = async ({ username }: Params) => {
       type: "nomads.com",
       lastUpdate: Date.now(),
     },
+    summary,
     summaryByDay,
     summaryByMonth,
     dataByDay,
