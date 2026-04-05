@@ -2,6 +2,8 @@ import { useTranslation } from "react-i18next";
 import { cn } from "../../../utils/tailwind";
 import useDataStore from "../../integrations/stores/use-data-store";
 
+import IconTravel from "@/components/icons/IconTravel";
+
 type Props = {
   className?: string;
   dayNumber: number;
@@ -16,21 +18,12 @@ export const Day = ({ className = "", dayNumber, dayKey }: Props) => {
     (country) => country !== "pl",
   ).length;
 
-  const hasTrip = total > 0;
-
   return (
     <span
-      className={cn("relative", className, {
-        "text-gray-800": !hasTrip,
-        "text-green-800": hasTrip,
-      })}
+      className={cn("relative", "inline-flex items-center flex-col", className)}
     >
-      {dayNumber}
-      {total > 0 && (
-        <span className="absolute top-0 right-0 text-xs bg-red-700 text-white px-1">
-          {total}
-        </span>
-      )}
+      <IconTravel total={total} />
+      <p className="text-xs text-gray-600">{dayNumber}</p>
     </span>
   );
 };

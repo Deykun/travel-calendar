@@ -4,6 +4,7 @@ import { cn } from "../../../utils/tailwind";
 import { Day } from "./day";
 import { getDayKey } from "../../integrations/utils/get-day-key";
 import useDataStore from "@/features/integrations/stores/use-data-store";
+import { getDaysInMonth } from "../utils/get-days";
 
 type Props = {
   className?: string;
@@ -20,15 +21,23 @@ export const Month = ({ className = "", month }: Props) => {
     ? (100 * monthSummary.daysAbroad.length) / monthSummary.total
     : 0;
   const visitedCountries = monthSummary?.countries?.length || 0;
+  // {visitedCountries}
 
   return (
     <article
-      className={cn("p-5 rounded-lg", "bg-[#e7eff4]", "text-center", className)}
+      className={cn(
+        "p-5 rounded-lg",
+        "bg-[#e7eff4]",
+        "text-center relative",
+        className,
+      )}
     >
-      <h2 className="text-md font-semibold">
-        {t(month.name)} {daysAbroadPercentage.toFixed(1)}%{visitedCountries}
-      </h2>
-      <div className={cn("grid grid-cols-7 gap-2")}>
+      <h2 className="text-md font-semibold mb-4">{t(month.name)} </h2>
+      <span className={cn("absolute top-5 right-5", "text-xs text-gray-600")}>
+        {monthSummary?.daysAbroad.length || 0} /{" "}
+        {getDaysInMonth(month.monthNumber)}
+      </span>
+      <div className={cn("grid grid-cols-7 gap-x-2 gap-y-3")}>
         {month.days.map((day) => (
           <Day
             key={day}
