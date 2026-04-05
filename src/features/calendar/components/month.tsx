@@ -23,19 +23,26 @@ export const Month = ({ className = "", month }: Props) => {
   const visitedCountries = monthSummary?.countries?.length || 0;
   // {visitedCountries}
 
+  const daysInMonth = getDaysInMonth(month.monthNumber);
+
   return (
     <article
       className={cn(
-        "p-5 rounded-lg",
+        "p-5 rounded-4xl",
         "bg-[#e7eff4]",
+        "bg-[linear-gradient(45deg,transparent,white,white)]",
         "text-center relative",
         className,
       )}
     >
       <h2 className="text-md font-semibold mb-4">{t(month.name)} </h2>
-      <span className={cn("absolute top-5 right-5", "text-xs text-gray-600")}>
-        {monthSummary?.daysAbroad.length || 0} /{" "}
-        {getDaysInMonth(month.monthNumber)}
+      <span
+        className={cn("absolute top-5 right-5", "text-xs text-gray-600", {
+          "text-green-800 font-semibold":
+            monthSummary?.daysAbroad.length === daysInMonth,
+        })}
+      >
+        {monthSummary?.daysAbroad.length || 0} / {daysInMonth}
       </span>
       <div className={cn("grid grid-cols-7 gap-x-2 gap-y-3")}>
         {month.days.map((day) => (

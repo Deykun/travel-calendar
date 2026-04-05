@@ -28,7 +28,7 @@ export const getSummaryFromDay = (
 
     stack[dayWithoutYear].countries = Array.from(
       new Set([...dataDay.countries, ...stack[dayWithoutYear].countries]),
-    );
+    ).sort((a, b) => a.localeCompare(b));
 
     return stack;
   }, {});
@@ -69,7 +69,7 @@ export const getSummaryFromDay = (
           ...summaryDay.countries,
           ...stack.summaryByMonth[monthNumber].countries,
         ]),
-      );
+      ).sort((a, b) => a.localeCompare(b));
 
       if (
         summaryDay.countries.filter((country) => country !== "pl").length > 0

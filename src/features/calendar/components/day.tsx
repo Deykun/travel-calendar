@@ -25,7 +25,6 @@ export const Day = ({ className = "", dayNumber, dayKey }: Props) => {
   return (
     <span
       className={cn(
-        "relative",
         "inline-flex items-center flex-col gap-1",
         className,
       )}

@@ -7,6 +7,7 @@ type Props = {
 
 const fallbackFlags: { [key: string]: string | undefined } = {
   UK: "GB",
+  KS: "XK",
 };
 
 export const FlagHover = ({
@@ -14,39 +15,50 @@ export const FlagHover = ({
   children,
 }: PropsWithChildren<Props>) => {
   return (
-    <div className="relative size-6 group">
-      <span
-        className={cn(
-          "absolute top-1/2 left-1/2 -translate-1/2",
-          "size-7",
-          "opacity-0 group-hover:opacity-100",
-          "duration-300",
-        )}
-      >
-        {countries.map((country, index) => {
-          return (
-            <img
-              className={cn(
-                "inline-flex size-full rounded-full",
-                "absolute top-1/2 left-1/2 -translate-1/2",
-                "p-0.5 bg-white",
-                "scale-0 group-hover:scale-100",
-                "rotate-180 group-hover:rotate-0",
-                "opacity-0 group-hover:opacity-100",
-                "duration-200",
-                "pointer-events-none"
-              )}
-              style={{
-                transform: `rotate(${(360 * index) / countries.length}deg) translateY(32px) rotate(-${(360 * index) / countries.length}deg)`,
-              }}
-              key={country}
-              // https://purecatamphetamine.github.io/country-flag-icons/1x1/index.html
-              src={`https://purecatamphetamine.github.io/country-flag-icons/1x1/${fallbackFlags[country.toUpperCase()] || country.toUpperCase()}.svg`}
-            />
-          );
-        })}
-      </span>
-
+    <div className="relative size-6 group hover:z-10">
+      {countries.length > 0 && (
+        <span
+          className={cn(
+            "absolute",
+            "bottom-full translate-y-0 group-hover:-translate-y-2",
+            "left-1/2 -translate-x-1/2",
+            "z-10",
+            "flex gap-2 justify-center",
+            "rounded-[20px]",
+            "p-2",
+            "bg-[#e7eff4]",
+            "bg-[linear-gradient(45deg,transparent,white,white)]",
+            "opacity-0 group-hover:opacity-100",
+            "drop-shadow",
+            "pointer-events-none",
+            "duration-150",
+            {
+              "w-[140px] flex-wrap": countries.length > 5,
+            },
+          )}
+        >
+          {countries.map((country, index) => {
+            return (
+              <span className="flex flex-col gap-0.5 text-xs text-gray-600 tracking-wider">
+                <img
+                  className={cn(
+                    "size-6",
+                    "max-w-none",
+                    "shrink-0",
+                    "rounded-full drop-shadow",
+                    "saturate-80",
+                  )}
+                  key={country}
+                  // https://purecatamphetamine.github.io/country-flag-icons/1x1/index.html
+                  src={`https://purecatamphetamine.github.io/country-flag-icons/1x1/${fallbackFlags[country.toUpperCase()] || country.toUpperCase()}.svg`}
+                  onError={() => console.error(`Missing flag for ${country}.`)}
+                />
+                {country.toUpperCase()}
+              </span>
+            );
+          })}
+        </span>
+      )}
       <span>{children}</span>
     </div>
   );
