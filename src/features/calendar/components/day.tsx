@@ -2,6 +2,8 @@ import { useTranslation } from "react-i18next";
 import { cn } from "../../../utils/tailwind";
 import useDataStore from "../../integrations/stores/use-data-store";
 
+import IconTravel from "@/components/icons/IconTravel";
+
 type Props = {
   className?: string;
   dayNumber: number;
@@ -11,26 +13,30 @@ type Props = {
 export const Day = ({ className = "", dayNumber, dayKey }: Props) => {
   const { t } = useTranslation();
   const daySummary = useDataStore((store) => store.summaryByDay[dayKey]);
+  const maxCountriesInDay = useDataStore(
+    (store) => store.summary.maxCountriesInDay,
+  );
 
-  console.log("daySummary", daySummary);
-
-  const total = (daySummary || []).filter((country) => country !== "pl").length;
-
-  const hasTrip = total > 0;
+  const total = (daySummary?.countries || []).filter(
+    (country) => country !== "pl",
+  ).length;
 
   return (
     <span
-      className={cn("relative", className, {
-        "text-gray-300": !hasTrip,
-        "text-green-600": hasTrip,
-      })}
+      className={cn(
+        "relative",
+        "inline-flex items-center flex-col gap-1",
+        className,
+      )}
     >
-      {dayNumber}
-      {/* {total > 0 && (
-        <span className="absolute top-0 right-0 text-xs text-red-700">
-          {total}
-        </span>
-      )} */}
+      <IconTravel total={total} />
+      <p
+        className={cn("text-xs text-gray-600 tracking-wider", {
+          ["text-[#664300] font-bold"]: maxCountriesInDay === total,
+        })}
+      >
+        {dayNumber}
+      </p>
     </span>
   );
 };

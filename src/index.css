@@ -1,1 +1,11 @@
 @import "tailwindcss";
+
+:root {
+    --stripe-height: 7px;
+}
+
+body {
+    min-height: 100dvh;
+    background-color: #b1b0ac;
+    color: black;
+}
