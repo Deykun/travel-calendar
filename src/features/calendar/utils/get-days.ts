@@ -28,3 +28,7 @@ export const getDaysGroupedByMonths = (): MonthMetadata[] => {
     };
   });
 };
+
+export const getDaysInMonth = (monthNumber: MonthNumber) => {
+  return DAYS_IN_MONTH[monthNumber - 1];
+};

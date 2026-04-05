@@ -1,3 +1,5 @@
+import type { MonthNumber } from "@/features/calendar/types";
+
 // 2026-03-28
 export function getDateRange(from: string, to: string): string[] {
   const dates: string[] = [];
@@ -15,4 +17,9 @@ export function getDateRange(from: string, to: string): string[] {
 // 2026-03-28 -> 03-28
 export function getDateWithoutYear(date: string): string {
   return date.split("-").slice(1).join("-");
+}
+
+// 03-28 -> 03
+export function getMonthWithoutDay(date: string): MonthNumber {
+  return Number(date.split("-").at(0)) as MonthNumber;
 }
