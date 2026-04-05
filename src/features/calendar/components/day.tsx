@@ -3,6 +3,7 @@ import { cn } from "../../../utils/tailwind";
 import useDataStore from "../../integrations/stores/use-data-store";
 
 import IconTravel from "@/components/icons/IconTravel";
+import { FlagHover } from "@/components/flag-hover/FlagHover";
 
 type Props = {
   className?: string;
@@ -17,19 +18,22 @@ export const Day = ({ className = "", dayNumber, dayKey }: Props) => {
     (store) => store.summary.maxCountriesInDay,
   );
 
-  const total = (daySummary?.countries || []).filter(
-    (country) => country !== "pl",
-  ).length;
+  const countries = daySummary?.countries || [];
+
+  const total = countries.filter((country) => country !== "pl").length;
 
   return (
     <span
       className={cn(
-        "relative",
         "inline-flex items-center flex-col gap-1",
         className,
       )}
     >
-      <IconTravel total={total} />
+      <span>
+        <FlagHover countries={countries}>
+          <IconTravel total={total} />
+        </FlagHover>
+      </span>
       <p
         className={cn("text-xs text-gray-600 tracking-wider", {
           ["text-[#664300] font-bold"]: maxCountriesInDay === total,
