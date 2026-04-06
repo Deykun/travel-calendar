@@ -38,13 +38,13 @@ export const getDataFromTrips = (trips: IntegrationNomadsTrip[]): Response => {
         if (!stack.dataByDay[date]) {
           stack.dataByDay[date] = {
             date,
-            countries: [],
+            countriesCodes: [],
             placeKeys: [],
           };
         }
 
-        if (!stack.dataByDay[date].countries.includes(country)) {
-          stack.dataByDay[date].countries.push(country);
+        if (!stack.dataByDay[date].countriesCodes.includes(country)) {
+          stack.dataByDay[date].countriesCodes.push(country);
         }
 
         if (!stack.dataByDay[date].placeKeys.includes(placeKey)) {

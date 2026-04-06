@@ -1,11 +1,24 @@
 import { getDaysInMonth } from "@/features/calendar/utils/get-days";
-import { getDateWithoutYear, getMonthWithoutDay } from "../../../utils/date";
+import {
+  getDateWithoutYear,
+  getMonthWithoutDay,
+  stringDateToObject,
+} from "../../../utils/date";
 import type { DataStoreState } from "../stores/use-data-store";
 
 type Response = Pick<
   DataStoreState,
   "summaryByDay" | "summaryByMonth" | "summary"
 >;
+
+const mergeCountriesCodes = (
+  countriesA: string[] | undefined,
+  countriesB: string[] | undefined,
+) => {
+  return Array.from(
+    new Set([...(countriesA || []), ...(countriesB || [])]),
+  ).sort((a, b) => a.localeCompare(b));
+};
 
 export const getSummaryFromDay = (
   dataByDay: DataStoreState["dataByDay"],
@@ -18,17 +31,32 @@ export const getSummaryFromDay = (
     }
 
     const dayWithoutYear = getDateWithoutYear(dataDay.date);
+    const { year } = stringDateToObject(dataDay.date);
 
     if (!stack[dayWithoutYear]) {
       stack[dayWithoutYear] = {
         dayKey: dayWithoutYear,
-        countries: [],
+        countriesCodes: [],
+        countriesCodesByYear: {},
       };
     }
 
-    stack[dayWithoutYear].countries = Array.from(
-      new Set([...dataDay.countries, ...stack[dayWithoutYear].countries]),
-    ).sort((a, b) => a.localeCompare(b));
+    console.log(
+      mergeCountriesCodes(
+        stack[dayWithoutYear].countriesCodes,
+        dataDay.countriesCodes,
+      ),
+    );
+
+    stack[dayWithoutYear].countriesCodes = mergeCountriesCodes(
+      stack[dayWithoutYear].countriesCodes,
+      dataDay.countriesCodes,
+    );
+
+    stack[dayWithoutYear].countriesCodesByYear[year] = mergeCountriesCodes(
+      stack[dayWithoutYear].countriesCodesByYear[year],
+      dataDay.countriesCodes,
+    );
 
     return stack;
   }, {});
@@ -49,30 +77,29 @@ export const getSummaryFromDay = (
       if (!stack.summaryByMonth[monthNumber]) {
         stack.summaryByMonth[monthNumber] = {
           monthNumber,
-          countries: [],
+          countriesCodes: [],
           daysAbroad: [],
           total: getDaysInMonth(monthNumber),
         };
       }
 
       if (
-        summaryDay.countries.filter((country) => country !== "pl").length >
+        summaryDay.countriesCodes.filter((country) => country !== "pl").length >
         stack.summary.maxCountriesInDay
       ) {
-        stack.summary.maxCountriesInDay = summaryDay.countries.filter(
+        stack.summary.maxCountriesInDay = summaryDay.countriesCodes.filter(
           (country) => country !== "pl",
         ).length;
       }
 
-      stack.summaryByMonth[monthNumber].countries = Array.from(
-        new Set([
-          ...summaryDay.countries,
-          ...stack.summaryByMonth[monthNumber].countries,
-        ]),
-      ).sort((a, b) => a.localeCompare(b));
+      stack.summaryByMonth[monthNumber].countriesCodes = mergeCountriesCodes(
+        stack.summaryByMonth[monthNumber].countriesCodes,
+        summaryDay.countriesCodes,
+      );
 
       if (
-        summaryDay.countries.filter((country) => country !== "pl").length > 0
+        summaryDay.countriesCodes.filter((country) => country !== "pl").length >
+        0
       ) {
         stack.summaryByMonth[monthNumber].daysAbroad = Array.from(
           new Set([

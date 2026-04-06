@@ -9,12 +9,15 @@ type IntegrationType = "nomads.com";
 
 type SummaryDay = {
   dayKey: string;
-  countries: string[];
+  countriesCodes: string[];
+  countriesCodesByYear: {
+    [year: number]: string[];
+  };
 };
 
 type SummaryMonth = {
   monthNumber: MonthNumber;
-  countries: string[];
+  countriesCodes: string[];
   daysAbroad: string[];
   total: number;
 };

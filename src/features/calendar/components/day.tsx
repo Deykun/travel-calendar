@@ -11,26 +11,26 @@ type Props = {
   dayKey: string;
 };
 
+const EMPTY_ARRAY: string[] = [];
+
 export const Day = ({ className = "", dayNumber, dayKey }: Props) => {
-  const { t } = useTranslation();
-  const daySummary = useDataStore((store) => store.summaryByDay[dayKey]);
+  const countriesCodes = useDataStore(
+    (store) => store.summaryByDay[dayKey]?.countriesCodes || EMPTY_ARRAY,
+  );
+  const countriesCodesByYear = useDataStore(
+    (store) => store.summaryByDay[dayKey]?.countriesCodesByYear,
+  );
+
   const maxCountriesInDay = useDataStore(
     (store) => store.summary.maxCountriesInDay,
   );
 
-  const countries = daySummary?.countries || [];
-
-  const total = countries.filter((country) => country !== "pl").length;
+  const total = countriesCodes.filter((country) => country !== "pl").length;
 
   return (
-    <span
-      className={cn(
-        "inline-flex items-center flex-col gap-1",
-        className,
-      )}
-    >
+    <span className={cn("inline-flex items-center flex-col gap-1", className)}>
       <span>
-        <FlagHover countries={countries}>
+        <FlagHover countriesCodesByYear={countriesCodesByYear}>
           <IconTravel total={total} />
         </FlagHover>
       </span>
