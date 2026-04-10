@@ -1,4 +1,3 @@
-import { cn } from "@/utils/tailwind";
 import type { PropsWithChildren } from "react";
 import { FlagHoverPanel } from "./FlagHoverPanel";
 
@@ -17,35 +16,17 @@ export const FlagHover = ({
   countriesCodesByYear = {},
   children,
 }: PropsWithChildren<Props>) => {
-  const flags = Object.entries(countriesCodesByYear)
-    .flatMap(([year, countriesCodes]) =>
+  const flags = Object.entries(countriesCodesByYear).flatMap(
+    ([year, countriesCodes]) =>
       countriesCodes.map((countryCode) => ({
         year,
         countryCode: countryCode.toUpperCase(),
       })),
-    )
-    .reduce(
-      (stack: { abroad: Flag[]; home: Flag[] }, flag) => {
-        if (flag.countryCode === "PL") {
-          stack.home.push(flag);
-        } else {
-          stack.abroad.push(flag);
-        }
-
-        return stack;
-      },
-      { abroad: [], home: [] },
-    );
+  );
 
   return (
     <div className="relative size-6 group hover:z-10">
-      <FlagHoverPanel flags={flags.abroad} place="top" />
-      {/* <FlagHoverPanel
-        title="hoverDay.home"
-        flags={flags.home}
-        place="bottom"
-        variant="small"
-      /> */}
+      <FlagHoverPanel flags={flags} place="top" />
       <span>{children}</span>
     </div>
   );

@@ -1,7 +1,5 @@
-import type { Flag } from "@/types";
 import { cn } from "@/utils/tailwind";
 import type { PropsWithChildren } from "react";
-import { useTranslation } from "react-i18next";
 
 const fallbackFlags: { [key: string]: string | undefined } = {
   UK: "GB",
@@ -9,37 +7,38 @@ const fallbackFlags: { [key: string]: string | undefined } = {
 };
 
 type Props = {
-  flag: Flag;
+  countryCode: string;
 };
 
-export const ImageFlag = ({ flag }: PropsWithChildren<Props>) => {
-  const { t } = useTranslation();
-
+export const ImageFlag = ({ countryCode }: PropsWithChildren<Props>) => {
   return (
-    <span>
+    <span
+      className={cn(
+        "inline-flex",
+        "p-1.5",
+        "bg-white",
+        "rounded-xl",
+        "drop-shadow",
+        "border-t border-b border-[#e3e3e3]",
+        "border-b-4",
+      )}
+    >
       <img
         className={cn(
-          "size-8",
-          // "rounded-full",
-          // "object",
+          "w-8",
+          "aspect-[3_/_2]",
+          "object-cover",
           "max-w-none",
           "shrink-0",
-          // "bg-black",
-          "rounded-full drop-shadow",
-          // "rounded-full",
+          "rounded-md",
           "saturate-60",
-          "object-cover",
-          // {
-          //   "size-4": variant === "small",
-          // },
+          "drop-shadow",
         )}
         loading="lazy"
-        key={flag.countryCode}
         // https://purecatamphetamine.github.io/country-flag-icons/1x1/index.html
-        src={`https://purecatamphetamine.github.io/country-flag-icons/1x1/${fallbackFlags[flag.countryCode] || flag.countryCode}.svg`}
-        onError={() => console.error(`Missing flag for ${flag.countryCode}.`)}
+        src={`https://purecatamphetamine.github.io/country-flag-icons/3x2/${fallbackFlags[countryCode.toUpperCase()] || countryCode.toUpperCase()}.svg`}
+        onError={() => console.error(`Missing flag for ${countryCode}.`)}
       />
-      <span className="text-[11px]">{flag.year}</span>
     </span>
   );
 };

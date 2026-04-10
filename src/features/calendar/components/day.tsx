@@ -1,10 +1,10 @@
-import { useTranslation } from "react-i18next";
 import { cn } from "../../../utils/tailwind";
 import useDataStore from "../../integrations/stores/use-data-store";
 
 import IconTravel from "@/components/icons/IconTravel";
 import { FlagHover } from "@/components/flag-hover/FlagHover";
 import { useHoverModalTrigger } from "@/features/hover-modal/hooks/useHoverModalTrigger";
+import useFiltersStore from "@/features/filters/stores/use-filter-store";
 
 type Props = {
   className?: string;
@@ -15,19 +15,20 @@ type Props = {
 const EMPTY_ARRAY: string[] = [];
 
 export const Day = ({ className = "", dayNumber, dayKey }: Props) => {
-  const countriesCodes = useDataStore(
-    (store) => store.summaryByDay[dayKey]?.countriesCodes || EMPTY_ARRAY,
+  const countriesCodes = useFiltersStore(
+    (store) =>
+      store.filtered.summaryByDay[dayKey]?.countriesCodes || EMPTY_ARRAY,
   );
-  const countriesCodesByYear = useDataStore(
-    (store) => store.summaryByDay[dayKey]?.countriesCodesByYear,
+  const countriesCodesByYear = useFiltersStore(
+    (store) => store.filtered.summaryByDay[dayKey]?.countriesCodesByYear,
   );
-  const maxCountriesInDay = useDataStore(
-    (store) => store.summary.maxCountriesInDay,
+  const maxCountriesInDay = useFiltersStore(
+    (store) => store.filtered.summary.maxCountriesInDay,
   );
 
   const dayRef = useHoverModalTrigger({ type: "day", dayKey });
 
-  const total = countriesCodes.filter((country) => country !== "pl").length;
+  const total = countriesCodes.length;
 
   return (
     <span
@@ -40,7 +41,7 @@ export const Day = ({ className = "", dayNumber, dayKey }: Props) => {
         </FlagHover>
       </span>
       <p
-        className={cn("text-xs text-gray-600 tracking-wider", {
+        className={cn("text-sm text-gray-600 tracking-wider", {
           ["text-[#664300] font-bold"]: maxCountriesInDay === total,
         })}
       >

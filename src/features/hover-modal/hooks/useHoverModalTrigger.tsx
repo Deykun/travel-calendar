@@ -14,12 +14,12 @@ export const useHoverModalTrigger = (modal: HoverModal) => {
     }
 
     const handleMouseEnter = () => {
-      console.log("mouseenter", modal);
+      // console.log("mouseenter", modal);
       openHoverModal(modal);
     };
 
     const handleMouseLeave = () => {
-      console.log("mouseleave", modal);
+      // console.log("mouseleave", modal);
     };
 
     element.addEventListener("mouseenter", handleMouseEnter);

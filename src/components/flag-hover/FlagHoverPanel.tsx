@@ -2,6 +2,7 @@ import { cn } from "@/utils/tailwind";
 import type { PropsWithChildren } from "react";
 import type { Flag } from "./FlagHover";
 import { useTranslation } from "react-i18next";
+import { ImageFlag } from "../image-flag/ImageFlag";
 
 const fallbackFlags: { [key: string]: string | undefined } = {
   UK: "GB",
@@ -42,15 +43,15 @@ export const FlagHoverPanel = ({
 
         "rounded-[20px]",
         "p-2",
-        "bg-[#e7eff46e]",
+        "bg-[#e7eff4a6]",
         "bg-[linear-gradient(45deg,transparent,white,white)]",
         "opacity-0 group-hover:opacity-100",
         "backdrop-blur-3xl",
-        // "scale-50 group-hover:scale-100",
-
         "drop-shadow",
         "pointer-events-none",
         "duration-150",
+        "border-t border-b border-[#e3e3e3]",
+        "border-b-4",
       )}
     >
       {title && <h4 className="text-[9px] font-bold">{t(title)}</h4>}
@@ -63,41 +64,8 @@ export const FlagHoverPanel = ({
         {flags.map(({ countryCode, year }) => {
           return (
             <div className={cn("relative", "flex flex-col")}>
-              <span
-                className={cn(
-                  "p-1.5",
-                //   "bg-[#e5e5e5]",
-                  "bg-transparent",
-                  "rounded-xl",
-                  "drop-shadow",
-                  "border-t border-b border-[#e3e3e3]"
-                )}
-              >
-                <img
-                  className={cn(
-                    "w-8",
-                    "aspect-[3_/_2]",
-                    "object-cover",
-                    "max-w-none",
-                    "shrink-0",
-                    "rounded-md",
-                    "saturate-60",
-                    "drop-shadow",
-                    {
-                      "size-4": variant === "small",
-                    },
-                  )}
-                  loading="lazy"
-                  key={countryCode}
-                  // https://purecatamphetamine.github.io/country-flag-icons/1x1/index.html
-                  src={`https://purecatamphetamine.github.io/country-flag-icons/3x2/${fallbackFlags[countryCode] || countryCode}.svg`}
-                  onError={() =>
-                    console.error(`Missing flag for ${countryCode}.`)
-                  }
-                />
-              </span>
-              <div className="mt-1 text-[12px] text-nowrap text-gray-600 tracking-widest">
-                {/* {countryCode} | '{year?.slice(-2)} */}
+              <ImageFlag countryCode={countryCode} />
+              <div className="mt-1 text-[12px] text-nowrap text-gray-600 tracking-widest font-semibold">
                 {year}
               </div>
               <span

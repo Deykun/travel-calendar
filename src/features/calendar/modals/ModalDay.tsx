@@ -35,6 +35,8 @@ export const ModalDay = ({ className, dayKey }: Props) => {
     return null;
   }
 
+  return null;
+
   return (
     <div
       className={cn(
