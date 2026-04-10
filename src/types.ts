@@ -10,6 +10,11 @@ export type MetadataPlace = {
 
 export type MetadataDay = {
   date: string;
-  countries: string[];
+  countriesCodes: string[];
   placeKeys: string[];
+};
+
+export type Flag = {
+  countryCode: string;
+  year?: string;
 };

@@ -13,12 +13,14 @@ export const Icon = ({ className = "", total }: Props) => {
       className={cn(
         "relative",
         "inline-flex items-center justify-center",
-        "size-6 rounded-full",
+        "size-6 rounded-lg",
         "leading-0",
         className,
         {
-          "bg-gray-400 text-gray-700": total === 0,
-          "bg-green-800 text-white": total > 0,
+          "bg-gray-400 text-gray-700 text-white bg-[linear-gradient(45deg,transparent,#616d80,#616d80)]":
+            total === 0,
+          "bg-green-800 text-white bg-[linear-gradient(45deg,transparent,#108a49,#108a49)]":
+            total > 0,
         },
       )}
     >

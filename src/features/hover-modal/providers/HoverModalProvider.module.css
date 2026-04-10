@@ -1,0 +1,10 @@
+.container {
+  opacity: 1;
+  transition: 0.2s ease-in-out;
+}
+
+@starting-style {
+  .container {
+    opacity: 0;
+  }
+}

@@ -11,7 +11,13 @@ export type IntegrationNomadsTrip = {
   longitude?: number | undefined;
 };
 
-type Response = Pick<DataStoreState, "placesByKey" | "dataByDay">;
+type TotalDaysByCountry = {
+  [countryCode: string]: number | undefined;
+};
+
+type Response = Pick<DataStoreState, "placesByKey" | "dataByDay"> & {
+  totalDaysByCountry: TotalDaysByCountry;
+};
 
 export const getDataFromTrips = (trips: IntegrationNomadsTrip[]): Response => {
   return trips.reduce(
@@ -38,13 +44,16 @@ export const getDataFromTrips = (trips: IntegrationNomadsTrip[]): Response => {
         if (!stack.dataByDay[date]) {
           stack.dataByDay[date] = {
             date,
-            countries: [],
+            countriesCodes: [],
             placeKeys: [],
           };
         }
 
-        if (!stack.dataByDay[date].countries.includes(country)) {
-          stack.dataByDay[date].countries.push(country);
+        if (!stack.dataByDay[date].countriesCodes.includes(country)) {
+          stack.dataByDay[date].countriesCodes.push(country);
+
+          stack.totalDaysByCountry[country] =
+            (stack.totalDaysByCountry?.[country] || 0) + 1;
         }
 
         if (!stack.dataByDay[date].placeKeys.includes(placeKey)) {
@@ -57,6 +66,7 @@ export const getDataFromTrips = (trips: IntegrationNomadsTrip[]): Response => {
     {
       placesByKey: {},
       dataByDay: {},
+      totalDaysByCountry: {},
     },
   );
 };

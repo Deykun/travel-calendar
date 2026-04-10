@@ -1,6 +1,7 @@
 @import "tailwindcss";
 
 body {
+    font-family: "Baloo 2", sans-serif;
     min-height: 100dvh;
     background-color: #e5e5e5;
     color: black;
