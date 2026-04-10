@@ -1,6 +1,6 @@
 import { cn } from "../../../utils/tailwind";
 import { getDaysGroupedByMonths } from "../utils/get-days";
-import { Month } from "./month";
+import { Month } from "./Month";
 
 const calendar = getDaysGroupedByMonths();
 

@@ -13,7 +13,7 @@ export const Icon = ({ className = "", total }: Props) => {
       className={cn(
         "relative",
         "inline-flex items-center justify-center",
-        "size-6 rounded-full",
+        "size-6 rounded-sm",
         "leading-0",
         className,
         {

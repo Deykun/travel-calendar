@@ -4,6 +4,7 @@ import useDataStore from "../../integrations/stores/use-data-store";
 
 import IconTravel from "@/components/icons/IconTravel";
 import { FlagHover } from "@/components/flag-hover/FlagHover";
+import { useHoverModalTrigger } from "@/features/hover-modal/hooks/useHoverModalTrigger";
 
 type Props = {
   className?: string;
@@ -20,15 +21,19 @@ export const Day = ({ className = "", dayNumber, dayKey }: Props) => {
   const countriesCodesByYear = useDataStore(
     (store) => store.summaryByDay[dayKey]?.countriesCodesByYear,
   );
-
   const maxCountriesInDay = useDataStore(
     (store) => store.summary.maxCountriesInDay,
   );
 
+  const dayRef = useHoverModalTrigger({ type: "day", dayKey });
+
   const total = countriesCodes.filter((country) => country !== "pl").length;
 
   return (
-    <span className={cn("inline-flex items-center flex-col gap-1", className)}>
+    <span
+      ref={dayRef}
+      className={cn("inline-flex items-center flex-col gap-1", className)}
+    >
       <span>
         <FlagHover countriesCodesByYear={countriesCodesByYear}>
           <IconTravel total={total} />

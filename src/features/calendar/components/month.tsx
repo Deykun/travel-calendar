@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import type { MonthMetadata } from "../types";
 import { cn } from "../../../utils/tailwind";
-import { Day } from "./day";
+import { Day } from "./Day";
 import { getDayKey } from "../../integrations/utils/get-day-key";
 import useDataStore from "@/features/integrations/stores/use-data-store";
 import { getDaysInMonth } from "../utils/get-days";
@@ -18,7 +18,7 @@ export const Month = ({ className = "", month }: Props) => {
   );
 
   const daysAbroad = monthSummary?.daysAbroad.length || 0;
-  const visitedCountries = monthSummary?.countries?.length || 0;
+  const visitedCountries = monthSummary?.countriesCodes?.length || 0;
   // {visitedCountries}
 
   const daysInMonth = getDaysInMonth(month.monthNumber);
@@ -31,6 +31,7 @@ export const Month = ({ className = "", month }: Props) => {
         "bg-[linear-gradient(45deg,transparent,white,white)]",
         "text-center relative",
         "drop-shadow-md",
+        "relative hover:z-10",
         className,
       )}
     >

@@ -32,21 +32,22 @@ export const FlagHoverPanel = ({
       className={cn(
         "absolute",
         {
-          "bottom-full": place === "top",
-          "translate-y-0 group-hover:-translate-y-2": place === "top",
-          "top-full": place === "bottom",
-          "translate-y-0 group-hover:translate-y-2": place === "bottom",
+          "bottom-full origin-bottom": place === "top",
+          "-translate-y-5 group-hover:-translate-y-2": place === "top",
+          "top-full origin-top": place === "bottom",
+          "translate-y-12 group-hover:translate-y-7": place === "bottom",
         },
         "left-1/2 -translate-x-1/2",
         "z-10",
 
         "rounded-[20px]",
         "p-2",
-        "bg-[#e7eff4]",
+        "bg-[#e7eff46e]",
         "bg-[linear-gradient(45deg,transparent,white,white)]",
         "opacity-0 group-hover:opacity-100",
-        "scale-50 group-hover:scale-100",
-        "origin-bottom",
+        "backdrop-blur-3xl",
+        // "scale-50 group-hover:scale-100",
+
         "drop-shadow",
         "pointer-events-none",
         "duration-150",
@@ -55,35 +56,49 @@ export const FlagHoverPanel = ({
       {title && <h4 className="text-[9px] font-bold">{t(title)}</h4>}
       <div
         className={cn("flex gap-3 justify-center", {
-          "w-40 flex-wrap": flags.length > 5,
+          "w-42 flex-wrap": flags.length > 5,
           "w-30 flex-wrap": flags.length > 5 && variant === "small",
         })}
       >
         {flags.map(({ countryCode, year }) => {
           return (
             <div className={cn("relative", "flex flex-col")}>
-              <img
+              <span
                 className={cn(
-                  "size-6",
-                  "max-w-none",
-                  "shrink-0",
-                  "border border-white",
-                  "rounded-full drop-shadow",
-                  "saturate-80",
-                  {
-                    "size-4": variant === "small",
-                  },
+                  "p-1.5",
+                //   "bg-[#e5e5e5]",
+                  "bg-transparent",
+                  "rounded-xl",
+                  "drop-shadow",
+                  "border-t border-b border-[#e3e3e3]"
                 )}
-                loading="lazy"
-                key={countryCode}
-                // https://purecatamphetamine.github.io/country-flag-icons/1x1/index.html
-                src={`https://purecatamphetamine.github.io/country-flag-icons/1x1/${fallbackFlags[countryCode] || countryCode}.svg`}
-                onError={() =>
-                  console.error(`Missing flag for ${countryCode}.`)
-                }
-              />
-              <div className="mt-1 text-xs text-gray-600 tracking-wider">
-                {countryCode}
+              >
+                <img
+                  className={cn(
+                    "w-8",
+                    "aspect-[3_/_2]",
+                    "object-cover",
+                    "max-w-none",
+                    "shrink-0",
+                    "rounded-md",
+                    "saturate-60",
+                    "drop-shadow",
+                    {
+                      "size-4": variant === "small",
+                    },
+                  )}
+                  loading="lazy"
+                  key={countryCode}
+                  // https://purecatamphetamine.github.io/country-flag-icons/1x1/index.html
+                  src={`https://purecatamphetamine.github.io/country-flag-icons/3x2/${fallbackFlags[countryCode] || countryCode}.svg`}
+                  onError={() =>
+                    console.error(`Missing flag for ${countryCode}.`)
+                  }
+                />
+              </span>
+              <div className="mt-1 text-[12px] text-nowrap text-gray-600 tracking-widest">
+                {/* {countryCode} | '{year?.slice(-2)} */}
+                {year}
               </div>
               <span
                 className={cn(
@@ -94,7 +109,7 @@ export const FlagHoverPanel = ({
                   // "bg-green-800 bg-[linear-gradient(45deg,transparent,#108a49,#108a49)]",
                 )}
               >
-                '{year?.slice(-2)}
+                {/* '{year?.slice(-2)} */}
               </span>
             </div>
           );

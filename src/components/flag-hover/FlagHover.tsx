@@ -40,12 +40,12 @@ export const FlagHover = ({
   return (
     <div className="relative size-6 group hover:z-10">
       <FlagHoverPanel flags={flags.abroad} place="top" />
-      <FlagHoverPanel
+      {/* <FlagHoverPanel
         title="hoverDay.home"
         flags={flags.home}
         place="bottom"
         variant="small"
-      />
+      /> */}
       <span>{children}</span>
     </div>
   );

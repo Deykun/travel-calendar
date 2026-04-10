@@ -13,3 +13,8 @@ export type MetadataDay = {
   countriesCodes: string[];
   placeKeys: string[];
 };
+
+export type Flag = {
+  countryCode: string;
+  year?: string;
+};
