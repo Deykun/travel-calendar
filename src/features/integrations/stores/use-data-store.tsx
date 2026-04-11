@@ -47,7 +47,13 @@ export const useDataStore = create<DataStoreState>()(
 );
 
 export const setIntegration = (newStore: DataStoreState) => {
-  useDataStore.setState(newStore);
+  useDataStore.setState({
+    ...newStore,
+    // Sorted by number of days
+    totalDaysByCountry: Object.fromEntries(
+      Object.entries(newStore.totalDaysByCountry).sort((a, b) => b[1] - a[1]),
+    ),
+  });
 };
 
 export default useDataStore;

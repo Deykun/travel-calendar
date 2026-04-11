@@ -5,7 +5,9 @@ import {
   stringDateToObject,
 } from "../../../utils/date";
 import type { DataStoreState } from "../stores/use-data-store";
-import useFiltersStore from "@/features/filters/stores/use-filter-store";
+import useFiltersStore, {
+  type FiltersStoreState,
+} from "@/features/filters/stores/use-filter-store";
 
 const mergeCountriesCodes = (
   countriesA: string[] | undefined,
@@ -18,12 +20,12 @@ const mergeCountriesCodes = (
 
 export const getFiltered = (
   dataByDay: DataStoreState["dataByDay"],
-): DataStoreState["filtered"] => {
+): FiltersStoreState["filtered"] => {
   const { homeCountriesCodes } = useFiltersStore.getState();
 
-  const summaryByDay: DataStoreState["filtered"]["summaryByDay"] =
+  const summaryByDay: FiltersStoreState["filtered"]["summaryByDay"] =
     Object.values(dataByDay).reduce(
-      (stack: DataStoreState["filtered"]["summaryByDay"], dataDay) => {
+      (stack: FiltersStoreState["filtered"]["summaryByDay"], dataDay) => {
         if (!dataDay) {
           return stack;
         }
@@ -61,10 +63,13 @@ export const getFiltered = (
   const {
     summaryByMonth,
     summary,
-  }: Pick<DataStoreState["filtered"], "summaryByMonth" | "summary"> =
+  }: Pick<FiltersStoreState["filtered"], "summaryByMonth" | "summary"> =
     Object.values(summaryByDay).reduce(
       (
-        stack: Pick<DataStoreState["filtered"], "summaryByMonth" | "summary">,
+        stack: Pick<
+          FiltersStoreState["filtered"],
+          "summaryByMonth" | "summary"
+        >,
         summaryDay,
       ) => {
         if (!summaryDay) {

@@ -32,6 +32,9 @@ function App() {
       <div>
         <button onClick={() => refreshFiltered()}>Refresh</button>
       </div>
+      <div>
+        <h1 className="text-center text-3xl font-semibold">Travel calendar</h1>
+      </div>
       <Calendar key={homeCountriesCodes.join(", ")} />
     </>
   );

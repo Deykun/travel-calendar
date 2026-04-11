@@ -65,7 +65,9 @@ export const refreshFiltered = () => {
   console.log(filtered);
 
   useFiltersStore.setState({
-    filtered,
+    filtered: {
+      ...filtered,
+    },
   });
 };
 

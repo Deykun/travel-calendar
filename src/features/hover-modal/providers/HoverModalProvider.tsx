@@ -6,7 +6,7 @@ import { useHoverModalStore } from "../stores/use-hover-modal-store";
 import { HoverModalContent } from "../components/HoverModalContent";
 
 export function HoverModalProvider() {
-  const modal = useHoverModalStore((state) => state.modal);
+  const modal = useHoverModalStore((state) => state?.modal);
 
   if (!modal) {
     return null;

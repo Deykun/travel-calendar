@@ -1,5 +1,6 @@
 import IconTravel from "@/components/icons/IconTravel";
 import { ImageFlag } from "@/components/image-flag/ImageFlag";
+import useFiltersStore from "@/features/filters/stores/use-filter-store";
 import useDataStore from "@/features/integrations/stores/use-data-store";
 import { useFlagsFromCountries } from "@/hooks/useFlagsFromCountries";
 import { cn } from "@/utils/tailwind";
@@ -14,17 +15,18 @@ const EMPTY_ARRAY: string[] = [];
 
 export const ModalDay = ({ className, dayKey }: Props) => {
   const [month, day] = dayKey.split("-").map(Number);
-  const countriesCodes = useDataStore(
-    (store) => store.summaryByDay[dayKey]?.countriesCodes || EMPTY_ARRAY,
+  const countriesCodes = useFiltersStore(
+    (store) =>
+      store.filtered.summaryByDay[dayKey]?.countriesCodes || EMPTY_ARRAY,
   );
-  const countriesCodesByYear = useDataStore(
-    (store) => store.summaryByDay[dayKey]?.countriesCodesByYear,
+  const countriesCodesByYear = useFiltersStore(
+    (store) => store.filtered.summaryByDay[dayKey]?.countriesCodesByYear,
   );
 
   const { abroad, home } = useFlagsFromCountries(countriesCodesByYear);
 
-  const maxCountriesInDay = useDataStore(
-    (store) => store.summary.maxCountriesInDay,
+  const maxCountriesInDay = useFiltersStore(
+    (store) => store.filtered.summary.maxCountriesInDay,
   );
 
   const { t } = useTranslation();
@@ -67,7 +69,10 @@ export const ModalDay = ({ className, dayKey }: Props) => {
         ))}
       </div>
       <img
-        className={cn("absolute bottom-0 right-0 max-h-full", "rounded-xl saturate-150")}
+        className={cn(
+          "absolute bottom-0 right-0 max-h-full",
+          "rounded-xl saturate-150",
+        )}
         src="/images/map.jpg"
       />
       {/* <div className="flex flex-row gap-2">

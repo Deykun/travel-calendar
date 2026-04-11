@@ -5,6 +5,9 @@ import { Day } from "./Day";
 import { getDayKey } from "../../integrations/utils/get-day-key";
 import useDataStore from "@/features/integrations/stores/use-data-store";
 import { getDaysInMonth } from "../utils/get-days";
+import useFiltersStore from "@/features/filters/stores/use-filter-store";
+import { FlagHover } from "@/components/flag-hover/FlagHover";
+import { ImageFlag } from "@/components/image-flag/ImageFlag";
 
 type Props = {
   className?: string;
@@ -13,8 +16,8 @@ type Props = {
 
 export const Month = ({ className = "", month }: Props) => {
   const { t } = useTranslation();
-  const monthSummary = useDataStore(
-    (store) => store.summaryByMonth[month.monthNumber],
+  const monthSummary = useFiltersStore(
+    (store) => store.filtered.summaryByMonth[month.monthNumber],
   );
 
   const daysAbroad = monthSummary?.daysAbroad.length || 0;
@@ -26,24 +29,40 @@ export const Month = ({ className = "", month }: Props) => {
   return (
     <article
       className={cn(
-        "p-5 pt-3 rounded-4xl",
+        "p-5 pt-3",
         "bg-[#e7eff4]",
-        "bg-[linear-gradient(45deg,transparent,white,white)]",
-        "text-center relative",
-        "drop-shadow-md",
+        "bg-white",
+        // "bg-[linear-gradient(45deg,transparent,white,white)]",
+        "text-center",
+        "rounded-lg",
+        // "drop-shadow-md",
         "relative hover:z-10",
         className,
       )}
     >
+      <span className={cn("absolute top-5 left-5", "text-xs text-gray-600 tracking-wider", {
+        "text-gray-400": visitedCountries === 0,
+      })}>
+        <FlagHover
+          flags={
+            monthSummary?.countriesCodes?.map((country) => ({
+              countryCode: country,
+            })) || []
+          }
+          place="bottom"
+        >
+          {visitedCountries} countries
+        </FlagHover>
+      </span>
       <h2 className="text-xl font-semibold mb-4">{t(month.name)} </h2>
       <span
-        className={cn("absolute top-5 right-5", "text-xs text-gray-600", {
-          "text-green-800 font-semibold": daysAbroad == daysInMonth,
+        className={cn("absolute top-5 right-5", "text-xs text-gray-600 tracking-wider", {
+          "text-[#9a9c00] font-semibold": daysAbroad == daysInMonth,
         })}
       >
         {daysAbroad || 0} / {daysInMonth}
       </span>
-      <div className={cn("grid grid-cols-7 gap-x-2 gap-y-3")}>
+      <div className={cn("grid grid-cols-7 gap-x-1.5 gap-y-2")}>
         {month.days.map((day) => (
           <Day
             key={day}
@@ -52,6 +71,9 @@ export const Month = ({ className = "", month }: Props) => {
           />
         ))}
       </div>
+      {/* {monthSummary?.countriesCodes?.map((countryCode) => (
+        <ImageFlag countryCode={countryCode} />
+      ))} */}
     </article>
   );
 };

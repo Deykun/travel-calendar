@@ -1,6 +1,5 @@
 import { setHomeCountriesCodes } from "@/features/filters/stores/use-filter-store";
 import { setIntegration } from "../stores/use-data-store";
-import { getFiltered } from "../utils/get-filtered";
 import {
   getDataFromTrips,
   type IntegrationNomadsTrip,
