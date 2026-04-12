@@ -1,6 +1,11 @@
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
-import type { DateLike, MetadataDay, MetadataPlace } from "../../../types";
+import type {
+  DateLike,
+  MetadataDay,
+  MetadataPlace,
+  MetadataTrip,
+} from "../../../types";
 
 type DataStatus = "missing" | "ready";
 
@@ -21,6 +26,9 @@ export type DataStoreState = {
   dataByDay: {
     [dayKey: string]: MetadataDay | undefined;
   };
+  tripsByKey: {
+    [tripKey: string]: MetadataTrip | undefined;
+  };
 };
 
 const emptyStore: DataStoreState = {
@@ -32,6 +40,7 @@ const emptyStore: DataStoreState = {
   totalDaysByCountry: {},
   placesByKey: {},
   dataByDay: {},
+  tripsByKey: {},
 };
 
 export const useDataStore = create<DataStoreState>()(
@@ -47,7 +56,13 @@ export const useDataStore = create<DataStoreState>()(
 );
 
 export const setIntegration = (newStore: DataStoreState) => {
-  useDataStore.setState(newStore);
+  useDataStore.setState({
+    ...newStore,
+    // Sorted by number of days
+    totalDaysByCountry: Object.fromEntries(
+      Object.entries(newStore.totalDaysByCountry).sort((a, b) => b[1] - a[1]),
+    ),
+  });
 };
 
 export default useDataStore;

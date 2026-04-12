@@ -7,3 +7,19 @@ export function chunkArray<T>(arr: T[], size: number): T[][] {
 
   return chunks;
 }
+
+export const mergeStringsWithUnique = (
+  stringsA: string[] | undefined,
+  stringsB: string[] | undefined,
+) => {
+  return Array.from(new Set([...(stringsA || []), ...(stringsB || [])]));
+};
+
+export const mergeUniqueAndSort = (
+  stringsA: string[] | undefined,
+  stringsB: string[] | undefined,
+) => {
+  return mergeStringsWithUnique(stringsA, stringsB).sort((a, b) =>
+    a.localeCompare(b),
+  );
+};

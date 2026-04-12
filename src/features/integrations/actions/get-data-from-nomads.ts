@@ -1,6 +1,5 @@
 import { setHomeCountriesCodes } from "@/features/filters/stores/use-filter-store";
 import { setIntegration } from "../stores/use-data-store";
-import { getFiltered } from "../utils/get-filtered";
 import {
   getDataFromTrips,
   type IntegrationNomadsTrip,
@@ -23,9 +22,8 @@ export const getDataFromNomads = async ({ username }: Params) => {
     (response) => response.json(),
   )) as unknown as IntegrationNomadsApiResponse;
 
-  const { dataByDay, placesByKey, totalDaysByCountry } = getDataFromTrips(
-    response.trips,
-  );
+  const { dataByDay, placesByKey, tripsByKey, totalDaysByCountry } =
+    getDataFromTrips(response.trips);
 
   const mostCommonCountry = Object.entries(totalDaysByCountry).reduce(
     (stack, [countryCode, totalDays = 0]) => {
@@ -50,6 +48,7 @@ export const getDataFromNomads = async ({ username }: Params) => {
     totalDaysByCountry,
     dataByDay,
     placesByKey,
+    tripsByKey,
   });
 
   if (mostCommonCountry.countryCode) {

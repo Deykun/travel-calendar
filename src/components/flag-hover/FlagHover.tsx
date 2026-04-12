@@ -1,10 +1,15 @@
 import type { PropsWithChildren } from "react";
 import { FlagHoverPanel } from "./FlagHoverPanel";
+import { cn } from "@/utils/tailwind";
 
 type Props = {
+  flags?: Flag[];
   countriesCodesByYear?: {
     [year: string]: string[];
   };
+  place?: "top" | "bottom";
+  className?: string;
+  shouldSkipGroup?: boolean;
 };
 
 export type Flag = {
@@ -13,21 +18,34 @@ export type Flag = {
 };
 
 export const FlagHover = ({
+  flags: propFlags,
   countriesCodesByYear = {},
   children,
+  place = "top",
+  className = "",
+  shouldSkipGroup = false,
 }: PropsWithChildren<Props>) => {
-  const flags = Object.entries(countriesCodesByYear).flatMap(
-    ([year, countriesCodes]) =>
+  const flags =
+    propFlags ??
+    Object.entries(countriesCodesByYear).flatMap(([year, countriesCodes]) =>
       countriesCodes.map((countryCode) => ({
         year,
         countryCode: countryCode.toUpperCase(),
       })),
-  );
+    );
 
   return (
-    <div className="relative size-6 group hover:z-10">
-      <FlagHoverPanel flags={flags} place="top" />
-      <span>{children}</span>
+    <div
+      className={cn(
+        "relative hover:z-10",
+        {
+          group: !shouldSkipGroup,
+        },
+        className,
+      )}
+    >
+      <FlagHoverPanel flags={flags} place={place} />
+      {children}
     </div>
   );
 };

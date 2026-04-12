@@ -1,10 +1,9 @@
 import { cn } from "../../../utils/tailwind";
-import useDataStore from "../../integrations/stores/use-data-store";
 
 import IconTravel from "@/components/icons/IconTravel";
 import { FlagHover } from "@/components/flag-hover/FlagHover";
-import { useHoverModalTrigger } from "@/features/hover-modal/hooks/useHoverModalTrigger";
 import useFiltersStore from "@/features/filters/stores/use-filter-store";
+import { openOverModal } from "@/features/over-modal/stores/use-hover-modal-store";
 
 type Props = {
   className?: string;
@@ -19,6 +18,9 @@ export const Day = ({ className = "", dayNumber, dayKey }: Props) => {
     (store) =>
       store.filtered.summaryByDay[dayKey]?.countriesCodes || EMPTY_ARRAY,
   );
+  const yearsAbroad = useFiltersStore(
+    (store) => store.filtered.summaryByDay[dayKey]?.yearsAbroad || EMPTY_ARRAY,
+  );
   const countriesCodesByYear = useFiltersStore(
     (store) => store.filtered.summaryByDay[dayKey]?.countriesCodesByYear,
   );
@@ -26,27 +28,32 @@ export const Day = ({ className = "", dayNumber, dayKey }: Props) => {
     (store) => store.filtered.summary.maxCountriesInDay,
   );
 
-  const dayRef = useHoverModalTrigger({ type: "day", dayKey });
-
   const total = countriesCodes.length;
 
   return (
-    <span
-      ref={dayRef}
-      className={cn("inline-flex items-center flex-col gap-1", className)}
+    <button
+      onClick={() => openOverModal({ type: "day", dayKey })}
+      className={cn(
+        "inline-flex items-center flex-col gap-1",
+        "p-1",
+        "rounded-2xl",
+        "duration-150",
+        "group",
+        {
+          "text-[#585910] hover:bg-[#fbff0030] hover:text-[#737102]": total > 0,
+          "text-[#c0bfbf] hover:bg-[#f9f7f7]": total === 0,
+        },
+        className,
+      )}
     >
-      <span>
-        <FlagHover countriesCodesByYear={countriesCodesByYear}>
-          <IconTravel total={total} />
-        </FlagHover>
-      </span>
-      <p
-        className={cn("text-sm text-gray-600 tracking-wider", {
-          ["text-[#664300] font-bold"]: maxCountriesInDay === total,
-        })}
+      <FlagHover
+        countriesCodesByYear={countriesCodesByYear}
+        className="inline-flex flex-col gap-1"
+        shouldSkipGroup
       >
-        {dayNumber}
-      </p>
-    </span>
+        <IconTravel total={total} />
+        <p className={cn("text-sm tracking-wider")}>{dayNumber}</p>
+      </FlagHover>
+    </button>
   );
 };

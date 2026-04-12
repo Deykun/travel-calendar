@@ -3,6 +3,7 @@ import type { DataStoreState } from "../../stores/use-data-store";
 import { getPlaceKey } from "../../utils/get-place-key";
 
 export type IntegrationNomadsTrip = {
+  trip_id: string;
   date_start: string;
   date_end: string;
   place: string;
@@ -12,10 +13,13 @@ export type IntegrationNomadsTrip = {
 };
 
 type TotalDaysByCountry = {
-  [countryCode: string]: number | undefined;
+  [countryCode: string]: number;
 };
 
-type Response = Pick<DataStoreState, "placesByKey" | "dataByDay"> & {
+type Response = Pick<
+  DataStoreState,
+  "placesByKey" | "dataByDay" | "tripsByKey"
+> & {
   totalDaysByCountry: TotalDaysByCountry;
 };
 
@@ -23,37 +27,60 @@ export const getDataFromTrips = (trips: IntegrationNomadsTrip[]): Response => {
   return trips.reduce(
     (stack: Response, trip) => {
       const dates = getDateRange(trip.date_start, trip.date_end);
-      const country = trip.country_code.toLowerCase();
+      const countryCode = trip.country_code.toLowerCase();
+
+      const placeKey = getPlaceKey({
+        place: trip.place,
+        country: trip.country_code,
+      });
+
+      if (!stack.placesByKey[placeKey]) {
+        stack.placesByKey[placeKey] = {
+          key: placeKey,
+          name: trip.place,
+          country: countryCode,
+          latitude: trip.latitude,
+          longitude: trip.longitude,
+          tripsKeys: [],
+        };
+      }
+
+      stack.placesByKey[placeKey].tripsKeys = [
+        ...stack.placesByKey[placeKey].tripsKeys,
+        trip.trip_id,
+      ];
+
+      if (!stack.tripsByKey[trip.trip_id]) {
+        stack.tripsByKey[trip.trip_id] = {
+          key: trip.trip_id,
+          placeKey: placeKey,
+          countryCode: countryCode,
+          from: trip.date_start,
+          to: trip.date_end,
+          days: dates.length,
+        };
+      }
 
       dates.forEach((date) => {
-        const placeKey = getPlaceKey({
-          place: trip.place,
-          country: trip.country_code,
-        });
-
-        if (!stack.placesByKey[placeKey]) {
-          stack.placesByKey[placeKey] = {
-            key: placeKey,
-            name: trip.place,
-            country,
-            latitude: trip.latitude,
-            longitude: trip.longitude,
-          };
-        }
-
         if (!stack.dataByDay[date]) {
           stack.dataByDay[date] = {
             date,
             countriesCodes: [],
             placeKeys: [],
+            tripsKeys: [],
           };
         }
 
-        if (!stack.dataByDay[date].countriesCodes.includes(country)) {
-          stack.dataByDay[date].countriesCodes.push(country);
+        stack.dataByDay[date].tripsKeys = [
+          ...stack.dataByDay[date].tripsKeys,
+          trip.trip_id,
+        ];
 
-          stack.totalDaysByCountry[country] =
-            (stack.totalDaysByCountry?.[country] || 0) + 1;
+        if (!stack.dataByDay[date].countriesCodes.includes(countryCode)) {
+          stack.dataByDay[date].countriesCodes.push(countryCode);
+
+          stack.totalDaysByCountry[countryCode] =
+            (stack.totalDaysByCountry?.[countryCode] || 0) + 1;
         }
 
         if (!stack.dataByDay[date].placeKeys.includes(placeKey)) {
@@ -66,6 +93,7 @@ export const getDataFromTrips = (trips: IntegrationNomadsTrip[]): Response => {
     {
       placesByKey: {},
       dataByDay: {},
+      tripsByKey: {},
       totalDaysByCountry: {},
     },
   );

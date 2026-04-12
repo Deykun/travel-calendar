@@ -33,7 +33,11 @@ export const ImageFlag = ({ countryCode }: PropsWithChildren<Props>) => {
           "rounded-md",
           "saturate-60",
           "drop-shadow",
+          "bg-[#d6d6d6] text-gray-400",
+          "leading-none",
+          "text-xs",
         )}
+        alt={countryCode}
         loading="lazy"
         // https://purecatamphetamine.github.io/country-flag-icons/1x1/index.html
         src={`https://purecatamphetamine.github.io/country-flag-icons/3x2/${fallbackFlags[countryCode.toUpperCase()] || countryCode.toUpperCase()}.svg`}

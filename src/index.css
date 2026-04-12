@@ -1,8 +1,24 @@
 @import "tailwindcss";
 
 body {
-    font-family: "Baloo 2", sans-serif;
-    min-height: 100dvh;
-    background-color: #e5e5e5;
-    color: black;
+  position: relative;
+  font-family: "Baloo 2", sans-serif;
+  min-height: 100dvh;
+  background-color: #e5e5e5;
+  color: black;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    /* Thanks to: https://blog.spoongraphics.co.uk/freebies/8-free-seamless-vector-topographic-map-patterns */
+    background-image: url("./images/topographic-map-pattern.png");
+    background-size: 400px;
+    opacity: 0.025;
+    z-index: -1;
+  }
+}
+
+button {
+  cursor: pointer;
 }

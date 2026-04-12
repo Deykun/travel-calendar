@@ -5,9 +5,14 @@ import { cn } from "@/utils/tailwind";
 type Props = {
   className?: string;
   total: number;
+  shouldShowAllNumbers?: boolean;
 };
 
-export const Icon = ({ className = "", total }: Props) => {
+export const Icon = ({
+  className = "",
+  shouldShowAllNumbers = false,
+  total,
+}: Props) => {
   return (
     <span
       className={cn(
@@ -17,16 +22,16 @@ export const Icon = ({ className = "", total }: Props) => {
         "leading-0",
         className,
         {
-          "bg-gray-400 text-gray-700 text-white bg-[linear-gradient(45deg,transparent,#616d80,#616d80)]":
-            total === 0,
-          "bg-green-800 text-white bg-[linear-gradient(45deg,transparent,#108a49,#108a49)]":
-            total > 0,
+          "bg-[#d6d6d6] text-gray-400": total === 0,
+          "bg-[#d8da51] text-black": total > 0,
         },
       )}
     >
-      {total > 1 && <span className="text-sm font-semibold">{total}</span>}
-      {total === 1 && <IconCheck className="size-6" />}
-      {total === 0 && <IconHome className="size-4" />}
+      {(shouldShowAllNumbers || total > 1) && (
+        <span className="text-sm font-semibold">{total}</span>
+      )}
+      {!shouldShowAllNumbers && total === 1 && <IconCheck className="size-6" />}
+      {!shouldShowAllNumbers && total === 0 && <IconHome className="size-4" />}
     </span>
   );
 };
