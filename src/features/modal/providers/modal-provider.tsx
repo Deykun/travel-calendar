@@ -17,11 +17,11 @@ export function ModalProvider() {
       {createPortal(
         <div
           className={cn(
-            "fixed w-full z-1000 min-h-screen left-0 top-0 bg-[#180a0ab5]",
+            "fixed w-full z-1000 min-h-screen left-0 top-0",
             styles["container"],
           )}
         >
-          <div className="w-full h-dvh overflow-auto grid place-items-center p-2">
+          <div className="w-full h-dvh overflow-auto grid place-items-center">
             {modal}
           </div>
         </div>,

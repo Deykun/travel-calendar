@@ -35,15 +35,13 @@ export const FlagHoverPanel = ({
         },
         "left-1/2 -translate-x-1/2",
         "z-10",
-
+        "pointer-events-none",
         "rounded-[20px]",
         "p-2",
         "bg-[#fff6]",
-        // "bg-[linear-gradient(45deg,transparent,white,white)]",
         "opacity-0 group-hover:opacity-100",
         "backdrop-blur-[7px]",
         "drop-shadow",
-        "pointer-events-none",
         "duration-150",
         "border-t border-b border-[#e3e3e3]",
         "border-b-4",
@@ -63,17 +61,6 @@ export const FlagHoverPanel = ({
               <div className="mt-1 text-[12px] text-nowrap text-gray-600 tracking-widest font-semibold">
                 {year}
               </div>
-              <span
-                className={cn(
-                  // "absolute -top-1 -right-1 p-0.5 px-0.5 rounded-sm",
-                  // "text-[9px] text-white",
-                  "text-[9px]",
-                  "font-bold",
-                  // "bg-green-800 bg-[linear-gradient(45deg,transparent,#108a49,#108a49)]",
-                )}
-              >
-                {/* '{year?.slice(-2)} */}
-              </span>
             </div>
           );
         })}

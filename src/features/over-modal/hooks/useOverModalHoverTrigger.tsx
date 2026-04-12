@@ -1,10 +1,7 @@
 import { useEffect, useRef } from "react";
-import {
-  openHoverModal,
-  type HoverModal,
-} from "../stores/use-hover-modal-store";
+import { openOverModal, type OverModal } from "../stores/use-hover-modal-store";
 
-export const useHoverModalTrigger = (modal: HoverModal) => {
+export const useOverModalHoverTrigger = (modal: OverModal) => {
   const ref = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -15,7 +12,7 @@ export const useHoverModalTrigger = (modal: HoverModal) => {
 
     const handleMouseEnter = () => {
       // console.log("mouseenter", modal);
-      openHoverModal(modal);
+      openOverModal(modal);
     };
 
     const handleMouseLeave = () => {

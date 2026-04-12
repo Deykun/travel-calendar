@@ -1,12 +1,12 @@
 import { createPortal } from "react-dom";
 
-import styles from "./HoverModalProvider.module.css";
+import styles from "./OverModalProvider.module.css";
 import { cn } from "@/utils/tailwind";
-import { useHoverModalStore } from "../stores/use-hover-modal-store";
-import { HoverModalContent } from "../components/HoverModalContent";
+import { OverModalContent } from "../components/OverModalContent";
+import { useOverModalStore } from "../stores/use-hover-modal-store";
 
-export function HoverModalProvider() {
-  const modal = useHoverModalStore((state) => state?.modal);
+export function OverModalProvider() {
+  const modal = useOverModalStore((state) => state?.modal);
 
   if (!modal) {
     return null;
@@ -21,7 +21,7 @@ export function HoverModalProvider() {
             styles["container"],
           )}
         >
-          <HoverModalContent />
+          <OverModalContent />
         </div>,
         document.body,
       )}

@@ -1,10 +1,9 @@
 import { cn } from "../../../utils/tailwind";
-import useDataStore from "../../integrations/stores/use-data-store";
 
 import IconTravel from "@/components/icons/IconTravel";
 import { FlagHover } from "@/components/flag-hover/FlagHover";
-import { useHoverModalTrigger } from "@/features/hover-modal/hooks/useHoverModalTrigger";
 import useFiltersStore from "@/features/filters/stores/use-filter-store";
+import { openOverModal } from "@/features/over-modal/stores/use-hover-modal-store";
 
 type Props = {
   className?: string;
@@ -19,6 +18,9 @@ export const Day = ({ className = "", dayNumber, dayKey }: Props) => {
     (store) =>
       store.filtered.summaryByDay[dayKey]?.countriesCodes || EMPTY_ARRAY,
   );
+  const yearsAbroad = useFiltersStore(
+    (store) => store.filtered.summaryByDay[dayKey]?.yearsAbroad || EMPTY_ARRAY,
+  );
   const countriesCodesByYear = useFiltersStore(
     (store) => store.filtered.summaryByDay[dayKey]?.countriesCodesByYear,
   );
@@ -26,18 +28,15 @@ export const Day = ({ className = "", dayNumber, dayKey }: Props) => {
     (store) => store.filtered.summary.maxCountriesInDay,
   );
 
-  const dayRef = useHoverModalTrigger({ type: "day", dayKey });
-
   const total = countriesCodes.length;
 
   return (
-    <span
-      ref={dayRef}
+    <button
+      onClick={() => openOverModal({ type: "day", dayKey })}
       className={cn(
         "inline-flex items-center flex-col gap-1",
         "p-1",
-        "rounded-md",
-
+        "rounded-2xl",
         "duration-150",
         "group",
         {
@@ -55,6 +54,6 @@ export const Day = ({ className = "", dayNumber, dayKey }: Props) => {
         <IconTravel total={total} />
         <p className={cn("text-sm tracking-wider")}>{dayNumber}</p>
       </FlagHover>
-    </span>
+    </button>
   );
 };

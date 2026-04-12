@@ -8,15 +8,7 @@ import type { DataStoreState } from "../stores/use-data-store";
 import useFiltersStore, {
   type FiltersStoreState,
 } from "@/features/filters/stores/use-filter-store";
-
-const mergeCountriesCodes = (
-  countriesA: string[] | undefined,
-  countriesB: string[] | undefined,
-) => {
-  return Array.from(
-    new Set([...(countriesA || []), ...(countriesB || [])]),
-  ).sort((a, b) => a.localeCompare(b));
-};
+import { mergeStringsWithUnique, mergeUniqueAndSort } from "@/utils/array";
 
 export const getFiltered = (
   dataByDay: DataStoreState["dataByDay"],
@@ -42,15 +34,29 @@ export const getFiltered = (
             dayKey: dayWithoutYear,
             countriesCodes: [],
             countriesCodesByYear: {},
+            sourceDates: [],
+            yearsAbroad: [],
           };
         }
 
-        stack[dayWithoutYear].countriesCodes = mergeCountriesCodes(
+        if (filteredCountriesForDay.length > 0) {
+          stack[dayWithoutYear].yearsAbroad = mergeStringsWithUnique(
+            stack[dayWithoutYear].yearsAbroad,
+            [String(year)],
+          );
+        }
+
+        stack[dayWithoutYear].sourceDates = mergeStringsWithUnique(
+          stack[dayWithoutYear].sourceDates,
+          [dataDay.date],
+        );
+
+        stack[dayWithoutYear].countriesCodes = mergeUniqueAndSort(
           stack[dayWithoutYear].countriesCodes,
           filteredCountriesForDay,
         );
 
-        stack[dayWithoutYear].countriesCodesByYear[year] = mergeCountriesCodes(
+        stack[dayWithoutYear].countriesCodesByYear[year] = mergeUniqueAndSort(
           stack[dayWithoutYear].countriesCodesByYear[year],
           filteredCountriesForDay,
         );
@@ -97,7 +103,7 @@ export const getFiltered = (
           ).length;
         }
 
-        stack.summaryByMonth[monthNumber].countriesCodes = mergeCountriesCodes(
+        stack.summaryByMonth[monthNumber].countriesCodes = mergeUniqueAndSort(
           stack.summaryByMonth[monthNumber].countriesCodes,
           summaryDay.countriesCodes,
         );

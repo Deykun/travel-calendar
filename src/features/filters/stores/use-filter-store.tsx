@@ -10,6 +10,8 @@ type SummaryDay = {
   countriesCodesByYear: {
     [year: number]: string[];
   };
+  yearsAbroad: string[];
+  sourceDates: string[];
 };
 
 type SummaryMonth = {
@@ -61,8 +63,6 @@ export const refreshFiltered = () => {
   const dataByDay = useDataStore.getState().dataByDay;
 
   const filtered = getFiltered(dataByDay);
-
-  console.log(filtered);
 
   useFiltersStore.setState({
     filtered: {

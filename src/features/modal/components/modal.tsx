@@ -1,5 +1,6 @@
 import type { PropsWithChildren } from "react";
 import { closeModal } from "../stores/use-modal-store";
+import { cn } from "@/utils/tailwind";
 
 type Props = {
   title: string;
@@ -7,12 +8,24 @@ type Props = {
 
 export const Modal = ({ title, children }: PropsWithChildren<Props>) => {
   return (
-    <div className="bg-[#91f0766e] p-[6px] rounded-[18px]">
+    <div>
       <button
         onClick={closeModal}
         className="absolute top-0 left-0 size-full"
       />
-      <div className="relative z-1 bg-white text-black rounded-[14px] p-[20px]">
+      <div
+        className={cn(
+          "relative z-1",
+          "rounded-[20px]",
+          "p-2",
+          "bg-[#fff6]",
+          "backdrop-blur-[7px]",
+          "drop-shadow",
+          "duration-150",
+          "border-t border-b border-[#e3e3e3]",
+          "border-b-4",
+        )}
+      >
         <header>
           {title}
           <button onClick={closeModal}>x</button>
