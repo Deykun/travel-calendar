@@ -7,10 +7,7 @@ export function SlidableContent({ children }: PropsWithChildren) {
   const isModalOpen = useOverModalStore((state) => !!state?.modal?.type);
 
   return (
-    <div
-      className="relative py-6 px-12 max-w-dvw"
-      style={{ contain: "paint" }}
-    >
+    <div className="relative py-6 px-12 max-w-dvw" style={{ contain: "paint" }}>
       <div
         className={cn(
           "relative",
@@ -30,7 +27,6 @@ export function SlidableContent({ children }: PropsWithChildren) {
             "h-full",
             "ml-8",
             "w-95",
-            // "pr-8",
             "translate-x-3",
             "opacity-0",
             {
