@@ -18,7 +18,7 @@ type Props = {
   dataTestId?: string;
 };
 
-const Button = ({
+export const Button = ({
   className = "",
   type,
   tagName,
@@ -34,7 +34,11 @@ const Button = ({
 
   return (
     <Tag
-      className={cn("p-2 bg-blue-300", className)}
+      className={cn(
+        "py-3 px-6 bg-[#646455] rounded-full",
+        "text-white text-sm font-semibold",
+        className,
+      )}
       type={type}
       onClick={onClick}
       href={href}
@@ -47,5 +51,3 @@ const Button = ({
     </Tag>
   );
 };
-
-export default Button;

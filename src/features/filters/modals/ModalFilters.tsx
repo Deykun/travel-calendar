@@ -22,20 +22,11 @@ export const ModalFilters = ({ className = "" }: Props) => {
   return (
     <div
       className={cn(
-        "rounded-xl",
-        "bg-[#e7eff4]",
         "relative",
-        "drop-shadow-md",
-        "min-w-[400px] min-h-[150px]",
-        "rounded-[20px]",
         "flex flex-col gap-1",
-        "p-2",
-        "bg-[#fffa]",
-        "backdrop-blur-[7px]",
-        "drop-shadow",
-        "duration-150",
-        "border-t border-b border-[#e3e3e3]",
-        "border-b-4",
+        "p-4",
+        "rounded-lg",
+        "bg-white",
         className,
       )}
     >

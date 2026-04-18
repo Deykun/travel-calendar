@@ -2,7 +2,7 @@
 
 body {
   position: relative;
-  font-family: "Baloo 2", sans-serif;
+  font-family: "Poppins", sans-serif;
   min-height: 100dvh;
   background-color: #e5e5e5;
   color: black;
@@ -21,4 +21,9 @@ body {
 
 button {
   cursor: pointer;
+}
+
+.transition-bounce {
+  /* transition: 0.3s cubic-bezier(0.68, -0.35, 0.265, 1.05); */
+  transition: 0.3s ease-in-out;
 }

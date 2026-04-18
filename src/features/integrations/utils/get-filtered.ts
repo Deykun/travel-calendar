@@ -1,6 +1,7 @@
 import { getDaysInMonth } from "@/features/calendar/utils/get-days";
 import {
   getDateWithoutYear,
+  getIsFuture,
   getMonthWithoutDay,
   stringDateToObject,
 } from "../../../utils/date";
@@ -19,6 +20,11 @@ export const getFiltered = (
     Object.values(dataByDay).reduce(
       (stack: FiltersStoreState["filtered"]["summaryByDay"], dataDay) => {
         if (!dataDay) {
+          return stack;
+        }
+
+        const isFuture = getIsFuture(dataDay.date);
+        if (isFuture) {
           return stack;
         }
 

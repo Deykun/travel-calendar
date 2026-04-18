@@ -1,17 +1,15 @@
 import IconTravel from "@/components/icons/IconTravel";
-import { ImageFlag } from "@/components/image-flag/ImageFlag";
 import useFiltersStore from "@/features/filters/stores/use-filter-store";
 import useDataStore from "@/features/integrations/stores/use-data-store";
 import { closeOverModal } from "@/features/over-modal/stores/use-hover-modal-store";
-import { useFlagsFromCountries } from "@/hooks/useFlagsFromCountries";
 import { cn } from "@/utils/tailwind";
 import { useTranslation } from "react-i18next";
 import { DayDetails } from "./parts/DayDetails";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { DayTripDetails } from "./parts/DayTripDetails";
-import { format } from "date-fns/format";
 import { DatetimeDay } from "@/components/datetime/datetime-day";
 import IconX from "@/components/icons/IconX";
+import { chunkArray } from "@/utils/array";
 
 type Props = {
   className?: string;
@@ -20,19 +18,7 @@ type Props = {
 
 const EMPTY_ARRAY: string[] = [];
 
-const modalStyles = cn(
-  "rounded-xl",
-  "bg-[#e7eff4]",
-  "min-w-[400px]",
-  "rounded-[20px]",
-  "p-2",
-  "bg-[#fffa]",
-  "backdrop-blur-[7px]",
-  "drop-shadow",
-  "duration-150",
-  "border-t border-b border-[#e3e3e3]",
-  "border-b-4",
-);
+const modalStyles = cn("rounded-lg", "p-4", "bg-white");
 
 export const ModalDay = ({ className, dayKey }: Props) => {
   const [details, setDetails] = useState<{
@@ -53,10 +39,46 @@ export const ModalDay = ({ className, dayKey }: Props) => {
   const sourceDates = useFiltersStore(
     (store) => store.filtered.summaryByDay[dayKey]?.sourceDates || EMPTY_ARRAY,
   );
+  const dataByDay = useDataStore((store) => store.dataByDay);
 
   const { t } = useTranslation();
 
-  const total = countriesCodes.filter((country) => country !== "pl").length;
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setDetails({
+      tripsKeys: [],
+      countryCode: "",
+    });
+  }, [dayKey]);
+
+  const chunks = useMemo(() => {
+    const entries = sourceDates.reduce(
+      (
+        stack: {
+          countryCode: string;
+          year: string;
+          tripsKeys: string[];
+        }[],
+        dateWithYear,
+      ) => {
+        const [year] = dateWithYear.split("-");
+        const dataForDay = dataByDay[dateWithYear];
+
+        dataForDay?.countriesCodes.forEach((countryCode) => {
+          stack.push({
+            year,
+            countryCode,
+            tripsKeys: dataForDay.tripsKeys,
+          });
+        });
+
+        return stack;
+      },
+      [],
+    );
+
+    return chunkArray(entries, 4);
+  }, [dataByDay, sourceDates]);
 
   if (!dayKey) {
     return null;
@@ -64,17 +86,6 @@ export const ModalDay = ({ className, dayKey }: Props) => {
 
   return (
     <>
-      {details.tripsKeys.length > 0 && (
-        <div className={cn(modalStyles, "mb-2")}>
-          {details.tripsKeys.map((tripKey) => (
-            <DayTripDetails
-              key={tripKey}
-              tripKey={tripKey}
-              showOnlyForCountryCode={details.countryCode || undefined}
-            />
-          ))}
-        </div>
-      )}
       <div className={cn("text-center relative", modalStyles, className)}>
         <h2 className="text-xl font-semibold mb-4">
           <DatetimeDay date={sourceDates[0]} />
@@ -84,7 +95,7 @@ export const ModalDay = ({ className, dayKey }: Props) => {
         </button>
         <div className="grid grid-cols-2 gap-2 mb-4">
           <div className="inline-flex flex-col gap-2 items-center">
-            <IconTravel total={total} shouldShowAllNumbers />
+            <IconTravel total={countriesCodes.length} shouldShowAllNumbers />
             <span className="text-black text-sm tracking-wider">
               Visited countries
             </span>
@@ -97,23 +108,44 @@ export const ModalDay = ({ className, dayKey }: Props) => {
           </div>
         </div>
         <div
+          key={dayKey}
           className={cn(
-            "grid grid-flow-col gap-3",
-            "max-w-[400px]",
+            // "grid grid-flow-col gap-3",
+            "flex flex-wrap gap-3",
+            // "max-w-95",
             "overflow-auto p-2 pb-3",
             "snap-x snap-mandatory touch-pan-x",
           )}
         >
-          {sourceDates.map((data) => (
-            <DayDetails
-              className="snap-center"
-              key={data}
-              dateWithYear={data}
-              setDetails={setDetails}
-            />
+          {chunks.map((chunk) => (
+            <>
+              {/* <div className={cn("snap-center", "flex gap-3 w-61")}> */}
+              {chunk.map(({ year, countryCode, tripsKeys }) => (
+                <DayDetails
+                  className="w-13"
+                  key={`${year}-${countryCode}`}
+                  year={year}
+                  countryCode={countryCode}
+                  tripsKeys={tripsKeys}
+                  setDetails={setDetails}
+                />
+              ))}
+              {/* </div> */}
+            </>
           ))}
         </div>
       </div>
+      {details.tripsKeys.length > 0 && (
+        <div className={cn(modalStyles, "mt-8")}>
+          {details.tripsKeys.map((tripKey) => (
+            <DayTripDetails
+              key={tripKey}
+              tripKey={tripKey}
+              showOnlyForCountryCode={details.countryCode || undefined}
+            />
+          ))}
+        </div>
+      )}
     </>
   );
 };

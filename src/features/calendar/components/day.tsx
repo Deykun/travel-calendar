@@ -3,7 +3,12 @@ import { cn } from "../../../utils/tailwind";
 import IconTravel from "@/components/icons/IconTravel";
 import { FlagHover } from "@/components/flag-hover/FlagHover";
 import useFiltersStore from "@/features/filters/stores/use-filter-store";
-import { openOverModal } from "@/features/over-modal/stores/use-hover-modal-store";
+import {
+  closeOverModal,
+  openOverModal,
+  useOverModalStore,
+} from "@/features/over-modal/stores/use-hover-modal-store";
+import { useCallback } from "react";
 
 type Props = {
   className?: string;
@@ -14,6 +19,9 @@ type Props = {
 const EMPTY_ARRAY: string[] = [];
 
 export const Day = ({ className = "", dayNumber, dayKey }: Props) => {
+  const isModalOpen = useOverModalStore(
+    (state) => state?.modal?.type === "day" && state.modal.dayKey === dayKey,
+  );
   const countriesCodes = useFiltersStore(
     (store) =>
       store.filtered.summaryByDay[dayKey]?.countriesCodes || EMPTY_ARRAY,
@@ -30,9 +38,19 @@ export const Day = ({ className = "", dayNumber, dayKey }: Props) => {
 
   const total = countriesCodes.length;
 
+  const handleClick = useCallback(() => {
+    if (isModalOpen) {
+      closeOverModal();
+
+      return;
+    }
+    
+    openOverModal({ type: "day", dayKey })
+  }, [dayKey, isModalOpen])
+
   return (
     <button
-      onClick={() => openOverModal({ type: "day", dayKey })}
+      onClick={handleClick}
       className={cn(
         "inline-flex items-center flex-col gap-1",
         "p-1",
@@ -42,6 +60,8 @@ export const Day = ({ className = "", dayNumber, dayKey }: Props) => {
         {
           "text-[#585910] hover:bg-[#fbff0030] hover:text-[#737102]": total > 0,
           "text-[#c0bfbf] hover:bg-[#f9f7f7]": total === 0,
+          "bg-[#fbff0030] text-[#737102]": total > 0 && isModalOpen,
+          "bg-[#f9f7f7] text-[#c0bfbf]": total === 0 && isModalOpen,
         },
         className,
       )}

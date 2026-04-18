@@ -10,7 +10,7 @@ export const Calendar = () => {
   return (
     <div
       className={cn(
-        "grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-8 p-6 px-12",
+        "grid grid-cols-[repeat(auto-fit,minmax(450px,1fr))] gap-8",
       )}
     >
       {calendar.map((month) => (

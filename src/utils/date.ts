@@ -42,3 +42,7 @@ export function getYearFromDate(date: string): number {
 export function getMonthWithoutDay(date: string): MonthNumber {
   return Number(date.split("-").at(0)) as MonthNumber;
 }
+
+export function getIsFuture(date: string): boolean {
+  return new Date(date) > new Date();
+}

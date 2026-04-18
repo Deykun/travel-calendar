@@ -30,8 +30,10 @@ export const DayTripDetails = ({ tripKey, showOnlyForCountryCode }: Props) => {
         <PlaceName placeKey={trip?.placeKey} />
       </strong>
       <br />
-      {trip?.from?.slice(-5)} - {trip?.to?.slice(-5)}
-      <br /> {trip?.days} days
+      <p className="text-gray-600 text-[12px] text-nowrap tracking-widest font-semibold">
+        {trip?.from?.slice(-5)} - {trip?.to?.slice(-5)}
+      </p>
+      {trip?.days} days
     </div>
   );
 };

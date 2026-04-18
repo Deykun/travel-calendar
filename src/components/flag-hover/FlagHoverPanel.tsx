@@ -38,13 +38,11 @@ export const FlagHoverPanel = ({
         "pointer-events-none",
         "rounded-[20px]",
         "p-2",
-        "bg-[#fff6]",
+        "bg-white",
         "opacity-0 group-hover:opacity-100",
-        "backdrop-blur-[7px]",
         "drop-shadow",
         "duration-150",
         "border-t border-b border-[#e3e3e3]",
-        "border-b-4",
       )}
     >
       {title && <h4 className="text-[9px] font-bold">{t(title)}</h4>}

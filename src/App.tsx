@@ -1,10 +1,7 @@
-import { ImageFlag } from "./components/image-flag/ImageFlag";
+import { SlidableContent } from "./features/over-modal/components/SlidableContent";
 import { Calendar } from "./features/calendar/components/Calendar";
 import { ButtonFilter } from "./features/filters/components/ButtonFilter";
-import useFiltersStore, {
-  refreshFiltered,
-  toggleHomeCountry,
-} from "./features/filters/stores/use-filter-store";
+import useFiltersStore from "./features/filters/stores/use-filter-store";
 import { ButtonUpdate } from "./features/integrations/components/button-update";
 
 function App() {
@@ -14,15 +11,14 @@ function App() {
 
   return (
     <>
-      <div>
+      <header className="fixed top-0 left-0 z-100">
         <ButtonUpdate />
         <ButtonFilter />
         {homeCountriesCodes.join(", ")}
-      </div>
-      <div>
-        <h1 className="text-center text-3xl font-semibold">Travel calendar</h1>
-      </div>
-      <Calendar />
+      </header>
+      <SlidableContent>
+        <Calendar />
+      </SlidableContent>
     </>
   );
 }
