@@ -1,28 +1,36 @@
-import { ImageFlag } from "./components/image-flag/ImageFlag";
-import { Calendar } from "./features/calendar/components/Calendar";
+import { SlidableContent } from "./features/over-modal/components/SlidableContent";
+
 import { ButtonFilter } from "./features/filters/components/ButtonFilter";
-import useFiltersStore, {
-  refreshFiltered,
-  toggleHomeCountry,
-} from "./features/filters/stores/use-filter-store";
 import { ButtonUpdate } from "./features/integrations/components/button-update";
+import { cn } from "./utils/tailwind";
+import { Calendar } from "./features/calendar/components/calendar";
+import { Button } from "./components/button/Button";
+import IconGithub from "./components/icons/IconGithub";
 
 function App() {
-  const homeCountriesCodes = useFiltersStore(
-    (store) => store.homeCountriesCodes,
-  );
-
   return (
     <>
-      <div>
+      <header
+        className={cn(
+          "fixed top-0 left-0 z-100",
+          "flex gap-3",
+          "bg-[#111110] p-6",
+        )}
+      >
         <ButtonUpdate />
         <ButtonFilter />
-        {homeCountriesCodes.join(", ")}
-      </div>
-      <div>
-        <h1 className="text-center text-3xl font-semibold">Travel calendar</h1>
-      </div>
-      <Calendar />
+        <Button
+          tagName="a"
+          href="https://github.com/Deykun/travel-calendar"
+          target="_blank"
+        >
+          <IconGithub />
+          <span>Repository</span>
+        </Button>
+      </header>
+      <SlidableContent>
+        <Calendar className="pt-24" />
+      </SlidableContent>
     </>
   );
 }

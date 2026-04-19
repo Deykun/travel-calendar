@@ -27,7 +27,7 @@ export const Month = ({ className = "", month }: Props) => {
     <article
       className={cn(
         "p-5 pt-3",
-        "bg-white",
+        "bg-[#111110]",
         "text-center",
         "rounded-lg",
         "relative hover:z-10",
@@ -37,9 +37,9 @@ export const Month = ({ className = "", month }: Props) => {
       <span
         className={cn(
           "absolute top-5 left-5",
-          "text-xs text-gray-600 tracking-wider",
+          "text-xs text-gray-400 tracking-wider",
           {
-            "text-gray-400": visitedCountries === 0,
+            "text-gray-500": visitedCountries === 0,
           },
         )}
       >
@@ -54,19 +54,21 @@ export const Month = ({ className = "", month }: Props) => {
           {visitedCountries} countries
         </FlagHover>
       </span>
-      <h2 className="text-xl font-semibold mb-4">{t(month.name)} </h2>
+      <h2 className={cn("text-2xl text-white", "font-semibold mb-4")}>
+        {t(month.name)}{" "}
+      </h2>
       <span
         className={cn(
           "absolute top-5 right-5",
-          "text-xs text-gray-600 tracking-wider",
+          "text-xs text-gray-400 tracking-wider",
           {
-            "text-[#9a9c00] font-semibold": daysAbroad == daysInMonth,
+            "text-[#fcff4e] font-semibold": daysAbroad == daysInMonth,
           },
         )}
       >
         {daysAbroad || 0} / {daysInMonth}
       </span>
-      <div className={cn("grid grid-cols-7 gap-x-1.5 gap-y-2")}>
+      <div className={cn("grid grid-cols-7 gap-x-1.5 gap-y-1")}>
         {month.days.map((day) => (
           <Day
             key={day}

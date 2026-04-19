@@ -2,9 +2,9 @@
 
 body {
   position: relative;
-  font-family: "Baloo 2", sans-serif;
+  font-family: "Poppins", sans-serif;
   min-height: 100dvh;
-  background-color: #e5e5e5;
+  background-color: #2a2a26;
   color: black;
 
   &::before {
@@ -16,9 +16,15 @@ body {
     background-size: 400px;
     opacity: 0.025;
     z-index: -1;
+    filter: invert(1);
   }
 }
 
 button {
   cursor: pointer;
+}
+
+.transition-bounce {
+  /* transition: 0.3s cubic-bezier(0.68, -0.35, 0.265, 1.05); */
+  transition: 0.3s ease-in-out;
 }

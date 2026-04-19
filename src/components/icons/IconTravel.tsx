@@ -22,10 +22,14 @@ export const Icon = ({
         "leading-0",
         className,
         {
-          "bg-[#d6d6d6] text-gray-400": total === 0,
+          // "bg-[#d6d6d6] text-gray-400": total === 0,
+          "bg-[#272620] text-[#54544b]": total === 0,
           "bg-[#d8da51] text-black": total > 0,
         },
       )}
+      style={{
+        cornerShape: "superellipse(1.5)",
+      }}
     >
       {(shouldShowAllNumbers || total > 1) && (
         <span className="text-sm font-semibold">{total}</span>

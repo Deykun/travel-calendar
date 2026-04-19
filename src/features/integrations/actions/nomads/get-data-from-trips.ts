@@ -1,6 +1,7 @@
 import { getDateRange } from "../../../../utils/date";
 import type { DataStoreState } from "../../stores/use-data-store";
 import { getPlaceKey } from "../../utils/get-place-key";
+import { getCountryCodeFromTrip } from "./utils/get-country-code-from-trip";
 
 export type IntegrationNomadsTrip = {
   trip_id: string;
@@ -27,7 +28,8 @@ export const getDataFromTrips = (trips: IntegrationNomadsTrip[]): Response => {
   return trips.reduce(
     (stack: Response, trip) => {
       const dates = getDateRange(trip.date_start, trip.date_end);
-      const countryCode = trip.country_code.toLowerCase();
+      const countryCode =
+        trip.country_code.toLowerCase() || getCountryCodeFromTrip(trip);
 
       const placeKey = getPlaceKey({
         place: trip.place,

@@ -1,8 +1,24 @@
-import Button from "@/components/button/button";
-import { openOverModal } from "@/features/over-modal/stores/use-hover-modal-store";
+import { Button } from "@/components/button/Button";
+import IconFilter from "@/components/icons/IconFilter";
+import {
+  closeOverModal,
+  openOverModal,
+  useOverModalStore,
+} from "@/features/over-modal/stores/use-hover-modal-store";
 
 export const ButtonFilter = () => {
+  const isModalOpen = useOverModalStore(
+    (state) => state?.modal?.type === "filters",
+  );
+
   return (
-    <Button onClick={() => openOverModal({ type: "filters" })}>Filter</Button>
+    <Button
+      onClick={() =>
+        isModalOpen ? closeOverModal() : openOverModal({ type: "filters" })
+      }
+    >
+      <IconFilter />
+      <span>Filter</span>
+    </Button>
   );
 };

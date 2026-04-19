@@ -7,7 +7,6 @@ import { I18nextProvider } from "react-i18next";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ModalProvider } from "./features/modal/providers/modal-provider.tsx";
-import { OverModalProvider } from "./features/over-modal/providers/OverModalProvider.tsx";
 
 const queryClient = new QueryClient();
 
@@ -17,7 +16,6 @@ createRoot(document.getElementById("root")!).render(
       <QueryClientProvider client={queryClient}>
         <App />
         <ModalProvider />
-        <OverModalProvider />
       </QueryClientProvider>
     </I18nextProvider>
   </StrictMode>,

@@ -1,10 +1,10 @@
-import Button from "@/components/button/button";
 import { Modal } from "@/features/modal/components/modal";
 import { closeModal, openModal } from "@/features/modal/stores/use-modal-store";
 import useDataStore from "../stores/use-data-store";
 import { Datetime } from "@/components/datetime/datetime";
 import { getDataFromNomads } from "../actions/get-data-from-nomads";
 import { useState } from "react";
+import { Button } from "@/components/button/Button";
 
 // eslint-disable-next-line react-refresh/only-export-components
 function ModalIntegration() {

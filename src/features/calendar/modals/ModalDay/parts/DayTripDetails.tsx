@@ -25,13 +25,17 @@ export const DayTripDetails = ({ tripKey, showOnlyForCountryCode }: Props) => {
   }
 
   return (
-    <div>
-      <strong className="font-semibold">
+    <div className="flex flex-col gap-1 text-[#979797]">
+      <strong className="text-white font-semibold">
         <PlaceName placeKey={trip?.placeKey} />
       </strong>
       <br />
-      {trip?.from?.slice(-5)} - {trip?.to?.slice(-5)}
-      <br /> {trip?.days} days
+      <p className={cn("text-[#979797] text-[12px] text-nowrap tracking-widest font-semibold", "mb-2")}>
+        {trip?.from?.slice(-5)} - {trip?.to?.slice(-5)}
+      </p>
+      <p className="text-white text-[10px] text-nowrap tracking-widest font-medium">
+        {trip?.days} days
+      </p>
     </div>
   );
 };

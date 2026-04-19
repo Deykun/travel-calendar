@@ -3,7 +3,12 @@ import { cn } from "../../../utils/tailwind";
 import IconTravel from "@/components/icons/IconTravel";
 import { FlagHover } from "@/components/flag-hover/FlagHover";
 import useFiltersStore from "@/features/filters/stores/use-filter-store";
-import { openOverModal } from "@/features/over-modal/stores/use-hover-modal-store";
+import {
+  closeOverModal,
+  openOverModal,
+  useOverModalStore,
+} from "@/features/over-modal/stores/use-hover-modal-store";
+import { useCallback } from "react";
 
 type Props = {
   className?: string;
@@ -14,6 +19,9 @@ type Props = {
 const EMPTY_ARRAY: string[] = [];
 
 export const Day = ({ className = "", dayNumber, dayKey }: Props) => {
+  const isModalOpen = useOverModalStore(
+    (state) => state?.modal?.type === "day" && state.modal.dayKey === dayKey,
+  );
   const countriesCodes = useFiltersStore(
     (store) =>
       store.filtered.summaryByDay[dayKey]?.countriesCodes || EMPTY_ARRAY,
@@ -30,18 +38,31 @@ export const Day = ({ className = "", dayNumber, dayKey }: Props) => {
 
   const total = countriesCodes.length;
 
+  const handleClick = useCallback(() => {
+    if (isModalOpen) {
+      closeOverModal();
+
+      return;
+    }
+
+    openOverModal({ type: "day", dayKey });
+  }, [dayKey, isModalOpen]);
+
   return (
     <button
-      onClick={() => openOverModal({ type: "day", dayKey })}
+      onClick={handleClick}
       className={cn(
         "inline-flex items-center flex-col gap-1",
-        "p-1",
-        "rounded-2xl",
+        "p-1 pt-2",
+        "rounded-sm",
         "duration-150",
         "group",
         {
-          "text-[#585910] hover:bg-[#fbff0030] hover:text-[#737102]": total > 0,
-          "text-[#c0bfbf] hover:bg-[#f9f7f7]": total === 0,
+          "text-[#979797] hover:bg-[#fffb000d] hover:text-white":
+            !isModalOpen && total > 0,
+          "text-[#3d3d3d] hover:bg-[#4545341c] hover:text-[#656565]":
+            !isModalOpen && total === 0,
+          "text-white bg-[#fff3] shadow-[0_0_15px_#021019]": isModalOpen,
         },
         className,
       )}

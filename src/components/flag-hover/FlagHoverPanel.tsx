@@ -29,22 +29,20 @@ export const FlagHoverPanel = ({
         "absolute",
         {
           "bottom-full origin-bottom": place === "top",
-          "-translate-y-5 group-hover:-translate-y-2": place === "top",
+          "-translate-y-7 group-hover:-translate-y-4": place === "top",
           "top-full origin-top": place === "bottom",
           "translate-y-12 group-hover:translate-y-7": place === "bottom",
         },
         "left-1/2 -translate-x-1/2",
         "z-10",
         "pointer-events-none",
-        "rounded-[20px]",
+        "rounded-md",
         "p-2",
-        "bg-[#fff6]",
+        // "bg-white",
         "opacity-0 group-hover:opacity-100",
-        "backdrop-blur-[7px]",
         "drop-shadow",
         "duration-150",
-        "border-t border-b border-[#e3e3e3]",
-        "border-b-4",
+        "bg-black",
       )}
     >
       {title && <h4 className="text-[9px] font-bold">{t(title)}</h4>}
@@ -58,7 +56,7 @@ export const FlagHoverPanel = ({
           return (
             <div className={cn("relative", "flex flex-col")}>
               <ImageFlag countryCode={countryCode} />
-              <div className="mt-1 text-[12px] text-nowrap text-gray-600 tracking-widest font-semibold">
+              <div className="mt-1 text-[12px] text-nowrap text-white tracking-widest font-semibold">
                 {year}
               </div>
             </div>
