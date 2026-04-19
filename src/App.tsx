@@ -4,6 +4,8 @@ import { ButtonFilter } from "./features/filters/components/ButtonFilter";
 import { ButtonUpdate } from "./features/integrations/components/button-update";
 import { cn } from "./utils/tailwind";
 import { Calendar } from "./features/calendar/components/calendar";
+import { Button } from "./components/button/Button";
+import IconGithub from "./components/icons/IconGithub";
 
 function App() {
   return (
@@ -17,6 +19,14 @@ function App() {
       >
         <ButtonUpdate />
         <ButtonFilter />
+        <Button
+          tagName="a"
+          href="https://github.com/Deykun/travel-calendar"
+          target="_blank"
+        >
+          <IconGithub />
+          <span>Repository</span>
+        </Button>
       </header>
       <SlidableContent>
         <Calendar className="pt-24" />
