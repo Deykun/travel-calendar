@@ -4,7 +4,7 @@ body {
   position: relative;
   font-family: "Poppins", sans-serif;
   min-height: 100dvh;
-  background-color: #e5e5e5;
+  background-color: #2a2a26;
   color: black;
 
   &::before {
@@ -16,6 +16,7 @@ body {
     background-size: 400px;
     opacity: 0.025;
     z-index: -1;
+    filter: invert(1);
   }
 }
 

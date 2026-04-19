@@ -1,4 +1,5 @@
 import { Button } from "@/components/button/Button";
+import IconFilter from "@/components/icons/IconFilter";
 import {
   closeOverModal,
   openOverModal,
@@ -16,7 +17,8 @@ export const ButtonFilter = () => {
         isModalOpen ? closeOverModal() : openOverModal({ type: "filters" })
       }
     >
-      Filter
+      <IconFilter />
+      <span>Filter</span>
     </Button>
   );
 };

@@ -41,7 +41,7 @@ export const ImageFlag = ({ countryCode }: PropsWithChildren<Props>) => {
         loading="lazy"
         // https://purecatamphetamine.github.io/country-flag-icons/1x1/index.html
         src={`https://purecatamphetamine.github.io/country-flag-icons/3x2/${fallbackFlags[countryCode.toUpperCase()] || countryCode.toUpperCase()}.svg`}
-        onError={() => console.error(`Missing flag for ${countryCode}.`)}
+        onError={() => console.error(`Missing flag for "${countryCode}".`)}
       />
     </span>
   );

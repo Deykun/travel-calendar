@@ -4,13 +4,16 @@ import { Month } from "./Month";
 
 const calendar = getDaysGroupedByMonths();
 
-// grid-cols-[repeat(auto-fit,minmax(320px,1fr))]
+type Props = {
+  className?: string;
+};
 
-export const Calendar = () => {
+export const Calendar = ({ className }: Props) => {
   return (
     <div
       className={cn(
-        "grid grid-cols-[repeat(auto-fit,minmax(450px,1fr))] gap-8",
+        "grid grid-cols-[repeat(auto-fit,minmax(380px,1fr))] gap-8",
+        className,
       )}
     >
       {calendar.map((month) => (

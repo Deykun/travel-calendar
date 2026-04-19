@@ -7,15 +7,10 @@ export function SlidableContent({ children }: PropsWithChildren) {
   const isModalOpen = useOverModalStore((state) => !!state?.modal?.type);
 
   return (
-    <div className="relative py-6 px-12 max-w-dvw" style={{ contain: "paint" }}>
+    <div className="relative py-6 px-12 max-w-dvw">
       <div
         className={cn(
           "relative",
-          "translate-x-0",
-          {
-            "-translate-x-100": isModalOpen,
-          },
-          "origin-top-left",
           "transition-bounce",
           "@container",
         )}
@@ -23,17 +18,20 @@ export function SlidableContent({ children }: PropsWithChildren) {
         <div>{children}</div>
         <aside
           className={cn(
-            "absolute left-full top-0",
+            "fixed right-0 top-0 z-1000",
             "h-full",
-            "ml-8",
+            // "ml-8",
             "w-95",
-            "translate-x-3",
-            "opacity-0",
+            "translate-x-full",
             {
               "translate-x-0 opacity-100": isModalOpen,
             },
             "origin-top-left",
+            "origin-top-left",
             "transition-bounce",
+            "py-0 pt-6 px-6",
+            "bg-white",
+            "border-l border-l-[#e5e5e5]",
           )}
         >
           <div className={cn("sticky top-6")}>

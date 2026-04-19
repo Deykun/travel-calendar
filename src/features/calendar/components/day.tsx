@@ -44,24 +44,25 @@ export const Day = ({ className = "", dayNumber, dayKey }: Props) => {
 
       return;
     }
-    
-    openOverModal({ type: "day", dayKey })
-  }, [dayKey, isModalOpen])
+
+    openOverModal({ type: "day", dayKey });
+  }, [dayKey, isModalOpen]);
 
   return (
     <button
       onClick={handleClick}
       className={cn(
         "inline-flex items-center flex-col gap-1",
-        "p-1",
-        "rounded-2xl",
+        "p-1 pt-2",
+        "rounded-sm",
         "duration-150",
         "group",
         {
-          "text-[#585910] hover:bg-[#fbff0030] hover:text-[#737102]": total > 0,
-          "text-[#c0bfbf] hover:bg-[#f9f7f7]": total === 0,
-          "bg-[#fbff0030] text-[#737102]": total > 0 && isModalOpen,
-          "bg-[#f9f7f7] text-[#c0bfbf]": total === 0 && isModalOpen,
+          "text-[#979797] hover:bg-[#fffb000d] hover:text-white":
+            !isModalOpen && total > 0,
+          "text-[#3d3d3d] hover:bg-[#4545341c] hover:text-[#656565]":
+            !isModalOpen && total === 0,
+          "text-white bg-[#0974fe33] shadow-[0_0_15px_#021019]": isModalOpen,
         },
         className,
       )}

@@ -9,7 +9,6 @@ import { useEffect, useMemo, useState } from "react";
 import { DayTripDetails } from "./parts/DayTripDetails";
 import { DatetimeDay } from "@/components/datetime/datetime-day";
 import IconX from "@/components/icons/IconX";
-import { chunkArray } from "@/utils/array";
 
 type Props = {
   className?: string;
@@ -18,7 +17,7 @@ type Props = {
 
 const EMPTY_ARRAY: string[] = [];
 
-const modalStyles = cn("rounded-lg", "p-4", "bg-white");
+const modalStyles = cn("rounded-lg", "p-4", "bg-white border border-[#e5e5e5]");
 
 export const ModalDay = ({ className, dayKey }: Props) => {
   const [details, setDetails] = useState<{
@@ -51,8 +50,8 @@ export const ModalDay = ({ className, dayKey }: Props) => {
     });
   }, [dayKey]);
 
-  const chunks = useMemo(() => {
-    const entries = sourceDates.reduce(
+  const flags = useMemo(() => {
+    return sourceDates.reduce(
       (
         stack: {
           countryCode: string;
@@ -76,8 +75,6 @@ export const ModalDay = ({ className, dayKey }: Props) => {
       },
       [],
     );
-
-    return chunkArray(entries, 4);
   }, [dataByDay, sourceDates]);
 
   if (!dayKey) {
@@ -107,31 +104,16 @@ export const ModalDay = ({ className, dayKey }: Props) => {
             </span>
           </div>
         </div>
-        <div
-          key={dayKey}
-          className={cn(
-            // "grid grid-flow-col gap-3",
-            "flex flex-wrap gap-3",
-            // "max-w-95",
-            "overflow-auto p-2 pb-3",
-            "snap-x snap-mandatory touch-pan-x",
-          )}
-        >
-          {chunks.map((chunk) => (
-            <>
-              {/* <div className={cn("snap-center", "flex gap-3 w-61")}> */}
-              {chunk.map(({ year, countryCode, tripsKeys }) => (
-                <DayDetails
-                  className="w-13"
-                  key={`${year}-${countryCode}`}
-                  year={year}
-                  countryCode={countryCode}
-                  tripsKeys={tripsKeys}
-                  setDetails={setDetails}
-                />
-              ))}
-              {/* </div> */}
-            </>
+        <div className={cn("flex flex-wrap justify-center gap-3", "p-2 pb-3")}>
+          {flags.map(({ year, countryCode, tripsKeys }) => (
+            <DayDetails
+              className="w-13"
+              key={`${year}-${countryCode}`}
+              year={year}
+              countryCode={countryCode}
+              tripsKeys={tripsKeys}
+              setDetails={setDetails}
+            />
           ))}
         </div>
       </div>

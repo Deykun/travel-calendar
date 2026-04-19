@@ -35,8 +35,14 @@ export const Button = ({
   return (
     <Tag
       className={cn(
-        "py-3 px-6 bg-[#646455] rounded-full",
-        "text-white text-sm font-semibold",
+        "inline-flex",
+        "items-center gap-2",
+        "[&>svg]:shrink-0 [&>svg]:size-6",
+        "py-2 px-4 rounded-xl",
+        "bg-[#d8da51] hover:bg-[#fcff4e]",
+        "text-black",
+        "text-sm font-medium",
+        "transition-bounce",
         className,
       )}
       type={type}
