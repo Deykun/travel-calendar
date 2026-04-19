@@ -35,7 +35,7 @@ export const ModalFilters = ({ className = "" }: Props) => {
         <IconX className="size-6" />
       </button>
       {Object.entries(totalDaysByCountry).map(([country, total]) =>
-        total < 14 ? null : (
+        total < 0 ? null : (
           <div className="flex gap-2">
             {/* <ImageFlag countryCode={country} /> */}
             <Checkbox

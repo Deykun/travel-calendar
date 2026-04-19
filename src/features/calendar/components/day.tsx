@@ -62,7 +62,7 @@ export const Day = ({ className = "", dayNumber, dayKey }: Props) => {
             !isModalOpen && total > 0,
           "text-[#3d3d3d] hover:bg-[#4545341c] hover:text-[#656565]":
             !isModalOpen && total === 0,
-          "text-white bg-[#0974fe33] shadow-[0_0_15px_#021019]": isModalOpen,
+          "text-white bg-[#fff3] shadow-[0_0_15px_#021019]": isModalOpen,
         },
         className,
       )}

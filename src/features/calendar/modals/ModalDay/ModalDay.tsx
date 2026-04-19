@@ -17,13 +17,29 @@ type Props = {
 
 const EMPTY_ARRAY: string[] = [];
 
-const modalStyles = cn("rounded-lg", "p-4", "bg-white border border-[#e5e5e5]");
+const modalStyles = cn(
+  "rounded-lg",
+  "p-4",
+  "bg-[#111110] border border-[#2b2b27]",
+);
+
+const getFlagKey = ({
+  year,
+  countryCode,
+}: {
+  year: string;
+  countryCode: string;
+}) => {
+  return `${year}-${countryCode}`;
+};
 
 export const ModalDay = ({ className, dayKey }: Props) => {
   const [details, setDetails] = useState<{
+    flagKey: string;
     tripsKeys: string[];
     countryCode: string;
   }>({
+    flagKey: "",
     tripsKeys: [],
     countryCode: "",
   });
@@ -45,6 +61,7 @@ export const ModalDay = ({ className, dayKey }: Props) => {
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setDetails({
+      flagKey: "",
       tripsKeys: [],
       countryCode: "",
     });
@@ -84,7 +101,7 @@ export const ModalDay = ({ className, dayKey }: Props) => {
   return (
     <>
       <div className={cn("text-center relative", modalStyles, className)}>
-        <h2 className="text-xl font-semibold mb-4">
+        <h2 className="text-2xl text-white font-semibold mb-6">
           <DatetimeDay date={sourceDates[0]} />
         </h2>
         <button className="absolute top-2 right-2" onClick={closeOverModal}>
@@ -93,13 +110,13 @@ export const ModalDay = ({ className, dayKey }: Props) => {
         <div className="grid grid-cols-2 gap-2 mb-4">
           <div className="inline-flex flex-col gap-2 items-center">
             <IconTravel total={countriesCodes.length} shouldShowAllNumbers />
-            <span className="text-black text-sm tracking-wider">
+            <span className="text-[#979797] text-sm tracking-wider">
               Visited countries
             </span>
           </div>
           <div className="inline-flex flex-col gap-2 items-center">
             <IconTravel total={yearsAbroad.length} shouldShowAllNumbers />
-            <span className="text-black text-sm tracking-wider">
+            <span className="text-[#979797] text-sm tracking-wider">
               Years abroad
             </span>
           </div>
@@ -107,12 +124,18 @@ export const ModalDay = ({ className, dayKey }: Props) => {
         <div className={cn("flex flex-wrap justify-center gap-3", "p-2 pb-3")}>
           {flags.map(({ year, countryCode, tripsKeys }) => (
             <DayDetails
-              className="w-13"
-              key={`${year}-${countryCode}`}
+              className="w-14"
+              key={getFlagKey({ year, countryCode })}
               year={year}
               countryCode={countryCode}
-              tripsKeys={tripsKeys}
-              setDetails={setDetails}
+              setDetails={() =>
+                setDetails({
+                  flagKey: getFlagKey({ year, countryCode }),
+                  countryCode,
+                  tripsKeys,
+                })
+              }
+              isActive={details.flagKey === getFlagKey({ year, countryCode })}
             />
           ))}
         </div>

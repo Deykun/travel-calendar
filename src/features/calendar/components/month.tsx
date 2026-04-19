@@ -27,7 +27,7 @@ export const Month = ({ className = "", month }: Props) => {
     <article
       className={cn(
         "p-5 pt-3",
-        "bg-[#19170d]",
+        "bg-[#111110]",
         "text-center",
         "rounded-lg",
         "relative hover:z-10",

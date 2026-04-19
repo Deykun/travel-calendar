@@ -6,7 +6,7 @@ export const ButtonUpdate = () => {
   return (
     <Button onClick={() => openModalIntegration()}>
       <IconGear />
-      <span>Integration</span>
+      <span>Settings</span>
     </Button>
   );
 };

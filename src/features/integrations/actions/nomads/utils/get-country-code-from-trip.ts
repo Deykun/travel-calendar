@@ -5,11 +5,12 @@ const countryByPlace: { [place: string]: string | undefined } = {
   Malta: "mt",
   "Costa Rica": "cr",
   Curaçao: "cw",
+  Seychelles: "sc",
+  Martinique: "fr",
+  Malé: "mv",
 };
 
-export const getCountryCodeFromPlace = (
-  trip: IntegrationNomadsTrip,
-): string => {
+export const getCountryCodeFromTrip = (trip: IntegrationNomadsTrip): string => {
   if (typeof trip.place === "string" && countryByPlace[trip.place]) {
     return countryByPlace[trip.place] as string;
   }
