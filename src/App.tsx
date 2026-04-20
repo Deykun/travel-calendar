@@ -3,9 +3,9 @@ import { SlidableContent } from "./features/over-modal/components/SlidableConten
 import { ButtonFilter } from "./features/filters/components/ButtonFilter";
 import { ButtonUpdate } from "./features/integrations/components/button-update";
 import { cn } from "./utils/tailwind";
-import { Calendar } from "./features/calendar/components/calendar";
 import { Button } from "./components/button/Button";
 import IconGithub from "./components/icons/IconGithub";
+import { Calendar } from "./features/calendar/components/calendar";
 
 function App() {
   return (

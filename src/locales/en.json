@@ -15,6 +15,7 @@
   "hoverDay.home": "At home",
   "summary.days_one": "one day",
   "summary.days_other": "{{count}} days",
+  "preferences.showHome": "Show home",
   "country.name.source": "https://www.iban.com/country-codes",
   "country.name.af": "Afghanistan",
   "country.name.al": "Albania",

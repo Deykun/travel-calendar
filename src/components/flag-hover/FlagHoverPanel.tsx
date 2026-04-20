@@ -1,21 +1,19 @@
 import { cn } from "@/utils/tailwind";
 import type { PropsWithChildren } from "react";
-import type { Flag } from "./FlagHover";
 import { useTranslation } from "react-i18next";
-import { ImageFlag } from "../image-flag/ImageFlag";
+import type { FlagData } from "@/features/filters/hooks/useFlagsForDate";
+import { Period } from "@/features/calendar/components/Period";
 
 type Props = {
-  flags: Flag[];
+  flags?: FlagData[];
   title?: string;
   place: "top" | "bottom";
-  variant?: "default" | "small";
 };
 
 export const FlagHoverPanel = ({
-  flags,
+  flags = [],
   title,
   place,
-  variant = "default",
 }: PropsWithChildren<Props>) => {
   const { t } = useTranslation();
 
@@ -27,18 +25,13 @@ export const FlagHoverPanel = ({
     <div
       className={cn(
         "absolute",
-        {
-          "bottom-full origin-bottom": place === "top",
-          "-translate-y-7 group-hover:-translate-y-4": place === "top",
-          "top-full origin-top": place === "bottom",
-          "translate-y-12 group-hover:translate-y-7": place === "bottom",
-        },
+        "bottom-full origin-bottom",
+        "-translate-y-7 group-hover:-translate-y-4",
         "left-1/2 -translate-x-1/2",
         "z-10",
         "pointer-events-none",
         "rounded-md",
         "p-2",
-        // "bg-white",
         "opacity-0 group-hover:opacity-100",
         "drop-shadow",
         "duration-150",
@@ -47,19 +40,19 @@ export const FlagHoverPanel = ({
     >
       {title && <h4 className="text-[9px] font-bold">{t(title)}</h4>}
       <div
-        className={cn("flex gap-3 justify-center", {
-          "w-42 flex-wrap": flags.length > 3,
-          "w-30 flex-wrap": flags.length > 3 && variant === "small",
+        className={cn("flex gap-y-1 gap-x-3 justify-center", {
+          "w-48 flex-wrap": flags.length > 3,
         })}
       >
-        {flags.map(({ countryCode, year }) => {
+        {flags.map(({ countryCode, from, to }) => {
           return (
-            <div className={cn("relative", "flex flex-col")}>
-              <ImageFlag countryCode={countryCode} />
-              <div className="mt-1 text-[12px] text-nowrap text-white tracking-widest font-semibold">
-                {year}
-              </div>
-            </div>
+            <Period
+              className="w-14 h-20"
+              key={`${countryCode}-${from}-${to}`}
+              from={from}
+              to={to}
+              countryCode={countryCode}
+            />
           );
         })}
       </div>

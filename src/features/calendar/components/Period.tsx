@@ -3,21 +3,25 @@ import { cn } from "@/utils/tailwind";
 
 type Props = {
   className?: string;
-  year: string;
+  from: number;
+  to: number;
   countryCode: string;
-  setDetails: () => void;
-  isActive: boolean;
+  onClick?: () => void;
+  isActive?: boolean;
 };
 
-export const DayDetails = ({
+export const Period = ({
   className = "",
-  year,
+  from,
+  to,
   countryCode,
-  setDetails,
-  isActive,
+  onClick,
+  isActive = false,
 }: Props) => {
+  const Tag = onClick ? "button" : "span";
+
   return (
-    <button
+    <Tag
       className={cn(
         "inline-flex items-center flex-col gap-1",
         "p-1 pt-2",
@@ -30,12 +34,17 @@ export const DayDetails = ({
         },
         className,
       )}
-      onClick={setDetails}
+      onClick={onClick}
     >
       <ImageFlag countryCode={countryCode} />
       <div className="mt-1 text-[12px] text-nowrap text-white tracking-widest font-semibold">
-        {year}
+        {from === to && from}
+        {from !== to && (
+          <div className="text-[8px] -mt-0.5">
+            {from} <br /> {to}
+          </div>
+        )}
       </div>
-    </button>
+    </Tag>
   );
 };

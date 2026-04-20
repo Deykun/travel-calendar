@@ -26,7 +26,7 @@ export const ModalFilters = ({ className = "" }: Props) => {
         "flex flex-col gap-1",
         "p-4",
         "rounded-lg",
-        "bg-white",
+        "bg-black",
         className,
       )}
     >
@@ -36,19 +36,16 @@ export const ModalFilters = ({ className = "" }: Props) => {
       </button>
       {Object.entries(totalDaysByCountry).map(([country, total]) =>
         total < 0 ? null : (
-          <div className="flex gap-2">
-            {/* <ImageFlag countryCode={country} /> */}
-            <Checkbox
-              isActive={homeCountriesCodes.includes(country)}
-              onChange={() => toggleHomeCountry(country)}
-            />
-            <button onClick={() => toggleHomeCountry(country)}>
-              {t(`country.name.${country}`)}
-            </button>
-            <strong className="font-semibold">
+          <Checkbox
+            key={country}
+            isActive={homeCountriesCodes.includes(country)}
+            onChange={() => toggleHomeCountry(country)}
+          >
+            {t(`country.name.${country}`)}
+            <strong className="font-semibold text-white">
               {t("summary.days", { postProcess: "interval", count: total })}
             </strong>
-          </div>
+          </Checkbox>
         ),
       )}
     </div>

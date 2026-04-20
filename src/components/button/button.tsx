@@ -16,6 +16,7 @@ type Props = {
   isLarge?: boolean;
   hasBorder?: boolean;
   dataTestId?: string;
+  variant?: "primary" | "secondary";
 };
 
 export const Button = ({
@@ -29,6 +30,7 @@ export const Button = ({
   rel,
   isDisabled = false,
   dataTestId,
+  variant = "primary",
 }: Props) => {
   const Tag = tagName || "button";
 
@@ -39,10 +41,16 @@ export const Button = ({
         "items-center gap-2",
         "[&>svg]:shrink-0 [&>svg]:size-6",
         "py-2 px-4 rounded-xl",
-        "bg-[#d8da51] hover:bg-[#fcff4e]",
+        "border-2 border-[#d8da51]",
         "text-black",
         "text-sm font-medium",
         "transition-bounce",
+        {
+          "bg-[#d8da51] text-black hover:bg-[#fcff4e] hover:border-[#fcff4e]":
+            variant === "primary",
+          "bg-transparent text-[#d8da51] hover:text-[#fcff4e] hover:border-[#fcff4e]":
+            variant === "secondary",
+        },
         className,
       )}
       type={type}

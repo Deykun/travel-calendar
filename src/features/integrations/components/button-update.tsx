@@ -4,7 +4,7 @@ import IconGear from "@/components/icons/IconGear";
 
 export const ButtonUpdate = () => {
   return (
-    <Button onClick={() => openModalIntegration()}>
+    <Button onClick={() => openModalIntegration()} variant="secondary">
       <IconGear />
       <span>Settings</span>
     </Button>
