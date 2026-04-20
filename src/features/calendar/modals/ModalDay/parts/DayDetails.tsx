@@ -3,15 +3,20 @@ import { cn } from "@/utils/tailwind";
 
 type Props = {
   className?: string;
-  year: string;
+  from: number;
+  to: number;
   countryCode: string;
   setDetails: () => void;
   isActive: boolean;
 };
 
+// 〜
+// 〰
+
 export const DayDetails = ({
   className = "",
-  year,
+  from,
+  to,
   countryCode,
   setDetails,
   isActive,
@@ -34,7 +39,12 @@ export const DayDetails = ({
     >
       <ImageFlag countryCode={countryCode} />
       <div className="mt-1 text-[12px] text-nowrap text-white tracking-widest font-semibold">
-        {year}
+        {from === to && from}
+        {from !== to && (
+          <div className="text-[8px] -mt-0.5">
+            {from} <br /> {to}
+          </div>
+        )}
       </div>
     </button>
   );

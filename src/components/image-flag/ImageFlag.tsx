@@ -27,6 +27,7 @@ export const ImageFlag = ({ countryCode }: PropsWithChildren<Props>) => {
           "drop-shadow",
           "bg-[#282824] bg-transparent text-gray-400",
           "leading-none",
+          "tracking-widest",
           "text-xs",
         )}
         alt={countryCode}

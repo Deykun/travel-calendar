@@ -9,6 +9,9 @@ import { useEffect, useMemo, useState } from "react";
 import { DayTripDetails } from "./parts/DayTripDetails";
 import { DatetimeDay } from "@/components/datetime/datetime-day";
 import IconX from "@/components/icons/IconX";
+import { ToggleShowHome } from "@/features/preferences/components/ToggleShowHome";
+import usePreferencesStore from "@/features/preferences/stores/usePreferencesStore";
+import { useFlagsForDay } from "@/features/filters/hooks/useFlagsForDate";
 
 type Props = {
   className?: string;
@@ -17,17 +20,13 @@ type Props = {
 
 const EMPTY_ARRAY: string[] = [];
 
-const modalStyles = cn(
-  "rounded-lg",
-  "p-4",
-  "bg-[#111110] border border-[#2b2b27]",
-);
+const modalStyles = cn("rounded-lg", "p-4", "bg-black border border-[#2b2b27]");
 
 const getFlagKey = ({
   year,
   countryCode,
 }: {
-  year: string;
+  year: number;
   countryCode: string;
 }) => {
   return `${year}-${countryCode}`;
@@ -51,12 +50,6 @@ export const ModalDay = ({ className, dayKey }: Props) => {
     (store) =>
       store.filtered.summaryByDay[dayKey]?.countriesCodes || EMPTY_ARRAY,
   );
-  const sourceDates = useFiltersStore(
-    (store) => store.filtered.summaryByDay[dayKey]?.sourceDates || EMPTY_ARRAY,
-  );
-  const dataByDay = useDataStore((store) => store.dataByDay);
-
-  const { t } = useTranslation();
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -67,32 +60,7 @@ export const ModalDay = ({ className, dayKey }: Props) => {
     });
   }, [dayKey]);
 
-  const flags = useMemo(() => {
-    return sourceDates.reduce(
-      (
-        stack: {
-          countryCode: string;
-          year: string;
-          tripsKeys: string[];
-        }[],
-        dateWithYear,
-      ) => {
-        const [year] = dateWithYear.split("-");
-        const dataForDay = dataByDay[dateWithYear];
-
-        dataForDay?.countriesCodes.forEach((countryCode) => {
-          stack.push({
-            year,
-            countryCode,
-            tripsKeys: dataForDay.tripsKeys,
-          });
-        });
-
-        return stack;
-      },
-      [],
-    );
-  }, [dataByDay, sourceDates]);
+  const flags = useFlagsForDay(dayKey);
 
   if (!dayKey) {
     return null;
@@ -102,7 +70,7 @@ export const ModalDay = ({ className, dayKey }: Props) => {
     <>
       <div className={cn("text-center relative", modalStyles, className)}>
         <h2 className="text-2xl text-white font-semibold mb-6">
-          <DatetimeDay date={sourceDates[0]} />
+          <DatetimeDay date={`2000-${dayKey}`} />
         </h2>
         <button className="absolute top-2 right-2" onClick={closeOverModal}>
           <IconX className="size-6" />
@@ -122,26 +90,30 @@ export const ModalDay = ({ className, dayKey }: Props) => {
           </div>
         </div>
         <div className={cn("flex flex-wrap justify-center gap-3", "p-2 pb-3")}>
-          {flags.map(({ year, countryCode, tripsKeys }) => (
+          {flags.map(({ from, to, countryCode, tripsKeys }) => (
             <DayDetails
-              className="w-14"
-              key={getFlagKey({ year, countryCode })}
-              year={year}
+              className="w-14 h-20"
+              key={getFlagKey({ year: from, countryCode })}
+              from={from}
+              to={to}
               countryCode={countryCode}
               setDetails={() =>
                 setDetails({
-                  flagKey: getFlagKey({ year, countryCode }),
+                  flagKey: getFlagKey({ year: from, countryCode }),
                   countryCode,
                   tripsKeys,
                 })
               }
-              isActive={details.flagKey === getFlagKey({ year, countryCode })}
+              isActive={
+                details.flagKey === getFlagKey({ year: from, countryCode })
+              }
             />
           ))}
         </div>
+        <ToggleShowHome className="mt-4" />
       </div>
       {details.tripsKeys.length > 0 && (
-        <div className={cn(modalStyles, "mt-8")}>
+        <div className={cn(modalStyles, "mt-8", "flex flex-col gap-5")}>
           {details.tripsKeys.map((tripKey) => (
             <DayTripDetails
               key={tripKey}
