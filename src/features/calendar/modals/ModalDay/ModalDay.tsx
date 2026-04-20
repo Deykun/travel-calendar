@@ -1,17 +1,14 @@
 import IconTravel from "@/components/icons/IconTravel";
 import useFiltersStore from "@/features/filters/stores/use-filter-store";
-import useDataStore from "@/features/integrations/stores/use-data-store";
 import { closeOverModal } from "@/features/over-modal/stores/use-hover-modal-store";
 import { cn } from "@/utils/tailwind";
-import { useTranslation } from "react-i18next";
-import { DayDetails } from "./parts/DayDetails";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { DayTripDetails } from "./parts/DayTripDetails";
 import { DatetimeDay } from "@/components/datetime/datetime-day";
 import IconX from "@/components/icons/IconX";
 import { ToggleShowHome } from "@/features/preferences/components/ToggleShowHome";
-import usePreferencesStore from "@/features/preferences/stores/usePreferencesStore";
 import { useFlagsForDay } from "@/features/filters/hooks/useFlagsForDate";
+import { Period } from "../../components/Period";
 
 type Props = {
   className?: string;
@@ -91,13 +88,13 @@ export const ModalDay = ({ className, dayKey }: Props) => {
         </div>
         <div className={cn("flex flex-wrap justify-center gap-3", "p-2 pb-3")}>
           {flags.map(({ from, to, countryCode, tripsKeys }) => (
-            <DayDetails
+            <Period
               className="w-14 h-20"
               key={getFlagKey({ year: from, countryCode })}
               from={from}
               to={to}
               countryCode={countryCode}
-              setDetails={() =>
+              onClick={() =>
                 setDetails({
                   flagKey: getFlagKey({ year: from, countryCode }),
                   countryCode,

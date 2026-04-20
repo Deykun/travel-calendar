@@ -9,6 +9,7 @@ import {
   useOverModalStore,
 } from "@/features/over-modal/stores/use-hover-modal-store";
 import { useCallback } from "react";
+import { useFlagsForDay } from "@/features/filters/hooks/useFlagsForDate";
 
 type Props = {
   className?: string;
@@ -35,6 +36,8 @@ export const Day = ({ className = "", dayNumber, dayKey }: Props) => {
   const maxCountriesInDay = useFiltersStore(
     (store) => store.filtered.summary.maxCountriesInDay,
   );
+
+   const flags = useFlagsForDay(dayKey, false);
 
   const total = countriesCodes.length;
 
@@ -68,7 +71,7 @@ export const Day = ({ className = "", dayNumber, dayKey }: Props) => {
       )}
     >
       <FlagHover
-        countriesCodesByYear={countriesCodesByYear}
+        flags={flags}
         className="inline-flex flex-col gap-1"
         shouldSkipGroup
       >

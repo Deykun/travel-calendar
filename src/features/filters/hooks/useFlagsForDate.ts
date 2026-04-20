@@ -6,7 +6,7 @@ import { mergeStringsWithUnique } from "@/utils/array";
 
 const EMPTY_ARRAY: string[] = [];
 
-type FlagData = {
+export type FlagData = {
   countryCode: string;
   from: number;
   to: number;
@@ -26,7 +26,7 @@ type PeriodsIndex = {
   };
 };
 
-export function useFlagsForDay(dayKey: string) {
+export function useFlagsForDay(dayKey: string, shouldForceShowHome?: boolean) {
   const shouldShowHome = usePreferencesStore(
     (store) => store.modals.shouldShowHome,
   );
@@ -83,20 +83,24 @@ export function useFlagsForDay(dayKey: string) {
       },
     );
 
-    console.log(entries);
-
     const flags = Object.values(entries.periodsByIds);
 
-    if (shouldShowHome === false) {
+    const shouldShowHomeToUse = shouldForceShowHome ?? shouldShowHome;
+
+    if (shouldShowHomeToUse === false) {
       return flags.filter(({ countryCode }) => {
         return !homeCountriesCodes.includes(countryCode);
       });
     }
 
-    console.log('flags', flags);
-
     return flags;
-  }, [dataByDay, homeCountriesCodes, shouldShowHome, sourceDates]);
+  }, [
+    dataByDay,
+    homeCountriesCodes,
+    shouldForceShowHome,
+    shouldShowHome,
+    sourceDates,
+  ]);
 
   return flags;
 }
