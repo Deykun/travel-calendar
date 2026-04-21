@@ -3,6 +3,9 @@ import { devtools } from "zustand/middleware";
 
 export type OverModal =
   | {
+      type: "setting";
+    }
+  | {
       type: "day";
       dayKey: string;
     }
@@ -31,6 +34,12 @@ export const useOverModalStore = create<OverModalStore>()(
 export function openOverModal(modal: OverModal) {
   useOverModalStore.setState({
     modal,
+  });
+}
+
+export function openModalSettings() {
+  openOverModal({
+    type: "setting",
   });
 }
 

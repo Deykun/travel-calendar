@@ -40,6 +40,8 @@ export const Button = ({
         "inline-flex",
         "items-center gap-2",
         "[&>svg]:shrink-0 [&>svg]:size-6",
+        "[&>svg]:first:-ml-1.5",
+        "[&>svg]:last:-mr-1.5",
         "py-2 px-4 rounded-xl",
         "border-2 border-[#d8da51]",
         "text-black",

@@ -5,6 +5,7 @@ import {
 } from "../stores/use-hover-modal-store";
 import { ModalFilters } from "@/features/filters/modals/ModalFilters";
 import { useEffect, useState } from "react";
+import { ModalSettings } from "@/features/integrations/modals/modal-settings";
 
 export const OverModalContent = () => {
   const [modal, setModal] = useState<OverModal | null>(null);
@@ -17,6 +18,10 @@ export const OverModalContent = () => {
       setModal(storeModal);
     }
   }, [storeModal]);
+
+  if (modal?.type === "setting") {
+    return <ModalSettings />;
+  }
 
   if (modal?.type === "day" && modal?.dayKey) {
     return <ModalDay dayKey={modal.dayKey} />;

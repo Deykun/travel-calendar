@@ -1,10 +1,10 @@
 import { Button } from "@/components/button/Button";
-import { openModalIntegration } from "../modals/open-modal-integration";
 import IconGear from "@/components/icons/IconGear";
+import { openModalSettings } from "@/features/over-modal/stores/use-hover-modal-store";
 
 export const ButtonUpdate = () => {
   return (
-    <Button onClick={() => openModalIntegration()} variant="secondary">
+    <Button onClick={openModalSettings} variant="secondary">
       <IconGear />
       <span>Settings</span>
     </Button>

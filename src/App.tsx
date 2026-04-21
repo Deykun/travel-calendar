@@ -5,7 +5,7 @@ import { ButtonUpdate } from "./features/integrations/components/button-update";
 import { cn } from "./utils/tailwind";
 import { Button } from "./components/button/Button";
 import IconGithub from "./components/icons/IconGithub";
-import { Calendar } from "./features/calendar/components/calendar";
+import { Calendar } from "./features/calendar/components/Calendar";
 
 function App() {
   return (

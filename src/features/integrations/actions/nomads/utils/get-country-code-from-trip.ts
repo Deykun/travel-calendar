@@ -8,6 +8,8 @@ const countryByPlace: { [place: string]: string | undefined } = {
   Seychelles: "sc",
   Martinique: "fr",
   Malé: "mv",
+  Cyprus: "cy",
+  Paraguay: "py",
 };
 
 export const getCountryCodeFromTrip = (trip: IntegrationNomadsTrip): string => {
