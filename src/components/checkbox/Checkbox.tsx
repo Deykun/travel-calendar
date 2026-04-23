@@ -41,28 +41,30 @@ export const Checkbox = ({
         onClick={() => onChange(!isActive)}
         variant={isActive ? "primary" : "secondary"}
       >
-        <Frame
-          className={cn(
-            "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2",
-            "size-5",
-            "duration-300",
-            {
-              "scale-0 opacity-0": isActive,
-              "scale-75 opacity-100": !isActive,
-            },
-          )}
-        />
-        <IconCheck
-          className={cn(
-            "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2",
-            "size-5",
-            "duration-300",
-            {
-              "scale-0 opacity-0": !isActive,
-              "scale-100 opacity-100": isActive,
-            },
-          )}
-        />
+        <span>
+          <IconCheck
+            className={cn(
+              "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2",
+              "size-5",
+              "duration-300",
+              {
+                "scale-0 opacity-0": !isActive,
+                "scale-100 opacity-100": isActive,
+              },
+            )}
+          />
+          <Frame
+            className={cn(
+              "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2",
+              "size-5",
+              "duration-300",
+              {
+                "scale-100 opacity-0": isActive,
+                "scale-80 opacity-100": !isActive,
+              },
+            )}
+          />
+        </span>
       </Button>
       {children && (
         <button
