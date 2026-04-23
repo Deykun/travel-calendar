@@ -6,11 +6,10 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
 type PropsDatetime = {
-  className?: string;
   date: string;
 };
 
-export function DatetimeDay({ className = "", date: dateLike }: PropsDatetime) {
+export function DatetimeDay({ date: dateLike }: PropsDatetime) {
   const { i18n } = useTranslation();
 
   const { date, locale, formatToUse } = useMemo(() => {
@@ -35,9 +34,5 @@ export function DatetimeDay({ className = "", date: dateLike }: PropsDatetime) {
     return null;
   }
 
-  return (
-    <span className={className}>
-      {capitalize(format(date, formatToUse, { locale }))}
-    </span>
-  );
+  return capitalize(format(date, formatToUse, { locale }));
 }

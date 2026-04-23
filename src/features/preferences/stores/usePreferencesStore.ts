@@ -1,6 +1,6 @@
 import type { MonthNumber } from "@/features/calendar/types";
-import useDataStore from "@/features/integrations/stores/use-data-store";
-import { getFiltered } from "@/features/integrations/utils/get-filtered";
+import useDataStore from "@/features/settings/stores/use-data-store";
+import { getFiltered } from "@/features/settings/utils/get-filtered";
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
 

@@ -2,9 +2,10 @@ import { ModalDay } from "@/features/calendar/modals/ModalDay/ModalDay";
 import {
   useOverModalStore,
   type OverModal,
-} from "../stores/use-hover-modal-store";
+} from "../stores/useHoverModalStore";
 import { ModalFilters } from "@/features/filters/modals/ModalFilters";
 import { useEffect, useState } from "react";
+import { ModalSettings } from "@/features/settings/modals/ModalSettings";
 
 export const OverModalContent = () => {
   const [modal, setModal] = useState<OverModal | null>(null);
@@ -17,6 +18,10 @@ export const OverModalContent = () => {
       setModal(storeModal);
     }
   }, [storeModal]);
+
+  if (modal?.type === "setting") {
+    return <ModalSettings />;
+  }
 
   if (modal?.type === "day" && modal?.dayKey) {
     return <ModalDay dayKey={modal.dayKey} />;
