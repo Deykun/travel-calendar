@@ -12,5 +12,8 @@
   "month.name.10": "Październik",
   "month.name.11": "Listopad",
   "month.name.12": "Grudzień",
-  "hoverDay.home": "W domu"
+  "hoverDay.home": "W domu",
+  "integration.title": "Integracja",
+  "integration.withNomads": "Integracja z nomads.com",
+  "integration.lastUpdatePrefix": "Ostatnia aktualizacja"
 }

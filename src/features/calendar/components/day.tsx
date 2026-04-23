@@ -7,7 +7,7 @@ import {
   closeOverModal,
   openOverModal,
   useOverModalStore,
-} from "@/features/over-modal/stores/use-hover-modal-store";
+} from "@/features/over-modal/stores/useHoverModalStore";
 import { useCallback } from "react";
 import { useFlagsForDay } from "@/features/filters/hooks/useFlagsForDate";
 

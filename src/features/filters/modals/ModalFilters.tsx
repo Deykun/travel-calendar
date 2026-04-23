@@ -3,8 +3,8 @@ import IconX from "@/components/icons/IconX";
 import useFiltersStore, {
   toggleHomeCountry,
 } from "@/features/filters/stores/use-filter-store";
-import useDataStore from "@/features/integrations/stores/use-data-store";
-import { closeOverModal } from "@/features/over-modal/stores/use-hover-modal-store";
+import useDataStore from "@/features/settings/stores/use-data-store";
+import { closeOverModal } from "@/features/over-modal/stores/useHoverModalStore";
 import { cn } from "@/utils/tailwind";
 import { useTranslation } from "react-i18next";
 

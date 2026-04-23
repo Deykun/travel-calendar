@@ -4,7 +4,7 @@ import {
   closeOverModal,
   openOverModal,
   useOverModalStore,
-} from "@/features/over-modal/stores/use-hover-modal-store";
+} from "@/features/over-modal/stores/useHoverModalStore";
 
 export const ButtonFilter = () => {
   const isModalOpen = useOverModalStore(

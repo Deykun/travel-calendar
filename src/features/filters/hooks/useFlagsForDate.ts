@@ -1,7 +1,7 @@
 import usePreferencesStore from "@/features/preferences/stores/usePreferencesStore";
 import { useMemo } from "react";
 import useFiltersStore from "../stores/use-filter-store";
-import useDataStore from "@/features/integrations/stores/use-data-store";
+import useDataStore from "@/features/settings/stores/use-data-store";
 import { mergeStringsWithUnique } from "@/utils/array";
 
 const EMPTY_ARRAY: string[] = [];

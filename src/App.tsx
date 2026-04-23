@@ -1,7 +1,7 @@
 import { SlidableContent } from "./features/over-modal/components/SlidableContent";
 
 import { ButtonFilter } from "./features/filters/components/ButtonFilter";
-import { ButtonUpdate } from "./features/integrations/components/button-update";
+import { ButtonUpdate } from "./features/settings/components/ButtonUpdate";
 import { cn } from "./utils/tailwind";
 import { Button } from "./components/button/Button";
 import IconGithub from "./components/icons/IconGithub";

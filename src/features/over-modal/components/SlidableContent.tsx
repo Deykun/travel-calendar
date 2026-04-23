@@ -1,5 +1,5 @@
 import { OverModalContent } from "@/features/over-modal/components/OverModalContent";
-import { useOverModalStore } from "@/features/over-modal/stores/use-hover-modal-store";
+import { useOverModalStore } from "@/features/over-modal/stores/useHoverModalStore";
 import { cn } from "@/utils/tailwind";
 import type { PropsWithChildren } from "react";
 

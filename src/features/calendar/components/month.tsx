@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 import type { MonthMetadata } from "../types";
 import { cn } from "../../../utils/tailwind";
 import { Day } from "./Day";
-import { getDayKey } from "../../integrations/utils/get-day-key";
+import { getDayKey } from "../../settings/utils/get-day-key";
 import { getDaysInMonth } from "../utils/get-days";
 import useFiltersStore from "@/features/filters/stores/use-filter-store";
 import { FlagHover } from "@/components/flag-hover/FlagHover";

@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { openOverModal, type OverModal } from "../stores/use-hover-modal-store";
+import { openOverModal, type OverModal } from "../stores/useHoverModalStore";
 
 export const useOverModalHoverTrigger = (modal: OverModal) => {
   const ref = useRef<HTMLElement>(null);
