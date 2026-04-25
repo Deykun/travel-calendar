@@ -1,9 +1,13 @@
-import { setHomeCountriesCodes } from "@/features/filters/stores/use-filter-store";
-import { setIntegration } from "../stores/use-data-store";
+import {
+  setDateFilter,
+  setHomeCountriesCodes,
+} from "@/features/filters/stores/useFilterStore";
+import { setIntegration } from "../stores/useDateStore";
 import {
   getDataFromTrips,
   type IntegrationNomadsTrip,
 } from "./nomads/get-data-from-trips";
+import type { DateYYYYMMDD } from "@/types";
 
 type Params = {
   username: string;
@@ -22,8 +26,14 @@ export const getDataFromNomads = async ({ username }: Params) => {
     (response) => response.json(),
   )) as unknown as IntegrationNomadsApiResponse;
 
-  const { dataByDay, placesByKey, tripsByKey, totalDaysByCountry } =
-    getDataFromTrips(response.trips);
+  const {
+    dataByDay,
+    placesByKey,
+    tripsByKey,
+    totalDaysByCountry,
+    daysByCountry,
+    daysByCountriesByYear,
+  } = getDataFromTrips(response.trips);
 
   const mostCommonCountry = Object.entries(totalDaysByCountry).reduce(
     (stack, [countryCode, totalDays = 0]) => {
@@ -39,14 +49,23 @@ export const getDataFromNomads = async ({ username }: Params) => {
     },
   );
 
+  const sortedDates = Object.keys(dataByDay) as DateYYYYMMDD[];
+
   setIntegration({
     status: "ready",
     integration: {
       type: "nomads.com",
+      integrationCode: username,
       lastUpdate: Date.now(),
     },
+    date: {
+      from: sortedDates.at(-1),
+      to: sortedDates.at(0),
+    },
     totalDaysByCountry,
+    daysByCountry,
     dataByDay,
+    daysByCountriesByYear,
     placesByKey,
     tripsByKey,
   });
@@ -54,6 +73,8 @@ export const getDataFromNomads = async ({ username }: Params) => {
   if (mostCommonCountry.countryCode) {
     setHomeCountriesCodes([mostCommonCountry.countryCode]);
   }
+
+  setDateFilter(undefined, undefined);
 
   return response;
 };

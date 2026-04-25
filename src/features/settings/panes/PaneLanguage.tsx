@@ -1,34 +1,33 @@
-import { closeModal } from "@/features/modal/stores/use-modal-store";
-
-import { Datetime } from "@/components/datetime/datetime";
-import { useState } from "react";
-import { Button } from "@/components/button/Button";
 import { cn } from "@/utils/tailwind";
-import IconBolt from "@/components/icons/IconBolt";
-import Input from "@/components/input/Input";
 import { useTranslation } from "react-i18next";
-import useDataStore from "../stores/use-data-store";
-import { getDataFromNomads } from "../actions/get-data-from-nomads";
 import { SUPPORTED_LANGS } from "@/i18n";
-import IconBubble from "@/components/icons/IconBubble";
+import { Radiobox } from "@/components/radiobox/Radiobox";
 
-const modalStyles = cn("rounded-lg", "p-4", "bg-black border border-[#2b2b27]");
+const sidebarStyles = cn(
+  "rounded-lg",
+  "p-4",
+  "bg-black border border-[#2b2b27]",
+);
 
 export function PaneLanguage() {
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
 
   return (
-    <div className={cn(modalStyles, "flex flex-wrap gap-2")}>
-      {SUPPORTED_LANGS.map((lang) => (
-        <Button
-          key={lang}
-          onClick={() => i18n.changeLanguage(lang)}
-          variant={lang === i18n.language ? "primary" : "secondary"}
-        >
-          <IconBubble />
-          <span className="uppercase">{lang}</span>
-        </Button>
-      ))}
+    <div className={cn(sidebarStyles, "flex flex-col gap-2")}>
+      <h2 className="text-xl text-white font-semibold mb-2">
+        {t("preferences.language.title")}
+      </h2>
+      <div className="flex flex-col gap-1">
+        {SUPPORTED_LANGS.map((lang) => (
+          <Radiobox
+            key={lang}
+            isActive={lang === i18n.language}
+            onChange={() => i18n.changeLanguage(lang)}
+          >
+            {t(`preferences.language.current`, { lng: lang })}
+          </Radiobox>
+        ))}
+      </div>
     </div>
   );
 }

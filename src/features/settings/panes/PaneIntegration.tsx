@@ -1,20 +1,26 @@
-import { closeModal } from "@/features/modal/stores/use-modal-store";
-
 import { Datetime } from "@/components/datetime/datetime";
 import { useState } from "react";
-import { Button } from "@/components/button/Button";
 import { cn } from "@/utils/tailwind";
 import IconBolt from "@/components/icons/IconBolt";
 import Input from "@/components/input/Input";
 import { useTranslation } from "react-i18next";
-import useDataStore from "../stores/use-data-store";
+import useDataStore from "../stores/useDateStore";
 import { getDataFromNomads } from "../actions/get-data-from-nomads";
+import { Button } from "@/components/button/Button";
+import { closeSidebar } from "@/features/sidebar/stores/useSidebarStore";
 
-const modalStyles = cn("rounded-lg", "p-4", "bg-black border border-[#2b2b27]");
+const sidebarStyles = cn(
+  "rounded-lg",
+  "p-4",
+  "bg-black border border-[#2b2b27]",
+);
 
 export function PaneIntegration() {
+  const integrationCode = useDataStore(
+    (store) => store.integration.integrationCode,
+  );
   const lastUpdate = useDataStore((store) => store.integration.lastUpdate);
-  const [username, setUsername] = useState("deykun");
+  const [username, setUsername] = useState(integrationCode ?? "deykun");
 
   const { t } = useTranslation();
 
@@ -25,12 +31,12 @@ export function PaneIntegration() {
 
     if (username) {
       await getDataFromNomads({ username });
-      closeModal();
+      closeSidebar();
     }
   };
 
   return (
-    <div className={modalStyles}>
+    <div className={sidebarStyles}>
       <h2 className="text-xl text-white font-semibold mb-2">
         {t("integration.title")}
       </h2>

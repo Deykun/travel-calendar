@@ -1,20 +1,21 @@
 import type { MonthNumber } from "@/features/calendar/types";
+import type { DateMMDD, DateYYYYMMDD, DateLike } from "@/types";
 
 // 2026-03-28
-export function getDateRange(from: string, to: string): string[] {
-  const dates: string[] = [];
+export function getDateRange(from: DateLike, to: DateLike): DateYYYYMMDD[] {
+  const dates: DateYYYYMMDD[] = [];
   const current = new Date(from);
   const end = new Date(to);
 
   while (current <= end) {
-    dates.push(current.toISOString().split("T")[0]);
+    dates.push(current.toISOString().split("T")[0] as DateYYYYMMDD);
     current.setDate(current.getDate() + 1);
   }
 
   return dates;
 }
 
-export function stringDateToObject(date: string) {
+export function stringDateToObject(date: DateYYYYMMDD) {
   const parts = date.split("-").map(Number);
   if (parts.length !== 3) {
     console.error(`Invalid date string in ${date}`);
@@ -30,8 +31,8 @@ export function stringDateToObject(date: string) {
 }
 
 // 2026-03-28 -> 03-28
-export function getDateWithoutYear(date: string): string {
-  return date.split("-").slice(1).join("-");
+export function getDateWithoutYear(date: DateYYYYMMDD): DateMMDD {
+  return date.split("-").slice(1).join("-") as DateMMDD;
 }
 
 export function getYearFromDate(date: string): number {
@@ -45,4 +46,17 @@ export function getMonthWithoutDay(date: string): MonthNumber {
 
 export function getIsFuture(date: string): boolean {
   return new Date(date) > new Date();
+}
+
+export function getArrayOfYears(from: DateYYYYMMDD, to: DateYYYYMMDD) {
+  const fromYear = Number(from.split("-").at(0));
+  const toYear = Number(to.split("-").at(0));
+
+  const years: number[] = [];
+
+  for (let year = fromYear; year <= toYear; year++) {
+    years.push(year);
+  }
+
+  return years.reverse();
 }

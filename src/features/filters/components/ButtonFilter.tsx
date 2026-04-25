@@ -1,24 +1,23 @@
 import { Button } from "@/components/button/Button";
 import IconFilter from "@/components/icons/IconFilter";
 import {
-  closeOverModal,
-  openOverModal,
-  useOverModalStore,
-} from "@/features/over-modal/stores/useHoverModalStore";
+  closeSidebar,
+  openSidebar,
+  useSidebarStore,
+} from "@/features/sidebar/stores/useSidebarStore";
 
 export const ButtonFilter = () => {
-  const isModalOpen = useOverModalStore(
-    (state) => state?.modal?.type === "filters",
+  const isSidebarOpen = useSidebarStore(
+    (state) => state?.sidebar?.type === "filters",
   );
 
   return (
     <Button
       onClick={() =>
-        isModalOpen ? closeOverModal() : openOverModal({ type: "filters" })
+        isSidebarOpen ? closeSidebar() : openSidebar({ type: "filters" })
       }
     >
       <IconFilter />
-      <span>Filter</span>
     </Button>
   );
 };

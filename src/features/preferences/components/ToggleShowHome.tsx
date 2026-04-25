@@ -10,7 +10,7 @@ type Props = {
 
 export const ToggleShowHome = ({ className = "" }: Props) => {
   const shouldShowHome = usePreferencesStore(
-    (store) => store.modals.shouldShowHome,
+    (store) => store.sidebars.shouldShowHome,
   );
 
   const { t } = useTranslation();

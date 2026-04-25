@@ -1,10 +1,12 @@
 import usePreferencesStore from "@/features/preferences/stores/usePreferencesStore";
 import { useMemo } from "react";
-import useFiltersStore from "../stores/use-filter-store";
-import useDataStore from "@/features/settings/stores/use-data-store";
+import useFiltersStore from "../stores/useFilterStore";
+import useDataStore from "@/features/settings/stores/useDateStore";
 import { mergeStringsWithUnique } from "@/utils/array";
+import type { DateYYYYMMDD } from "@/types";
 
 const EMPTY_ARRAY: string[] = [];
+const EMPTY_YYYYMMDD_ARRAY: DateYYYYMMDD[] = [];
 
 export type FlagData = {
   countryCode: string;
@@ -28,13 +30,14 @@ type PeriodsIndex = {
 
 export function useFlagsForDay(dayKey: string, shouldForceShowHome?: boolean) {
   const shouldShowHome = usePreferencesStore(
-    (store) => store.modals.shouldShowHome,
+    (store) => store.sidebars.shouldShowHome,
   );
   const homeCountriesCodes = useFiltersStore(
-    (store) => store.homeCountriesCodes || EMPTY_ARRAY,
+    (store) => store.activeFilters.homeCountriesCodes || EMPTY_ARRAY,
   );
   const sourceDates = useFiltersStore(
-    (store) => store.filtered.summaryByDay[dayKey]?.sourceDates || EMPTY_ARRAY,
+    (store) =>
+      store.filtered.summaryByDay[dayKey]?.sourceDates || EMPTY_YYYYMMDD_ARRAY,
   );
   const dataByDay = useDataStore((store) => store.dataByDay);
 
