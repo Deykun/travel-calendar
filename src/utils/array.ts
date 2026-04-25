@@ -8,12 +8,12 @@ export function chunkArray<T>(arr: T[], size: number): T[][] {
   return chunks;
 }
 
-export const mergeStringsWithUnique = (
-  stringsA: string[] | undefined,
-  stringsB: string[] | undefined,
-) => {
-  return Array.from(new Set([...(stringsA || []), ...(stringsB || [])]));
-};
+export function mergeStringsWithUnique<T>(
+  arrayA: T[] | undefined,
+  arrayB: T[] | undefined,
+): T[] {
+  return Array.from(new Set([...(arrayA || []), ...(arrayB || [])]));
+}
 
 export const mergeUniqueAndSort = (
   stringsA: string[] | undefined,

@@ -2,7 +2,7 @@ import { cn } from "@/utils/tailwind";
 import type { PropsWithChildren } from "react";
 import { useTranslation } from "react-i18next";
 import type { FlagData } from "@/features/filters/hooks/useFlagsForDate";
-import { Period } from "@/features/calendar/components-tem/Period";
+import { Period } from "@/features/calendar/components/calendar/Period";
 
 type Props = {
   flags?: FlagData[];
@@ -13,7 +13,6 @@ type Props = {
 export const FlagHoverPanel = ({
   flags = [],
   title,
-  place,
 }: PropsWithChildren<Props>) => {
   const { t } = useTranslation();
 

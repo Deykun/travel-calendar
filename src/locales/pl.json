@@ -19,6 +19,9 @@
   "summary.countries_one": "1 kraj",
   "summary.countries_few": "{{count}} kraje",
   "summary.countries_many": "{{count}} krajów",
+  "preferences.showHome": "Pokaż dom",
+  "preferences.language.title": "Język",
+  "preferences.language.current": "Polski",
   "integration.title": "Integracja",
   "integration.withNomads": "Integracja z nomads.com",
   "integration.lastUpdatePrefix": "Ostatnia aktualizacja"

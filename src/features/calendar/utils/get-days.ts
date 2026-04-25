@@ -15,7 +15,7 @@ const DAYS_IN_MONTH = [
   31, // dec
 ];
 
-export const getDaysGroupedByMonths = (): MonthMetadata[] => {
+const getDaysGroupedByMonths = (): MonthMetadata[] => {
   return DAYS_IN_MONTH.map((numberOfDaysInMonth, monthIndex) => {
     const monthNumber = (monthIndex + 1) as MonthNumber;
 
@@ -28,6 +28,8 @@ export const getDaysGroupedByMonths = (): MonthMetadata[] => {
     };
   });
 };
+
+export const DAYS_GROUPED_BY_MONTHS = getDaysGroupedByMonths();
 
 export const getDaysInMonth = (monthNumber: MonthNumber) => {
   return DAYS_IN_MONTH[monthNumber - 1];

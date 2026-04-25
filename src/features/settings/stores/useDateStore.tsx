@@ -6,6 +6,7 @@ import type {
   MetadataDay,
   MetadataPlace,
   MetadataTrip,
+  DateMMDD,
 } from "../../../types";
 
 type DataStatus = "missing" | "ready";
@@ -16,6 +17,7 @@ export type DataStoreState = {
   status: DataStatus;
   integration: {
     type: IntegrationType | undefined;
+    integrationCode: string | undefined;
     lastUpdate: DateLike | undefined;
   };
   date: {
@@ -24,6 +26,9 @@ export type DataStoreState = {
   };
   totalDaysByCountry: {
     [countryCode: string]: number;
+  };
+  daysByCountry: {
+    [countryCode: string]: DateMMDD[] | undefined;
   };
   placesByKey: {
     [placeKey: string]: MetadataPlace | undefined;
@@ -40,6 +45,7 @@ const emptyStore: DataStoreState = {
   status: "missing",
   integration: {
     type: undefined,
+    integrationCode: undefined,
     lastUpdate: undefined,
   },
   date: {
@@ -47,6 +53,7 @@ const emptyStore: DataStoreState = {
     to: undefined,
   },
   totalDaysByCountry: {},
+  daysByCountry: {},
   placesByKey: {},
   dataByDay: {},
   tripsByKey: {},

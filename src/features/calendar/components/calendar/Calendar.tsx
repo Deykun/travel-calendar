@@ -1,8 +1,6 @@
-import { cn } from "../../../utils/tailwind";
-import { getDaysGroupedByMonths } from "../utils/get-days";
+import { cn } from "@/utils/tailwind";
+import { DAYS_GROUPED_BY_MONTHS } from "../../utils/get-days";
 import { Month } from "./Month";
-
-const calendar = getDaysGroupedByMonths();
 
 type Props = {
   className?: string;
@@ -18,7 +16,7 @@ export const Calendar = ({ className }: Props) => {
         className,
       )}
     >
-      {calendar.map((month) => (
+      {DAYS_GROUPED_BY_MONTHS.map((month) => (
         <Month key={month.monthNumber} month={month} />
       ))}
     </div>

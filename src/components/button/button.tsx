@@ -37,6 +37,7 @@ export const Button = ({
   return (
     <Tag
       className={cn(
+        "group",
         "inline-flex",
         "items-center gap-2",
         "[&>svg]:shrink-0 [&>svg]:size-6",

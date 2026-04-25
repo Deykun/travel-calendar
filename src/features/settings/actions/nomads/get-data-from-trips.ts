@@ -1,8 +1,9 @@
 import type { DateYYYYMMDD } from "@/types";
-import { getDateRange } from "../../../../utils/date";
+import { getDateRange, getDateWithoutYear } from "../../../../utils/date";
 import type { DataStoreState } from "../../stores/useDateStore";
 import { getPlaceKey } from "../../utils/get-place-key";
 import { getCountryCodeFromTrip } from "./utils/get-country-code-from-trip";
+import { mergeStringsWithUnique } from "@/utils/array";
 
 export type IntegrationNomadsTrip = {
   trip_id: string;
@@ -20,7 +21,7 @@ type TotalDaysByCountry = {
 
 type Response = Pick<
   DataStoreState,
-  "placesByKey" | "dataByDay" | "tripsByKey"
+  "placesByKey" | "dataByDay" | "tripsByKey" | "daysByCountry"
 > & {
   totalDaysByCountry: TotalDaysByCountry;
 };
@@ -29,8 +30,7 @@ export const getDataFromTrips = (trips: IntegrationNomadsTrip[]): Response => {
   return trips.reduce(
     (stack: Response, trip) => {
       const dates = getDateRange(trip.date_start, trip.date_end);
-      const countryCode =
-        trip.country_code.toLowerCase() || getCountryCodeFromTrip(trip) || '??';
+      const countryCode = getCountryCodeFromTrip(trip) || "??";
 
       const placeKey = getPlaceKey({
         place: trip.place,
@@ -65,6 +65,8 @@ export const getDataFromTrips = (trips: IntegrationNomadsTrip[]): Response => {
       }
 
       dates.forEach((date) => {
+        const dayWithoutYear = getDateWithoutYear(date);
+
         if (!stack.dataByDay[date]) {
           stack.dataByDay[date] = {
             date,
@@ -73,6 +75,19 @@ export const getDataFromTrips = (trips: IntegrationNomadsTrip[]): Response => {
             tripsKeys: [],
           };
         }
+
+        // daysByCountry
+        stack.dataByDay[date] = {
+          date,
+          countriesCodes: [],
+          placeKeys: [],
+          tripsKeys: [],
+        };
+
+        stack.daysByCountry[countryCode] = mergeStringsWithUnique(
+          stack.daysByCountry[countryCode],
+          [dayWithoutYear],
+        );
 
         stack.dataByDay[date].tripsKeys = [
           ...stack.dataByDay[date].tripsKeys,
@@ -98,6 +113,7 @@ export const getDataFromTrips = (trips: IntegrationNomadsTrip[]): Response => {
       dataByDay: {},
       tripsByKey: {},
       totalDaysByCountry: {},
+      daysByCountry: {},
     },
   );
 };

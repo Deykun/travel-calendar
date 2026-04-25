@@ -21,72 +21,64 @@ export const Checkbox = ({
   frameIcon,
   children,
 }: PropsWithChildren<Props>) => {
-  const Wrapper = children ? "div" : Fragment;
   const Frame = frameIcon ?? IconCheckboxFrame;
 
   return (
-    <Wrapper
+    <button
       className={cn(
+        "group",
         "inline-flex gap-2 items-center",
         "self-start",
-        "py-2 px-2 -mx-2",
+        "py-1 pl-2 pr-3 -mx-2",
         {
           "hover:bg-[#1d1d0f]": !isActive,
           "bg-[#40403f] text-white rounded-sm": isActive,
         },
+        "cursor-pointer",
         "transition-bounce",
         classNameWrapper,
       )}
+      onClick={() => onChange(!isActive)}
     >
-      <Button
+      <span
         className={cn(
           "relative",
           "rounded-sm",
           "shrink-0",
           "p-1",
           "size-6",
-          {
-            "border-transparent hover:bg-[#fffb000d] hover:border-transparent":
-              !isActive,
-          },
+          "text-[#d8da51] hover:text-[#fcff4e]",
           className,
         )}
-        onClick={() => onChange(!isActive)}
-        variant={isActive ? "primary" : "secondary"}
       >
-        <span>
-          <IconCheck
-            className={cn(
-              "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2",
-              "size-5",
-              "duration-300",
-              {
-                "scale-0 opacity-0": !isActive,
-                "scale-100 opacity-100": isActive,
-              },
-            )}
-          />
-          <Frame
-            className={cn(
-              "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2",
-              "size-5",
-              "duration-300",
-              {
-                "scale-100 opacity-0": isActive,
-                "scale-80 opacity-100": !isActive,
-              },
-            )}
-          />
-        </span>
-      </Button>
+        <Frame
+          className={cn(
+            "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2",
+            "size-6",
+            "duration-150",
+            {
+              "scale-0 opacity-0": isActive,
+              "scale-75 opacity-100": !isActive,
+            },
+          )}
+        />
+        <IconCheck
+          className={cn(
+            "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2",
+            "size-6",
+            "duration-150 pointer-events-none",
+            {
+              "scale-300 opacity-0": !isActive,
+              "scale-125 opacity-100": isActive,
+            },
+          )}
+        />
+      </span>
       {children && (
-        <button
-          onClick={() => onChange(!isActive)}
-          className="flex gap-1 items-center text-left text-nowrap"
-        >
+        <span className="flex gap-1 items-center text-left text-nowrap">
           {children}
-        </button>
+        </span>
       )}
-    </Wrapper>
+    </button>
   );
 };

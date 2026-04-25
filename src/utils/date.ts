@@ -1,5 +1,5 @@
 import type { MonthNumber } from "@/features/calendar/types";
-import type { AppMMDD, DateYYYYMMDD, DateLike } from "@/types";
+import type { DateMMDD, DateYYYYMMDD, DateLike } from "@/types";
 
 // 2026-03-28
 export function getDateRange(from: DateLike, to: DateLike): DateYYYYMMDD[] {
@@ -31,8 +31,8 @@ export function stringDateToObject(date: DateYYYYMMDD) {
 }
 
 // 2026-03-28 -> 03-28
-export function getDateWithoutYear(date: DateYYYYMMDD): AppMMDD {
-  return date.split("-").slice(1).join("-") as AppMMDD;
+export function getDateWithoutYear(date: DateYYYYMMDD): DateMMDD {
+  return date.split("-").slice(1).join("-") as DateMMDD;
 }
 
 export function getYearFromDate(date: string): number {

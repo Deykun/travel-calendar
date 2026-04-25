@@ -7,6 +7,7 @@ import { useTranslation } from "react-i18next";
 import useDataStore from "../stores/useDateStore";
 import { getDataFromNomads } from "../actions/get-data-from-nomads";
 import { Button } from "@/components/button/Button";
+import { closeSidebar } from "@/features/sidebar/stores/useSidebarStore";
 
 const sidebarStyles = cn(
   "rounded-lg",
@@ -15,8 +16,11 @@ const sidebarStyles = cn(
 );
 
 export function PaneIntegration() {
+  const integrationCode = useDataStore(
+    (store) => store.integration.integrationCode,
+  );
   const lastUpdate = useDataStore((store) => store.integration.lastUpdate);
-  const [username, setUsername] = useState("deykun");
+  const [username, setUsername] = useState(integrationCode ?? "deykun");
 
   const { t } = useTranslation();
 
@@ -27,7 +31,7 @@ export function PaneIntegration() {
 
     if (username) {
       await getDataFromNomads({ username });
-      closeModal();
+      closeSidebar();
     }
   };
 
@@ -55,7 +59,4 @@ export function PaneIntegration() {
       )}
     </div>
   );
-}
-function closeModal() {
-  throw new Error("Function not implemented.");
 }

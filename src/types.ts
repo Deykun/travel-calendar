@@ -1,7 +1,7 @@
 export type DateLike = Date | number | string;
 
 export type DateYYYYMMDD = `${number}-${number}-${number}`;
-export type AppMMDD = `${number}-${number}`;
+export type DateMMDD = `${number}-${number}`;
 
 export type MetadataPlace = {
   key: string;

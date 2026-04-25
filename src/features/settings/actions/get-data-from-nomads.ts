@@ -26,8 +26,13 @@ export const getDataFromNomads = async ({ username }: Params) => {
     (response) => response.json(),
   )) as unknown as IntegrationNomadsApiResponse;
 
-  const { dataByDay, placesByKey, tripsByKey, totalDaysByCountry } =
-    getDataFromTrips(response.trips);
+  const {
+    dataByDay,
+    placesByKey,
+    tripsByKey,
+    totalDaysByCountry,
+    daysByCountry,
+  } = getDataFromTrips(response.trips);
 
   const mostCommonCountry = Object.entries(totalDaysByCountry).reduce(
     (stack, [countryCode, totalDays = 0]) => {
@@ -49,6 +54,7 @@ export const getDataFromNomads = async ({ username }: Params) => {
     status: "ready",
     integration: {
       type: "nomads.com",
+      integrationCode: username,
       lastUpdate: Date.now(),
     },
     date: {
@@ -56,6 +62,7 @@ export const getDataFromNomads = async ({ username }: Params) => {
       to: sortedDates.at(0),
     },
     totalDaysByCountry,
+    daysByCountry,
     dataByDay,
     placesByKey,
     tripsByKey,

@@ -4,6 +4,7 @@ import { cn } from "@/utils/tailwind";
 
 import useFiltersStore, { setDateFilter } from "../stores/useFilterStore";
 import { Radiobox } from "@/components/radiobox/Radiobox";
+import { MiniCalendar } from "@/features/calendar/components/mini-calendar/MiniCalendar";
 
 const sidebarStyles = cn(
   "rounded-lg",
@@ -27,6 +28,7 @@ export function PaneFilterDate() {
       <div className="flex flex-col gap-1">
         {years.map((year) => {
           const isActive = (activeFrom || "").startsWith(String(year));
+
           return (
             <Radiobox
               key={year}
@@ -37,7 +39,8 @@ export function PaneFilterDate() {
                   : setDateFilter(`${year}-01-01`, `${year}-12-31`)
               }
             >
-              {year}
+              <span>{year}</span>
+              <MiniCalendar title={String(year)} />
             </Radiobox>
           );
         })}

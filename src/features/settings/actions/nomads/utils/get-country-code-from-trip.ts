@@ -11,11 +11,23 @@ const countryByPlace: { [place: string]: string | undefined } = {
   Cyprus: "cy",
   Paraguay: "py",
   Belize: "bz",
+  Tajikistan: "tj",
+  Morocco: "ma",
+};
+
+const countryByCountry: { [place: string]: string | undefined } = {
+  ia: "ir",
 };
 
 export const getCountryCodeFromTrip = (trip: IntegrationNomadsTrip): string => {
   if (typeof trip.place === "string" && countryByPlace[trip.place]) {
     return countryByPlace[trip.place] as string;
+  }
+
+  const countryCodeFromTrip = trip.country_code.toLowerCase();
+
+  if (countryCodeFromTrip) {
+    return countryByCountry[countryCodeFromTrip] ?? countryCodeFromTrip;
   }
 
   console.error(`Missing flag for trip.`, trip);

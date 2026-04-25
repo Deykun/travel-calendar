@@ -1,5 +1,3 @@
-import { cn } from "../../../utils/tailwind";
-
 import IconTravel from "@/components/icons/IconTravel";
 import { FlagHover } from "@/components/flag-hover/FlagHover";
 import useFiltersStore from "@/features/filters/stores/useFilterStore";
@@ -11,6 +9,7 @@ import {
   openSidebar,
   useSidebarStore,
 } from "@/features/sidebar/stores/useSidebarStore";
+import { cn } from "@/utils/tailwind";
 
 type Props = {
   className?: string;
