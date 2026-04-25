@@ -32,6 +32,7 @@ export const getDataFromNomads = async ({ username }: Params) => {
     tripsByKey,
     totalDaysByCountry,
     daysByCountry,
+    daysByCountriesByYear,
   } = getDataFromTrips(response.trips);
 
   const mostCommonCountry = Object.entries(totalDaysByCountry).reduce(
@@ -64,6 +65,7 @@ export const getDataFromNomads = async ({ username }: Params) => {
     totalDaysByCountry,
     daysByCountry,
     dataByDay,
+    daysByCountriesByYear,
     placesByKey,
     tripsByKey,
   });

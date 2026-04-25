@@ -5,6 +5,7 @@ import { cn } from "@/utils/tailwind";
 import useFiltersStore, { setDateFilter } from "../stores/useFilterStore";
 import { Radiobox } from "@/components/radiobox/Radiobox";
 import { MiniCalendar } from "@/features/calendar/components/mini-calendar/MiniCalendar";
+import { MiniCalendarForYear } from "@/features/calendar/components/mini-calendar/MiniCalendarForYear";
 
 const sidebarStyles = cn(
   "rounded-lg",
@@ -40,7 +41,7 @@ export function PaneFilterDate() {
               }
             >
               <span>{year}</span>
-              <MiniCalendar title={String(year)} />
+              <MiniCalendarForYear year={year} />
             </Radiobox>
           );
         })}

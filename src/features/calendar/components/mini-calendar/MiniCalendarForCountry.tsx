@@ -17,7 +17,7 @@ export function MiniCalendarForCountry({ countryCode }: Props) {
 
   return (
     <MiniCalendar activeDays={activeDays}>
-      <div className="flex gap-2 justify-center items-center">
+      <div className="flex gap-2 justify-center items-center -mt-2">
         <ImageFlag countryCode={countryCode} />
         <span>{t(`country.name.${countryCode}`)}</span>
       </div>

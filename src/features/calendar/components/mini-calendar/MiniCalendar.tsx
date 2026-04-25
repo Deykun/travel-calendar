@@ -22,7 +22,7 @@ export const MiniCalendar = ({
       className={cn(
         "px-12",
         "z-50",
-        "p-5 pt-2 text-center rounded-2xl",
+        "p-5 text-center rounded-2xl",
         "text-white bg-black",
         "translate-y-3 group-hover:-translate-y-4",
         "duration-150",
@@ -42,9 +42,9 @@ export const MiniCalendar = ({
         {DAYS_GROUPED_BY_MONTHS.map((month) => (
           <div
             key={month.monthNumber}
-            className={cn("p-1.5 bg-[#3d3d3d6e] rounded-[10px]")}
+            className={cn("p-1.5 bg-[#3d3d3d6e] rounded-sm")}
           >
-            <strong className="block mb-2 text-xs tracking-wider font-semibold">
+            <strong className="block mb-2 text-[10px] tracking-wider font-semibold">
               {t(month.name)}
             </strong>
             <div className={cn("grid grid-cols-7 gap-x-1 gap-y-1")}>

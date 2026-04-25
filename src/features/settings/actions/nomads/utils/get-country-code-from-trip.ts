@@ -1,6 +1,6 @@
 import type { IntegrationNomadsTrip } from "../get-data-from-trips";
 
-const countryByPlace: { [place: string]: string | undefined } = {
+const countryByLocation: { [location: string]: string | undefined } = {
   "Sri Lanka": "lk",
   Malta: "mt",
   "Costa Rica": "cr",
@@ -13,6 +13,12 @@ const countryByPlace: { [place: string]: string | undefined } = {
   Belize: "bz",
   Tajikistan: "tj",
   Morocco: "ma",
+  Tachileik: "mm",
+  "Sint Maarten": "sx",
+  "Saint Lucia": "lc",
+  "Antigua and Barbuda": "ag",
+  Carcassonne: "fr",
+  Colombia: 'co'
 };
 
 const countryByCountry: { [place: string]: string | undefined } = {
@@ -20,8 +26,12 @@ const countryByCountry: { [place: string]: string | undefined } = {
 };
 
 export const getCountryCodeFromTrip = (trip: IntegrationNomadsTrip): string => {
-  if (typeof trip.place === "string" && countryByPlace[trip.place]) {
-    return countryByPlace[trip.place] as string;
+  if (typeof trip.place === "string" && countryByLocation[trip.place]) {
+    return countryByLocation[trip.place] as string;
+  }
+
+  if (typeof trip.country === "string" && countryByLocation[trip.country]) {
+    return countryByLocation[trip.country] as string;
   }
 
   const countryCodeFromTrip = trip.country_code.toLowerCase();

@@ -77,7 +77,7 @@ export const Day = ({ className = "", dayNumber, dayKey }: Props) => {
         shouldSkipGroup
       >
         <IconTravel total={total} />
-        <p className={cn("text-sm tracking-wider")}>{dayNumber}</p>
+        <p className={cn("text-sm tracking-wider transition-bounce")}>{dayNumber}</p>
       </FlagHover>
     </button>
   );

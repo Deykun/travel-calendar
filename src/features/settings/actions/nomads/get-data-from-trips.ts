@@ -1,5 +1,9 @@
 import type { DateYYYYMMDD } from "@/types";
-import { getDateRange, getDateWithoutYear } from "../../../../utils/date";
+import {
+  getDateRange,
+  getDateWithoutYear,
+  stringDateToObject,
+} from "../../../../utils/date";
 import type { DataStoreState } from "../../stores/useDateStore";
 import { getPlaceKey } from "../../utils/get-place-key";
 import { getCountryCodeFromTrip } from "./utils/get-country-code-from-trip";
@@ -11,6 +15,7 @@ export type IntegrationNomadsTrip = {
   date_end: DateYYYYMMDD;
   place: string;
   country_code: string;
+  country: string;
   latitude?: number | undefined;
   longitude?: number | undefined;
 };
@@ -21,7 +26,11 @@ type TotalDaysByCountry = {
 
 type Response = Pick<
   DataStoreState,
-  "placesByKey" | "dataByDay" | "tripsByKey" | "daysByCountry"
+  | "placesByKey"
+  | "dataByDay"
+  | "tripsByKey"
+  | "daysByCountry"
+  | "daysByCountriesByYear"
 > & {
   totalDaysByCountry: TotalDaysByCountry;
 };
@@ -76,7 +85,6 @@ export const getDataFromTrips = (trips: IntegrationNomadsTrip[]): Response => {
           };
         }
 
-        // daysByCountry
         stack.dataByDay[date] = {
           date,
           countriesCodes: [],
@@ -86,6 +94,17 @@ export const getDataFromTrips = (trips: IntegrationNomadsTrip[]): Response => {
 
         stack.daysByCountry[countryCode] = mergeStringsWithUnique(
           stack.daysByCountry[countryCode],
+          [dayWithoutYear],
+        );
+
+        const { year } = stringDateToObject(date);
+
+        if (!stack.daysByCountriesByYear[year]) {
+          stack.daysByCountriesByYear[year] = {};
+        }
+
+        stack.daysByCountriesByYear[year][countryCode] = mergeStringsWithUnique(
+          stack.daysByCountriesByYear[year][countryCode],
           [dayWithoutYear],
         );
 
@@ -114,6 +133,7 @@ export const getDataFromTrips = (trips: IntegrationNomadsTrip[]): Response => {
       tripsByKey: {},
       totalDaysByCountry: {},
       daysByCountry: {},
+      daysByCountriesByYear: {},
     },
   );
 };
