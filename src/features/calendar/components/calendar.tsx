@@ -13,6 +13,8 @@ export const Calendar = ({ className }: Props) => {
     <div
       className={cn(
         "grid grid-cols-[repeat(auto-fit,minmax(380px,1fr))] gap-8",
+        "px-12",
+        "overflow-hidden",
         className,
       )}
     >

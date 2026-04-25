@@ -5,13 +5,13 @@ import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
 
 export type PreferencesStoreState = {
-  modals: {
+  sidebars: {
     shouldShowHome: boolean;
   };
 };
 
 const emptyStore: PreferencesStoreState = {
-  modals: {
+  sidebars: {
     shouldShowHome: false,
   },
 };
@@ -30,9 +30,9 @@ export const usePreferencesStore = create<PreferencesStoreState>()(
 
 export const toggleShouldShowHomeInModal = () => {
   usePreferencesStore.setState((state) => ({
-    modals: {
-      ...state.modals,
-      shouldShowHome: !state.modals.shouldShowHome,
+    sidebars: {
+      ...state.sidebars,
+      shouldShowHome: !state.sidebars.shouldShowHome,
     },
   }));
 };

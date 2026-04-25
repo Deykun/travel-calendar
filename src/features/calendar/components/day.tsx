@@ -4,10 +4,10 @@ import IconTravel from "@/components/icons/IconTravel";
 import { FlagHover } from "@/components/flag-hover/FlagHover";
 import useFiltersStore from "@/features/filters/stores/useFilterStore";
 import {
-  closeOverModal,
-  openOverModal,
-  useOverModalStore,
-} from "@/features/over-modal/stores/useHoverModalStore";
+  closeSidebar,
+  openSidebar,
+  useSidebarStore,
+} from "@/features/sidebar/stores/useSidebarModalStore";
 import { useCallback } from "react";
 import { useFlagsForDay } from "@/features/filters/hooks/useFlagsForDate";
 
@@ -20,8 +20,8 @@ type Props = {
 const EMPTY_ARRAY: string[] = [];
 
 export const Day = ({ className = "", dayNumber, dayKey }: Props) => {
-  const isModalOpen = useOverModalStore(
-    (state) => state?.modal?.type === "day" && state.modal.dayKey === dayKey,
+  const isSidebarOpen = useSidebarStore(
+    (state) => state?.sidebar?.type === "day" && state.sidebar.dayKey === dayKey,
   );
   const countriesCodes = useFiltersStore(
     (store) =>
@@ -42,14 +42,14 @@ export const Day = ({ className = "", dayNumber, dayKey }: Props) => {
   const total = countriesCodes.length;
 
   const handleClick = useCallback(() => {
-    if (isModalOpen) {
-      closeOverModal();
+    if (isSidebarOpen) {
+      closeSidebar();
 
       return;
     }
 
-    openOverModal({ type: "day", dayKey });
-  }, [dayKey, isModalOpen]);
+    openSidebar({ type: "day", dayKey });
+  }, [dayKey, isSidebarOpen]);
 
   return (
     <button
@@ -62,10 +62,10 @@ export const Day = ({ className = "", dayNumber, dayKey }: Props) => {
         "group",
         {
           "text-[#979797] hover:bg-[#fffb000d] hover:text-white":
-            !isModalOpen && total > 0,
+            !isSidebarOpen && total > 0,
           "text-[#3d3d3d] hover:bg-[#4545341c] hover:text-[#656565]":
-            !isModalOpen && total === 0,
-          "text-white bg-[#fff3] shadow-[0_0_15px_#021019]": isModalOpen,
+            !isSidebarOpen && total === 0,
+          "text-white bg-[#fff3] shadow-[0_0_15px_#021019]": isSidebarOpen,
         },
         className,
       )}

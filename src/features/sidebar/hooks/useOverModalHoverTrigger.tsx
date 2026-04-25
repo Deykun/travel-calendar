@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
-import { openOverModal, type OverModal } from "../stores/useHoverModalStore";
+import { openSidebar, type OverModal } from "../stores/useSidebarModalStore";
 
-export const useOverModalHoverTrigger = (modal: OverModal) => {
+export const useOverModalHoverTrigger = (sidebar: OverModal) => {
   const ref = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -11,12 +11,12 @@ export const useOverModalHoverTrigger = (modal: OverModal) => {
     }
 
     const handleMouseEnter = () => {
-      // console.log("mouseenter", modal);
-      openOverModal(modal);
+      // console.log("mouseenter", sidebar);
+      openSidebar(sidebar);
     };
 
     const handleMouseLeave = () => {
-      // console.log("mouseleave", modal);
+      // console.log("mouseleave", sidebar);
     };
 
     element.addEventListener("mouseenter", handleMouseEnter);
@@ -26,7 +26,7 @@ export const useOverModalHoverTrigger = (modal: OverModal) => {
       element.removeEventListener("mouseenter", handleMouseEnter);
       element.removeEventListener("mouseleave", handleMouseLeave);
     };
-  }, [modal]);
+  }, [sidebar]);
 
   return ref;
 };

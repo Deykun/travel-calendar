@@ -30,7 +30,7 @@ type PeriodsIndex = {
 
 export function useFlagsForDay(dayKey: string, shouldForceShowHome?: boolean) {
   const shouldShowHome = usePreferencesStore(
-    (store) => store.modals.shouldShowHome,
+    (store) => store.sidebars.shouldShowHome,
   );
   const homeCountriesCodes = useFiltersStore(
     (store) => store.activeFilters.homeCountriesCodes || EMPTY_ARRAY,

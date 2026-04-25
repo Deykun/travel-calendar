@@ -4,7 +4,7 @@ import useFiltersStore, {
   toggleHomeCountry,
 } from "@/features/filters/stores/useFilterStore";
 import useDataStore from "@/features/settings/stores/useDateStore";
-import { closeOverModal } from "@/features/over-modal/stores/useHoverModalStore";
+import { closeSidebar } from "@/features/sidebar/stores/useSidebarModalStore";
 import { cn } from "@/utils/tailwind";
 import { useTranslation } from "react-i18next";
 
@@ -31,7 +31,7 @@ export const PaneFilterHome = ({ className = "" }: Props) => {
       )}
     >
       <h3>Consider home</h3>
-      <button className="absolute top-2 right-2" onClick={closeOverModal}>
+      <button className="absolute top-2 right-2" onClick={closeSidebar}>
         <IconX className="size-6" />
       </button>
       {Object.entries(totalDaysByCountry).map(([country, total]) =>

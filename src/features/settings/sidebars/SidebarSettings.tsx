@@ -1,7 +1,7 @@
 import { PaneIntegration } from "../panes/PaneIntegration";
 import { PaneLanguage } from "../panes/PaneLanguage";
 
-export function ModalSettings() {
+export function SidebarSettings() {
   return (
     <div className="flex flex-col gap-6">
       <PaneIntegration />

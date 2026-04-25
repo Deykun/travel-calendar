@@ -5,7 +5,7 @@ type Props = {
   className?: string;
 };
 
-export const ModalFilters = ({ className = "" }: Props) => {
+export const SidebarFilters = ({ className = "" }: Props) => {
   return (
     <div className="flex flex-col gap-6">
       <PaneFilterDate />

@@ -1,4 +1,7 @@
-import { setHomeCountriesCodes } from "@/features/filters/stores/useFilterStore";
+import {
+  setDateFilter,
+  setHomeCountriesCodes,
+} from "@/features/filters/stores/useFilterStore";
 import { setIntegration } from "../stores/useDateStore";
 import {
   getDataFromTrips,
@@ -61,6 +64,8 @@ export const getDataFromNomads = async ({ username }: Params) => {
   if (mostCommonCountry.countryCode) {
     setHomeCountriesCodes([mostCommonCountry.countryCode]);
   }
+
+  setDateFilter(undefined, undefined);
 
   return response;
 };
