@@ -1,10 +1,8 @@
 import { Checkbox } from "@/components/checkbox/Checkbox";
-import IconX from "@/components/icons/IconX";
 import useFiltersStore, {
   toggleHomeCountry,
 } from "@/features/filters/stores/useFilterStore";
 import useDataStore from "@/features/settings/stores/useDateStore";
-import { closeSidebar } from "@/features/sidebar/stores/useSidebarModalStore";
 import { cn } from "@/utils/tailwind";
 import { useTranslation } from "react-i18next";
 
@@ -30,24 +28,23 @@ export const PaneFilterHome = ({ className = "" }: Props) => {
         className,
       )}
     >
-      <h3>Consider home</h3>
-      <button className="absolute top-2 right-2" onClick={closeSidebar}>
-        <IconX className="size-6" />
-      </button>
-      {Object.entries(totalDaysByCountry).map(([country, total]) =>
-        total < 0 ? null : (
-          <Checkbox
-            key={country}
-            isActive={homeCountriesCodes.includes(country)}
-            onChange={() => toggleHomeCountry(country)}
-          >
-            {t(`country.name.${country}`)}
-            <strong className="font-semibold text-white">
-              {t("summary.days", { postProcess: "interval", count: total })}
-            </strong>
-          </Checkbox>
-        ),
-      )}
+      <h2 className="text-xl text-white font-semibold mb-2">Consider home</h2>
+      <div className="flex flex-col gap-1">
+        {Object.entries(totalDaysByCountry).map(([country, total]) =>
+          total < 0 ? null : (
+            <Checkbox
+              key={country}
+              isActive={homeCountriesCodes.includes(country)}
+              onChange={() => toggleHomeCountry(country)}
+            >
+              {t(`country.name.${country}`)}
+              <strong className="font-semibold text-white">
+                {t("summary.days", { postProcess: "interval", count: total })}
+              </strong>
+            </Checkbox>
+          ),
+        )}
+      </div>
     </div>
   );
 };

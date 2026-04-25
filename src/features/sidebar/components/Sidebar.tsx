@@ -17,28 +17,25 @@ export function Sidebar({ className = "" }: Props) {
         "h-dvh",
         "overflow-auto",
         "w-95",
-        "transition-bounce",
         "p-6",
         "bg-[#111110]",
-        "border-l border-l-[#2b2b27]",
+        "border-r-2 border-r-[#2b2b27]",
         className,
       )}
     >
-      <div className={cn("sticky top-6")}>
-        <header className={cn("flex flex-wrap gap-3", "bg-[#111110] p-6")}>
-          <ButtonUpdate />
-          <ButtonFilter />
-          <Button
-            tagName="a"
-            href="https://github.com/Deykun/travel-calendar"
-            target="_blank"
-          >
-            <IconGithub />
-            <span>Repository</span>
-          </Button>
-        </header>
-        <SidebarContent />
-      </div>
+      <header className={cn("flex flex-wrap gap-3", "bg-[#111110] p-6")}>
+        <ButtonUpdate />
+        <ButtonFilter />
+        <Button
+          tagName="a"
+          href="https://github.com/Deykun/travel-calendar"
+          target="_blank"
+        >
+          <IconGithub />
+          <span>Repository</span>
+        </Button>
+      </header>
+      <SidebarContent />
     </aside>
   );
 }

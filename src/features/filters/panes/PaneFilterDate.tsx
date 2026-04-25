@@ -5,7 +5,11 @@ import { cn } from "@/utils/tailwind";
 import useFiltersStore, { setDateFilter } from "../stores/useFilterStore";
 import { Radiobox } from "@/components/radiobox/Radiobox";
 
-const sidebarStyles = cn("rounded-lg", "p-4", "bg-black border border-[#2b2b27]");
+const sidebarStyles = cn(
+  "rounded-lg",
+  "p-4",
+  "bg-black border border-[#2b2b27]",
+);
 
 export function PaneFilterDate() {
   const activeFrom = useFiltersStore((store) => store.activeFilters.from);
@@ -19,23 +23,25 @@ export function PaneFilterDate() {
 
   return (
     <div className={cn(sidebarStyles, "flex flex-wrap flex-col gap-2")}>
-      <h2 className="text-xl text-white font-semibold mb-2">Limit</h2>
-      {years.map((year) => {
-        const isActive = (activeFrom || "").startsWith(String(year));
-        return (
-          <Radiobox
-            key={year}
-            isActive={isActive}
-            onChange={() =>
-              isActive
-                ? setDateFilter(undefined, undefined)
-                : setDateFilter(`${year}-01-01`, `${year}-12-31`)
-            }
-          >
-            {year}
-          </Radiobox>
-        );
-      })}
+      <h2 className="text-xl text-white font-semibold mb-2">Date</h2>
+      <div className="flex flex-col gap-1">
+        {years.map((year) => {
+          const isActive = (activeFrom || "").startsWith(String(year));
+          return (
+            <Radiobox
+              key={year}
+              isActive={isActive}
+              onChange={() =>
+                isActive
+                  ? setDateFilter(undefined, undefined)
+                  : setDateFilter(`${year}-01-01`, `${year}-12-31`)
+              }
+            >
+              {year}
+            </Radiobox>
+          );
+        })}
+      </div>
     </div>
   );
 }

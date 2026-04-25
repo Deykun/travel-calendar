@@ -1,9 +1,9 @@
 import IconTravel from "@/components/icons/IconTravel";
 import useFiltersStore from "@/features/filters/stores/useFilterStore";
-import { closeSidebar } from "@/features/sidebar/stores/useSidebarStore";
+import { closeOverModal } from "@/features/over-modal/stores/useHoverModalStore";
 import { cn } from "@/utils/tailwind";
 import { useEffect, useState } from "react";
-import { DayTripDetails } from "./day/DayTripDetails";
+import { DayTripDetails } from "./parts/DayTripDetails";
 import { DatetimeDay } from "@/components/datetime/datetime-day";
 import IconX from "@/components/icons/IconX";
 import { ToggleShowHome } from "@/features/preferences/components/ToggleShowHome";
@@ -17,7 +17,7 @@ type Props = {
 
 const EMPTY_ARRAY: string[] = [];
 
-const sidebarStyles = cn("rounded-lg", "p-4", "bg-black border border-[#2b2b27]");
+const modalStyles = cn("rounded-lg", "p-4", "bg-black border border-[#2b2b27]");
 
 const getFlagKey = ({
   year,
@@ -65,11 +65,11 @@ export const SidebarDay = ({ className, dayKey }: Props) => {
 
   return (
     <>
-      <div className={cn("text-center relative", sidebarStyles, className)}>
+      <div className={cn("text-center relative", modalStyles, className)}>
         <h2 className="text-2xl text-white font-semibold mb-6">
           <DatetimeDay date={`2000-${dayKey}`} />
         </h2>
-        <button className="absolute top-2 right-2" onClick={closeSidebar}>
+        <button className="absolute top-2 right-2" onClick={closeOverModal}>
           <IconX className="size-6" />
         </button>
         <div className="grid grid-cols-2 gap-2 mb-4">
@@ -110,7 +110,7 @@ export const SidebarDay = ({ className, dayKey }: Props) => {
         <ToggleShowHome className="mt-4" />
       </div>
       {details.tripsKeys.length > 0 && (
-        <div className={cn(sidebarStyles, "mt-8", "flex flex-col gap-5")}>
+        <div className={cn(modalStyles, "mt-8", "flex flex-col gap-5")}>
           {details.tripsKeys.map((tripKey) => (
             <DayTripDetails
               key={tripKey}

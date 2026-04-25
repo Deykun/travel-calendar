@@ -14,16 +14,18 @@ export function PaneLanguage() {
 
   return (
     <div className={cn(sidebarStyles, "flex flex-col gap-2")}>
-      <h2>Language</h2>
-      {SUPPORTED_LANGS.map((lang) => (
-        <Radiobox
-          key={lang}
-          isActive={lang === i18n.language}
-          onChange={() => i18n.changeLanguage(lang)}
-        >
-          <span className="uppercase">{lang}</span>
-        </Radiobox>
-      ))}
+      <h2 className="text-xl text-white font-semibold mb-2">Language</h2>
+      <div className="flex flex-col gap-1">
+        {SUPPORTED_LANGS.map((lang) => (
+          <Radiobox
+            key={lang}
+            isActive={lang === i18n.language}
+            onChange={() => i18n.changeLanguage(lang)}
+          >
+            <span className="uppercase">{lang}</span>
+          </Radiobox>
+        ))}
+      </div>
     </div>
   );
 }

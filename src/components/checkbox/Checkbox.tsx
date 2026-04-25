@@ -25,11 +25,24 @@ export const Checkbox = ({
   const Frame = frameIcon ?? IconCheckboxFrame;
 
   return (
-    <Wrapper className={cn("flex gap-2 items-center", classNameWrapper)}>
+    <Wrapper
+      className={cn(
+        "inline-flex gap-2 items-center",
+        "self-start",
+        "py-2 px-2 -mx-2",
+        {
+          "hover:bg-[#1d1d0f]": !isActive,
+          "bg-[#40403f] text-white rounded-sm": isActive,
+        },
+        "transition-bounce",
+        classNameWrapper,
+      )}
+    >
       <Button
         className={cn(
           "relative",
           "rounded-sm",
+          "shrink-0",
           "p-1",
           "size-6",
           {
@@ -69,7 +82,7 @@ export const Checkbox = ({
       {children && (
         <button
           onClick={() => onChange(!isActive)}
-          className="flex gap-1 items-center"
+          className="flex gap-1 items-center text-left text-nowrap"
         >
           {children}
         </button>

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { SidebarSettings } from "@/features/settings/sidebars/SidebarSettings";
-import { useSidebarStore, type Sidebar } from "../stores/useSidebarModalStore";
+import { useSidebarStore, type Sidebar } from "../stores/useSidebarStore";
 import { SidebarDay } from "@/features/calendar/sidebars/sidebar-day/SidebarDay";
 import { SidebarFilters } from "@/features/filters/sidebars/SidebarFilters";
 

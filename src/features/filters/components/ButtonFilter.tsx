@@ -4,7 +4,7 @@ import {
   closeSidebar,
   openSidebar,
   useSidebarStore,
-} from "@/features/sidebar/stores/useSidebarModalStore";
+} from "@/features/sidebar/stores/useSidebarStore";
 
 export const ButtonFilter = () => {
   const isSidebarOpen = useSidebarStore(
@@ -18,7 +18,6 @@ export const ButtonFilter = () => {
       }
     >
       <IconFilter />
-      <span>Filter</span>
     </Button>
   );
 };

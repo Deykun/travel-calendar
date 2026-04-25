@@ -1,4 +1,4 @@
-import { PlaceName } from "@/features/calendar/components/PlaceName";
+import { PlaceName } from "@/features/calendar/components-tem/PlaceName";
 import useDataStore from "@/features/settings/stores/useDateStore";
 import { cn } from "@/utils/tailwind";
 import { useTranslation } from "react-i18next";

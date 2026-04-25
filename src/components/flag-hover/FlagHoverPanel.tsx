@@ -2,7 +2,7 @@ import { cn } from "@/utils/tailwind";
 import type { PropsWithChildren } from "react";
 import { useTranslation } from "react-i18next";
 import type { FlagData } from "@/features/filters/hooks/useFlagsForDate";
-import { Period } from "@/features/calendar/components/Period";
+import { Period } from "@/features/calendar/components-tem/Period";
 
 type Props = {
   flags?: FlagData[];

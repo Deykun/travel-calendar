@@ -30,7 +30,7 @@ export const getDataFromTrips = (trips: IntegrationNomadsTrip[]): Response => {
     (stack: Response, trip) => {
       const dates = getDateRange(trip.date_start, trip.date_end);
       const countryCode =
-        trip.country_code.toLowerCase() || getCountryCodeFromTrip(trip);
+        trip.country_code.toLowerCase() || getCountryCodeFromTrip(trip) || '??';
 
       const placeKey = getPlaceKey({
         place: trip.place,

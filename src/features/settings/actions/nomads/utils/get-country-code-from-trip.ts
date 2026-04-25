@@ -10,6 +10,7 @@ const countryByPlace: { [place: string]: string | undefined } = {
   Malé: "mv",
   Cyprus: "cy",
   Paraguay: "py",
+  Belize: "bz",
 };
 
 export const getCountryCodeFromTrip = (trip: IntegrationNomadsTrip): string => {

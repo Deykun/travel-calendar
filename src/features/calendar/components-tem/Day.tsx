@@ -3,13 +3,14 @@ import { cn } from "../../../utils/tailwind";
 import IconTravel from "@/components/icons/IconTravel";
 import { FlagHover } from "@/components/flag-hover/FlagHover";
 import useFiltersStore from "@/features/filters/stores/useFilterStore";
+
+import { useCallback } from "react";
+import { useFlagsForDay } from "@/features/filters/hooks/useFlagsForDate";
 import {
   closeSidebar,
   openSidebar,
   useSidebarStore,
-} from "@/features/sidebar/stores/useSidebarModalStore";
-import { useCallback } from "react";
-import { useFlagsForDay } from "@/features/filters/hooks/useFlagsForDate";
+} from "@/features/sidebar/stores/useSidebarStore";
 
 type Props = {
   className?: string;
@@ -21,7 +22,8 @@ const EMPTY_ARRAY: string[] = [];
 
 export const Day = ({ className = "", dayNumber, dayKey }: Props) => {
   const isSidebarOpen = useSidebarStore(
-    (state) => state?.sidebar?.type === "day" && state.sidebar.dayKey === dayKey,
+    (state) =>
+      state?.sidebar?.type === "day" && state.sidebar.dayKey === dayKey,
   );
   const countriesCodes = useFiltersStore(
     (store) =>
@@ -37,7 +39,7 @@ export const Day = ({ className = "", dayNumber, dayKey }: Props) => {
     (store) => store.filtered.summary.maxCountriesInDay,
   );
 
-   const flags = useFlagsForDay(dayKey, false);
+  const flags = useFlagsForDay(dayKey, false);
 
   const total = countriesCodes.length;
 
@@ -65,7 +67,7 @@ export const Day = ({ className = "", dayNumber, dayKey }: Props) => {
             !isSidebarOpen && total > 0,
           "text-[#3d3d3d] hover:bg-[#4545341c] hover:text-[#656565]":
             !isSidebarOpen && total === 0,
-          "text-white bg-[#fff3] shadow-[0_0_15px_#021019]": isSidebarOpen,
+          "text-white bg-[#fff3]": isSidebarOpen,
         },
         className,
       )}
