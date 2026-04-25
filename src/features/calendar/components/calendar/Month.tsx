@@ -4,9 +4,11 @@ import { Day } from "./Day";
 
 import useFiltersStore from "@/features/filters/stores/useFilterStore";
 import { FlagHover } from "@/components/flag-hover/FlagHover";
-import { getDaysInMonth } from "date-fns";
+
 import { cn } from "@/utils/tailwind";
 import { getDayKey } from "@/features/settings/utils/get-day-key";
+import type { MonthMetadata } from "../../types";
+import { getDaysInMonth } from "../../utils/get-days";
 
 type Props = {
   className?: string;
@@ -72,9 +74,7 @@ export const Month = ({ className = "", month }: Props) => {
       >
         {daysAbroad || 0} / {daysInMonth}
       </span>
-      <div
-        className={cn("grid grid-cols-7 gap-x-1.5 gap-y-1")}
-      >
+      <div className={cn("grid grid-cols-7 gap-x-1.5 gap-y-1")}>
         {month.days.map((day) => (
           <Day
             key={day}
