@@ -2,7 +2,7 @@ import { cn } from "../../../utils/tailwind";
 
 import IconTravel from "@/components/icons/IconTravel";
 import { FlagHover } from "@/components/flag-hover/FlagHover";
-import useFiltersStore from "@/features/filters/stores/use-filter-store";
+import useFiltersStore from "@/features/filters/stores/useFilterStore";
 import {
   closeOverModal,
   openOverModal,

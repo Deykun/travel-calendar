@@ -1,5 +1,8 @@
 export type DateLike = Date | number | string;
 
+export type DateYYYYMMDD = `${number}-${number}-${number}`;
+export type AppMMDD = `${number}-${number}`;
+
 export type MetadataPlace = {
   key: string;
   name: string;
@@ -10,7 +13,7 @@ export type MetadataPlace = {
 };
 
 export type MetadataDay = {
-  date: string;
+  date: DateYYYYMMDD;
   countriesCodes: string[];
   placeKeys: string[];
   tripsKeys: string[];
@@ -20,8 +23,8 @@ export type MetadataTrip = {
   key: string;
   placeKey: string;
   countryCode: string;
-  from: string;
-  to: string;
+  from: DateYYYYMMDD;
+  to: DateYYYYMMDD;
   days: number;
 };
 

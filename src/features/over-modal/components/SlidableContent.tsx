@@ -13,6 +13,7 @@ export function SlidableContent({ children }: PropsWithChildren) {
           "relative",
           "transition-bounce",
           "@container",
+          "pr-[370px]",
         )}
       >
         <div>{children}</div>

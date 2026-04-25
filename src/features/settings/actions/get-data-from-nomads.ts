@@ -1,9 +1,10 @@
-import { setHomeCountriesCodes } from "@/features/filters/stores/use-filter-store";
-import { setIntegration } from "../stores/use-data-store";
+import { setHomeCountriesCodes } from "@/features/filters/stores/useFilterStore";
+import { setIntegration } from "../stores/useDateStore";
 import {
   getDataFromTrips,
   type IntegrationNomadsTrip,
 } from "./nomads/get-data-from-trips";
+import type { DateYYYYMMDD } from "@/types";
 
 type Params = {
   username: string;
@@ -39,11 +40,17 @@ export const getDataFromNomads = async ({ username }: Params) => {
     },
   );
 
+  const sortedDates = Object.keys(dataByDay) as DateYYYYMMDD[];
+
   setIntegration({
     status: "ready",
     integration: {
       type: "nomads.com",
       lastUpdate: Date.now(),
+    },
+    date: {
+      from: sortedDates.at(-1),
+      to: sortedDates.at(0),
     },
     totalDaysByCountry,
     dataByDay,

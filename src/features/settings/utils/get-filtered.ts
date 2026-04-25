@@ -5,21 +5,34 @@ import {
   getMonthWithoutDay,
   stringDateToObject,
 } from "../../../utils/date";
-import type { DataStoreState } from "../stores/use-data-store";
+import type { DataStoreState } from "../stores/useDateStore";
 import useFiltersStore, {
   type FiltersStoreState,
-} from "@/features/filters/stores/use-filter-store";
+} from "@/features/filters/stores/useFilterStore";
 import { mergeStringsWithUnique, mergeUniqueAndSort } from "@/utils/array";
+import { isBefore } from "date-fns/isBefore";
+import { isAfter } from "date-fns";
 
 export const getFiltered = (
   dataByDay: DataStoreState["dataByDay"],
 ): FiltersStoreState["filtered"] => {
-  const { homeCountriesCodes } = useFiltersStore.getState();
+  const { homeCountriesCodes, from, to } =
+    useFiltersStore.getState().activeFilters;
 
   const summaryByDay: FiltersStoreState["filtered"]["summaryByDay"] =
     Object.values(dataByDay).reduce(
       (stack: FiltersStoreState["filtered"]["summaryByDay"], dataDay) => {
         if (!dataDay) {
+          return stack;
+        }
+
+        const isBeforeRange = from && isBefore(dataDay.date, from);
+        if (isBeforeRange) {
+          return stack;
+        }
+
+        const isAfterRange = to && isAfter(dataDay.date, to);
+        if (isAfterRange) {
           return stack;
         }
 

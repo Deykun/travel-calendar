@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
 import type {
+  DateYYYYMMDD,
   DateLike,
   MetadataDay,
   MetadataPlace,
@@ -17,6 +18,10 @@ export type DataStoreState = {
     type: IntegrationType | undefined;
     lastUpdate: DateLike | undefined;
   };
+  date: {
+    from: DateYYYYMMDD | undefined;
+    to: DateYYYYMMDD | undefined;
+  };
   totalDaysByCountry: {
     [countryCode: string]: number;
   };
@@ -24,7 +29,7 @@ export type DataStoreState = {
     [placeKey: string]: MetadataPlace | undefined;
   };
   dataByDay: {
-    [dayKey: string]: MetadataDay | undefined;
+    [dayKey: DateYYYYMMDD]: MetadataDay | undefined;
   };
   tripsByKey: {
     [tripKey: string]: MetadataTrip | undefined;
@@ -36,6 +41,10 @@ const emptyStore: DataStoreState = {
   integration: {
     type: undefined,
     lastUpdate: undefined,
+  },
+  date: {
+    from: undefined,
+    to: undefined,
   },
   totalDaysByCountry: {},
   placesByKey: {},

@@ -1,6 +1,7 @@
 import type { MonthNumber } from "@/features/calendar/types";
-import useDataStore from "@/features/settings/stores/use-data-store";
+import useDataStore from "@/features/settings/stores/useDateStore";
 import { getFiltered } from "@/features/settings/utils/get-filtered";
+import type { DateYYYYMMDD } from "@/types";
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
 
@@ -11,7 +12,7 @@ type SummaryDay = {
     [year: number]: string[];
   };
   yearsAbroad: string[];
-  sourceDates: string[];
+  sourceDates: DateYYYYMMDD[];
 };
 
 type SummaryMonth = {
@@ -22,7 +23,11 @@ type SummaryMonth = {
 };
 
 export type FiltersStoreState = {
-  homeCountriesCodes: string[];
+  activeFilters: {
+    homeCountriesCodes: string[];
+    from: DateYYYYMMDD | undefined;
+    to: DateYYYYMMDD | undefined;
+  };
   filtered: {
     summary: {
       maxCountriesInDay: number;
@@ -37,7 +42,11 @@ export type FiltersStoreState = {
 };
 
 const emptyStore: FiltersStoreState = {
-  homeCountriesCodes: [],
+  activeFilters: {
+    homeCountriesCodes: [],
+    from: undefined,
+    to: undefined,
+  },
   filtered: {
     summary: {
       maxCountriesInDay: 0,
@@ -72,18 +81,46 @@ export const refreshFiltered = () => {
 };
 
 export const setHomeCountriesCodes = (countriesCodes: string[]) => {
-  useFiltersStore.setState({
-    homeCountriesCodes: countriesCodes,
-  });
+  useFiltersStore.setState((state) => ({
+    ...state,
+    activeFilters: {
+      ...state.activeFilters,
+      homeCountriesCodes: countriesCodes,
+    },
+  }));
 
   refreshFiltered();
 };
 
 export const toggleHomeCountry = (countryCode: string) => {
   useFiltersStore.setState((state) => ({
-    homeCountriesCodes: state.homeCountriesCodes.includes(countryCode)
-      ? state.homeCountriesCodes.filter((code) => code !== countryCode)
-      : [...state.homeCountriesCodes, countryCode],
+    ...state,
+    activeFilters: {
+      ...state.activeFilters,
+      homeCountriesCodes: state.activeFilters.homeCountriesCodes.includes(
+        countryCode,
+      )
+        ? state.activeFilters.homeCountriesCodes.filter(
+            (code) => code !== countryCode,
+          )
+        : [...state.activeFilters.homeCountriesCodes, countryCode],
+    },
+  }));
+
+  refreshFiltered();
+};
+
+export const setDateFilter = (
+  from: DateYYYYMMDD | undefined,
+  to: DateYYYYMMDD | undefined,
+) => {
+  useFiltersStore.setState((state) => ({
+    ...state,
+    activeFilters: {
+      ...state.activeFilters,
+      from,
+      to,
+    },
   }));
 
   refreshFiltered();

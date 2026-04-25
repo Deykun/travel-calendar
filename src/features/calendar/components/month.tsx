@@ -4,7 +4,7 @@ import { cn } from "../../../utils/tailwind";
 import { Day } from "./Day";
 import { getDayKey } from "../../settings/utils/get-day-key";
 import { getDaysInMonth } from "../utils/get-days";
-import useFiltersStore from "@/features/filters/stores/use-filter-store";
+import useFiltersStore from "@/features/filters/stores/useFilterStore";
 import { FlagHover } from "@/components/flag-hover/FlagHover";
 
 type Props = {
@@ -51,7 +51,10 @@ export const Month = ({ className = "", month }: Props) => {
           }
           place="bottom"
         >
-          {visitedCountries} countries
+          {t("summary.countries", {
+            postProcess: "interval",
+            count: visitedCountries,
+          })}
         </FlagHover>
       </span>
       <h2 className={cn("text-2xl text-white", "font-semibold mb-4")}>

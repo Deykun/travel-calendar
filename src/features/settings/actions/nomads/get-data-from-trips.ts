@@ -1,12 +1,13 @@
+import type { DateYYYYMMDD } from "@/types";
 import { getDateRange } from "../../../../utils/date";
-import type { DataStoreState } from "../../stores/use-data-store";
+import type { DataStoreState } from "../../stores/useDateStore";
 import { getPlaceKey } from "../../utils/get-place-key";
 import { getCountryCodeFromTrip } from "./utils/get-country-code-from-trip";
 
 export type IntegrationNomadsTrip = {
   trip_id: string;
-  date_start: string;
-  date_end: string;
+  date_start: DateYYYYMMDD;
+  date_end: DateYYYYMMDD;
   place: string;
   country_code: string;
   latitude?: number | undefined;

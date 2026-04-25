@@ -13,6 +13,12 @@
   "month.name.11": "Listopad",
   "month.name.12": "Grudzień",
   "hoverDay.home": "W domu",
+  "summary.days_one": "1 dzień",
+  "summary.days_few": "{{count}} dni",
+  "summary.days_many": "{{count}} dni",
+  "summary.countries_one": "1 kraj",
+  "summary.countries_few": "{{count}} kraje",
+  "summary.countries_many": "{{count}} krajów",
   "integration.title": "Integracja",
   "integration.withNomads": "Integracja z nomads.com",
   "integration.lastUpdatePrefix": "Ostatnia aktualizacja"

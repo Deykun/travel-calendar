@@ -7,7 +7,7 @@ import { cn } from "@/utils/tailwind";
 import IconBolt from "@/components/icons/IconBolt";
 import Input from "@/components/input/Input";
 import { useTranslation } from "react-i18next";
-import useDataStore from "../stores/use-data-store";
+import useDataStore from "../stores/useDateStore";
 import { getDataFromNomads } from "../actions/get-data-from-nomads";
 
 const modalStyles = cn("rounded-lg", "p-4", "bg-black border border-[#2b2b27]");

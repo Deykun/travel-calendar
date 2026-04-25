@@ -1,5 +1,5 @@
 import IconTravel from "@/components/icons/IconTravel";
-import useFiltersStore from "@/features/filters/stores/use-filter-store";
+import useFiltersStore from "@/features/filters/stores/useFilterStore";
 import { closeOverModal } from "@/features/over-modal/stores/useHoverModalStore";
 import { cn } from "@/utils/tailwind";
 import { useEffect, useState } from "react";
