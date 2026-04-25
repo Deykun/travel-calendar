@@ -5,7 +5,7 @@ import { Fragment, type PropsWithChildren } from "react";
 import IconCheck from "../icons/IconCheck";
 import { Button } from "../button/Button";
 
-type Props = {
+export type Props = {
   className?: string;
   classNameWrapper?: string;
   isActive?: boolean;

@@ -58,5 +58,5 @@ export function getArrayOfYears(from: DateYYYYMMDD, to: DateYYYYMMDD) {
     years.push(year);
   }
 
-  return years;
+  return years.reverse();
 }
