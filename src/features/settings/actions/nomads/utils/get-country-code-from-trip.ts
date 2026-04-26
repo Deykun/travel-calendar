@@ -18,7 +18,15 @@ const countryByLocation: { [location: string]: string | undefined } = {
   "Saint Lucia": "lc",
   "Antigua and Barbuda": "ag",
   Carcassonne: "fr",
-  Colombia: 'co'
+  Colombia: "co",
+  Botswana: "bw",
+  Uganda: "ug",
+  Rwanda: "rw",
+  "Isle of Man": "im",
+  Newark: "us",
+  "Denver City": "us",
+  "El Salvador": "sv",
+  Italy: "it",
 };
 
 const countryByCountry: { [place: string]: string | undefined } = {

@@ -1,23 +1,19 @@
-import { cn } from "@/utils/tailwind";
 import { useTranslation } from "react-i18next";
 import { SUPPORTED_LANGS } from "@/i18n";
 import { Radiobox } from "@/components/radiobox/Radiobox";
+import { Pane } from "@/features/sidebar/components/pane/Pane";
 
-const sidebarStyles = cn(
-  "rounded-lg",
-  "p-4",
-  "bg-black border border-[#2b2b27]",
-);
+type Props = {
+  className?: string;
+};
 
-export function PaneLanguage() {
+export function PaneLanguage({ className }: Props) {
   const { i18n, t } = useTranslation();
 
   return (
-    <div className={cn(sidebarStyles, "flex flex-col gap-2")}>
-      <h2 className="text-xl text-white font-semibold mb-2">
-        {t("preferences.language.title")}
-      </h2>
-      <div className="flex flex-col gap-1">
+    <Pane className={className}>
+      <Pane.Title>{t("preferences.language.title")}</Pane.Title>
+      <Pane.List>
         {SUPPORTED_LANGS.map((lang) => (
           <Radiobox
             key={lang}
@@ -27,7 +23,7 @@ export function PaneLanguage() {
             {t(`preferences.language.current`, { lng: lang })}
           </Radiobox>
         ))}
-      </div>
-    </div>
+      </Pane.List>
+    </Pane>
   );
 }

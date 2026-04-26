@@ -1,17 +1,10 @@
 import useDataStore from "@/features/settings/stores/useDateStore";
 import { getArrayOfYears } from "@/utils/date";
-import { cn } from "@/utils/tailwind";
 
 import useFiltersStore, { setDateFilter } from "../stores/useFilterStore";
 import { Radiobox } from "@/components/radiobox/Radiobox";
-import { MiniCalendar } from "@/features/calendar/components/mini-calendar/MiniCalendar";
 import { MiniCalendarForYear } from "@/features/calendar/components/mini-calendar/MiniCalendarForYear";
-
-const sidebarStyles = cn(
-  "rounded-lg",
-  "p-4",
-  "bg-black border border-[#2b2b27]",
-);
+import { Pane } from "@/features/sidebar/components/pane/Pane";
 
 export function PaneFilterDate() {
   const activeFrom = useFiltersStore((store) => store.activeFilters.from);
@@ -24,9 +17,9 @@ export function PaneFilterDate() {
   const years = getArrayOfYears(from, to);
 
   return (
-    <div className={cn(sidebarStyles, "flex flex-wrap flex-col gap-2")}>
-      <h2 className="text-xl text-white font-semibold mb-2">Date</h2>
-      <div className="flex flex-col gap-1">
+    <Pane>
+      <Pane.Title>Date</Pane.Title>
+      <Pane.List>
         {years.map((year) => {
           const isActive = (activeFrom || "").startsWith(String(year));
 
@@ -45,7 +38,7 @@ export function PaneFilterDate() {
             </Radiobox>
           );
         })}
-      </div>
-    </div>
+      </Pane.List>
+    </Pane>
   );
 }

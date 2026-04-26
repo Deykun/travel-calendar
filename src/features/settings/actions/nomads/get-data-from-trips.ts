@@ -85,13 +85,6 @@ export const getDataFromTrips = (trips: IntegrationNomadsTrip[]): Response => {
           };
         }
 
-        stack.dataByDay[date] = {
-          date,
-          countriesCodes: [],
-          placeKeys: [],
-          tripsKeys: [],
-        };
-
         stack.daysByCountry[countryCode] = mergeStringsWithUnique(
           stack.daysByCountry[countryCode],
           [dayWithoutYear],
@@ -108,10 +101,10 @@ export const getDataFromTrips = (trips: IntegrationNomadsTrip[]): Response => {
           [dayWithoutYear],
         );
 
-        stack.dataByDay[date].tripsKeys = [
-          ...stack.dataByDay[date].tripsKeys,
-          trip.trip_id,
-        ];
+        stack.dataByDay[date].tripsKeys = mergeStringsWithUnique(
+          stack.dataByDay[date].tripsKeys,
+          [trip.trip_id],
+        );
 
         if (!stack.dataByDay[date].countriesCodes.includes(countryCode)) {
           stack.dataByDay[date].countriesCodes.push(countryCode);

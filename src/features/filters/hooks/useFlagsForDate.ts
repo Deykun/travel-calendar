@@ -2,8 +2,8 @@ import usePreferencesStore from "@/features/preferences/stores/usePreferencesSto
 import { useMemo } from "react";
 import useFiltersStore from "../stores/useFilterStore";
 import useDataStore from "@/features/settings/stores/useDateStore";
-import { mergeStringsWithUnique } from "@/utils/array";
 import type { DateYYYYMMDD } from "@/types";
+import { getFlagsEntriesGroupedByYear } from "./flags-for-dates/getFlagsEntriesGroupedByYear";
 
 const EMPTY_ARRAY: string[] = [];
 const EMPTY_YYYYMMDD_ARRAY: DateYYYYMMDD[] = [];
@@ -15,23 +15,14 @@ export type FlagData = {
   tripsKeys: string[];
 };
 
-type PeriodsIndex = {
-  periodsByIds: {
-    [periodId: string]: FlagData;
-  };
-  idByCountryByYear: {
-    [year: string]:
-      | undefined
-      | {
-          [country: string]: undefined | string;
-        };
-  };
-};
-
 export function useFlagsForDay(dayKey: string, shouldForceShowHome?: boolean) {
   const shouldShowHome = usePreferencesStore(
     (store) => store.sidebars.shouldShowHome,
   );
+  const shouldHighlightAbroadTravel = usePreferencesStore(
+    (store) => store.calendar.shouldHighlightAbroadTravel,
+  );
+
   const homeCountriesCodes = useFiltersStore(
     (store) => store.activeFilters.homeCountriesCodes || EMPTY_ARRAY,
   );
@@ -41,69 +32,45 @@ export function useFlagsForDay(dayKey: string, shouldForceShowHome?: boolean) {
   );
   const dataByDay = useDataStore((store) => store.dataByDay);
 
-  const flags = useMemo(() => {
-    const entries = sourceDates.sort().reduce(
-      (stack: PeriodsIndex, dateWithYear) => {
-        const year = Number(dateWithYear.split("-")[0]);
-        const dataForDay = dataByDay[dateWithYear];
+  const { flags, isHighlightAbroadTravelActive } = useMemo(() => {
+    const { periodsByIds, countriesByYear } = getFlagsEntriesGroupedByYear({
+      dates: sourceDates,
+      dataByDay,
+    });
 
-        const previousYear = stack.idByCountryByYear[year - 1] || {};
-        const currentYear = stack.idByCountryByYear[year] || {};
-
-        /*
-            It merges visits to the country from 2019, 2020, and 2021 into a single entry: 2019–2021.
-        */
-        dataForDay?.countriesCodes.forEach((countryCode) => {
-          const periodId = previousYear?.[countryCode];
-
-          if (periodId) {
-            currentYear[countryCode] = periodId;
-            stack.periodsByIds[periodId].to = year;
-            stack.periodsByIds[periodId].tripsKeys = mergeStringsWithUnique(
-              stack.periodsByIds[periodId].tripsKeys,
-              dataForDay.tripsKeys,
-            );
-          } else {
-            const newPeriodId = `${year}-${countryCode}`;
-
-            currentYear[countryCode] = newPeriodId;
-            stack.periodsByIds[newPeriodId] = {
-              countryCode,
-              from: year,
-              to: year,
-              tripsKeys: dataForDay.tripsKeys,
-            };
-          }
-        });
-
-        stack.idByCountryByYear[year] = currentYear;
-
-        return stack;
-      },
-      {
-        periodsByIds: {},
-        idByCountryByYear: {},
-      },
-    );
-
-    const flags = Object.values(entries.periodsByIds);
+    const allFlags = Object.values(periodsByIds);
 
     const shouldShowHomeToUse = shouldForceShowHome ?? shouldShowHome;
 
-    if (shouldShowHomeToUse === false) {
-      return flags.filter(({ countryCode }) => {
-        return !homeCountriesCodes.includes(countryCode);
-      });
-    }
+    const abroadFlags = allFlags.filter(({ countryCode }) => {
+      return !homeCountriesCodes.includes(countryCode);
+    });
 
-    return flags;
+    const isHighlightAbroadTravelActive = shouldHighlightAbroadTravel
+      ? Object.values(countriesByYear).some((yearCountries = []) => {
+          return (
+            yearCountries.filter(
+              (countryCode) => !homeCountriesCodes.includes(countryCode),
+            ).length >= 2
+          );
+        })
+      : false;
+
+    return {
+      flags: shouldShowHomeToUse ? allFlags : abroadFlags,
+      isHighlightAbroadTravelActive,
+    };
   }, [
     dataByDay,
     homeCountriesCodes,
     shouldForceShowHome,
+    shouldHighlightAbroadTravel,
     shouldShowHome,
     sourceDates,
   ]);
 
-  return flags;
+  return {
+    flags,
+    isHighlightAbroadTravelActive,
+  };
 }
