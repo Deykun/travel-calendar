@@ -11,6 +11,7 @@ import {
 } from "@/features/sidebar/stores/useSidebarStore";
 import { cn } from "@/utils/tailwind";
 import usePreferencesStore from "@/features/preferences/stores/usePreferencesStore";
+import { IconTravelForDay } from "./IconTravelForDay";
 
 type Props = {
   className?: string;
@@ -82,7 +83,7 @@ export const Day = ({ className = "", dayNumber, dayKey }: Props) => {
         className="inline-flex flex-col gap-1"
         shouldSkipGroup
       >
-        <IconTravel total={total} />
+        <IconTravelForDay total={total} counterShouldShow={counterShouldShow} />
         <p className={cn("text-sm tracking-wider transition-bounce")}>
           {dayNumber}
         </p>

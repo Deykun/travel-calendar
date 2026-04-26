@@ -6,7 +6,7 @@ function App() {
     <>
       <div className="flex gap-5">
         <Sidebar className="shrink-0 z-1000" />
-        <div className="w-full">
+        <div className="w-full @container">
           <Calendar className="pt-24 pb-24" />
         </div>
       </div>
