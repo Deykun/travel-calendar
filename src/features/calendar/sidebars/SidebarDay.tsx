@@ -8,7 +8,7 @@ import { DatetimeDay } from "@/components/datetime/datetime-day";
 import IconX from "@/components/icons/IconX";
 import { ToggleShowHome } from "@/features/preferences/components/ToggleShowHome";
 import { useFlagsForDay } from "@/features/filters/hooks/useFlagsForDate";
-import { Period } from "../../components/calendar/Period";
+import { Period } from "../components/calendar/Period";
 
 type Props = {
   className?: string;

@@ -28,11 +28,11 @@ export const Checkbox = ({
       className={cn(
         "group",
         "inline-flex gap-2 items-center",
-        "self-start",
+        "self-start rounded-sm",
         "py-1 pl-2 pr-3 -mx-2",
         {
           "hover:bg-[#1d1d0f]": !isActive,
-          "bg-[#40403f] text-white rounded-sm": isActive,
+          "bg-[#40403f] text-white": isActive,
         },
         "cursor-pointer",
         "transition-bounce",

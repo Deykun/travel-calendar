@@ -4,18 +4,12 @@ import useFiltersStore, {
   toggleHomeCountry,
 } from "@/features/filters/stores/useFilterStore";
 import useDataStore from "@/features/settings/stores/useDateStore";
-import { cn } from "@/utils/tailwind";
+import { Pane } from "@/features/sidebar/components/pane/Pane";
 import { useTranslation } from "react-i18next";
 
 type Props = {
   className?: string;
 };
-
-const sidebarStyles = cn(
-  "rounded-lg",
-  "p-4",
-  "bg-black border border-[#2b2b27]",
-);
 
 export const PaneFilterHome = ({ className = "" }: Props) => {
   const homeCountriesCodes = useFiltersStore(
@@ -25,9 +19,9 @@ export const PaneFilterHome = ({ className = "" }: Props) => {
 
   const { t } = useTranslation();
   return (
-    <div className={cn(sidebarStyles, "flex flex-wrap flex-col gap-2")}>
-      <h2 className="text-xl text-white font-semibold mb-2">Consider home</h2>
-      <div className="flex flex-col gap-1">
+    <Pane className={className}>
+      <Pane.Title>Consider home</Pane.Title>
+      <Pane.List>
         {Object.entries(totalDaysByCountry).map(([countryCode, total]) =>
           total < 0 ? null : (
             <Checkbox
@@ -43,7 +37,7 @@ export const PaneFilterHome = ({ className = "" }: Props) => {
             </Checkbox>
           ),
         )}
-      </div>
-    </div>
+      </Pane.List>
+    </Pane>
   );
 };
