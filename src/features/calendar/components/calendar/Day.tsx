@@ -10,6 +10,7 @@ import {
   useSidebarStore,
 } from "@/features/sidebar/stores/useSidebarStore";
 import { cn } from "@/utils/tailwind";
+import usePreferencesStore from "@/features/preferences/stores/usePreferencesStore";
 
 type Props = {
   className?: string;
@@ -20,6 +21,10 @@ type Props = {
 const EMPTY_ARRAY: string[] = [];
 
 export const Day = ({ className = "", dayNumber, dayKey }: Props) => {
+  const counterShouldShow = usePreferencesStore(
+    (store) => store.calendar.counterShouldShow,
+  );
+
   const isSidebarOpen = useSidebarStore(
     (state) =>
       state?.sidebar?.type === "day" && state.sidebar.dayKey === dayKey,
@@ -31,16 +36,16 @@ export const Day = ({ className = "", dayNumber, dayKey }: Props) => {
   const yearsAbroad = useFiltersStore(
     (store) => store.filtered.summaryByDay[dayKey]?.yearsAbroad || EMPTY_ARRAY,
   );
-  const countriesCodesByYear = useFiltersStore(
-    (store) => store.filtered.summaryByDay[dayKey]?.countriesCodesByYear,
-  );
-  const maxCountriesInDay = useFiltersStore(
-    (store) => store.filtered.summary.maxCountriesInDay,
+
+  const { flags, isHighlightAbroadTravelActive } = useFlagsForDay(
+    dayKey,
+    false,
   );
 
-  const flags = useFlagsForDay(dayKey, false);
-
-  const total = countriesCodes.length;
+  const total =
+    counterShouldShow === "yearsAbroad"
+      ? yearsAbroad.length
+      : countriesCodes.length;
 
   const handleClick = useCallback(() => {
     if (isSidebarOpen) {
@@ -66,6 +71,7 @@ export const Day = ({ className = "", dayNumber, dayKey }: Props) => {
             !isSidebarOpen && total > 0,
           "text-[#3d3d3d] hover:bg-[#4545341c] hover:text-[#656565]":
             !isSidebarOpen && total === 0,
+          "text-white bg-[#26393f]": isHighlightAbroadTravelActive,
           "text-white bg-[#fff3]": isSidebarOpen,
         },
         className,
@@ -77,7 +83,9 @@ export const Day = ({ className = "", dayNumber, dayKey }: Props) => {
         shouldSkipGroup
       >
         <IconTravel total={total} />
-        <p className={cn("text-sm tracking-wider transition-bounce")}>{dayNumber}</p>
+        <p className={cn("text-sm tracking-wider transition-bounce")}>
+          {dayNumber}
+        </p>
       </FlagHover>
     </button>
   );

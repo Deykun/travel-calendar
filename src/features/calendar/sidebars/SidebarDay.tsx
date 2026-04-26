@@ -61,7 +61,7 @@ export const SidebarDay = ({ className, dayKey }: Props) => {
     });
   }, [dayKey]);
 
-  const flags = useFlagsForDay(dayKey);
+  const { flags } = useFlagsForDay(dayKey);
 
   if (!dayKey) {
     return null;

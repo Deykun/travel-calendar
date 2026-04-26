@@ -1,6 +1,6 @@
 import { Checkbox } from "@/components/checkbox/Checkbox";
 import usePreferencesStore, {
-  toggleShouldShowHomeInModal,
+  toggleShouldShowHomeInSidebar,
 } from "../stores/usePreferencesStore";
 import { useTranslation } from "react-i18next";
 
@@ -19,7 +19,7 @@ export const ToggleShowHome = ({ className = "" }: Props) => {
     <Checkbox
       classNameWrapper={className}
       isActive={shouldShowHome}
-      onChange={toggleShouldShowHomeInModal}
+      onChange={toggleShouldShowHomeInSidebar}
     >
       {t(`preferences.showHome`)}
     </Checkbox>

@@ -1,16 +1,21 @@
-import type { MonthNumber } from "@/features/calendar/types";
-import useDataStore from "@/features/settings/stores/useDateStore";
-import { getFiltered } from "@/features/settings/utils/get-filtered";
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
 
 export type PreferencesStoreState = {
+  calendar: {
+    counterShouldShow: "numberOfCountries" | "yearsAbroad";
+    shouldHighlightAbroadTravel: boolean;
+  };
   sidebars: {
     shouldShowHome: boolean;
   };
 };
 
 const emptyStore: PreferencesStoreState = {
+  calendar: {
+    counterShouldShow: "numberOfCountries",
+    shouldHighlightAbroadTravel: false,
+  },
   sidebars: {
     shouldShowHome: false,
   },
@@ -28,11 +33,31 @@ export const usePreferencesStore = create<PreferencesStoreState>()(
   ),
 );
 
-export const toggleShouldShowHomeInModal = () => {
+export const toggleShouldShowHomeInSidebar = () => {
   usePreferencesStore.setState((state) => ({
     sidebars: {
       ...state.sidebars,
       shouldShowHome: !state.sidebars.shouldShowHome,
+    },
+  }));
+};
+
+export const toggleShouldHighlightAbroadTravel = () => {
+  usePreferencesStore.setState((state) => ({
+    calendar: {
+      ...state.calendar,
+      shouldHighlightAbroadTravel: !state.calendar.shouldHighlightAbroadTravel,
+    },
+  }));
+};
+
+export const setCounterShouldShow = (
+  value: PreferencesStoreState["calendar"]["counterShouldShow"],
+) => {
+  usePreferencesStore.setState((state) => ({
+    calendar: {
+      ...state.calendar,
+      counterShouldShow: value,
     },
   }));
 };
