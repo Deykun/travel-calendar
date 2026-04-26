@@ -122,6 +122,10 @@ export const getFiltered = (
           ).length;
         }
 
+        if (summaryDay.yearsAbroad.length > stack.summary.maxYearsAbroadInDay) {
+          stack.summary.maxYearsAbroadInDay = summaryDay.yearsAbroad.length;
+        }
+
         stack.summaryByMonth[monthNumber].countriesCodes = mergeUniqueAndSort(
           stack.summaryByMonth[monthNumber].countriesCodes,
           summaryDay.countriesCodes,
@@ -146,6 +150,7 @@ export const getFiltered = (
         summaryByMonth: {},
         summary: {
           maxCountriesInDay: 0,
+          maxYearsAbroadInDay: 0,
         },
       },
     );

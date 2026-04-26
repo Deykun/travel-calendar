@@ -4,6 +4,7 @@ import { devtools, persist } from "zustand/middleware";
 export type PreferencesStoreState = {
   calendar: {
     counterShouldShow: "numberOfCountries" | "yearsAbroad";
+    shouldCounterUseScale: boolean;
     shouldHighlightAbroadTravel: boolean;
   };
   sidebars: {
@@ -14,6 +15,7 @@ export type PreferencesStoreState = {
 const emptyStore: PreferencesStoreState = {
   calendar: {
     counterShouldShow: "numberOfCountries",
+    shouldCounterUseScale: false,
     shouldHighlightAbroadTravel: false,
   },
   sidebars: {
@@ -47,6 +49,15 @@ export const toggleShouldHighlightAbroadTravel = () => {
     calendar: {
       ...state.calendar,
       shouldHighlightAbroadTravel: !state.calendar.shouldHighlightAbroadTravel,
+    },
+  }));
+};
+
+export const toggleShouldCounterUseScale = () => {
+  usePreferencesStore.setState((state) => ({
+    calendar: {
+      ...state.calendar,
+      shouldCounterUseScale: !state.calendar.shouldCounterUseScale,
     },
   }));
 };

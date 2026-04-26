@@ -31,6 +31,7 @@ export type FiltersStoreState = {
   filtered: {
     summary: {
       maxCountriesInDay: number;
+      maxYearsAbroadInDay: number;
     };
     summaryByDay: {
       [dayKey: string]: SummaryDay | undefined;
@@ -50,6 +51,7 @@ const emptyStore: FiltersStoreState = {
   filtered: {
     summary: {
       maxCountriesInDay: 0,
+      maxYearsAbroadInDay: 0,
     },
     summaryByDay: {},
     summaryByMonth: {},

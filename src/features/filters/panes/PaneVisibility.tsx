@@ -1,31 +1,45 @@
 import { Pane } from "@/features/sidebar/components/pane/Pane";
 import usePreferencesStore, {
   setCounterShouldShow,
+  toggleShouldCounterUseScale,
   toggleShouldHighlightAbroadTravel,
 } from "@/features/preferences/stores/usePreferencesStore";
 import { Checkbox } from "@/components/checkbox/Checkbox";
 import { cn } from "@/utils/tailwind";
 import { Radiobox } from "@/components/radiobox/Radiobox";
+import useFiltersStore from "../stores/useFilterStore";
+import { useTranslation } from "react-i18next";
 
 export function PaneVisibility() {
   const shouldHighlightAbroadTravel = usePreferencesStore(
     (store) => store.calendar.shouldHighlightAbroadTravel,
   );
+  const shouldCounterUseScale = usePreferencesStore(
+    (store) => store.calendar.shouldCounterUseScale,
+  );
   const counterShouldShow = usePreferencesStore(
     (store) => store.calendar.counterShouldShow,
   );
 
+  const { t } = useTranslation();
+
+  const maxTotal = useFiltersStore((store) =>
+    counterShouldShow === "numberOfCountries"
+      ? store.filtered.summary.maxCountriesInDay
+      : store.filtered.summary.maxYearsAbroadInDay,
+  );
+
   return (
     <Pane>
-      <Pane.Title>Calendar</Pane.Title>
-      <Pane.Subtitle>The day numer shows</Pane.Subtitle>
+      <Pane.Title>{t("preferences.calendar")}</Pane.Title>
+      <Pane.Subtitle>{t("preferences.theDayNumber.title")}</Pane.Subtitle>
       <Pane.List>
         <Radiobox
           isActive={counterShouldShow === "numberOfCountries"}
           onChange={() => setCounterShouldShow("numberOfCountries")}
         >
           <div className={cn("flex flex-col gap-1", "text-wrap")}>
-            Total countries visited
+            {t("summary.totalCountries")}
           </div>
         </Radiobox>
         <Radiobox
@@ -33,20 +47,38 @@ export function PaneVisibility() {
           onChange={() => setCounterShouldShow("yearsAbroad")}
         >
           <div className={cn("flex flex-col gap-1", "text-wrap")}>
-            Total years abroad
+            {t("summary.totalYearsAbroad")}
           </div>
         </Radiobox>
       </Pane.List>
-      <Pane.Subtitle className="mt-2">Other</Pane.Subtitle>
+      <Pane.Subtitle className="mt-2">
+        {t("preferences.calendarOther")}
+      </Pane.Subtitle>
       <Pane.List>
+        <Checkbox
+          isActive={shouldCounterUseScale}
+          onChange={toggleShouldCounterUseScale}
+        >
+          <div className={cn("flex flex-col gap-1", "text-wrap")}>
+            {t("preferences.shouldCounterUseScale")}
+            <small
+              className="opacity-75"
+              dangerouslySetInnerHTML={{
+                __html: t("preferences.shouldCounterUseScale.tip", {
+                  max: `<strong>${maxTotal}</strong>`,
+                }),
+              }}
+            />
+          </div>
+        </Checkbox>
         <Checkbox
           isActive={shouldHighlightAbroadTravel}
           onChange={toggleShouldHighlightAbroadTravel}
         >
           <div className={cn("flex flex-col gap-1", "text-wrap")}>
-            Highlight abroad travel
+            {t("preferences.shouldHighlightAbroadTravel")}
             <small className="opacity-75">
-              Travel between two countries that are not set as home.
+              {t("preferences.shouldHighlightAbroadTravel.tip")}
             </small>
           </div>
         </Checkbox>
