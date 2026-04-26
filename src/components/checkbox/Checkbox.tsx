@@ -1,9 +1,8 @@
 import { cn } from "@/utils/tailwind";
 import IconCheckboxFrame from "../icons/IconCheckboxFrame";
 
-import { Fragment, type PropsWithChildren } from "react";
+import { type PropsWithChildren } from "react";
 import IconCheck from "../icons/IconCheck";
-import { Button } from "../button/Button";
 
 export type Props = {
   className?: string;

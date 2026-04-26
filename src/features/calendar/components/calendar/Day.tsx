@@ -1,4 +1,3 @@
-import IconTravel from "@/components/icons/IconTravel";
 import { FlagHover } from "@/components/flag-hover/FlagHover";
 import useFiltersStore from "@/features/filters/stores/useFilterStore";
 

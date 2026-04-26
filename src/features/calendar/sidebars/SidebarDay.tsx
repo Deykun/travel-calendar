@@ -83,13 +83,13 @@ export const SidebarDay = ({ className, dayKey }: Props) => {
           <div className="inline-flex flex-col gap-2 items-center">
             <IconTravel total={countriesCodes.length} shouldShowAllNumbers />
             <span className="text-[#979797] text-sm tracking-wider">
-              {t('summary.totalCountries"')}
+              {t("summary.totalCountries")}
             </span>
           </div>
           <div className="inline-flex flex-col gap-2 items-center">
             <IconTravel total={yearsAbroad.length} shouldShowAllNumbers />
             <span className="text-[#979797] text-sm tracking-wider">
-              {t('summary.totalYearsAbroad"')}
+              {t("summary.totalYearsAbroad")}
             </span>
           </div>
         </div>
