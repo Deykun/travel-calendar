@@ -24,13 +24,12 @@ export const Icon = ({
     <span
       className={cn(
         "relative",
-        "inline-flex items-center justify-center",
+        "inline-grid place-items-center",
         "size-6 rounded-lg",
         "leading-0",
         "transition-bounce",
         className,
         {
-          // "bg-[#d6d6d6] text-gray-400": total === 0,
           "bg-[#272620] text-[#54544b]": total === 0,
           "bg-[#d8da51] text-black": total > 0,
         },
@@ -49,15 +48,32 @@ export const Icon = ({
           opacity,
         }}
       ></span>
-      {(shouldShowAllNumbers || total > 1) && (
-        <span className="text-sm font-semibold relative z-1">{total}</span>
-      )}
-      {!shouldShowAllNumbers && total === 1 && (
-        <IconCheck className="size-6 relative z-1" />
-      )}
-      {!shouldShowAllNumbers && total === 0 && (
-        <IconHome className="size-4 relative z-1" />
-      )}
+      <span
+        className={cn(
+          "col-start-1 row-start-1 text-sm font-semibold relative z-1 opacity-0 transition-bounce",
+          {
+            "opacity-100": shouldShowAllNumbers || total > 1,
+          },
+        )}
+      >
+        {total === 0 ? "" : total}
+      </span>
+      <IconCheck
+        className={cn(
+          "col-start-1 row-start-1 size-6 relative z-1 opacity-0 scale-0 transition-bounce",
+          {
+            "opacity-100 scale-100": !shouldShowAllNumbers && total === 1,
+          },
+        )}
+      />
+      <IconHome
+        className={cn(
+          "col-start-1 row-start-1 size-4 relative z-1 opacity-0 scale-0 transition-bounce",
+          {
+            "opacity-100 scale-100": !shouldShowAllNumbers && total === 0,
+          },
+        )}
+      />
     </span>
   );
 };
