@@ -15,6 +15,11 @@ export const Icon = ({
   total,
   maxTotal,
 }: Props) => {
+  const opacity =
+    maxTotal && total > 0
+      ? Math.abs(1 - Math.min(1, (total + 1) / maxTotal)).toFixed(1)
+      : "0";
+
   return (
     <span
       className={cn(
@@ -22,6 +27,7 @@ export const Icon = ({
         "inline-flex items-center justify-center",
         "size-6 rounded-lg",
         "leading-0",
+        "transition-bounce",
         className,
         {
           // "bg-[#d6d6d6] text-gray-400": total === 0,
@@ -34,20 +40,15 @@ export const Icon = ({
         cornerShape: "superellipse(1.5)",
       }}
     >
-      {maxTotal && maxTotal > 0 && total > 0 && (
-        <span
-          className="absolute top-0 left-0 size-full bg-black"
-          style={{
-            // @ts-expect-error Doesn't know css
-            cornerShape: "inherit",
-            borderRadius: "inherit",
-            opacity:
-              maxTotal && total > 0
-                ? Math.abs(1 - Math.min(1, (total + 1) / maxTotal)).toFixed(1)
-                : undefined,
-          }}
-        ></span>
-      )}
+      <span
+        className="absolute top-0 left-0 size-full bg-black transition-bounce"
+        style={{
+          // @ts-expect-error Doesn't know css
+          cornerShape: "inherit",
+          borderRadius: "inherit",
+          opacity,
+        }}
+      ></span>
       {(shouldShowAllNumbers || total > 1) && (
         <span className="text-sm font-semibold relative z-1">{total}</span>
       )}
