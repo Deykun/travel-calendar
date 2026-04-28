@@ -1,0 +1,20 @@
+.scale-pattern {
+  background-color: rgba(0, 0, 0, 0.5);
+  background-image: repeating-linear-gradient(
+    45deg,
+    rgba(0, 0, 0, 0.8) 0px,
+    rgba(0, 0, 0, 0.8) 4px,
+    transparent 4px,
+    transparent 8px
+  );
+}
+
+.value {
+  --offset: 0.5px;
+  --offset-negative: -0.5px;
+  --color: #d8da51;
+  filter: drop-shadow(var(--offset-negative) 0 var(--color))
+    drop-shadow(0 var(--offset-negative) var(--color))
+    drop-shadow(0 var(--offset) var(--color))
+    drop-shadow(var(--offset) 0 var(--color));
+}

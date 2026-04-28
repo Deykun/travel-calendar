@@ -64,7 +64,7 @@ export const Day = ({ className = "", dayNumber, dayKey }: Props) => {
         "inline-flex items-center flex-col gap-1",
         "p-1 pt-2",
         "rounded-sm",
-        "duration-150",
+        "duration-500",
         "group",
         {
           "text-[#979797] hover:bg-[#fffb000d] hover:text-white":
@@ -83,9 +83,7 @@ export const Day = ({ className = "", dayNumber, dayKey }: Props) => {
         shouldSkipGroup
       >
         <IconTravelForDay total={total} counterShouldShow={counterShouldShow} />
-        <p className={cn("text-sm tracking-wider transition-bounce")}>
-          {dayNumber}
-        </p>
+        <p className={cn("text-sm tracking-wider duration-500")}>{dayNumber}</p>
       </FlagHover>
     </button>
   );

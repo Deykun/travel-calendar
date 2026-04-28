@@ -2,7 +2,7 @@ import { cn } from "@/utils/tailwind";
 
 import type { PropsWithChildren } from "react";
 
-import styles from "./pane.module.css";
+import styles from "./Panee.module.css";
 
 type Props = {
   className?: string;
@@ -48,7 +48,9 @@ Pane.Title = ({ children, className = "" }: PropsWithChildren<Props>) => {
 
 Pane.Subtitle = ({ children, className = "" }: PropsWithChildren<Props>) => {
   return (
-    <h2 className={cn("text-white tracking-wider text-xs", className)}>{children}</h2>
+    <h2 className={cn("text-white tracking-wider text-xs", className)}>
+      {children}
+    </h2>
   );
 };
 

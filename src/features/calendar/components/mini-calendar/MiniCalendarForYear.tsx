@@ -3,6 +3,7 @@ import { MiniCalendar } from "./MiniCalendar";
 import { useMemo } from "react";
 import useFiltersStore from "@/features/filters/stores/useFilterStore";
 import type { DateMMDD } from "@/types";
+import { mergeUnique } from "@/utils/array";
 
 type Props = {
   year: number;
@@ -30,7 +31,7 @@ export function MiniCalendarForYear({ year }: Props) {
         }
 
         if (activeDays) {
-          stack.push(...activeDays);
+          stack = mergeUnique(stack, activeDays);
         }
 
         return stack;
@@ -43,5 +44,9 @@ export function MiniCalendarForYear({ year }: Props) {
     return null;
   }
 
-  return <MiniCalendar activeDays={activeDays}>{year}</MiniCalendar>;
+  return (
+    <MiniCalendar activeDays={activeDays}>
+      <span className="inline-flex mb-1">{year}</span>
+    </MiniCalendar>
+  );
 }

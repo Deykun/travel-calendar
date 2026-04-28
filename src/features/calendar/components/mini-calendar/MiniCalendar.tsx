@@ -38,6 +38,26 @@ export const MiniCalendar = ({
           {children}
         </strong>
       )}
+      <span
+        className={cn(
+          "absolute top-5 left-5",
+          "text-xs tracking-wider",
+          "text-[#fcff4e] font-semibold",
+        )}
+      >
+        {((activeDays.length / 365) * 100).toFixed(1)}%
+      </span>
+      <span
+        className={cn(
+          "absolute top-5 right-5",
+          "text-xs text-gray-400 tracking-wider",
+          {
+            "text-[#fcff4e] font-semibold": activeDays.length >= 365,
+          },
+        )}
+      >
+        {activeDays.length || 0} / 365
+      </span>
       <div className="grid grid-cols-4 gap-4">
         {DAYS_GROUPED_BY_MONTHS.map((month) => (
           <div

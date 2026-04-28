@@ -7,7 +7,7 @@ import {
 import type { DataStoreState } from "../../stores/useDateStore";
 import { getPlaceKey } from "../../utils/get-place-key";
 import { getCountryCodeFromTrip } from "./utils/get-country-code-from-trip";
-import { mergeStringsWithUnique } from "@/utils/array";
+import { mergeUnique } from "@/utils/array";
 
 export type IntegrationNomadsTrip = {
   trip_id: string;
@@ -85,7 +85,7 @@ export const getDataFromTrips = (trips: IntegrationNomadsTrip[]): Response => {
           };
         }
 
-        stack.daysByCountry[countryCode] = mergeStringsWithUnique(
+        stack.daysByCountry[countryCode] = mergeUnique(
           stack.daysByCountry[countryCode],
           [dayWithoutYear],
         );
@@ -96,12 +96,12 @@ export const getDataFromTrips = (trips: IntegrationNomadsTrip[]): Response => {
           stack.daysByCountriesByYear[year] = {};
         }
 
-        stack.daysByCountriesByYear[year][countryCode] = mergeStringsWithUnique(
+        stack.daysByCountriesByYear[year][countryCode] = mergeUnique(
           stack.daysByCountriesByYear[year][countryCode],
           [dayWithoutYear],
         );
 
-        stack.dataByDay[date].tripsKeys = mergeStringsWithUnique(
+        stack.dataByDay[date].tripsKeys = mergeUnique(
           stack.dataByDay[date].tripsKeys,
           [trip.trip_id],
         );

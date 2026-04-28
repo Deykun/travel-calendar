@@ -9,7 +9,7 @@ import type { DataStoreState } from "../stores/useDateStore";
 import useFiltersStore, {
   type FiltersStoreState,
 } from "@/features/filters/stores/useFilterStore";
-import { mergeStringsWithUnique, mergeUniqueAndSort } from "@/utils/array";
+import { mergeUnique, mergeUniqueAndSort } from "@/utils/array";
 import { isBefore } from "date-fns/isBefore";
 import { isAfter } from "date-fns";
 
@@ -59,13 +59,13 @@ export const getFiltered = (
         }
 
         if (filteredCountriesForDay.length > 0) {
-          stack[dayWithoutYear].yearsAbroad = mergeStringsWithUnique(
+          stack[dayWithoutYear].yearsAbroad = mergeUnique(
             stack[dayWithoutYear].yearsAbroad,
             [String(year)],
           );
         }
 
-        stack[dayWithoutYear].sourceDates = mergeStringsWithUnique(
+        stack[dayWithoutYear].sourceDates = mergeUnique(
           stack[dayWithoutYear].sourceDates,
           [dataDay.date],
         );

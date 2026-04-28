@@ -1,6 +1,6 @@
 import type { DateYYYYMMDD } from "@/types";
 import type { FlagData } from "../useFlagsForDate";
-import { mergeStringsWithUnique } from "@/utils/array";
+import { mergeUnique } from "@/utils/array";
 import type { DataStoreState } from "@/features/settings/stores/useDateStore";
 
 type PeriodsIndex = {
@@ -51,7 +51,7 @@ export const getFlagsEntriesGroupedByYear = ({
         if (periodId) {
           currentYear[countryCode] = periodId;
           stack.periodsByIds[periodId].to = year;
-          stack.periodsByIds[periodId].tripsKeys = mergeStringsWithUnique(
+          stack.periodsByIds[periodId].tripsKeys = mergeUnique(
             stack.periodsByIds[periodId].tripsKeys,
             dataForDay.tripsKeys,
           );

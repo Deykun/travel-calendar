@@ -68,7 +68,7 @@ export const Month = ({ className = "", month }: Props) => {
           "absolute top-5 right-5",
           "text-xs text-gray-400 tracking-wider",
           {
-            "text-[#fcff4e] font-semibold": daysAbroad == daysInMonth,
+            "text-[#fcff4e] font-semibold": daysAbroad === daysInMonth,
           },
         )}
       >
