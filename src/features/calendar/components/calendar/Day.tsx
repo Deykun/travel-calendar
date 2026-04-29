@@ -2,7 +2,6 @@ import { FlagHover } from "@/components/flag-hover/FlagHover";
 import useFiltersStore from "@/features/filters/stores/useFilterStore";
 
 import { useCallback } from "react";
-import { useFlagsForDay } from "@/features/filters/hooks/useFlagsForDate";
 import {
   closeSidebar,
   openSidebar,
@@ -11,6 +10,7 @@ import {
 import { cn } from "@/utils/tailwind";
 import usePreferencesStore from "@/features/preferences/stores/usePreferencesStore";
 import { IconTravelForDay } from "./IconTravelForDay";
+import { useFlagsSimple } from "@/features/filters/hooks/useFlagsSimple";
 
 type Props = {
   className?: string;
@@ -37,10 +37,12 @@ export const Day = ({ className = "", dayNumber, dayKey }: Props) => {
     (store) => store.filtered.summaryByDay[dayKey]?.yearsAbroad || EMPTY_ARRAY,
   );
 
-  const { flags, isHighlightAbroadTravelActive } = useFlagsForDay(
-    dayKey,
-    false,
+  const countriesCodesByYear = useFiltersStore(
+    (store) => store.filtered.summaryByDay[dayKey]?.countriesCodesByYear,
   );
+
+  const { flags, isHighlightAbroadTravelActive } =
+    useFlagsSimple(countriesCodesByYear);
 
   const total =
     counterShouldShow === "yearsAbroad"

@@ -30,7 +30,7 @@ type Response = Pick<
   | "dataByDay"
   | "tripsByKey"
   | "daysByCountry"
-  | "daysByCountriesByYear"
+  | "daysByCountryByMonthByYear"
 > & {
   totalDaysByCountry: TotalDaysByCountry;
 };
@@ -90,16 +90,21 @@ export const getDataFromTrips = (trips: IntegrationNomadsTrip[]): Response => {
           [dayWithoutYear],
         );
 
-        const { year } = stringDateToObject(date);
+        const { year, month } = stringDateToObject(date);
 
-        if (!stack.daysByCountriesByYear[year]) {
-          stack.daysByCountriesByYear[year] = {};
+        if (!stack.daysByCountryByMonthByYear[year]) {
+          stack.daysByCountryByMonthByYear[year] = {};
         }
 
-        stack.daysByCountriesByYear[year][countryCode] = mergeUnique(
-          stack.daysByCountriesByYear[year][countryCode],
-          [dayWithoutYear],
-        );
+        if (!stack.daysByCountryByMonthByYear[year][month]) {
+          stack.daysByCountryByMonthByYear[year][month] = {};
+        }
+
+        stack.daysByCountryByMonthByYear[year][month][countryCode] =
+          mergeUnique(
+            stack.daysByCountryByMonthByYear[year][month][countryCode],
+            [dayWithoutYear],
+          );
 
         stack.dataByDay[date].tripsKeys = mergeUnique(
           stack.dataByDay[date].tripsKeys,
@@ -126,7 +131,7 @@ export const getDataFromTrips = (trips: IntegrationNomadsTrip[]): Response => {
       tripsByKey: {},
       totalDaysByCountry: {},
       daysByCountry: {},
-      daysByCountriesByYear: {},
+      daysByCountryByMonthByYear: {},
     },
   );
 };

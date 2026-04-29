@@ -12,35 +12,50 @@ type Props = {
 const EMPTY_ARRAY: string[] = [];
 
 export function MiniCalendarForYear({ year }: Props) {
-  const yearDaysByCountries = useDataStore(
-    (store) => store.daysByCountriesByYear[year],
+  const yearDaysCountriesByMonth = useDataStore(
+    (store) => store.daysByCountryByMonthByYear[year],
   );
   const homeCountriesCodes = useFiltersStore(
     (store) => store.activeFilters.homeCountriesCodes || EMPTY_ARRAY,
   );
 
   const activeDays = useMemo(() => {
-    if (!yearDaysByCountries) {
+    if (!yearDaysCountriesByMonth) {
       return [];
     }
 
-    return Object.entries(yearDaysByCountries).reduce(
-      (stack: DateMMDD[], [countryCode, activeDays]) => {
-        if (homeCountriesCodes.includes(countryCode)) {
+    return Object.values(yearDaysCountriesByMonth).reduce(
+      (stack: DateMMDD[], month) => {
+        if (!month) {
           return stack;
         }
 
-        if (activeDays) {
-          stack = mergeUnique(stack, activeDays);
+        const monthActiveDays = Object.entries(month).reduce(
+          (stack: DateMMDD[], [countryCode, activeDays]) => {
+            if (homeCountriesCodes.includes(countryCode)) {
+              return stack;
+            }
+
+            if (activeDays) {
+              stack = mergeUnique(stack, activeDays);
+            }
+
+            return stack;
+          },
+          [],
+        );
+
+        if (monthActiveDays) {
+          stack = mergeUnique(stack, monthActiveDays);
         }
 
         return stack;
       },
       [],
     );
-  }, [homeCountriesCodes, yearDaysByCountries]);
+  }, [homeCountriesCodes, yearDaysCountriesByMonth]);
 
-  if (!yearDaysByCountries) {
+  if (!yearDaysCountriesByMonth) {
     return null;
   }
 

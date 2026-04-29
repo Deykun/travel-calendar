@@ -107,6 +107,7 @@ export const getFiltered = (
           stack.summaryByMonth[monthNumber] = {
             monthNumber,
             countriesCodes: [],
+            countriesCodesByYear: {},
             daysAbroad: [],
             total: getDaysInMonth(monthNumber),
           };
@@ -129,6 +130,20 @@ export const getFiltered = (
         stack.summaryByMonth[monthNumber].countriesCodes = mergeUniqueAndSort(
           stack.summaryByMonth[monthNumber].countriesCodes,
           summaryDay.countriesCodes,
+        );
+
+        Object.entries(summaryDay.countriesCodesByYear).forEach(
+          ([rawYear, countryCodes]) => {
+            const year = Number(rawYear);
+
+            if (stack.summaryByMonth[monthNumber]) {
+              stack.summaryByMonth[monthNumber].countriesCodesByYear[year] =
+                mergeUniqueAndSort(
+                  stack.summaryByMonth[monthNumber].countriesCodesByYear[year],
+                  countryCodes,
+                );
+            }
+          },
         );
 
         if (
