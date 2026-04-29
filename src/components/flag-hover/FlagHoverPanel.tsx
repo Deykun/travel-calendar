@@ -4,15 +4,18 @@ import { useTranslation } from "react-i18next";
 import type { FlagData } from "@/features/filters/hooks/useFlagsForDate";
 import { Period } from "@/features/calendar/components/calendar/Period";
 
+export type PanelFrom = "top-left" | "top-center" | "top-right" | "bottom-left";
+
 type Props = {
   flags?: FlagData[];
   title?: string;
-  place: "top" | "bottom";
+  from: PanelFrom;
 };
 
 export const FlagHoverPanel = ({
   flags = [],
   title,
+  from,
 }: PropsWithChildren<Props>) => {
   const { t } = useTranslation();
 
@@ -20,13 +23,15 @@ export const FlagHoverPanel = ({
     return null;
   }
 
+  const isTop = ["top-left", "top-center", "top-right"].includes(from);
+  const isBottom = ["bottom-left"].includes(from);
+  const isLeft = ["top-left"].includes(from);
+  const isRight = ["top-right"].includes(from);
+
   return (
     <div
       className={cn(
         "absolute",
-        "bottom-full origin-bottom",
-        "-translate-y-7 group-hover:-translate-y-4",
-        "left-1/2 -translate-x-1/2",
         "z-10",
         "pointer-events-none",
         "rounded-md",
@@ -35,6 +40,15 @@ export const FlagHoverPanel = ({
         "drop-shadow",
         "duration-150",
         "bg-black",
+        {
+          "bottom-full origin-bottom": isTop,
+          "translate-y-3 group-hover:-translate-y-4": isTop,
+          "top-full origin-top": isBottom,
+          "-translate-y-3 group-hover:translate-y-4": isBottom,
+          "left-1/2 -translate-x-1/2": from === "top-center",
+          "left-0 -translate-x-6": isLeft,
+          "right-0 translate-x-6": isRight,
+        },
       )}
     >
       {title && <h4 className="text-[9px] font-bold">{t(title)}</h4>}

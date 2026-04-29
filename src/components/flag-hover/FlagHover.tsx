@@ -1,11 +1,11 @@
 import type { PropsWithChildren } from "react";
-import { FlagHoverPanel } from "./FlagHoverPanel";
+import { FlagHoverPanel, type PanelFrom } from "./FlagHoverPanel";
 import { cn } from "@/utils/tailwind";
 import type { FlagData } from "@/features/filters/hooks/useFlagsForDate";
 
 type Props = {
   flags?: FlagData[];
-  place?: "top" | "bottom";
+  from?: PanelFrom;
   className?: string;
   shouldSkipGroup?: boolean;
 };
@@ -13,7 +13,7 @@ type Props = {
 export const FlagHover = ({
   flags,
   children,
-  place = "top",
+  from = "top-center",
   className = "",
   shouldSkipGroup = false,
 }: PropsWithChildren<Props>) => {
@@ -27,7 +27,7 @@ export const FlagHover = ({
         className,
       )}
     >
-      <FlagHoverPanel flags={flags} place={place} />
+      <FlagHoverPanel flags={flags} from={from} />
       {children}
     </div>
   );
