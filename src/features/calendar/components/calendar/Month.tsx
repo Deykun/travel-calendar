@@ -53,7 +53,7 @@ export const Month = ({ className = "", month }: Props) => {
           },
         )}
       >
-        <FlagHover flags={flags} place="bottom">
+        <FlagHover flags={flags} from="bottom-left">
           {t("summary.countries", {
             postProcess: "interval",
             count: flags.length,

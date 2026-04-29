@@ -1,7 +1,7 @@
 import { FlagHover } from "@/components/flag-hover/FlagHover";
 import useFiltersStore from "@/features/filters/stores/useFilterStore";
 
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 import {
   closeSidebar,
   openSidebar,
@@ -11,6 +11,7 @@ import { cn } from "@/utils/tailwind";
 import usePreferencesStore from "@/features/preferences/stores/usePreferencesStore";
 import { IconTravelForDay } from "./IconTravelForDay";
 import { useFlagsSimple } from "@/features/filters/hooks/useFlagsSimple";
+import type { PanelFrom } from "@/components/flag-hover/FlagHoverPanel";
 
 type Props = {
   className?: string;
@@ -59,6 +60,18 @@ export const Day = ({ className = "", dayNumber, dayKey }: Props) => {
     openSidebar({ type: "day", dayKey });
   }, [dayKey, isSidebarOpen]);
 
+  const from: PanelFrom = useMemo(() => {
+    if (dayNumber % 7 === 1) {
+      return "top-left";
+    }
+
+    if (dayNumber % 7 === 0) {
+      return "top-right";
+    }
+
+    return "top-center";
+  }, [dayNumber]);
+
   return (
     <button
       onClick={handleClick}
@@ -82,6 +95,8 @@ export const Day = ({ className = "", dayNumber, dayKey }: Props) => {
       <FlagHover
         flags={flags}
         className="inline-flex flex-col gap-1"
+        // dayNumber
+        from={from}
         shouldSkipGroup
       >
         <IconTravelForDay total={total} counterShouldShow={counterShouldShow} />

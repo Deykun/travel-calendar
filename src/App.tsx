@@ -3,14 +3,14 @@ import { Sidebar } from "./features/sidebar/components/Sidebar";
 
 function App() {
   return (
-    <>
-      <div className="flex gap-5">
-        <Sidebar className="shrink-0 z-1000" />
-        <div className="w-full @container">
-          <Calendar className="pt-24 pb-24" />
+    <div className="flex ">
+      <Sidebar className="shrink-0 z-1000" />
+      <div className="w-full @container">
+        <div className="overflow-hidden pl-95 pt-24 pb-24">
+          <Calendar className="" />
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

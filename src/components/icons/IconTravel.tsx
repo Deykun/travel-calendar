@@ -19,7 +19,7 @@ export const Icon = ({
 }: Props) => {
   const opacity =
     maxTotal && total > 0
-      ? Math.abs(1 - Math.min(1, (total + 1.25) / (maxTotal + 1))).toFixed(1)
+      ? Math.abs(1 - Math.min(1, (total + 0.75) / (maxTotal + 1))).toFixed(1)
       : "0";
 
   return (
@@ -71,8 +71,8 @@ export const Icon = ({
           "col-start-1 row-start-1 text-sm font-semibold relative z-1 opacity-0 duration-500",
           {
             "opacity-100": shouldShowAllNumbers || total > 1,
+            [styles["value"]]: total > 1,
           },
-          styles["value"],
         )}
       >
         {total}

@@ -14,7 +14,9 @@ export function Sidebar({ className = "" }: Props) {
   return (
     <aside
       className={cn(
-        "sticky top-0",
+        // "sticky top-0",
+        // "sticky top-0",
+        "fixed top-0 left-0",
         "h-dvh",
         "overflow-auto",
         "w-95",
