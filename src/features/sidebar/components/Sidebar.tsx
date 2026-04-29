@@ -2,8 +2,9 @@ import { cn } from "@/utils/tailwind";
 import { SidebarContent } from "./SidebarContent";
 import { ButtonUpdate } from "@/features/settings/components/ButtonUpdate";
 import { ButtonFilter } from "@/features/filters/components/ButtonFilter";
-import { Button } from "@/components/button/Button";
+
 import IconGithub from "@/components/icons/IconGithub";
+import { Button } from "@/components/button/Button";
 
 type Props = {
   className?: string;
