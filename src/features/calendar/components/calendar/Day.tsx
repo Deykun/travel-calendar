@@ -1,9 +1,7 @@
-import IconTravel from "@/components/icons/IconTravel";
 import { FlagHover } from "@/components/flag-hover/FlagHover";
 import useFiltersStore from "@/features/filters/stores/useFilterStore";
 
 import { useCallback } from "react";
-import { useFlagsForDay } from "@/features/filters/hooks/useFlagsForDate";
 import {
   closeSidebar,
   openSidebar,
@@ -12,6 +10,7 @@ import {
 import { cn } from "@/utils/tailwind";
 import usePreferencesStore from "@/features/preferences/stores/usePreferencesStore";
 import { IconTravelForDay } from "./IconTravelForDay";
+import { useFlagsSimple } from "@/features/filters/hooks/useFlagsSimple";
 
 type Props = {
   className?: string;
@@ -38,10 +37,12 @@ export const Day = ({ className = "", dayNumber, dayKey }: Props) => {
     (store) => store.filtered.summaryByDay[dayKey]?.yearsAbroad || EMPTY_ARRAY,
   );
 
-  const { flags, isHighlightAbroadTravelActive } = useFlagsForDay(
-    dayKey,
-    false,
+  const countriesCodesByYear = useFiltersStore(
+    (store) => store.filtered.summaryByDay[dayKey]?.countriesCodesByYear,
   );
+
+  const { flags, isHighlightAbroadTravelActive } =
+    useFlagsSimple(countriesCodesByYear);
 
   const total =
     counterShouldShow === "yearsAbroad"
@@ -65,7 +66,7 @@ export const Day = ({ className = "", dayNumber, dayKey }: Props) => {
         "inline-flex items-center flex-col gap-1",
         "p-1 pt-2",
         "rounded-sm",
-        "duration-150",
+        "duration-500",
         "group",
         {
           "text-[#979797] hover:bg-[#fffb000d] hover:text-white":
@@ -84,9 +85,7 @@ export const Day = ({ className = "", dayNumber, dayKey }: Props) => {
         shouldSkipGroup
       >
         <IconTravelForDay total={total} counterShouldShow={counterShouldShow} />
-        <p className={cn("text-sm tracking-wider transition-bounce")}>
-          {dayNumber}
-        </p>
+        <p className={cn("text-sm tracking-wider duration-500")}>{dayNumber}</p>
       </FlagHover>
     </button>
   );

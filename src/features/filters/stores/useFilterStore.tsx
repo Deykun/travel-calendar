@@ -18,6 +18,9 @@ type SummaryDay = {
 type SummaryMonth = {
   monthNumber: MonthNumber;
   countriesCodes: string[];
+  countriesCodesByYear: {
+    [year: number]: string[];
+  };
   daysAbroad: string[];
   total: number;
 };

@@ -6,8 +6,8 @@ import Input from "@/components/input/Input";
 import { useTranslation } from "react-i18next";
 import useDataStore from "../stores/useDateStore";
 import { getDataFromNomads } from "../actions/get-data-from-nomads";
-import { Button } from "@/components/button/Button";
 import { closeSidebar } from "@/features/sidebar/stores/useSidebarStore";
+import { Button } from "@/components/button/Button";
 
 const sidebarStyles = cn(
   "rounded-lg",

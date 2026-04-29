@@ -30,12 +30,14 @@ export type DataStoreState = {
   daysByCountry: {
     [countryCode: string]: DateMMDD[] | undefined;
   };
-  daysByCountriesByYear: {
-    [year: string | number]:
-      | undefined
-      | {
-          [countryCode: string]: DateMMDD[] | undefined;
-        };
+  daysByCountryByMonthByYear: {
+    [year: string | number]: {
+      [month: string | number]:
+        | undefined
+        | {
+            [countryCode: string]: DateMMDD[] | undefined;
+          };
+    };
   };
   placesByKey: {
     [placeKey: string]: MetadataPlace | undefined;
@@ -61,7 +63,7 @@ const emptyStore: DataStoreState = {
   },
   totalDaysByCountry: {},
   daysByCountry: {},
-  daysByCountriesByYear: {},
+  daysByCountryByMonthByYear: {},
   placesByKey: {},
   dataByDay: {},
   tripsByKey: {},

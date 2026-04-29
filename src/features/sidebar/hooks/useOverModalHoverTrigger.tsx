@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
-import { openSidebar, type OverModal } from "../stores/useSidebarStore";
+import { openSidebar, type Sidebar } from "../stores/useSidebarStore";
 
-export const useOverModalHoverTrigger = (sidebar: OverModal) => {
+export const useOverModalHoverTrigger = (sidebar: Sidebar) => {
   const ref = useRef<HTMLElement>(null);
 
   useEffect(() => {

@@ -1,5 +1,7 @@
 import type { IntegrationNomadsTrip } from "../get-data-from-trips";
 
+import i18nEn from "@/locales/en.json";
+
 const countryByLocation: { [location: string]: string | undefined } = {
   "Sri Lanka": "lk",
   Malta: "mt",
@@ -34,18 +36,33 @@ const countryByCountry: { [place: string]: string | undefined } = {
 };
 
 export const getCountryCodeFromTrip = (trip: IntegrationNomadsTrip): string => {
-  if (typeof trip.place === "string" && countryByLocation[trip.place]) {
-    return countryByLocation[trip.place] as string;
+  const place = trip.place || "";
+  const country = trip.country || "";
+
+  if (countryByLocation[place]) {
+    return countryByLocation[place] as string;
   }
 
-  if (typeof trip.country === "string" && countryByLocation[trip.country]) {
-    return countryByLocation[trip.country] as string;
+  if (countryByLocation[country]) {
+    return countryByLocation[country] as string;
   }
 
   const countryCodeFromTrip = trip.country_code.toLowerCase();
 
   if (countryCodeFromTrip) {
     return countryByCountry[countryCodeFromTrip] ?? countryCodeFromTrip;
+  }
+
+  const countryKeyFromI18n = Object.entries(i18nEn).find(([, value]) =>
+    [place, country].includes(value),
+  );
+
+  if (countryKeyFromI18n) {
+    const countryCodeFromI18n = countryKeyFromI18n[0].split(".").at(-1);
+
+    if (countryCodeFromI18n) {
+      return countryCodeFromI18n;
+    }
   }
 
   console.error(`Missing flag for trip.`, trip);

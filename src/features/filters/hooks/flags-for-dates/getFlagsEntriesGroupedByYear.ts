@@ -1,6 +1,6 @@
 import type { DateYYYYMMDD } from "@/types";
 import type { FlagData } from "../useFlagsForDate";
-import { mergeStringsWithUnique } from "@/utils/array";
+import { mergeUnique } from "@/utils/array";
 import type { DataStoreState } from "@/features/settings/stores/useDateStore";
 
 type PeriodsIndex = {
@@ -19,15 +19,13 @@ type PeriodsIndex = {
   };
 };
 
-type Params = {
-  dates: DateYYYYMMDD[];
-  dataByDay: DataStoreState["dataByDay"];
-};
-
 export const getFlagsEntriesGroupedByYear = ({
   dates,
   dataByDay,
-}: Params): PeriodsIndex => {
+}: {
+  dates: DateYYYYMMDD[];
+  dataByDay: DataStoreState["dataByDay"];
+}): PeriodsIndex => {
   return dates.sort().reduce(
     (stack: PeriodsIndex, dateWithYear) => {
       const year = Number(dateWithYear.split("-")[0]);
@@ -45,13 +43,16 @@ export const getFlagsEntriesGroupedByYear = ({
         if (!stack.countriesByYear[year]) {
           stack.countriesByYear[year] = [countryCode];
         } else {
-          stack.countriesByYear[year] = [...stack.countriesByYear[year], countryCode];
+          stack.countriesByYear[year] = [
+            ...stack.countriesByYear[year],
+            countryCode,
+          ];
         }
 
         if (periodId) {
           currentYear[countryCode] = periodId;
           stack.periodsByIds[periodId].to = year;
-          stack.periodsByIds[periodId].tripsKeys = mergeStringsWithUnique(
+          stack.periodsByIds[periodId].tripsKeys = mergeUnique(
             stack.periodsByIds[periodId].tripsKeys,
             dataForDay.tripsKeys,
           );
@@ -78,4 +79,66 @@ export const getFlagsEntriesGroupedByYear = ({
       countriesByYear: {},
     },
   );
+};
+
+export const getFlagsEntriesGroupedByYearSimple = ({
+  countriesCodesByYear = {},
+}: {
+  countriesCodesByYear:
+    | undefined
+    | {
+        [year: string | number]: string[];
+      };
+}): PeriodsIndex => {
+  return Object.entries(countriesCodesByYear)
+    .sort((a, b) => Number(a[0]) - Number(b[0]))
+    .reduce(
+      (stack: PeriodsIndex, [rawYear, countriesCodes]) => {
+        const year = Number(rawYear);
+
+        const previousYear = stack.idByCountryByYear[year - 1] || {};
+        const currentYear = stack.idByCountryByYear[year] || {};
+
+        /*
+          It merges visits to the country from 2019, 2020, and 2021 into a single entry: 2019–2021.
+        */
+        countriesCodes.forEach((countryCode) => {
+          const periodId = previousYear?.[countryCode];
+
+          if (!stack.countriesByYear[year]) {
+            stack.countriesByYear[year] = [countryCode];
+          } else {
+            stack.countriesByYear[year] = [
+              ...stack.countriesByYear[year],
+              countryCode,
+            ];
+          }
+
+          if (periodId) {
+            currentYear[countryCode] = periodId;
+            stack.periodsByIds[periodId].to = year;
+          } else {
+            const newPeriodId = `${year}-${countryCode}`;
+
+            currentYear[countryCode] = newPeriodId;
+            stack.periodsByIds[newPeriodId] = {
+              countryCode,
+              from: year,
+              to: year,
+              // Simple skips tripsKeys
+              tripsKeys: [],
+            };
+          }
+        });
+
+        stack.idByCountryByYear[year] = currentYear;
+
+        return stack;
+      },
+      {
+        periodsByIds: {},
+        idByCountryByYear: {},
+        countriesByYear: {},
+      },
+    );
 };

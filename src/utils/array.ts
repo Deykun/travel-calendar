@@ -8,7 +8,7 @@ export function chunkArray<T>(arr: T[], size: number): T[][] {
   return chunks;
 }
 
-export function mergeStringsWithUnique<T>(
+export function mergeUnique<T>(
   arrayA: T[] | undefined,
   arrayB: T[] | undefined,
 ): T[] {
@@ -19,7 +19,5 @@ export const mergeUniqueAndSort = (
   stringsA: string[] | undefined,
   stringsB: string[] | undefined,
 ) => {
-  return mergeStringsWithUnique(stringsA, stringsB).sort((a, b) =>
-    a.localeCompare(b),
-  );
+  return mergeUnique(stringsA, stringsB).sort((a, b) => a.localeCompare(b));
 };

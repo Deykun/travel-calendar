@@ -7,7 +7,7 @@ import {
 import type { DataStoreState } from "../../stores/useDateStore";
 import { getPlaceKey } from "../../utils/get-place-key";
 import { getCountryCodeFromTrip } from "./utils/get-country-code-from-trip";
-import { mergeStringsWithUnique } from "@/utils/array";
+import { mergeUnique } from "@/utils/array";
 
 export type IntegrationNomadsTrip = {
   trip_id: string;
@@ -30,7 +30,7 @@ type Response = Pick<
   | "dataByDay"
   | "tripsByKey"
   | "daysByCountry"
-  | "daysByCountriesByYear"
+  | "daysByCountryByMonthByYear"
 > & {
   totalDaysByCountry: TotalDaysByCountry;
 };
@@ -85,23 +85,28 @@ export const getDataFromTrips = (trips: IntegrationNomadsTrip[]): Response => {
           };
         }
 
-        stack.daysByCountry[countryCode] = mergeStringsWithUnique(
+        stack.daysByCountry[countryCode] = mergeUnique(
           stack.daysByCountry[countryCode],
           [dayWithoutYear],
         );
 
-        const { year } = stringDateToObject(date);
+        const { year, month } = stringDateToObject(date);
 
-        if (!stack.daysByCountriesByYear[year]) {
-          stack.daysByCountriesByYear[year] = {};
+        if (!stack.daysByCountryByMonthByYear[year]) {
+          stack.daysByCountryByMonthByYear[year] = {};
         }
 
-        stack.daysByCountriesByYear[year][countryCode] = mergeStringsWithUnique(
-          stack.daysByCountriesByYear[year][countryCode],
-          [dayWithoutYear],
-        );
+        if (!stack.daysByCountryByMonthByYear[year][month]) {
+          stack.daysByCountryByMonthByYear[year][month] = {};
+        }
 
-        stack.dataByDay[date].tripsKeys = mergeStringsWithUnique(
+        stack.daysByCountryByMonthByYear[year][month][countryCode] =
+          mergeUnique(
+            stack.daysByCountryByMonthByYear[year][month][countryCode],
+            [dayWithoutYear],
+          );
+
+        stack.dataByDay[date].tripsKeys = mergeUnique(
           stack.dataByDay[date].tripsKeys,
           [trip.trip_id],
         );
@@ -126,7 +131,7 @@ export const getDataFromTrips = (trips: IntegrationNomadsTrip[]): Response => {
       tripsByKey: {},
       totalDaysByCountry: {},
       daysByCountry: {},
-      daysByCountriesByYear: {},
+      daysByCountryByMonthByYear: {},
     },
   );
 };
