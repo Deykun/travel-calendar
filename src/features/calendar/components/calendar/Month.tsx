@@ -18,8 +18,15 @@ type Props = {
 
 export const Month = ({ className = "", month }: Props) => {
   const { t } = useTranslation();
-  const monthSummary = useFiltersStore(
-    (store) => store.filtered.summaryByMonth[month.monthNumber],
+
+  const daysAbroad = useFiltersStore(
+    (store) =>
+      store.filtered.summaryByMonth[month.monthNumber]?.daysAbroad.length || 0,
+  );
+  const visitedCountries = useFiltersStore(
+    (store) =>
+      store.filtered.summaryByMonth[month.monthNumber]?.countriesCodes.length ||
+      0,
   );
 
   const countriesCodesByYear = useFiltersStore(
@@ -28,8 +35,6 @@ export const Month = ({ className = "", month }: Props) => {
   );
 
   const { flags } = useFlagsSimple(countriesCodesByYear);
-
-  const daysAbroad = monthSummary?.daysAbroad.length || 0;
 
   const daysInMonth = getDaysInMonth(month.monthNumber);
 
@@ -49,14 +54,14 @@ export const Month = ({ className = "", month }: Props) => {
           "absolute top-5 left-5",
           "text-xs text-gray-400 tracking-wider",
           {
-            "text-gray-500": flags.length === 0,
+            "text-gray-500": visitedCountries === 0,
           },
         )}
       >
         <FlagHover flags={flags} from="bottom-left">
           {t("summary.countries", {
             postProcess: "interval",
-            count: flags.length,
+            count: visitedCountries,
           })}
         </FlagHover>
       </span>

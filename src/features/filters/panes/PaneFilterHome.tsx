@@ -1,4 +1,5 @@
 import { Checkbox } from "@/components/checkbox/Checkbox";
+import IconTravel from "@/components/icons/IconTravel";
 import { MiniCalendarForCountry } from "@/features/calendar/components/mini-calendar/MiniCalendarForCountry";
 import useFiltersStore, {
   toggleHomeCountry,
@@ -20,7 +21,8 @@ export const PaneFilterHome = ({ className = "" }: Props) => {
   const { t } = useTranslation();
   return (
     <Pane className={className}>
-      <Pane.Title>Consider home</Pane.Title>
+      <Pane.Title>{t("preferences.homeCountry")}</Pane.Title>
+      <p className="mb-2">{t("preferences.homeCountry.tip")} <IconTravel total={0} /></p>
       <Pane.List>
         {Object.entries(totalDaysByCountry).map(([countryCode, total]) =>
           total < 0 ? null : (
