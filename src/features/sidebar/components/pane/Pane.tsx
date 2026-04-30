@@ -71,12 +71,11 @@ Pane.Footer = ({
   return (
     <div
       className={cn(
-        "mt-4",
+        "mt-6",
         {
           [styles["footer"]]: isSticky,
           "sticky -bottom-8 z-1": isSticky,
           "-mb-4 pb-4": isSticky,
-          "mt-8": isSticky,
           "pl-2 -ml-2": isSticky,
         },
         "rounded-xs",
