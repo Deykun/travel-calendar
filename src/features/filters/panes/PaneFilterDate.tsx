@@ -1,14 +1,27 @@
 import useDataStore from "@/features/settings/stores/useDateStore";
 import { getArrayOfYears } from "@/utils/date";
 
-import useFiltersStore, { setDateFilter } from "../stores/useFilterStore";
+import useFiltersStore, {
+  setDateFilter,
+  setFromFilter,
+  setToFilter,
+} from "../stores/useFilterStore";
 import { Radiobox } from "@/components/radiobox/Radiobox";
 import { MiniCalendarForYear } from "@/features/calendar/components/mini-calendar/MiniCalendarForYear";
 import { Pane } from "@/features/sidebar/components/pane/Pane";
+import { useTranslation } from "react-i18next";
 
 export function PaneFilterDate() {
   const activeFrom = useFiltersStore((store) => store.activeFilters.from);
+  const activeTo = useFiltersStore((store) => store.activeFilters.to);
   const { from, to } = useDataStore((store) => store.date);
+
+  const { t } = useTranslation();
+
+  const activeFromYear = activeFrom
+    ? Number(activeFrom.split("-").at(0))
+    : undefined;
+  const activeToYear = activeTo ? Number(activeTo.split("-").at(0)) : undefined;
 
   if (!from || !to) {
     return null;
@@ -18,24 +31,47 @@ export function PaneFilterDate() {
 
   return (
     <Pane>
-      <Pane.Title>Date</Pane.Title>
-      <Pane.List>
+      <Pane.Title>{t("preferences.years")}</Pane.Title>
+      <Pane.List className="grid grid-cols-2 gap-2 justify-cen">
+        <Pane.Subtitle>{t("preferences.from")}</Pane.Subtitle>
+        <Pane.Subtitle>{t("preferences.to")}</Pane.Subtitle>
         {years.map((year) => {
-          const isActive = (activeFrom || "").startsWith(String(year));
+          const isFromActive = (activeFrom || "").startsWith(String(year));
+          const isToActive = (activeTo || "").startsWith(String(year));
 
           return (
-            <Radiobox
-              key={year}
-              isActive={isActive}
-              onChange={() =>
-                isActive
-                  ? setDateFilter(undefined, undefined)
-                  : setDateFilter(`${year}-01-01`, `${year}-12-31`)
-              }
-            >
-              <span>{year}</span>
-              <MiniCalendarForYear year={year} />
-            </Radiobox>
+            <>
+              <span>
+                <Radiobox
+                  key={year}
+                  isActive={isFromActive}
+                  onChange={() =>
+                    isFromActive
+                      ? setFromFilter(undefined)
+                      : setFromFilter(`${year}-01-01`)
+                  }
+                  isDisabled={!!activeToYear && activeToYear < year}
+                >
+                  <span>{year}</span>
+                  <MiniCalendarForYear year={year} />
+                </Radiobox>
+              </span>
+              <span>
+                <Radiobox
+                  key={year}
+                  isActive={isToActive}
+                  onChange={() =>
+                    isToActive
+                      ? setToFilter(undefined)
+                      : setToFilter(`${year}-12-31`)
+                  }
+                  isDisabled={!!activeFromYear && activeFromYear > year}
+                >
+                  <span>{year}</span>
+                  <MiniCalendarForYear year={year} />
+                </Radiobox>
+              </span>
+            </>
           );
         })}
       </Pane.List>

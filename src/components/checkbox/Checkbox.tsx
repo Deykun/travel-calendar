@@ -10,6 +10,7 @@ export type Props = {
   isActive?: boolean;
   onChange: (value: boolean) => void;
   frameIcon?: React.ElementType;
+  isDisabled?: boolean;
 };
 
 export const Checkbox = ({
@@ -19,6 +20,7 @@ export const Checkbox = ({
   isActive,
   frameIcon,
   children,
+  isDisabled = false,
 }: PropsWithChildren<Props>) => {
   const Frame = frameIcon ?? IconCheckboxFrame;
 
@@ -32,12 +34,14 @@ export const Checkbox = ({
         {
           "hover:bg-[#1d1d0f]": !isActive,
           "bg-[#40403f] text-white": isActive,
+          "opacity-20": isDisabled,
         },
         "cursor-pointer",
         "transition-bounce",
         classNameWrapper,
       )}
       onClick={() => onChange(!isActive)}
+      disabled={isDisabled}
     >
       <span
         className={cn(

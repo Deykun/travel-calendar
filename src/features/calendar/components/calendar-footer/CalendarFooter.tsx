@@ -15,6 +15,10 @@ export function CalendarFooter() {
     (store) => store.activeFilters.homeCountriesCodes || EMPTY_ARRAY,
   );
 
+  if (homeCountriesCodes.length === 0) {
+    return null;
+  }
+
   return (
     <section
       className={cn(
