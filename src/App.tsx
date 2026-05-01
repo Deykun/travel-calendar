@@ -9,7 +9,7 @@ function App() {
       <Sidebar className="shrink-0 z-1000" />
       <div className="w-full">
         <div className="overflow-hidden pl-95 pt-24 pb-24">
-          <div className="@container">
+          <div className="@container max-w-[2000px] mx-auto">
             <CalendarHeader />
             <Calendar />
             <CalendarFooter />
