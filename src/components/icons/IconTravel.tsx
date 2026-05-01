@@ -9,6 +9,7 @@ type Props = {
   total: number;
   maxTotal?: number;
   shouldShowAllNumbers?: boolean;
+  classNameSize?: string;
 };
 
 export const Icon = ({
@@ -16,6 +17,7 @@ export const Icon = ({
   shouldShowAllNumbers = false,
   total,
   maxTotal,
+  classNameSize = "size-6",
 }: Props) => {
   const opacity =
     maxTotal && total > 0
@@ -27,10 +29,11 @@ export const Icon = ({
       className={cn(
         "relative",
         "inline-grid place-items-center",
-        "size-6 rounded-lg",
+        "rounded-lg",
         "leading-0",
         "duration-500",
         className,
+        classNameSize,
         {
           "bg-[#272620] text-[#54544b]": total === 0,
           "text-black": total > 0,
@@ -79,7 +82,8 @@ export const Icon = ({
       </span>
       <IconCheck
         className={cn(
-          "col-start-1 row-start-1 size-6 relative z-1 opacity-0 scale-0 duration-500",
+          "col-start-1 row-start-1 relative z-1 opacity-0 scale-0 duration-500",
+          classNameSize,
           {
             "opacity-100 scale-100": !shouldShowAllNumbers && total === 1,
           },
@@ -88,9 +92,10 @@ export const Icon = ({
       />
       <IconHome
         className={cn(
-          "col-start-1 row-start-1 size-4 relative z-1 opacity-0 scale-0 duration-500",
+          "col-start-1 row-start-1 relative z-1 opacity-0 scale-0 duration-500",
+          classNameSize,
           {
-            "opacity-100 scale-100": !shouldShowAllNumbers && total === 0,
+            "opacity-100 scale-65": !shouldShowAllNumbers && total === 0,
           },
           "text-[#54544b]",
         )}

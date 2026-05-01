@@ -10,13 +10,12 @@ import { ToggleShowHome } from "@/features/preferences/components/ToggleShowHome
 import { useFlagsForDay } from "@/features/filters/hooks/useFlagsForDate";
 import { Period } from "../components/calendar/Period";
 import { useTranslation } from "react-i18next";
+import { EMPTY_ARRAY } from "@/utils/empty";
 
 type Props = {
   className?: string;
   dayKey: string;
 };
-
-const EMPTY_ARRAY: string[] = [];
 
 const sidebarStyles = cn(
   "rounded-lg",
@@ -35,6 +34,9 @@ const getFlagKey = ({
 };
 
 export const SidebarDay = ({ className, dayKey }: Props) => {
+  const homeCountriesCodes = useFiltersStore(
+    (store) => store.activeFilters.homeCountriesCodes || EMPTY_ARRAY,
+  );
   const [details, setDetails] = useState<{
     flagKey: string;
     tripsKeys: string[];
@@ -111,6 +113,7 @@ export const SidebarDay = ({ className, dayKey }: Props) => {
               isActive={
                 details.flagKey === getFlagKey({ year: from, countryCode })
               }
+              shouldShowHomeMarker={homeCountriesCodes.includes(countryCode)}
             />
           ))}
         </div>

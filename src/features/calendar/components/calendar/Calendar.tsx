@@ -1,6 +1,11 @@
 import { cn } from "@/utils/tailwind";
 import { DAYS_GROUPED_BY_MONTHS } from "../../utils/get-days";
 import { Month } from "./Month";
+import {
+  classNamesLayoutGap,
+  classNamesLayoutGrid,
+  classNamesLayoutPx,
+} from "@/layouts/layout-app";
 
 type Props = {
   className?: string;
@@ -10,9 +15,9 @@ export const Calendar = ({ className }: Props) => {
   return (
     <div
       className={cn(
-        "gap-4 @min-[1200px]:gap-8",
-        "px-4 @min-[900px]:px-6 @min-[1200px]:px-12",
-        "grid grid-cols-1 @min-[780px]:grid-cols-2 @min-[1200px]:grid-cols-3 @min-[1600px]:grid-cols-4",
+        classNamesLayoutGap,
+        classNamesLayoutPx,
+        classNamesLayoutGrid,
         className,
       )}
     >

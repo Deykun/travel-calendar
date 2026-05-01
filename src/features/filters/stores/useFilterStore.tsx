@@ -131,4 +131,28 @@ export const setDateFilter = (
   refreshFiltered();
 };
 
+export const setFromFilter = (from: DateYYYYMMDD | undefined) => {
+  useFiltersStore.setState((state) => ({
+    ...state,
+    activeFilters: {
+      ...state.activeFilters,
+      from,
+    },
+  }));
+
+  refreshFiltered();
+};
+
+export const setToFilter = (to: DateYYYYMMDD | undefined) => {
+  useFiltersStore.setState((state) => ({
+    ...state,
+    activeFilters: {
+      ...state.activeFilters,
+      to,
+    },
+  }));
+
+  refreshFiltered();
+};
+
 export default useFiltersStore;

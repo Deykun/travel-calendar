@@ -10,6 +10,7 @@ import { getDayKey } from "@/features/settings/utils/get-day-key";
 import type { MonthMetadata } from "../../types";
 import { getDaysInMonth } from "../../utils/get-days";
 import { useFlagsSimple } from "@/features/filters/hooks/useFlagsSimple";
+import { TextCounter } from "@/components/text-counter/TextCounter";
 
 type Props = {
   className?: string;
@@ -68,17 +69,11 @@ export const Month = ({ className = "", month }: Props) => {
       <h2 className={cn("text-2xl text-white", "font-semibold mb-4")}>
         {t(month.name)}{" "}
       </h2>
-      <span
-        className={cn(
-          "absolute top-5 right-5",
-          "text-xs text-gray-400 tracking-wider",
-          {
-            "text-[#fcff4e] font-semibold": daysAbroad === daysInMonth,
-          },
-        )}
-      >
-        {daysAbroad || 0} / {daysInMonth}
-      </span>
+      <TextCounter
+        className="absolute top-5 right-5"
+        value={daysAbroad || 0}
+        max={daysInMonth}
+      />
       <div className={cn("grid grid-cols-7 gap-x-1.5 gap-y-1")}>
         {month.days.map((day) => (
           <Day

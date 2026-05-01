@@ -1,13 +1,15 @@
 import { ImageFlag } from "@/components/image-flag/ImageFlag";
 import { cn } from "@/utils/tailwind";
+import type { PropsWithChildren } from "react";
 
 type Props = {
   className?: string;
-  from: number;
-  to: number;
+  from?: number;
+  to?: number;
   countryCode: string;
   onClick?: () => void;
   isActive?: boolean;
+  shouldShowHomeMarker?: boolean;
 };
 
 export const Period = ({
@@ -17,7 +19,9 @@ export const Period = ({
   countryCode,
   onClick,
   isActive = false,
-}: Props) => {
+  children,
+  shouldShowHomeMarker,
+}: PropsWithChildren<Props>) => {
   const Tag = onClick ? "button" : "span";
 
   return (
@@ -36,7 +40,10 @@ export const Period = ({
       )}
       onClick={onClick}
     >
-      <ImageFlag countryCode={countryCode} />
+      <ImageFlag
+        countryCode={countryCode}
+        shouldShowHomeMarker={shouldShowHomeMarker}
+      />
       <div className="mt-1 text-[12px] text-nowrap text-white tracking-widest font-semibold">
         {from === to && from}
         {from !== to && (
@@ -44,6 +51,7 @@ export const Period = ({
             {from} <br /> {to}
           </div>
         )}
+        {children}
       </div>
     </Tag>
   );

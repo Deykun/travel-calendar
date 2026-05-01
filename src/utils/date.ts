@@ -62,7 +62,7 @@ export function getArrayOfYears(from?: DateYYYYMMDD, to?: DateYYYYMMDD) {
     years.push(year);
   }
 
-  return years.reverse();
+  return years;
 }
 
 export const getDaysInYear = (year: number) => {

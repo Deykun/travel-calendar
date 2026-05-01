@@ -21,7 +21,7 @@ export const ToggleShowHome = ({ className = "" }: Props) => {
       isActive={shouldShowHome}
       onChange={toggleShouldShowHomeInSidebar}
     >
-      {t(`preferences.showHome`)}
+      {t(`preferences.showHomeCountry`)}
     </Checkbox>
   );
 };

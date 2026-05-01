@@ -1,11 +1,10 @@
 import { cn } from "@/utils/tailwind";
-import {
-  DAYS_GROUPED_BY_MONTHS_BY_DAYS_IN_YEAR,
-} from "../../utils/get-days";
+import { DAYS_GROUPED_BY_MONTHS_BY_DAYS_IN_YEAR } from "../../utils/get-days";
 import { useTranslation } from "react-i18next";
 import type { DateMMDD } from "@/types";
 import { getDayKey } from "@/features/settings/utils/get-day-key";
 import type { PropsWithChildren } from "react";
+import { TextCounter } from "@/components/text-counter/TextCounter";
 
 type Props = {
   className?: string;
@@ -42,26 +41,18 @@ export const MiniCalendar = ({
           {children}
         </strong>
       )}
-      <span
-        className={cn(
-          "absolute top-5 left-5",
-          "text-xs tracking-wider",
-          "text-[#fcff4e] font-semibold",
-        )}
-      >
-        {((activeDays.length / daysInYear) * 100).toFixed(1)}%
-      </span>
-      <span
-        className={cn(
-          "absolute top-5 right-5",
-          "text-xs text-gray-400 tracking-wider",
-          {
-            "text-[#fcff4e] font-semibold": activeDays.length >= daysInYear,
-          },
-        )}
-      >
-        {activeDays.length || 0} / {daysInYear}
-      </span>
+      <TextCounter
+        className="absolute top-5 left-5"
+        value={activeDays.length}
+        max={daysInYear}
+        variant="percent"
+      />
+      <TextCounter
+        className="absolute top-5 right-5"
+        value={activeDays.length}
+        max={daysInYear}
+        variant="slash"
+      />
       <div className="grid grid-cols-4 gap-4">
         {DAYS_GROUPED_BY_MONTHS_BY_DAYS_IN_YEAR[daysInYear].map((month) => (
           <div
