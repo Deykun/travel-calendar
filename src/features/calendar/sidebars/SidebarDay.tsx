@@ -34,6 +34,9 @@ const getFlagKey = ({
 };
 
 export const SidebarDay = ({ className, dayKey }: Props) => {
+  const homeCountriesCodes = useFiltersStore(
+    (store) => store.activeFilters.homeCountriesCodes || EMPTY_ARRAY,
+  );
   const [details, setDetails] = useState<{
     flagKey: string;
     tripsKeys: string[];
@@ -110,6 +113,7 @@ export const SidebarDay = ({ className, dayKey }: Props) => {
               isActive={
                 details.flagKey === getFlagKey({ year: from, countryCode })
               }
+              shouldShowHomeMarker={homeCountriesCodes.includes(countryCode)}
             />
           ))}
         </div>

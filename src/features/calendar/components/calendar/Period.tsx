@@ -9,6 +9,7 @@ type Props = {
   countryCode: string;
   onClick?: () => void;
   isActive?: boolean;
+  shouldShowHomeMarker?: boolean;
 };
 
 export const Period = ({
@@ -19,6 +20,7 @@ export const Period = ({
   onClick,
   isActive = false,
   children,
+  shouldShowHomeMarker,
 }: PropsWithChildren<Props>) => {
   const Tag = onClick ? "button" : "span";
 
@@ -38,7 +40,10 @@ export const Period = ({
       )}
       onClick={onClick}
     >
-      <ImageFlag countryCode={countryCode} />
+      <ImageFlag
+        countryCode={countryCode}
+        shouldShowHomeMarker={shouldShowHomeMarker}
+      />
       <div className="mt-1 text-[12px] text-nowrap text-white tracking-widest font-semibold">
         {from === to && from}
         {from !== to && (

@@ -1,5 +1,6 @@
 import { cn } from "@/utils/tailwind";
 import type { PropsWithChildren } from "react";
+import IconTravel from "../icons/IconTravel";
 
 const fallbackFlags: { [key: string]: string | undefined } = {
   UK: "GB",
@@ -8,12 +9,21 @@ const fallbackFlags: { [key: string]: string | undefined } = {
 
 type Props = {
   countryCode: string;
+  shouldShowHomeMarker?: boolean;
 };
 
-export const ImageFlag = ({ countryCode }: PropsWithChildren<Props>) => {
+export const ImageFlag = ({
+  countryCode,
+  shouldShowHomeMarker = false,
+}: PropsWithChildren<Props>) => {
   return (
     <span
-      className={cn("inline-flex", "p-1.5", "bg-[#3d3d3d6e]", "rounded-[10px]")}
+      className={cn(
+        "inline-flex relative",
+        "p-1.5",
+        "bg-[#3d3d3d6e]",
+        "rounded-[10px]",
+      )}
     >
       <img
         className={cn(
@@ -36,6 +46,13 @@ export const ImageFlag = ({ countryCode }: PropsWithChildren<Props>) => {
         src={`https://purecatamphetamine.github.io/country-flag-icons/3x2/${fallbackFlags[countryCode.toUpperCase()] || countryCode.toUpperCase()}.svg`}
         onError={() => console.error(`Missing flag for "${countryCode}".`)}
       />
+      {shouldShowHomeMarker && (
+        <IconTravel
+          className="absolute -bottom-1 -right-1 z-10"
+          classNameSize="size-5"
+          total={0}
+        />
+      )}
     </span>
   );
 };

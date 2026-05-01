@@ -30,7 +30,7 @@
   "preferences.shouldHighlightAbroadTravel.tip": "Podróż między dwoma krajami, które nie są ustawione jako kraj domowy.",
   "preferences.homeCountry": "Kraj domowy",
   "preferences.homeCountry.tip": "Te kraje nie są uwzględniane w kalendarzu i są oznaczone ikoną domu.",
-  "preferences.showHome": "Pokaż dom",
+  "preferences.showHomeCountry": "Pokaż kraj domowy",
   "preferences.language.title": "Język",
   "preferences.language.current": "Polski",
   "integration.title": "Integracja",
