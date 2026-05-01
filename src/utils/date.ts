@@ -64,3 +64,7 @@ export function getArrayOfYears(from?: DateYYYYMMDD, to?: DateYYYYMMDD) {
 
   return years.reverse();
 }
+
+export const getDaysInYear = (year: number) => {
+  return new Date(year, 1, 29).getMonth() == 1 ? 366 : 365;
+};
