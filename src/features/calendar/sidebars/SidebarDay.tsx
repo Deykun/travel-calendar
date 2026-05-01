@@ -10,13 +10,12 @@ import { ToggleShowHome } from "@/features/preferences/components/ToggleShowHome
 import { useFlagsForDay } from "@/features/filters/hooks/useFlagsForDate";
 import { Period } from "../components/calendar/Period";
 import { useTranslation } from "react-i18next";
+import { EMPTY_ARRAY } from "@/utils/empty";
 
 type Props = {
   className?: string;
   dayKey: string;
 };
-
-const EMPTY_ARRAY: string[] = [];
 
 const sidebarStyles = cn(
   "rounded-lg",

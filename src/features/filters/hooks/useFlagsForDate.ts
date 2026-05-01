@@ -2,11 +2,8 @@ import usePreferencesStore from "@/features/preferences/stores/usePreferencesSto
 import { useMemo } from "react";
 import useFiltersStore from "../stores/useFilterStore";
 import useDataStore from "@/features/settings/stores/useDateStore";
-import type { DateYYYYMMDD } from "@/types";
 import { getFlagsEntriesGroupedByYear } from "./flags-for-dates/getFlagsEntriesGroupedByYear";
-
-const EMPTY_ARRAY: string[] = [];
-const EMPTY_YYYYMMDD_ARRAY: DateYYYYMMDD[] = [];
+import { EMPTY_ARRAY, EMPTY_YYYYMMDD_ARRAY } from "@/utils/empty";
 
 export type FlagData = {
   countryCode: string;

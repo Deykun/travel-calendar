@@ -12,14 +12,13 @@ import usePreferencesStore from "@/features/preferences/stores/usePreferencesSto
 import { IconTravelForDay } from "./IconTravelForDay";
 import { useFlagsSimple } from "@/features/filters/hooks/useFlagsSimple";
 import type { PanelFrom } from "@/components/flag-hover/FlagHoverPanel";
+import { EMPTY_ARRAY } from "@/utils/empty";
 
 type Props = {
   className?: string;
   dayNumber: number;
   dayKey: string;
 };
-
-const EMPTY_ARRAY: string[] = [];
 
 export const Day = ({ className = "", dayNumber, dayKey }: Props) => {
   const counterShouldShow = usePreferencesStore(
@@ -95,7 +94,6 @@ export const Day = ({ className = "", dayNumber, dayKey }: Props) => {
       <FlagHover
         flags={flags}
         className="inline-flex flex-col gap-1"
-        // dayNumber
         from={from}
         shouldSkipGroup
       >

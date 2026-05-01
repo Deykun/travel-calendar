@@ -18,14 +18,14 @@ export const ImageFlag = ({ countryCode }: PropsWithChildren<Props>) => {
       <img
         className={cn(
           "w-9",
-          "aspect-[3_/_2]",
+          "aspect-3/2",
           "object-cover",
           "max-w-none",
           "shrink-0",
           "rounded-sm",
           "saturate-75",
           "drop-shadow",
-          "bg-[#282824] bg-transparent text-gray-400",
+          "bg-transparent text-gray-400",
           "leading-none",
           "tracking-widest",
           "text-xs",
