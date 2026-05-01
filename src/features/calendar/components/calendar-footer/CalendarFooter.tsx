@@ -8,12 +8,14 @@ import {
 import IconTravel from "@/components/icons/IconTravel";
 import { EMPTY_ARRAY } from "@/utils/empty";
 import { CountrySummary } from "../calendar-header/CountrySummary";
-import { t } from "i18next";
+import { useTranslation } from "react-i18next";
 
 export function CalendarFooter() {
   const homeCountriesCodes = useFiltersStore(
     (store) => store.activeFilters.homeCountriesCodes || EMPTY_ARRAY,
   );
+
+  const { t } = useTranslation();
 
   if (homeCountriesCodes.length === 0) {
     return null;
