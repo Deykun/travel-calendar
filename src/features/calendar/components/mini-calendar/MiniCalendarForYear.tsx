@@ -4,6 +4,7 @@ import { useMemo } from "react";
 import useFiltersStore from "@/features/filters/stores/useFilterStore";
 import type { DateMMDD } from "@/types";
 import { mergeUnique } from "@/utils/array";
+import { getDaysInYear } from "@/utils/date";
 
 type Props = {
   year: number;
@@ -60,7 +61,7 @@ export function MiniCalendarForYear({ year }: Props) {
   }
 
   return (
-    <MiniCalendar activeDays={activeDays}>
+    <MiniCalendar activeDays={activeDays} daysInYear={getDaysInYear(year)}>
       <span className="inline-flex mb-1">{year}</span>
     </MiniCalendar>
   );

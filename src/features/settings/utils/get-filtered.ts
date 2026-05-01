@@ -38,7 +38,11 @@ export const getFiltered = (
 
         const isFuture = getIsFuture(dataDay.date);
         if (isFuture) {
-          return stack;
+          const shouldBeIncludedBecauseFilteredForYear = Boolean(to);
+
+          if (!shouldBeIncludedBecauseFilteredForYear) {
+            return stack;
+          }
         }
 
         const dayWithoutYear = getDateWithoutYear(dataDay.date);

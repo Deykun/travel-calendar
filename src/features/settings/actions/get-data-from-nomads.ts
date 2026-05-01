@@ -35,20 +35,6 @@ export const getDataFromNomads = async ({ username }: Params) => {
     daysByCountryByMonthByYear,
   } = getDataFromTrips(response.trips);
 
-  const mostCommonCountry = Object.entries(totalDaysByCountry).reduce(
-    (stack, [countryCode, totalDays = 0]) => {
-      if (stack.totalDays < totalDays) {
-        stack.countryCode = countryCode;
-        stack.totalDays = totalDays;
-      }
-      return stack;
-    },
-    {
-      countryCode: "",
-      totalDays: 0,
-    },
-  );
-
   const sortedDates = Object.keys(dataByDay) as DateYYYYMMDD[];
 
   setIntegration({
@@ -70,10 +56,11 @@ export const getDataFromNomads = async ({ username }: Params) => {
     tripsByKey,
   });
 
-  if (mostCommonCountry.countryCode) {
-    setHomeCountriesCodes([mostCommonCountry.countryCode]);
-  }
+  const homeCountries = Object.entries(daysByCountry)
+    .filter(([, activeDays]) => (activeDays || []).length >= 365)
+    .map(([countryCode]) => countryCode);
 
+  setHomeCountriesCodes(homeCountries);
   setDateFilter(undefined, undefined);
 
   return response;

@@ -36,6 +36,7 @@ Pane.Title = ({ children, className = "" }: PropsWithChildren<Props>) => {
         "sticky -top-8 z-1",
         "-mt-4 pt-4 pb-0 mb-2",
         "pl-2 -ml-2",
+        "rounded-xs",
         "bg-black",
         "text-xl text-white leading-none font-semibold",
         className,
@@ -56,4 +57,33 @@ Pane.Subtitle = ({ children, className = "" }: PropsWithChildren<Props>) => {
 
 Pane.List = ({ children, className = "" }: PropsWithChildren<Props>) => {
   return <div className={cn("flex flex-col gap-1", className)}>{children}</div>;
+};
+
+Pane.Footer = ({
+  children,
+  className = "",
+  isSticky = false,
+}: PropsWithChildren<
+  Props & {
+    isSticky?: boolean;
+  }
+>) => {
+  return (
+    <div
+      className={cn(
+        "mt-6",
+        {
+          [styles["footer"]]: isSticky,
+          "sticky -bottom-8 z-1": isSticky,
+          "-mb-4 pb-4": isSticky,
+          "pl-2 -ml-2": isSticky,
+        },
+        "rounded-xs",
+        "bg-black",
+        className,
+      )}
+    >
+      {children}
+    </div>
+  );
 };

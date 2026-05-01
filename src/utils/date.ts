@@ -48,7 +48,11 @@ export function getIsFuture(date: string): boolean {
   return new Date(date) > new Date();
 }
 
-export function getArrayOfYears(from: DateYYYYMMDD, to: DateYYYYMMDD) {
+export function getArrayOfYears(from?: DateYYYYMMDD, to?: DateYYYYMMDD) {
+  if (!from || !to) {
+    return [];
+  }
+
   const fromYear = Number(from.split("-").at(0));
   const toYear = Number(to.split("-").at(0));
 
@@ -60,3 +64,7 @@ export function getArrayOfYears(from: DateYYYYMMDD, to: DateYYYYMMDD) {
 
   return years.reverse();
 }
+
+export const getDaysInYear = (year: number) => {
+  return new Date(year, 1, 29).getMonth() == 1 ? 366 : 365;
+};

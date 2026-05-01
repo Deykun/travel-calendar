@@ -31,6 +31,21 @@ const getDaysGroupedByMonths = (): MonthMetadata[] => {
 
 export const DAYS_GROUPED_BY_MONTHS = getDaysGroupedByMonths();
 
+export const DAYS_GROUPED_BY_MONTHS_BY_DAYS_IN_YEAR: {
+  365: MonthMetadata[];
+  366: MonthMetadata[];
+} = {
+  365: DAYS_GROUPED_BY_MONTHS.map((month) =>
+    month.monthNumber === 2
+      ? {
+          ...month,
+          days: [...month.days].slice(0, -1),
+        }
+      : month,
+  ),
+  366: DAYS_GROUPED_BY_MONTHS,
+};
+
 export const getDaysInMonth = (monthNumber: MonthNumber) => {
   return DAYS_IN_MONTH[monthNumber - 1];
 };

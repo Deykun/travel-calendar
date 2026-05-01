@@ -1,5 +1,7 @@
 import { cn } from "@/utils/tailwind";
-import { DAYS_GROUPED_BY_MONTHS } from "../../utils/get-days";
+import {
+  DAYS_GROUPED_BY_MONTHS_BY_DAYS_IN_YEAR,
+} from "../../utils/get-days";
 import { useTranslation } from "react-i18next";
 import type { DateMMDD } from "@/types";
 import { getDayKey } from "@/features/settings/utils/get-day-key";
@@ -8,12 +10,14 @@ import type { PropsWithChildren } from "react";
 type Props = {
   className?: string;
   activeDays?: DateMMDD[];
+  daysInYear?: 365 | 366;
 };
 
 export const MiniCalendar = ({
   className,
   activeDays = [],
   children,
+  daysInYear = 366,
 }: PropsWithChildren<Props>) => {
   const { t } = useTranslation();
 
@@ -45,21 +49,21 @@ export const MiniCalendar = ({
           "text-[#fcff4e] font-semibold",
         )}
       >
-        {((activeDays.length / 365) * 100).toFixed(1)}%
+        {((activeDays.length / daysInYear) * 100).toFixed(1)}%
       </span>
       <span
         className={cn(
           "absolute top-5 right-5",
           "text-xs text-gray-400 tracking-wider",
           {
-            "text-[#fcff4e] font-semibold": activeDays.length >= 365,
+            "text-[#fcff4e] font-semibold": activeDays.length >= daysInYear,
           },
         )}
       >
-        {activeDays.length || 0} / 365
+        {activeDays.length || 0} / {daysInYear}
       </span>
       <div className="grid grid-cols-4 gap-4">
-        {DAYS_GROUPED_BY_MONTHS.map((month) => (
+        {DAYS_GROUPED_BY_MONTHS_BY_DAYS_IN_YEAR[daysInYear].map((month) => (
           <div
             key={month.monthNumber}
             className={cn("p-1.5 bg-[#3d3d3d6e] rounded-sm")}
