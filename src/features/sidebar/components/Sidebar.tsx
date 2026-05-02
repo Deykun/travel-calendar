@@ -25,6 +25,7 @@ export function Sidebar({ className = '' }: Props) {
         'bg-[#111110]',
         'border-r-2 border-r-[#2b2b27]',
         'duration-500',
+        'transition-transform',
         {
           '-translate-x-full [@media(min-width:860px)]:translate-x-0': isCollapsed,
         },
