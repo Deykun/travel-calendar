@@ -46,6 +46,8 @@
   "integration.withNomads": "Integracja z nomads.com",
   "integration.lastUpdatePrefix": "Ostatnia aktualizacja",
   "integration.errors.unableToFetch": "Nie można pobrać danych dla tego użytkownika - konto nie istnieje lub profil jest prywatny.",
+  "play.play": "Odtwórz",
+  "play.stop": "Zatrzymaj",
   "country.name.uk": "Zjednoczone Królestwo",
   "country.name.ks": "Kosowo",
   "country.name.af": "Afganistan",
