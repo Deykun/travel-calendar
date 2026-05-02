@@ -34,7 +34,7 @@ export const Checkbox = ({
         {
           "hover:bg-[#1d1d0f]": !isActive,
           "bg-[#40403f] text-white": isActive,
-          "opacity-20": isDisabled,
+          "opacity-45": isDisabled,
         },
         "cursor-pointer",
         "transition-bounce",

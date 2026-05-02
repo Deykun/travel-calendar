@@ -28,7 +28,7 @@
   "preferences.theDayNumber.title": "Numer dnia pokazuje liczbę",
   "preferences.calendarOther": "Inne",
   "preferences.shouldCounterUseScale": "Skalowany numer dnia",
-  "preferences.shouldCounterUseScale.tip": "Obecna maksymalna wartość to {{max}}.",
+  "preferences.shouldCounterUseScale.tip": "Obecna maksymalna wartość to",
   "preferences.shouldHighlightAbroadTravel": "Wyróżniaj podróże zagraniczne",
   "preferences.shouldHighlightAbroadTravel.tip": "Podróż między dwoma krajami, które nie są ustawione jako kraj domowy.",
   "preferences.homeCountry": "Kraj domowy",

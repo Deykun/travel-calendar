@@ -2,7 +2,7 @@ import { cn } from "@/utils/tailwind";
 
 import type { PropsWithChildren } from "react";
 
-import styles from "./Panee.module.css";
+import styles from "./Pane.module.css";
 
 type Props = {
   className?: string;

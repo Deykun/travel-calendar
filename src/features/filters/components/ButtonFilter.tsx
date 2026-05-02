@@ -1,8 +1,7 @@
-import { Button } from "@/components/button/Button";
+import { Button } from "@/components/button/Buttonn";
 import IconFilter from "@/components/icons/IconFilter";
 import {
-  closeSidebar,
-  openSidebar,
+  openSidebarFilters,
   useSidebarStore,
 } from "@/features/sidebar/stores/useSidebarStore";
 
@@ -13,9 +12,8 @@ export const ButtonFilter = () => {
 
   return (
     <Button
-      onClick={() =>
-        isSidebarOpen ? closeSidebar() : openSidebar({ type: "filters" })
-      }
+      onClick={openSidebarFilters}
+      variant={isSidebarOpen ? "primary" : "secondary"}
     >
       <IconFilter />
     </Button>

@@ -43,6 +43,12 @@ export function openSidebarSettings() {
   });
 }
 
+export function openSidebarFilters() {
+  openSidebar({
+    type: "filters",
+  });
+}
+
 export function closeSidebar() {
   useSidebarStore.setState({
     sidebar: null,

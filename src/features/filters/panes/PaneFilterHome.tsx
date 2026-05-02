@@ -1,4 +1,4 @@
-import { Button } from "@/components/button/Button";
+import { Button } from "@/components/button/Buttonn";
 import { Checkbox } from "@/components/checkbox/Checkbox";
 import IconBulb from "@/components/icons/IconBulb";
 import IconTravel from "@/components/icons/IconTravel";
@@ -9,7 +9,7 @@ import useFiltersStore, {
 } from "@/features/filters/stores/useFilterStore";
 import useDataStore from "@/features/settings/stores/useDateStore";
 import { Pane } from "@/features/sidebar/components/pane/Pane";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 type Props = {
@@ -17,6 +17,7 @@ type Props = {
 };
 
 export const PaneFilterHome = ({ className = "" }: Props) => {
+  const [wasAllToggled, setWasAllToggled] = useState(true);
   const homeCountriesCodes = useFiltersStore(
     (store) => store.activeFilters.homeCountriesCodes,
   );
@@ -51,7 +52,10 @@ export const PaneFilterHome = ({ className = "" }: Props) => {
         )}
         {countriesToList.length > 10 && (
           <Pane.Footer
-            isSticky={homeCountriesCodes.length === countriesToList.length}
+            isSticky={
+              homeCountriesCodes.length === countriesToList.length ||
+              wasAllToggled
+            }
           >
             <h4 className="flex gap-2 mb-1 text-sm text-[white] font-semibold tracking-wide">
               <IconBulb className="size-5 text-[#d8da51]" />{" "}
@@ -63,11 +67,17 @@ export const PaneFilterHome = ({ className = "" }: Props) => {
             <div className="flex gap-10">
               <Checkbox
                 isActive={homeCountriesCodes.length === countriesToList.length}
-                onChange={() =>
-                  homeCountriesCodes.length !== countriesToList.length
-                    ? setHomeCountriesCodes(Object.keys(totalDaysByCountry))
-                    : setHomeCountriesCodes([])
-                }
+                onChange={() => {
+                  setWasAllToggled(true);
+
+                  if (homeCountriesCodes.length === countriesToList.length) {
+                    setHomeCountriesCodes([]);
+
+                    return;
+                  }
+
+                  setHomeCountriesCodes(Object.keys(totalDaysByCountry));
+                }}
               >
                 {t("common.all")}
               </Checkbox>

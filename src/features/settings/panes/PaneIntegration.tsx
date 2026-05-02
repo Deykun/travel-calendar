@@ -6,9 +6,10 @@ import Input from "@/components/input/Input";
 import { useTranslation } from "react-i18next";
 import useDataStore from "../stores/useDateStore";
 import { getDataFromNomads } from "../actions/get-data-from-nomads";
-import { Button } from "@/components/button/Button";
+import { Button } from "@/components/button/Buttonn";
 import { Pane } from "@/features/sidebar/components/pane/Pane";
 import IconWarning from "@/components/icons/IconWarning";
+import { openSidebarFilters } from "@/features/sidebar/stores/useSidebarStore";
 
 export function PaneIntegration() {
   const [isLoading, setIsLoading] = useState(false);
@@ -40,9 +41,13 @@ export function PaneIntegration() {
     if (username) {
       const response = await getDataFromNomads({ username });
 
-      if (!response.isSuccess) {
-        setErrorMessage(response.reason);
+      if (response.isSuccess) {
+        openSidebarFilters();
+
+        return;
       }
+
+      setErrorMessage(response.reason);
     }
 
     setIsLoading(false);
@@ -80,7 +85,7 @@ export function PaneIntegration() {
       {errorMessage && (
         <Pane.Footer>
           <h4 className="flex gap-2 mb-1 text-sm text-[white] font-semibold tracking-wide">
-            <IconWarning className="size-5 text-[#d8da51]" />
+            <IconWarning className="size-5 text-[#d8da51]" />{" "}
             <span>{t("common.error")}</span>
           </h4>
           <p className="text-xs mb-2">{t(errorMessage)}</p>

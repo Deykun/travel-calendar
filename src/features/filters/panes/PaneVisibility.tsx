@@ -58,17 +58,16 @@ export function PaneVisibility() {
         <Checkbox
           isActive={shouldCounterUseScale}
           onChange={toggleShouldCounterUseScale}
+          isDisabled={maxTotal <= 1}
         >
           <div className={cn("flex flex-col gap-1", "text-wrap")}>
             {t("preferences.shouldCounterUseScale")}
-            <small
-              className="opacity-75"
-              dangerouslySetInnerHTML={{
-                __html: t("preferences.shouldCounterUseScale.tip", {
-                  max: `<strong>${maxTotal}</strong>`,
-                }),
-              }}
-            />
+            <small>
+              <span className="opacity-75">
+                {t("preferences.shouldCounterUseScale.tip")}
+              </span>{" "}
+              <strong className="text-white">{maxTotal}</strong>.
+            </small>
           </div>
         </Checkbox>
         <Checkbox

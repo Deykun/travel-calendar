@@ -4,7 +4,7 @@ import { ButtonUpdate } from "@/features/settings/components/ButtonUpdate";
 import { ButtonFilter } from "@/features/filters/components/ButtonFilter";
 
 import IconGithub from "@/components/icons/IconGithub";
-import { Button } from "@/components/button/Button";
+import { Button } from "@/components/button/Buttonn";
 
 type Props = {
   className?: string;
@@ -14,8 +14,6 @@ export function Sidebar({ className = "" }: Props) {
   return (
     <aside
       className={cn(
-        // "sticky top-0",
-        // "sticky top-0",
         "fixed top-0 left-0",
         "h-dvh",
         "overflow-auto",
