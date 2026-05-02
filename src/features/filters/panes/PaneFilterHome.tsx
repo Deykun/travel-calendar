@@ -50,14 +50,15 @@ export const PaneFilterHome = ({ className = "" }: Props) => {
           ),
         )}
         {countriesToList.length > 10 && (
-          <Pane.Footer isSticky={homeCountriesCodes.length === countriesToList.length}>
+          <Pane.Footer
+            isSticky={homeCountriesCodes.length === countriesToList.length}
+          >
             <h4 className="flex gap-2 mb-1 text-sm text-[white] font-semibold tracking-wide">
-              <IconBulb className="size-5 text-[#d8da51]" /> <span>Idea</span>
+              <IconBulb className="size-5 text-[#d8da51]" />{" "}
+              <span>{t("common.idea")}</span>
             </h4>
             <p className="text-xs mb-2">
-              If you select all countries and then unselect the chosen ones, you
-              can see how much of the calendar is covered by the unselected
-              countries.
+              {t("preferences.homeCountry.selectManyTip")}
             </p>
             <div className="flex gap-10">
               <Checkbox
@@ -68,7 +69,7 @@ export const PaneFilterHome = ({ className = "" }: Props) => {
                     : setHomeCountriesCodes([])
                 }
               >
-                All
+                {t("common.all")}
               </Checkbox>
             </div>
           </Pane.Footer>
