@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 import { Radiobox } from '@/components/radiobox/Radiobox';
 import { MiniCalendarForYear } from '@/features/calendar/components/mini-calendar/MiniCalendarForYear';
 import { PlayControls } from '@/features/play/components/PlayControls';
-import { play } from '@/features/play/store/usePlayStore';
 import useDataStore from '@/features/settings/stores/useDateStore';
 import { Pane } from '@/features/sidebar/components/pane/Pane';
 import { getArrayOfYears } from '@/utils/date';
