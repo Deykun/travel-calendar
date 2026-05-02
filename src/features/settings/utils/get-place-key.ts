@@ -1,4 +1,4 @@
-import { removeDiacritics } from "../../../utils/text";
+import { removeDiacritics } from '../../../utils/text';
 
 type Params = {
   place: string;

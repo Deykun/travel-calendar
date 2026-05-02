@@ -1,6 +1,6 @@
-import { PaneFilterDate } from "../panes/PaneFilterDate";
-import { PaneFilterHome } from "../panes/PaneFilterHome";
-import { PaneVisibility } from "../panes/PaneVisibility";
+import { PaneFilterDate } from '../panes/PaneFilterDate';
+import { PaneFilterHome } from '../panes/PaneFilterHome';
+import { PaneVisibility } from '../panes/PaneVisibility';
 
 export const SidebarFilters = () => {
   return (

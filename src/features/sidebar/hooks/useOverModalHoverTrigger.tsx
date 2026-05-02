@@ -1,5 +1,6 @@
-import { useEffect, useRef } from "react";
-import { openSidebar, type Sidebar } from "../stores/useSidebarStore";
+import { useEffect, useRef } from 'react';
+
+import { type Sidebar, openSidebar } from '../stores/useSidebarStore';
 
 export const useOverModalHoverTrigger = (sidebar: Sidebar) => {
   const ref = useRef<HTMLElement>(null);
@@ -19,12 +20,12 @@ export const useOverModalHoverTrigger = (sidebar: Sidebar) => {
       // console.log("mouseleave", sidebar);
     };
 
-    element.addEventListener("mouseenter", handleMouseEnter);
-    element.addEventListener("mouseleave", handleMouseLeave);
+    element.addEventListener('mouseenter', handleMouseEnter);
+    element.addEventListener('mouseleave', handleMouseLeave);
 
     return () => {
-      element.removeEventListener("mouseenter", handleMouseEnter);
-      element.removeEventListener("mouseleave", handleMouseLeave);
+      element.removeEventListener('mouseenter', handleMouseEnter);
+      element.removeEventListener('mouseleave', handleMouseLeave);
     };
   }, [sidebar]);
 

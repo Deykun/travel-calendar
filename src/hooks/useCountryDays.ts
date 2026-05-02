@@ -1,11 +1,10 @@
-import useDataStore from "@/features/settings/stores/useDateStore";
-import { EMPTY_MMDD_ARRAY } from "@/utils/empty";
-import { useMemo } from "react";
+import { useMemo } from 'react';
+
+import useDataStore from '@/features/settings/stores/useDateStore';
+import { EMPTY_MMDD_ARRAY } from '@/utils/empty';
 
 export const useCountryDays = (countryCode: string) => {
-  const activeDays = useDataStore(
-    (store) => store.daysByCountry[countryCode] || EMPTY_MMDD_ARRAY,
-  );
+  const activeDays = useDataStore((store) => store.daysByCountry[countryCode] || EMPTY_MMDD_ARRAY);
 
   const daysInYear: 365 | 366 = useMemo(() => {
     if (!activeDays) {
@@ -16,7 +15,7 @@ export const useCountryDays = (countryCode: string) => {
       return 366;
     }
 
-    const hasFeb29 = activeDays.includes("02-29");
+    const hasFeb29 = activeDays.includes('02-29');
     if (hasFeb29) {
       return 366;
     }

@@ -1,14 +1,14 @@
-import { cn } from "@/utils/tailwind";
+import type { PropsWithChildren } from 'react';
 
-import type { PropsWithChildren } from "react";
+import styles from './Pane.module.css';
 
-import styles from "./Panee.module.css";
+import { cn } from '@/utils/tailwind';
 
 type Props = {
   className?: string;
 };
 
-export function Pane({ children, className = "" }: PropsWithChildren<Props>) {
+export function Pane({ children, className = '' }: PropsWithChildren<Props>) {
   if (!children) {
     return null;
   }
@@ -16,10 +16,10 @@ export function Pane({ children, className = "" }: PropsWithChildren<Props>) {
   return (
     <div
       className={cn(
-        "rounded-lg",
-        "p-4",
-        "bg-black border border-[#2b2b27]",
-        "flex flex-wrap flex-col gap-2",
+        'rounded-lg',
+        'p-4',
+        'bg-black border border-[#2b2b27]',
+        'flex flex-wrap flex-col gap-2',
         className,
       )}
     >
@@ -28,17 +28,17 @@ export function Pane({ children, className = "" }: PropsWithChildren<Props>) {
   );
 }
 
-Pane.Title = ({ children, className = "" }: PropsWithChildren<Props>) => {
+Pane.Title = ({ children, className = '' }: PropsWithChildren<Props>) => {
   return (
     <h2
       className={cn(
-        styles["title"],
-        "sticky -top-8 z-1",
-        "-mt-4 pt-4 pb-1 mb-2",
-        "pl-2 -ml-2",
-        "rounded-xs",
-        "bg-black",
-        "text-xl text-white leading-none font-semibold",
+        styles['title'],
+        'sticky -top-8 z-100',
+        '-mt-4 pt-4 pb-1 mb-2',
+        'pl-2 -ml-2',
+        'rounded-xs',
+        'bg-black',
+        'text-xl text-white leading-none font-semibold',
         className,
       )}
     >
@@ -47,21 +47,17 @@ Pane.Title = ({ children, className = "" }: PropsWithChildren<Props>) => {
   );
 };
 
-Pane.Subtitle = ({ children, className = "" }: PropsWithChildren<Props>) => {
-  return (
-    <h2 className={cn("text-white tracking-wider text-xs", className)}>
-      {children}
-    </h2>
-  );
+Pane.Subtitle = ({ children, className = '' }: PropsWithChildren<Props>) => {
+  return <h2 className={cn('text-white tracking-wider text-xs', className)}>{children}</h2>;
 };
 
-Pane.List = ({ children, className = "" }: PropsWithChildren<Props>) => {
-  return <div className={cn("flex flex-col gap-1", className)}>{children}</div>;
+Pane.List = ({ children, className = '' }: PropsWithChildren<Props>) => {
+  return <div className={cn('flex flex-col gap-1 max-w-full', className)}>{children}</div>;
 };
 
 Pane.Footer = ({
   children,
-  className = "",
+  className = '',
   isSticky = false,
 }: PropsWithChildren<
   Props & {
@@ -71,15 +67,15 @@ Pane.Footer = ({
   return (
     <div
       className={cn(
-        "mt-6",
+        'mt-6 pr-2',
         {
-          [styles["footer"]]: isSticky,
-          "sticky -bottom-8 z-1": isSticky,
-          "-mb-4 pb-4": isSticky,
-          "pl-2 -ml-2": isSticky,
+          [styles['footer']]: isSticky,
+          'sticky -bottom-8 z-100': isSticky,
+          '-mb-4 pb-4': isSticky,
+          'pl-2 -ml-2': isSticky,
         },
-        "rounded-xs",
-        "bg-black",
+        'rounded-xs',
+        'bg-black',
         className,
       )}
     >

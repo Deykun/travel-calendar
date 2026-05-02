@@ -1,13 +1,10 @@
-import type { DateYYYYMMDD } from "@/types";
-import {
-  getDateRange,
-  getDateWithoutYear,
-  stringDateToObject,
-} from "../../../../utils/date";
-import type { DataStoreState } from "../../stores/useDateStore";
-import { getPlaceKey } from "../../utils/get-place-key";
-import { getCountryCodeFromTrip } from "./utils/get-country-code-from-trip";
-import { mergeUnique } from "@/utils/array";
+import type { DateYYYYMMDD } from '@/types';
+import { mergeUnique } from '@/utils/array';
+
+import { getDateRange, getDateWithoutYear, stringDateToObject } from '../../../../utils/date';
+import type { DataStoreState } from '../../stores/useDateStore';
+import { getPlaceKey } from '../../utils/get-place-key';
+import { getCountryCodeFromTrip } from './utils/get-country-code-from-trip';
 
 export type IntegrationNomadsTrip = {
   trip_id: string;
@@ -26,11 +23,7 @@ type TotalDaysByCountry = {
 
 type Response = Pick<
   DataStoreState,
-  | "placesByKey"
-  | "dataByDay"
-  | "tripsByKey"
-  | "daysByCountry"
-  | "daysByCountryByMonthByYear"
+  'placesByKey' | 'dataByDay' | 'tripsByKey' | 'daysByCountry' | 'daysByCountryByMonthByYear'
 > & {
   totalDaysByCountry: TotalDaysByCountry;
 };
@@ -39,7 +32,7 @@ export const getDataFromTrips = (trips: IntegrationNomadsTrip[]): Response => {
   return trips.reduce(
     (stack: Response, trip) => {
       const dates = getDateRange(trip.date_start, trip.date_end);
-      const countryCode = getCountryCodeFromTrip(trip) || "??";
+      const countryCode = getCountryCodeFromTrip(trip) || '??';
 
       const placeKey = getPlaceKey({
         place: trip.place,
@@ -57,10 +50,7 @@ export const getDataFromTrips = (trips: IntegrationNomadsTrip[]): Response => {
         };
       }
 
-      stack.placesByKey[placeKey].tripsKeys = [
-        ...stack.placesByKey[placeKey].tripsKeys,
-        trip.trip_id,
-      ];
+      stack.placesByKey[placeKey].tripsKeys = [...stack.placesByKey[placeKey].tripsKeys, trip.trip_id];
 
       if (!stack.tripsByKey[trip.trip_id]) {
         stack.tripsByKey[trip.trip_id] = {
@@ -85,10 +75,7 @@ export const getDataFromTrips = (trips: IntegrationNomadsTrip[]): Response => {
           };
         }
 
-        stack.daysByCountry[countryCode] = mergeUnique(
-          stack.daysByCountry[countryCode],
-          [dayWithoutYear],
-        );
+        stack.daysByCountry[countryCode] = mergeUnique(stack.daysByCountry[countryCode], [dayWithoutYear]);
 
         const { year, month } = stringDateToObject(date);
 
@@ -100,22 +87,17 @@ export const getDataFromTrips = (trips: IntegrationNomadsTrip[]): Response => {
           stack.daysByCountryByMonthByYear[year][month] = {};
         }
 
-        stack.daysByCountryByMonthByYear[year][month][countryCode] =
-          mergeUnique(
-            stack.daysByCountryByMonthByYear[year][month][countryCode],
-            [dayWithoutYear],
-          );
-
-        stack.dataByDay[date].tripsKeys = mergeUnique(
-          stack.dataByDay[date].tripsKeys,
-          [trip.trip_id],
+        stack.daysByCountryByMonthByYear[year][month][countryCode] = mergeUnique(
+          stack.daysByCountryByMonthByYear[year][month][countryCode],
+          [dayWithoutYear],
         );
+
+        stack.dataByDay[date].tripsKeys = mergeUnique(stack.dataByDay[date].tripsKeys, [trip.trip_id]);
 
         if (!stack.dataByDay[date].countriesCodes.includes(countryCode)) {
           stack.dataByDay[date].countriesCodes.push(countryCode);
 
-          stack.totalDaysByCountry[countryCode] =
-            (stack.totalDaysByCountry?.[countryCode] || 0) + 1;
+          stack.totalDaysByCountry[countryCode] = (stack.totalDaysByCountry?.[countryCode] || 0) + 1;
         }
 
         if (!stack.dataByDay[date].placeKeys.includes(placeKey)) {

@@ -1,11 +1,8 @@
-import { cn } from "@/utils/tailwind";
-import { DAYS_GROUPED_BY_MONTHS } from "../../utils/get-days";
-import { Month } from "./Month";
-import {
-  classNamesLayoutGap,
-  classNamesLayoutGrid,
-  classNamesLayoutPx,
-} from "@/layouts/layout-app";
+import { classNamesLayoutGap, classNamesLayoutGrid, classNamesLayoutPx } from '@/layouts/layout-app';
+import { cn } from '@/utils/tailwind';
+
+import { DAYS_GROUPED_BY_MONTHS } from '../../utils/get-days';
+import { Month } from './Month';
 
 type Props = {
   className?: string;
@@ -13,14 +10,7 @@ type Props = {
 
 export const Calendar = ({ className }: Props) => {
   return (
-    <div
-      className={cn(
-        classNamesLayoutGap,
-        classNamesLayoutPx,
-        classNamesLayoutGrid,
-        className,
-      )}
-    >
+    <div className={cn(classNamesLayoutGap, classNamesLayoutPx, classNamesLayoutGrid, className)}>
       {DAYS_GROUPED_BY_MONTHS.map((month) => (
         <Month key={month.monthNumber} month={month} />
       ))}

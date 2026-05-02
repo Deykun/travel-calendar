@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import clsx from 'clsx';
 
 type Props = {
   className?: string;
@@ -8,38 +8,32 @@ type Props = {
   isDisabled?: boolean;
 };
 
-const Input = ({
-  className = "",
-  value,
-  defaultValue,
-  setValue,
-  isDisabled = false,
-}: Props) => {
+const Input = ({ className = '', value, defaultValue, setValue, isDisabled = false }: Props) => {
   return (
     <div
       className={clsx(
-        "relative",
-        "flex items-center w-full",
-        "rounded-sm",
-        "border-white border-2",
-        "focus-within:border-[#fcff4e]",
-        "duration-500",
+        'relative',
+        'flex items-center w-full',
+        'rounded-sm',
+        'border-white border-2',
+        'focus-within:border-[#fcff4e]',
+        'duration-500',
         className,
       )}
     >
       <input
         value={value}
         defaultValue={defaultValue}
-        onChange={(e) => (setValue ? setValue(e.target.value || "") : {})}
+        onChange={(e) => (setValue ? setValue(e.target.value || '') : {})}
         className={clsx(
-          "w-full",
-          "py-1.5 px-3",
-          "text-sm",
-          "bg-[#282824] rounded-sm",
-          "caret-[#d8da51] text-white",
-          "outline-none",
+          'w-full',
+          'py-1.5 px-3',
+          'text-sm',
+          'bg-[#282824] rounded-sm',
+          'caret-[#d8da51] text-white',
+          'outline-none',
           {
-            "opacity-45": isDisabled,
+            'opacity-45': isDisabled,
           },
         )}
         disabled={isDisabled}

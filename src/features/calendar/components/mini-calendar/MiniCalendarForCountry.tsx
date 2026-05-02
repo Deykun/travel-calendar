@@ -1,8 +1,9 @@
-import { MiniCalendar } from "./MiniCalendar";
-import { useTranslation } from "react-i18next";
-import { ImageFlag } from "@/components/image-flag/ImageFlag";
+import { useTranslation } from 'react-i18next';
 
-import { useCountryDays } from "@/hooks/useCountryDays";
+import { ImageFlag } from '@/components/image-flag/ImageFlag';
+import { useCountryDays } from '@/hooks/useCountryDays';
+
+import { MiniCalendar } from './MiniCalendar';
 
 type Props = {
   countryCode: string;

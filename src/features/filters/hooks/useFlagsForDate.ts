@@ -1,9 +1,11 @@
-import usePreferencesStore from "@/features/preferences/stores/usePreferencesStore";
-import { useMemo } from "react";
-import useFiltersStore from "../stores/useFilterStore";
-import useDataStore from "@/features/settings/stores/useDateStore";
-import { getFlagsEntriesGroupedByYear } from "./flags-for-dates/getFlagsEntriesGroupedByYear";
-import { EMPTY_ARRAY, EMPTY_YYYYMMDD_ARRAY } from "@/utils/empty";
+import { useMemo } from 'react';
+
+import usePreferencesStore from '@/features/preferences/stores/usePreferencesStore';
+import useDataStore from '@/features/settings/stores/useDateStore';
+import { EMPTY_ARRAY, EMPTY_YYYYMMDD_ARRAY } from '@/utils/empty';
+
+import useFiltersStore from '../stores/useFilterStore';
+import { getFlagsEntriesGroupedByYear } from './flags-for-dates/getFlagsEntriesGroupedByYear';
 
 export type FlagData = {
   countryCode: string;
@@ -13,19 +15,12 @@ export type FlagData = {
 };
 
 export function useFlagsForDay(dayKey: string, shouldForceShowHome?: boolean) {
-  const shouldShowHome = usePreferencesStore(
-    (store) => store.sidebars.shouldShowHome,
-  );
-  const shouldHighlightAbroadTravel = usePreferencesStore(
-    (store) => store.calendar.shouldHighlightAbroadTravel,
-  );
+  const shouldShowHome = usePreferencesStore((store) => store.sidebars.shouldShowHome);
+  const shouldHighlightAbroadTravel = usePreferencesStore((store) => store.calendar.shouldHighlightAbroadTravel);
 
-  const homeCountriesCodes = useFiltersStore(
-    (store) => store.activeFilters.homeCountriesCodes || EMPTY_ARRAY,
-  );
+  const homeCountriesCodes = useFiltersStore((store) => store.activeFilters.homeCountriesCodes || EMPTY_ARRAY);
   const sourceDates = useFiltersStore(
-    (store) =>
-      store.filtered.summaryByDay[dayKey]?.sourceDates || EMPTY_YYYYMMDD_ARRAY,
+    (store) => store.filtered.summaryByDay[dayKey]?.sourceDates || EMPTY_YYYYMMDD_ARRAY,
   );
   const dataByDay = useDataStore((store) => store.dataByDay);
 
@@ -45,11 +40,7 @@ export function useFlagsForDay(dayKey: string, shouldForceShowHome?: boolean) {
 
     const isHighlightAbroadTravelActive = shouldHighlightAbroadTravel
       ? Object.values(countriesByYear).some((yearCountries = []) => {
-          return (
-            yearCountries.filter(
-              (countryCode) => !homeCountriesCodes.includes(countryCode),
-            ).length >= 2
-          );
+          return yearCountries.filter((countryCode) => !homeCountriesCodes.includes(countryCode)).length >= 2;
         })
       : false;
 
@@ -57,14 +48,7 @@ export function useFlagsForDay(dayKey: string, shouldForceShowHome?: boolean) {
       flags: shouldShowHomeToUse ? allFlags : abroadFlags,
       isHighlightAbroadTravelActive,
     };
-  }, [
-    dataByDay,
-    homeCountriesCodes,
-    shouldForceShowHome,
-    shouldHighlightAbroadTravel,
-    shouldShowHome,
-    sourceDates,
-  ]);
+  }, [dataByDay, homeCountriesCodes, shouldForceShowHome, shouldHighlightAbroadTravel, shouldShowHome, sourceDates]);
 
   return {
     flags,
