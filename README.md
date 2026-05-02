@@ -1,5 +1,7 @@
-# Travel calendar
+# Travel calendar 📅
 
-The idea is quite simple: we grab data for nomads.com users with public profiles and overlay their trips on a single calendar, answering simple questions like "Which day of the year did I visit the most countries?", "Which countries did I visit in May?", and "What month was it when I traveled to Belgium five years ago?".
+The website: https://deykun.github.io/travel-calendar
 
-It's pretty useless vanity data, but actually traceable with nomads.com. I personally always try to be abroad on the first day of a new season.
+A simple visualization of public **[Nomads.com](https://nomads.com/)** travel data that maps users' trips onto a unified calendar. It lets you explore travel patterns over time and answer questions like how many countries you visited on a specific day, where you were during a given month, or when a particular trip happened years ago.
+
+The focus is on making otherwise scattered travel history easy to see and reflect on.
