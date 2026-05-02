@@ -1,179 +1,144 @@
-import { getDaysInMonth } from "@/features/calendar/utils/get-days";
-import {
-  getDateWithoutYear,
-  getIsFuture,
-  getMonthWithoutDay,
-  stringDateToObject,
-} from "../../../utils/date";
-import type { DataStoreState } from "../stores/useDateStore";
-import useFiltersStore, {
-  type FiltersStoreState,
-} from "@/features/filters/stores/useFilterStore";
-import { mergeUnique, mergeUniqueAndSort } from "@/utils/array";
-import { isBefore } from "date-fns/isBefore";
-import { isAfter } from "date-fns";
+import { isAfter } from 'date-fns';
+import { isBefore } from 'date-fns/isBefore';
 
-export const getFiltered = (
-  dataByDay: DataStoreState["dataByDay"],
-): FiltersStoreState["filtered"] => {
-  const { homeCountriesCodes, from, to } =
-    useFiltersStore.getState().activeFilters;
+import { getDaysInMonth } from '@/features/calendar/utils/get-days';
+import useFiltersStore, { type FiltersStoreState } from '@/features/filters/stores/useFilterStore';
+import { mergeUnique, mergeUniqueAndSort } from '@/utils/array';
 
-  const summaryByDay: FiltersStoreState["filtered"]["summaryByDay"] =
-    Object.values(dataByDay).reduce(
-      (stack: FiltersStoreState["filtered"]["summaryByDay"], dataDay) => {
-        if (!dataDay) {
+import { getDateWithoutYear, getIsFuture, getMonthWithoutDay, stringDateToObject } from '../../../utils/date';
+import type { DataStoreState } from '../stores/useDateStore';
+
+export const getFiltered = (dataByDay: DataStoreState['dataByDay']): FiltersStoreState['filtered'] => {
+  const { homeCountriesCodes, from, to } = useFiltersStore.getState().activeFilters;
+
+  const summaryByDay: FiltersStoreState['filtered']['summaryByDay'] = Object.values(dataByDay).reduce(
+    (stack: FiltersStoreState['filtered']['summaryByDay'], dataDay) => {
+      if (!dataDay) {
+        return stack;
+      }
+
+      const isBeforeRange = from && isBefore(dataDay.date, from);
+      if (isBeforeRange) {
+        return stack;
+      }
+
+      const isAfterRange = to && isAfter(dataDay.date, to);
+      if (isAfterRange) {
+        return stack;
+      }
+
+      const isFuture = getIsFuture(dataDay.date);
+      if (isFuture) {
+        const shouldBeIncludedBecauseFilteredForYear = Boolean(from) || Boolean(to);
+
+        if (!shouldBeIncludedBecauseFilteredForYear) {
           return stack;
         }
+      }
 
-        const isBeforeRange = from && isBefore(dataDay.date, from);
-        if (isBeforeRange) {
-          return stack;
-        }
+      const dayWithoutYear = getDateWithoutYear(dataDay.date);
+      const { year } = stringDateToObject(dataDay.date);
 
-        const isAfterRange = to && isAfter(dataDay.date, to);
-        if (isAfterRange) {
-          return stack;
-        }
+      const filteredCountriesForDay = dataDay.countriesCodes.filter(
+        (country) => homeCountriesCodes.includes(country) === false,
+      );
 
-        const isFuture = getIsFuture(dataDay.date);
-        if (isFuture) {
-          const shouldBeIncludedBecauseFilteredForYear =
-            Boolean(from) || Boolean(to);
+      if (!stack[dayWithoutYear]) {
+        stack[dayWithoutYear] = {
+          dayKey: dayWithoutYear,
+          countriesCodes: [],
+          countriesCodesByYear: {},
+          sourceDates: [],
+          yearsAbroad: [],
+        };
+      }
 
-          if (!shouldBeIncludedBecauseFilteredForYear) {
-            return stack;
-          }
-        }
+      if (filteredCountriesForDay.length > 0) {
+        stack[dayWithoutYear].yearsAbroad = mergeUnique(stack[dayWithoutYear].yearsAbroad, [String(year)]);
+      }
 
-        const dayWithoutYear = getDateWithoutYear(dataDay.date);
-        const { year } = stringDateToObject(dataDay.date);
+      stack[dayWithoutYear].sourceDates = mergeUnique(stack[dayWithoutYear].sourceDates, [dataDay.date]);
 
-        const filteredCountriesForDay = dataDay.countriesCodes.filter(
+      stack[dayWithoutYear].countriesCodes = mergeUniqueAndSort(
+        stack[dayWithoutYear].countriesCodes,
+        filteredCountriesForDay,
+      );
+
+      stack[dayWithoutYear].countriesCodesByYear[year] = mergeUniqueAndSort(
+        stack[dayWithoutYear].countriesCodesByYear[year],
+        filteredCountriesForDay,
+      );
+
+      return stack;
+    },
+    {},
+  );
+
+  const { summaryByMonth, summary }: Pick<FiltersStoreState['filtered'], 'summaryByMonth' | 'summary'> = Object.values(
+    summaryByDay,
+  ).reduce(
+    (stack: Pick<FiltersStoreState['filtered'], 'summaryByMonth' | 'summary'>, summaryDay) => {
+      if (!summaryDay) {
+        return stack;
+      }
+
+      const monthNumber = getMonthWithoutDay(summaryDay.dayKey);
+
+      if (!stack.summaryByMonth[monthNumber]) {
+        stack.summaryByMonth[monthNumber] = {
+          monthNumber,
+          countriesCodes: [],
+          countriesCodesByYear: {},
+          daysAbroad: [],
+          total: getDaysInMonth(monthNumber),
+        };
+      }
+
+      if (
+        summaryDay.countriesCodes.filter((country) => homeCountriesCodes.includes(country) === false).length >
+        stack.summary.maxCountriesInDay
+      ) {
+        stack.summary.maxCountriesInDay = summaryDay.countriesCodes.filter(
           (country) => homeCountriesCodes.includes(country) === false,
-        );
+        ).length;
+      }
 
-        if (!stack[dayWithoutYear]) {
-          stack[dayWithoutYear] = {
-            dayKey: dayWithoutYear,
-            countriesCodes: [],
-            countriesCodesByYear: {},
-            sourceDates: [],
-            yearsAbroad: [],
-          };
-        }
+      if (summaryDay.yearsAbroad.length > stack.summary.maxYearsAbroadInDay) {
+        stack.summary.maxYearsAbroadInDay = summaryDay.yearsAbroad.length;
+      }
 
-        if (filteredCountriesForDay.length > 0) {
-          stack[dayWithoutYear].yearsAbroad = mergeUnique(
-            stack[dayWithoutYear].yearsAbroad,
-            [String(year)],
+      stack.summaryByMonth[monthNumber].countriesCodes = mergeUniqueAndSort(
+        stack.summaryByMonth[monthNumber].countriesCodes,
+        summaryDay.countriesCodes,
+      );
+
+      Object.entries(summaryDay.countriesCodesByYear).forEach(([rawYear, countryCodes]) => {
+        const year = Number(rawYear);
+
+        if (stack.summaryByMonth[monthNumber]) {
+          stack.summaryByMonth[monthNumber].countriesCodesByYear[year] = mergeUniqueAndSort(
+            stack.summaryByMonth[monthNumber].countriesCodesByYear[year],
+            countryCodes,
           );
         }
+      });
 
-        stack[dayWithoutYear].sourceDates = mergeUnique(
-          stack[dayWithoutYear].sourceDates,
-          [dataDay.date],
+      if (summaryDay.countriesCodes.filter((country) => homeCountriesCodes.includes(country) === false).length > 0) {
+        stack.summaryByMonth[monthNumber].daysAbroad = Array.from(
+          new Set([summaryDay.dayKey, ...stack.summaryByMonth[monthNumber].daysAbroad]),
         );
+      }
 
-        stack[dayWithoutYear].countriesCodes = mergeUniqueAndSort(
-          stack[dayWithoutYear].countriesCodes,
-          filteredCountriesForDay,
-        );
-
-        stack[dayWithoutYear].countriesCodesByYear[year] = mergeUniqueAndSort(
-          stack[dayWithoutYear].countriesCodesByYear[year],
-          filteredCountriesForDay,
-        );
-
-        return stack;
+      return stack;
+    },
+    {
+      summaryByMonth: {},
+      summary: {
+        maxCountriesInDay: 0,
+        maxYearsAbroadInDay: 0,
       },
-      {},
-    );
-
-  const {
-    summaryByMonth,
-    summary,
-  }: Pick<FiltersStoreState["filtered"], "summaryByMonth" | "summary"> =
-    Object.values(summaryByDay).reduce(
-      (
-        stack: Pick<
-          FiltersStoreState["filtered"],
-          "summaryByMonth" | "summary"
-        >,
-        summaryDay,
-      ) => {
-        if (!summaryDay) {
-          return stack;
-        }
-
-        const monthNumber = getMonthWithoutDay(summaryDay.dayKey);
-
-        if (!stack.summaryByMonth[monthNumber]) {
-          stack.summaryByMonth[monthNumber] = {
-            monthNumber,
-            countriesCodes: [],
-            countriesCodesByYear: {},
-            daysAbroad: [],
-            total: getDaysInMonth(monthNumber),
-          };
-        }
-
-        if (
-          summaryDay.countriesCodes.filter(
-            (country) => homeCountriesCodes.includes(country) === false,
-          ).length > stack.summary.maxCountriesInDay
-        ) {
-          stack.summary.maxCountriesInDay = summaryDay.countriesCodes.filter(
-            (country) => homeCountriesCodes.includes(country) === false,
-          ).length;
-        }
-
-        if (summaryDay.yearsAbroad.length > stack.summary.maxYearsAbroadInDay) {
-          stack.summary.maxYearsAbroadInDay = summaryDay.yearsAbroad.length;
-        }
-
-        stack.summaryByMonth[monthNumber].countriesCodes = mergeUniqueAndSort(
-          stack.summaryByMonth[monthNumber].countriesCodes,
-          summaryDay.countriesCodes,
-        );
-
-        Object.entries(summaryDay.countriesCodesByYear).forEach(
-          ([rawYear, countryCodes]) => {
-            const year = Number(rawYear);
-
-            if (stack.summaryByMonth[monthNumber]) {
-              stack.summaryByMonth[monthNumber].countriesCodesByYear[year] =
-                mergeUniqueAndSort(
-                  stack.summaryByMonth[monthNumber].countriesCodesByYear[year],
-                  countryCodes,
-                );
-            }
-          },
-        );
-
-        if (
-          summaryDay.countriesCodes.filter(
-            (country) => homeCountriesCodes.includes(country) === false,
-          ).length > 0
-        ) {
-          stack.summaryByMonth[monthNumber].daysAbroad = Array.from(
-            new Set([
-              summaryDay.dayKey,
-              ...stack.summaryByMonth[monthNumber].daysAbroad,
-            ]),
-          );
-        }
-
-        return stack;
-      },
-      {
-        summaryByMonth: {},
-        summary: {
-          maxCountriesInDay: 0,
-          maxYearsAbroadInDay: 0,
-        },
-      },
-    );
+    },
+  );
 
   return {
     summaryByDay,

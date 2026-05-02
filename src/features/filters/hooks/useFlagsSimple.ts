@@ -1,8 +1,9 @@
-import usePreferencesStore from "@/features/preferences/stores/usePreferencesStore";
-import { useMemo } from "react";
-import useFiltersStore from "../stores/useFilterStore";
+import { useMemo } from 'react';
 
-import { getFlagsEntriesGroupedByYearSimple } from "./flags-for-dates/getFlagsEntriesGroupedByYear";
+import usePreferencesStore from '@/features/preferences/stores/usePreferencesStore';
+
+import useFiltersStore from '../stores/useFilterStore';
+import { getFlagsEntriesGroupedByYearSimple } from './flags-for-dates/getFlagsEntriesGroupedByYear';
 
 export function useFlagsSimple(
   countriesCodesByYear:
@@ -12,29 +13,20 @@ export function useFlagsSimple(
         [year: number]: string[];
       },
 ) {
-  const shouldHighlightAbroadTravel = usePreferencesStore(
-    (store) => store.calendar.shouldHighlightAbroadTravel,
-  );
+  const shouldHighlightAbroadTravel = usePreferencesStore((store) => store.calendar.shouldHighlightAbroadTravel);
 
-  const homeCountriesCodes = useFiltersStore(
-    (store) => store.activeFilters.homeCountriesCodes,
-  );
+  const homeCountriesCodes = useFiltersStore((store) => store.activeFilters.homeCountriesCodes);
 
   const { flags, isHighlightAbroadTravelActive } = useMemo(() => {
-    const { periodsByIds, countriesByYear } =
-      getFlagsEntriesGroupedByYearSimple({
-        countriesCodesByYear,
-      });
+    const { periodsByIds, countriesByYear } = getFlagsEntriesGroupedByYearSimple({
+      countriesCodesByYear,
+    });
 
     const abroadFlags = Object.values(periodsByIds);
 
     const isHighlightAbroadTravelActive = shouldHighlightAbroadTravel
       ? Object.values(countriesByYear).some((yearCountries = []) => {
-          return (
-            yearCountries.filter(
-              (countryCode) => !homeCountriesCodes.includes(countryCode),
-            ).length >= 2
-          );
+          return yearCountries.filter((countryCode) => !homeCountriesCodes.includes(countryCode)).length >= 2;
         })
       : false;
 

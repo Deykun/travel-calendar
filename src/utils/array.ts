@@ -8,16 +8,10 @@ export function chunkArray<T>(arr: T[], size: number): T[][] {
   return chunks;
 }
 
-export function mergeUnique<T>(
-  arrayA: T[] | undefined,
-  arrayB: T[] | undefined,
-): T[] {
+export function mergeUnique<T>(arrayA: T[] | undefined, arrayB: T[] | undefined): T[] {
   return Array.from(new Set([...(arrayA || []), ...(arrayB || [])]));
 }
 
-export const mergeUniqueAndSort = (
-  stringsA: string[] | undefined,
-  stringsB: string[] | undefined,
-) => {
+export const mergeUniqueAndSort = (stringsA: string[] | undefined, stringsB: string[] | undefined) => {
   return mergeUnique(stringsA, stringsB).sort((a, b) => a.localeCompare(b));
 };

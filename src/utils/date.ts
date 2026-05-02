@@ -1,5 +1,5 @@
-import type { MonthNumber } from "@/features/calendar/types";
-import type { DateMMDD, DateYYYYMMDD, DateLike } from "@/types";
+import type { MonthNumber } from '@/features/calendar/types';
+import type { DateLike, DateMMDD, DateYYYYMMDD } from '@/types';
 
 // 2026-03-28
 export function getDateRange(from: DateLike, to: DateLike): DateYYYYMMDD[] {
@@ -8,7 +8,7 @@ export function getDateRange(from: DateLike, to: DateLike): DateYYYYMMDD[] {
   const end = new Date(to);
 
   while (current <= end) {
-    dates.push(current.toISOString().split("T")[0] as DateYYYYMMDD);
+    dates.push(current.toISOString().split('T')[0] as DateYYYYMMDD);
     current.setDate(current.getDate() + 1);
   }
 
@@ -16,7 +16,7 @@ export function getDateRange(from: DateLike, to: DateLike): DateYYYYMMDD[] {
 }
 
 export function stringDateToObject(date: DateYYYYMMDD) {
-  const parts = date.split("-").map(Number);
+  const parts = date.split('-').map(Number);
   if (parts.length !== 3) {
     console.error(`Invalid date string in ${date}`);
   }
@@ -32,16 +32,16 @@ export function stringDateToObject(date: DateYYYYMMDD) {
 
 // 2026-03-28 -> 03-28
 export function getDateWithoutYear(date: DateYYYYMMDD): DateMMDD {
-  return date.split("-").slice(1).join("-") as DateMMDD;
+  return date.split('-').slice(1).join('-') as DateMMDD;
 }
 
 export function getYearFromDate(date: string): number {
-  return Number(date.split("-").at(0));
+  return Number(date.split('-').at(0));
 }
 
 // 03-28 -> 03
 export function getMonthWithoutDay(date: string): MonthNumber {
-  return Number(date.split("-").at(0)) as MonthNumber;
+  return Number(date.split('-').at(0)) as MonthNumber;
 }
 
 export function getIsFuture(date: string): boolean {
@@ -53,8 +53,8 @@ export function getArrayOfYears(from?: DateYYYYMMDD, to?: DateYYYYMMDD) {
     return [];
   }
 
-  const fromYear = Number(from.split("-").at(0));
-  const toYear = Number(to.split("-").at(0));
+  const fromYear = Number(from.split('-').at(0));
+  const toYear = Number(to.split('-').at(0));
 
   const years: number[] = [];
 

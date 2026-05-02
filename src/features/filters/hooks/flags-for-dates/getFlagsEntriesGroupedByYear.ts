@@ -1,7 +1,8 @@
-import type { DateYYYYMMDD } from "@/types";
-import type { FlagData } from "../useFlagsForDate";
-import { mergeUnique } from "@/utils/array";
-import type { DataStoreState } from "@/features/settings/stores/useDateStore";
+import type { DataStoreState } from '@/features/settings/stores/useDateStore';
+import type { DateYYYYMMDD } from '@/types';
+import { mergeUnique } from '@/utils/array';
+
+import type { FlagData } from '../useFlagsForDate';
 
 type PeriodsIndex = {
   periodsByIds: {
@@ -24,11 +25,11 @@ export const getFlagsEntriesGroupedByYear = ({
   dataByDay,
 }: {
   dates: DateYYYYMMDD[];
-  dataByDay: DataStoreState["dataByDay"];
+  dataByDay: DataStoreState['dataByDay'];
 }): PeriodsIndex => {
   return dates.sort().reduce(
     (stack: PeriodsIndex, dateWithYear) => {
-      const year = Number(dateWithYear.split("-")[0]);
+      const year = Number(dateWithYear.split('-')[0]);
       const dataForDay = dataByDay[dateWithYear];
 
       const previousYear = stack.idByCountryByYear[year - 1] || {};
@@ -43,10 +44,7 @@ export const getFlagsEntriesGroupedByYear = ({
         if (!stack.countriesByYear[year]) {
           stack.countriesByYear[year] = [countryCode];
         } else {
-          stack.countriesByYear[year] = [
-            ...stack.countriesByYear[year],
-            countryCode,
-          ];
+          stack.countriesByYear[year] = [...stack.countriesByYear[year], countryCode];
         }
 
         if (periodId) {
@@ -108,10 +106,7 @@ export const getFlagsEntriesGroupedByYearSimple = ({
           if (!stack.countriesByYear[year]) {
             stack.countriesByYear[year] = [countryCode];
           } else {
-            stack.countriesByYear[year] = [
-              ...stack.countriesByYear[year],
-              countryCode,
-            ];
+            stack.countriesByYear[year] = [...stack.countriesByYear[year], countryCode];
           }
 
           if (periodId) {

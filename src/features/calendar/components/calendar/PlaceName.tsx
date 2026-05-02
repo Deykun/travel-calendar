@@ -1,4 +1,4 @@
-import useDataStore from "@/features/settings/stores/useDateStore";
+import useDataStore from '@/features/settings/stores/useDateStore';
 
 type Props = {
   placeKey: string;

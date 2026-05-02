@@ -1,13 +1,8 @@
-import {
-  setDateFilter,
-  setHomeCountriesCodes,
-} from "@/features/filters/stores/useFilterStore";
-import { setIntegration } from "../stores/useDateStore";
-import {
-  getDataFromTrips,
-  type IntegrationNomadsTrip,
-} from "./nomads/get-data-from-trips";
-import type { DateYYYYMMDD } from "@/types";
+import { setDateFilter, setHomeCountriesCodes } from '@/features/filters/stores/useFilterStore';
+import type { DateYYYYMMDD } from '@/types';
+
+import { setIntegration } from '../stores/useDateStore';
+import { type IntegrationNomadsTrip, getDataFromTrips } from './nomads/get-data-from-trips';
 
 type Params = {
   username: string;
@@ -19,12 +14,10 @@ type IntegrationNomadsApiResponse = {
 
 type FetchResponse = { isSuccess: true } | { isSuccess: false; reason: string };
 
-export const getDataFromNomads = async ({
-  username,
-}: Params): Promise<FetchResponse> => {
-  console.log("called");
+export const getDataFromNomads = async ({ username }: Params): Promise<FetchResponse> => {
+  console.log('called');
   if (!username) {
-    return { isSuccess: false, reason: "integration.errors.unableToFetch" };
+    return { isSuccess: false, reason: 'integration.errors.unableToFetch' };
   }
 
   let nomadsData: IntegrationNomadsApiResponse | undefined;
@@ -33,33 +26,27 @@ export const getDataFromNomads = async ({
     const response = await fetch(`https://nomads.com/@${username}.json`);
 
     if (!response.ok) {
-      return { isSuccess: false, reason: "integration.errors.unableToFetch" };
+      return { isSuccess: false, reason: 'integration.errors.unableToFetch' };
     }
 
     nomadsData = (await response.json()) as IntegrationNomadsApiResponse;
   } catch (error) {
-    console.error("Failed to fetch data:", error);
+    console.error('Failed to fetch data:', error);
   }
 
   if (!nomadsData) {
-    return { isSuccess: false, reason: "integration.errors.unableToFetch" };
+    return { isSuccess: false, reason: 'integration.errors.unableToFetch' };
   }
 
-  const {
-    dataByDay,
-    placesByKey,
-    tripsByKey,
-    totalDaysByCountry,
-    daysByCountry,
-    daysByCountryByMonthByYear,
-  } = getDataFromTrips(nomadsData.trips);
+  const { dataByDay, placesByKey, tripsByKey, totalDaysByCountry, daysByCountry, daysByCountryByMonthByYear } =
+    getDataFromTrips(nomadsData.trips);
 
   const sortedDates = Object.keys(dataByDay) as DateYYYYMMDD[];
 
   setIntegration({
-    status: "ready",
+    status: 'ready',
     integration: {
-      type: "nomads.com",
+      type: 'nomads.com',
       integrationCode: username,
       lastUpdate: Date.now(),
     },

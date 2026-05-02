@@ -1,24 +1,26 @@
-import { create } from "zustand";
-import { devtools } from "zustand/middleware";
+import { create } from 'zustand';
+import { devtools } from 'zustand/middleware';
 
 export type Sidebar =
   | {
-      type: "setting";
+      type: 'setting';
     }
   | {
-      type: "day";
+      type: 'day';
       dayKey: string;
     }
   | {
-      type: "filters";
+      type: 'filters';
     };
 
 type SidebarStore = {
   sidebar: Sidebar | null;
+  isCollapsed: boolean;
 };
 
 const emptyStore: SidebarStore = {
   sidebar: null,
+  isCollapsed: false,
 };
 
 export const useSidebarStore = create<SidebarStore>()(
@@ -27,30 +29,38 @@ export const useSidebarStore = create<SidebarStore>()(
       ({
         ...emptyStore,
       }) satisfies SidebarStore,
-    { name: "SidebarStore" },
+    { name: 'SidebarStore' },
   ),
 );
 
 export function openSidebar(sidebar: Sidebar) {
   useSidebarStore.setState({
     sidebar,
+    isCollapsed: false,
   });
 }
 
 export function openSidebarSettings() {
   openSidebar({
-    type: "setting",
+    type: 'setting',
   });
 }
 
 export function openSidebarFilters() {
   openSidebar({
-    type: "filters",
+    type: 'filters',
+  });
+}
+
+export function collapseSidebar() {
+  useSidebarStore.setState({
+    isCollapsed: true,
   });
 }
 
 export function closeSidebar() {
   useSidebarStore.setState({
     sidebar: null,
+    isCollapsed: true,
   });
 }

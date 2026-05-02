@@ -1,17 +1,11 @@
-import { create } from "zustand";
-import { devtools, persist } from "zustand/middleware";
-import type {
-  DateYYYYMMDD,
-  DateLike,
-  MetadataDay,
-  MetadataPlace,
-  MetadataTrip,
-  DateMMDD,
-} from "../../../types";
+import { create } from 'zustand';
+import { devtools, persist } from 'zustand/middleware';
 
-type DataStatus = "missing" | "ready";
+import type { DateLike, DateMMDD, DateYYYYMMDD, MetadataDay, MetadataPlace, MetadataTrip } from '../../../types';
 
-type IntegrationType = "nomads.com";
+type DataStatus = 'missing' | 'ready';
+
+type IntegrationType = 'nomads.com';
 
 export type DataStoreState = {
   status: DataStatus;
@@ -51,7 +45,7 @@ export type DataStoreState = {
 };
 
 const emptyStore: DataStoreState = {
-  status: "missing",
+  status: 'missing',
   integration: {
     type: undefined,
     integrationCode: undefined,
@@ -75,9 +69,9 @@ export const useDataStore = create<DataStoreState>()(
       () => ({
         ...emptyStore,
       }),
-      { name: "dataStore" },
+      { name: 'dataStore' },
     ),
-    { name: "dataStore" },
+    { name: 'dataStore' },
   ),
 );
 
@@ -85,9 +79,7 @@ export const setIntegration = (newStore: DataStoreState) => {
   useDataStore.setState({
     ...newStore,
     // Sorted by number of days
-    totalDaysByCountry: Object.fromEntries(
-      Object.entries(newStore.totalDaysByCountry).sort((a, b) => b[1] - a[1]),
-    ),
+    totalDaysByCountry: Object.fromEntries(Object.entries(newStore.totalDaysByCountry).sort((a, b) => b[1] - a[1])),
   });
 };
 

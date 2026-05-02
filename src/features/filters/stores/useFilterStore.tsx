@@ -1,9 +1,10 @@
-import type { MonthNumber } from "@/features/calendar/types";
-import useDataStore from "@/features/settings/stores/useDateStore";
-import { getFiltered } from "@/features/settings/utils/get-filtered";
-import type { DateYYYYMMDD } from "@/types";
-import { create } from "zustand";
-import { devtools, persist } from "zustand/middleware";
+import { create } from 'zustand';
+import { devtools, persist } from 'zustand/middleware';
+
+import type { MonthNumber } from '@/features/calendar/types';
+import useDataStore from '@/features/settings/stores/useDateStore';
+import { getFiltered } from '@/features/settings/utils/get-filtered';
+import type { DateYYYYMMDD } from '@/types';
 
 type SummaryDay = {
   dayKey: string;
@@ -67,9 +68,9 @@ export const useFiltersStore = create<FiltersStoreState>()(
       () => ({
         ...emptyStore,
       }),
-      { name: "filterStore" },
+      { name: 'filterStore' },
     ),
-    { name: "filterStore" },
+    { name: 'filterStore' },
   ),
 );
 
@@ -102,12 +103,8 @@ export const toggleHomeCountry = (countryCode: string) => {
     ...state,
     activeFilters: {
       ...state.activeFilters,
-      homeCountriesCodes: state.activeFilters.homeCountriesCodes.includes(
-        countryCode,
-      )
-        ? state.activeFilters.homeCountriesCodes.filter(
-            (code) => code !== countryCode,
-          )
+      homeCountriesCodes: state.activeFilters.homeCountriesCodes.includes(countryCode)
+        ? state.activeFilters.homeCountriesCodes.filter((code) => code !== countryCode)
         : [...state.activeFilters.homeCountriesCodes, countryCode],
     },
   }));
@@ -115,10 +112,7 @@ export const toggleHomeCountry = (countryCode: string) => {
   refreshFiltered();
 };
 
-export const setDateFilter = (
-  from: DateYYYYMMDD | undefined,
-  to: DateYYYYMMDD | undefined,
-) => {
+export const setDateFilter = (from: DateYYYYMMDD | undefined, to: DateYYYYMMDD | undefined) => {
   useFiltersStore.setState((state) => ({
     ...state,
     activeFilters: {

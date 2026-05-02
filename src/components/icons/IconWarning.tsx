@@ -3,17 +3,9 @@ type Props = {
 };
 
 const Icon = ({ className }: Props) => (
-  <svg
-    className={className}
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 24 24"
-  >
+  <svg className={className} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
     <g fill="currentColor">
-      <path
-        fill-rule="evenodd"
-        d="M12 13.8a1 1 0 0 1-1-1v-5a1 1 0 0 1 2 0v5a1 1 0 0 1-1 1"
-        clip-rule="evenodd"
-      />
+      <path fill-rule="evenodd" d="M12 13.8a1 1 0 0 1-1-1v-5a1 1 0 0 1 2 0v5a1 1 0 0 1-1 1" clip-rule="evenodd" />
       <path d="M10.947 15.958a1.053 1.053 0 1 1 2.106 0 1.053 1.053 0 0 1-2.106 0" />
       <path
         fill-rule="evenodd"

@@ -1,18 +1,18 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 body {
   position: relative;
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
   min-height: 100dvh;
   background-color: #2a2a26;
   color: #979797;
 
   &::before {
-    content: "";
+    content: '';
     position: absolute;
     inset: 0;
     /* Thanks to: https://blog.spoongraphics.co.uk/freebies/8-free-seamless-vector-topographic-map-patterns */
-    background-image: url("./images/topographic-map-pattern.png");
+    background-image: url('./images/topographic-map-pattern.png');
     background-size: 400px;
     opacity: 0.025;
     z-index: -1;

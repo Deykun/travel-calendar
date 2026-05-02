@@ -13,8 +13,6 @@
   --offset: 0.5px;
   --offset-negative: -0.5px;
   --color: #d8da51;
-  filter: drop-shadow(var(--offset-negative) 0 var(--color))
-    drop-shadow(0 var(--offset-negative) var(--color))
-    drop-shadow(0 var(--offset) var(--color))
-    drop-shadow(var(--offset) 0 var(--color));
+  filter: drop-shadow(var(--offset-negative) 0 var(--color)) drop-shadow(0 var(--offset-negative) var(--color))
+    drop-shadow(0 var(--offset) var(--color)) drop-shadow(var(--offset) 0 var(--color));
 }

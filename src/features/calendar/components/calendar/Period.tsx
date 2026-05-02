@@ -1,6 +1,7 @@
-import { ImageFlag } from "@/components/image-flag/ImageFlag";
-import { cn } from "@/utils/tailwind";
-import type { PropsWithChildren } from "react";
+import type { PropsWithChildren } from 'react';
+
+import { ImageFlag } from '@/components/image-flag/ImageFlag';
+import { cn } from '@/utils/tailwind';
 
 type Props = {
   className?: string;
@@ -13,7 +14,7 @@ type Props = {
 };
 
 export const Period = ({
-  className = "",
+  className = '',
   from,
   to,
   countryCode,
@@ -22,28 +23,25 @@ export const Period = ({
   children,
   shouldShowHomeMarker,
 }: PropsWithChildren<Props>) => {
-  const Tag = onClick ? "button" : "span";
+  const Tag = onClick ? 'button' : 'span';
 
   return (
     <Tag
       className={cn(
-        "inline-flex items-center flex-col gap-1",
-        "p-1 pt-2",
-        "rounded-sm",
-        "duration-150",
-        "group",
+        'inline-flex items-center flex-col gap-1',
+        'p-1 pt-2',
+        'rounded-sm',
+        'duration-150',
+        'group',
         {
-          "text-[#979797] hover:bg-[#fffb000d] hover:text-white": !isActive,
-          "text-white bg-[#fff3] shadow-[0_0_15px_#021019]": isActive,
+          'text-[#979797] hover:bg-[#fffb000d] hover:text-white': !isActive,
+          'text-white bg-[#fff3] shadow-[0_0_15px_#021019]': isActive,
         },
         className,
       )}
       onClick={onClick}
     >
-      <ImageFlag
-        countryCode={countryCode}
-        shouldShowHomeMarker={shouldShowHomeMarker}
-      />
+      <ImageFlag countryCode={countryCode} shouldShowHomeMarker={shouldShowHomeMarker} />
       <div className="mt-1 text-[12px] text-nowrap text-white tracking-widest font-semibold">
         {from === to && from}
         {from !== to && (

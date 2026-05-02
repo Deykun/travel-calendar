@@ -1,4 +1,4 @@
-import type { DateMMDD, DateYYYYMMDD } from "@/types";
+import type { DateMMDD, DateYYYYMMDD } from '@/types';
 
 export const EMPTY_ARRAY: string[] = [];
 

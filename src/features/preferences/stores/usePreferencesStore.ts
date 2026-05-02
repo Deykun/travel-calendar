@@ -1,9 +1,9 @@
-import { create } from "zustand";
-import { devtools, persist } from "zustand/middleware";
+import { create } from 'zustand';
+import { devtools, persist } from 'zustand/middleware';
 
 export type PreferencesStoreState = {
   calendar: {
-    counterShouldShow: "numberOfCountries" | "yearsAbroad";
+    counterShouldShow: 'numberOfCountries' | 'yearsAbroad';
     shouldCounterUseScale: boolean;
     shouldHighlightAbroadTravel: boolean;
   };
@@ -14,7 +14,7 @@ export type PreferencesStoreState = {
 
 const emptyStore: PreferencesStoreState = {
   calendar: {
-    counterShouldShow: "numberOfCountries",
+    counterShouldShow: 'numberOfCountries',
     shouldCounterUseScale: false,
     shouldHighlightAbroadTravel: false,
   },
@@ -29,9 +29,9 @@ export const usePreferencesStore = create<PreferencesStoreState>()(
       () => ({
         ...emptyStore,
       }),
-      { name: "preferencesStore" },
+      { name: 'preferencesStore' },
     ),
-    { name: "preferencesStore" },
+    { name: 'preferencesStore' },
   ),
 );
 
@@ -62,9 +62,7 @@ export const toggleShouldCounterUseScale = () => {
   }));
 };
 
-export const setCounterShouldShow = (
-  value: PreferencesStoreState["calendar"]["counterShouldShow"],
-) => {
+export const setCounterShouldShow = (value: PreferencesStoreState['calendar']['counterShouldShow']) => {
   usePreferencesStore.setState((state) => ({
     calendar: {
       ...state.calendar,

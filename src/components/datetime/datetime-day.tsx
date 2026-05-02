@@ -1,9 +1,9 @@
-import { capitalize } from "@/utils/text";
-import { format } from "date-fns";
-import { enGB, pl } from "date-fns/locale";
-import { useMemo } from "react";
+import { format } from 'date-fns';
+import { enGB, pl } from 'date-fns/locale';
+import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 
-import { useTranslation } from "react-i18next";
+import { capitalize } from '@/utils/text';
 
 type PropsDatetime = {
   date: string;
@@ -15,18 +15,18 @@ export function DatetimeDay({ date: dateLike }: PropsDatetime) {
   const { date, locale, formatToUse } = useMemo(() => {
     const date = new Date(dateLike);
 
-    if (i18n.language === "pl") {
+    if (i18n.language === 'pl') {
       return {
         date,
         locale: pl,
-        formatToUse: "do MMMM",
+        formatToUse: 'do MMMM',
       };
     }
 
     return {
       date,
       locale: enGB,
-      formatToUse: "MMMM do",
+      formatToUse: 'MMMM do',
     };
   }, [dateLike, i18n.language]);
 

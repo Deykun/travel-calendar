@@ -1,4 +1,4 @@
-import type { MonthMetadata, MonthNumber } from "../types";
+import type { MonthMetadata, MonthNumber } from '../types';
 
 const DAYS_IN_MONTH = [
   31, // jan
@@ -22,9 +22,7 @@ const getDaysGroupedByMonths = (): MonthMetadata[] => {
     return {
       monthNumber,
       name: `month.name.${monthNumber}`,
-      days: [...new Array(numberOfDaysInMonth)].map(
-        (_, dayIndex) => dayIndex + 1,
-      ),
+      days: [...new Array(numberOfDaysInMonth)].map((_, dayIndex) => dayIndex + 1),
     };
   });
 };

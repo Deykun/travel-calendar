@@ -1,10 +1,12 @@
-import { cn } from "@/utils/tailwind";
-import type { PropsWithChildren } from "react";
-import IconTravel from "../icons/IconTravel";
+import type { PropsWithChildren } from 'react';
+
+import { cn } from '@/utils/tailwind';
+
+import IconTravel from '../icons/IconTravel';
 
 const fallbackFlags: { [key: string]: string | undefined } = {
-  UK: "GB",
-  KS: "XK",
+  UK: 'GB',
+  KS: 'XK',
 };
 
 type Props = {
@@ -12,33 +14,23 @@ type Props = {
   shouldShowHomeMarker?: boolean;
 };
 
-export const ImageFlag = ({
-  countryCode,
-  shouldShowHomeMarker = false,
-}: PropsWithChildren<Props>) => {
+export const ImageFlag = ({ countryCode, shouldShowHomeMarker = false }: PropsWithChildren<Props>) => {
   return (
-    <span
-      className={cn(
-        "inline-flex relative",
-        "p-1.5",
-        "bg-[#3d3d3d6e]",
-        "rounded-[10px]",
-      )}
-    >
+    <span className={cn('inline-flex relative', 'p-1.5', 'bg-[#3d3d3d6e]', 'rounded-[10px]')}>
       <img
         className={cn(
-          "w-9",
-          "aspect-3/2",
-          "object-cover",
-          "max-w-none",
-          "shrink-0",
-          "rounded-sm",
-          "saturate-75",
-          "drop-shadow",
-          "bg-transparent text-gray-400",
-          "leading-none",
-          "tracking-widest",
-          "text-xs",
+          'w-9',
+          'aspect-3/2',
+          'object-cover',
+          'max-w-none',
+          'shrink-0',
+          'rounded-sm',
+          'saturate-75',
+          'drop-shadow',
+          'bg-transparent text-gray-400',
+          'leading-none',
+          'tracking-widest',
+          'text-xs',
         )}
         alt={countryCode}
         loading="lazy"
@@ -47,11 +39,7 @@ export const ImageFlag = ({
         onError={() => console.error(`Missing flag for "${countryCode}".`)}
       />
       {shouldShowHomeMarker && (
-        <IconTravel
-          className="absolute -bottom-1 -right-1 z-10"
-          classNameSize="size-5"
-          total={0}
-        />
+        <IconTravel className="absolute -bottom-1 -right-1 z-10" classNameSize="size-5" total={0} />
       )}
     </span>
   );

@@ -1,29 +1,17 @@
-import { cn } from "@/utils/tailwind";
+import { cn } from '@/utils/tailwind';
 
 type Props = {
   className?: string;
   value: number;
   max: number;
-  variant?: "slash" | "percent";
+  variant?: 'slash' | 'percent';
   shouldForceActive?: boolean;
 };
 
-export const TextCounter = ({
-  className = "",
-  value,
-  max,
-  variant = "slash",
-  shouldForceActive = false,
-}: Props) => {
-  if (variant === "percent") {
+export const TextCounter = ({ className = '', value, max, variant = 'slash', shouldForceActive = false }: Props) => {
+  if (variant === 'percent') {
     return (
-      <span
-        className={cn(
-          "text-xs tracking-wider",
-          "text-[#fcff4e] font-semibold",
-          className,
-        )}
-      >
+      <span className={cn('text-xs tracking-wider', 'text-[#fcff4e] font-semibold', className)}>
         {((value / max) * 100).toFixed(1)}%
       </span>
     );
@@ -32,9 +20,9 @@ export const TextCounter = ({
   return (
     <span
       className={cn(
-        "text-xs text-gray-400 tracking-wider",
+        'text-xs text-gray-400 tracking-wider',
         {
-          "text-[#fcff4e] font-semibold": value === max,
+          'text-[#fcff4e] font-semibold': value === max,
         },
         className,
       )}
