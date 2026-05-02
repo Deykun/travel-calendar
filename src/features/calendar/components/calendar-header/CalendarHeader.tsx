@@ -1,3 +1,4 @@
+import IconTravel from '@/components/icons/IconTravel';
 import useFiltersStore from '@/features/filters/stores/useFilterStore';
 import useDataStore from '@/features/settings/stores/useDateStore';
 import { classNamesLayoutGap, classNamesLayoutGrid, classNamesLayoutPx } from '@/layouts/layout-app';
@@ -28,7 +29,11 @@ export function CalendarHeader() {
           ))}
         </div>
       </div>
-      <div className={cn('col-span-2', 'p-5 pt-3', 'bg-[#111110]', 'text-center', 'rounded-lg')}>Stats</div>
+      <div className={cn('col-span-2', 'p-5 pt-3', 'bg-[#111110]', 'text-center', 'rounded-lg')}>
+        <br />
+        {/* <IconTravel total={1} classNameSize="size-18" /> */}
+        <br />
+      </div>
     </header>
   );
 }
