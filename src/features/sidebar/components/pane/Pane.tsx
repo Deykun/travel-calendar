@@ -34,7 +34,7 @@ Pane.Title = ({ children, className = "" }: PropsWithChildren<Props>) => {
       className={cn(
         styles["title"],
         "sticky -top-8 z-1",
-        "-mt-4 pt-4 pb-0 mb-2",
+        "-mt-4 pt-4 pb-1 mb-2",
         "pl-2 -ml-2",
         "rounded-xs",
         "bg-black",

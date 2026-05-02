@@ -45,6 +45,7 @@ export function CalendarHeader() {
               className={cn(
                 "col-start-1 row-start-1 text-white",
                 "transition-bounce",
+                "tabular-nums",
               )}
               style={{
                 opacity:

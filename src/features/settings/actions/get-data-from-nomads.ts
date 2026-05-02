@@ -17,14 +17,33 @@ type IntegrationNomadsApiResponse = {
   trips: IntegrationNomadsTrip[];
 };
 
-export const getDataFromNomads = async ({ username }: Params) => {
+type FetchResponse = { isSuccess: true } | { isSuccess: false; reason: string };
+
+export const getDataFromNomads = async ({
+  username,
+}: Params): Promise<FetchResponse> => {
+  console.log("called");
   if (!username) {
-    return;
+    return { isSuccess: false, reason: "integration.errors.unableToFetch" };
   }
 
-  const response = (await fetch(`https://nomads.com/@${username}.json`).then(
-    (response) => response.json(),
-  )) as unknown as IntegrationNomadsApiResponse;
+  let nomadsData: IntegrationNomadsApiResponse | undefined;
+
+  try {
+    const response = await fetch(`https://nomads.com/@${username}.json`);
+
+    if (!response.ok) {
+      return { isSuccess: false, reason: "integration.errors.unableToFetch" };
+    }
+
+    nomadsData = (await response.json()) as IntegrationNomadsApiResponse;
+  } catch (error) {
+    console.error("Failed to fetch data:", error);
+  }
+
+  if (!nomadsData) {
+    return { isSuccess: false, reason: "integration.errors.unableToFetch" };
+  }
 
   const {
     dataByDay,
@@ -33,7 +52,7 @@ export const getDataFromNomads = async ({ username }: Params) => {
     totalDaysByCountry,
     daysByCountry,
     daysByCountryByMonthByYear,
-  } = getDataFromTrips(response.trips);
+  } = getDataFromTrips(nomadsData.trips);
 
   const sortedDates = Object.keys(dataByDay) as DateYYYYMMDD[];
 
@@ -63,5 +82,5 @@ export const getDataFromNomads = async ({ username }: Params) => {
   setHomeCountriesCodes(homeCountries);
   setDateFilter(undefined, undefined);
 
-  return response;
+  return { isSuccess: true };
 };

@@ -1,0 +1,30 @@
+.BUTTON {
+  > * {
+    filter: blur(0);
+  }
+}
+
+.button--loading {
+  > * {
+    opacity: 0.3;
+    filter: blur(2px);
+  }
+
+  .button-loader {
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+.button-loader {
+  animation: spin infinite linear reverse 1.5s;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}

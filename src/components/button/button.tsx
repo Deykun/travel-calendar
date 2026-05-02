@@ -1,4 +1,7 @@
 import { cn } from "@/utils/tailwind";
+import IconLoader from "../icons/IconLoader";
+
+import styles from "./Button.module.css";
 
 type Props = {
   tagName?: "button" | "a";
@@ -29,6 +32,7 @@ export const Button = ({
   target,
   rel,
   isDisabled = false,
+  isLoading = false,
   dataTestId,
   variant = "primary",
 }: Props) => {
@@ -37,9 +41,12 @@ export const Button = ({
   return (
     <Tag
       className={cn(
+        styles["button"],
+        "relative",
         "group",
         "inline-flex",
         "items-center gap-2",
+        "*:duration-150",
         "[&>svg]:shrink-0 [&>svg]:size-6",
         "[&>svg]:first:-ml-1.5",
         "[&>svg]:last:-mr-1.5",
@@ -53,6 +60,7 @@ export const Button = ({
             variant === "primary",
           "bg-transparent text-[#d8da51] hover:text-[#fcff4e] hover:border-[#fcff4e]":
             variant === "secondary",
+          [styles["button--loading"]]: isLoading,
         },
         className,
       )}
@@ -65,6 +73,17 @@ export const Button = ({
       data-testid={dataTestId}
     >
       {children}
+      {isLoading && (
+        <IconLoader
+          className={cn(
+            "absolute top-1/2 left-1/2 -translate-1/2",
+            "starting:scale-150 scale-100",
+            "starting:opacity-0 opacity-100",
+            "transition-bounce",
+            styles["button-loader"],
+          )}
+        />
+      )}
     </Tag>
   );
 };

@@ -1,5 +1,8 @@
 {
   "common.calendar": "Kalendarz",
+  "common.idea": "Rada",
+  "common.error": "Błąd",
+  "common.all": "Wszystkie",
   "month.name.1": "Styczeń",
   "month.name.2": "Luty",
   "month.name.3": "Marzec",
@@ -30,6 +33,7 @@
   "preferences.shouldHighlightAbroadTravel.tip": "Podróż między dwoma krajami, które nie są ustawione jako kraj domowy.",
   "preferences.homeCountry": "Kraj domowy",
   "preferences.homeCountry.tip": "Te kraje nie są uwzględniane w kalendarzu i są oznaczone ikoną domu.",
+  "preferences.homeCountry.selectManyTip": "Jeśli wybierzesz wszystkie kraje, a następnie odznaczysz wybrane, możesz zobaczyć, jak dużą część kalendarza obejmują niewybrane kraje.",
   "preferences.showHomeCountry": "Pokaż kraj domowy",
   "preferences.years": "Lata",
   "preferences.from": "Od",
@@ -38,5 +42,6 @@
   "preferences.language.current": "Polski",
   "integration.title": "Integracja",
   "integration.withNomads": "Integracja z nomads.com",
-  "integration.lastUpdatePrefix": "Ostatnia aktualizacja"
+  "integration.lastUpdatePrefix": "Ostatnia aktualizacja",
+  "integration.errors.unableToFetch": "Nie można pobrać danych dla tego użytkownika - konto nie istnieje lub profil jest prywatny."
 }
