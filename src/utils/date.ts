@@ -30,6 +30,10 @@ export function stringDateToObject(date: DateYYYYMMDD) {
   };
 }
 
+export function objectDateToString({ year, month, day }: { year: number; month: number; day: number }) {
+  return `${year}-${('' + month).padStart(2, '0')}-${('' + day).padStart(2, '0')}` as DateYYYYMMDD;
+}
+
 // 2026-03-28 -> 03-28
 export function getDateWithoutYear(date: DateYYYYMMDD): DateMMDD {
   return date.split('-').slice(1).join('-') as DateMMDD;

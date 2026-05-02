@@ -42,7 +42,7 @@ export function PaneVisibility() {
       </Pane.List>
       <Pane.Subtitle className="mt-2">{t('preferences.calendarOther')}</Pane.Subtitle>
       <Pane.List>
-        <Checkbox isActive={shouldCounterUseScale} onChange={toggleShouldCounterUseScale} isDisabled={maxTotal <= 1}>
+        <Checkbox isActive={shouldCounterUseScale} onChange={toggleShouldCounterUseScale} isDisabled={maxTotal <= 1 && !shouldCounterUseScale}>
           <div className={cn('flex flex-col gap-1', 'text-wrap')}>
             {t('preferences.shouldCounterUseScale')}
             <small>

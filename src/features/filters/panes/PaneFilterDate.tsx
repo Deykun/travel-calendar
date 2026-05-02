@@ -2,11 +2,13 @@ import { useTranslation } from 'react-i18next';
 
 import { Radiobox } from '@/components/radiobox/Radiobox';
 import { MiniCalendarForYear } from '@/features/calendar/components/mini-calendar/MiniCalendarForYear';
+import { PlayControls } from '@/features/play/components/PlayControls';
+import { play } from '@/features/play/store/usePlayStore';
 import useDataStore from '@/features/settings/stores/useDateStore';
 import { Pane } from '@/features/sidebar/components/pane/Pane';
 import { getArrayOfYears } from '@/utils/date';
 
-import useFiltersStore, { setDateFilter, setFromFilter, setToFilter } from '../stores/useFilterStore';
+import useFiltersStore, { setFromFilter, setToFilter } from '../stores/useFilterStore';
 
 export function PaneFilterDate() {
   const activeFrom = useFiltersStore((store) => store.activeFilters.from);
@@ -62,6 +64,7 @@ export function PaneFilterDate() {
           );
         })}
       </Pane.List>
+      <PlayControls fromYear={activeFromYear} toYear={activeToYear} />
     </Pane>
   );
 }

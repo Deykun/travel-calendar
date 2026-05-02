@@ -44,6 +44,8 @@
   "integration.withNomads": "Integration with nomads.com.",
   "integration.lastUpdatePrefix": "Last update",
   "integration.errors.unableToFetch": "Unable to retrieve data for this user - either the account does not exist or the profile is private.",
+  "play.play": "Play",
+  "play.stop": "Stop",
   "country.name.uk": "United Kingdom",
   "country.name.ks": "Kosovo",
   "country.name.af": "Afghanistan",
