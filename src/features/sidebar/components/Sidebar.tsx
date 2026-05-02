@@ -21,20 +21,26 @@ export function Sidebar({ className = '' }: Props) {
         'overflow-auto',
         'w-95',
         'max-w-full',
-        'py-6 px-2 sm:p-6',
+        'p-2 sm:p-6',
         'bg-[#111110]',
         'border-r-2 border-r-[#2b2b27]',
         'duration-500',
         {
-          '-translate-x-full': isCollapsed,
+          '-translate-x-full [@media(min-width:860px)]:translate-x-0': isCollapsed,
         },
         className,
       )}
     >
-      <header className={cn('flex flex-wrap gap-3', 'bg-[#111110] pt-6 mb-6')}>
+      <header
+        className={cn(
+          'flex flex-col',
+          '[@media(min-width:860px)]:flex-row [@media(min-width:860px)]:flex-wrap gap-3',
+          'mb-6',
+        )}
+      >
+        <SidebarToggle className="ml-auto [@media(min-width:860px)]:hidden" />
         <ButtonSettings />
         <ButtonFilter />
-        <SidebarToggle className="ml-auto [@media(min-width:860px)]:hidden" />
       </header>
       <SidebarContent />
     </aside>

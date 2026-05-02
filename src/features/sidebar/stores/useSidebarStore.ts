@@ -19,7 +19,9 @@ type SidebarStore = {
 };
 
 const emptyStore: SidebarStore = {
-  sidebar: null,
+  sidebar: {
+    type: 'setting',
+  },
   isCollapsed: false,
 };
 
@@ -60,7 +62,9 @@ export function collapseSidebar() {
 
 export function closeSidebar() {
   useSidebarStore.setState({
-    sidebar: null,
+    sidebar: {
+      type: 'setting',
+    },
     isCollapsed: true,
   });
 }
