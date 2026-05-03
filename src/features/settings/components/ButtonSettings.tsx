@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 
-import { Button } from '@/components/button/Buttonn';
+import { Button } from '@/components/button/Button';
 import IconGear from '@/components/icons/IconGear';
 import { openSidebarSettings, useSidebarStore } from '@/features/sidebar/stores/useSidebarStore';
 

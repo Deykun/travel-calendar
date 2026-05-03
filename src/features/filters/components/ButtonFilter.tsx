@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 
-import { Button } from '@/components/button/Buttonn';
+import { Button } from '@/components/button/Button';
 import IconFilter from '@/components/icons/IconFilter';
 import { openSidebarFilters, useSidebarStore } from '@/features/sidebar/stores/useSidebarStore';
 

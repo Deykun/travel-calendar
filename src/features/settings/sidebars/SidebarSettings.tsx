@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 
-import { Button } from '@/components/button/Buttonn';
+import { Button } from '@/components/button/Button';
 import IconGithub from '@/components/icons/IconGithub';
 
 import { PaneIntegration } from '../panes/PaneIntegration';

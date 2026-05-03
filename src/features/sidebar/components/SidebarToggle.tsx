@@ -1,4 +1,4 @@
-import { Button } from '@/components/button/Buttonn';
+import { Button } from '@/components/button/Button';
 import IconX from '@/components/icons/IconX';
 import { cn } from '@/utils/tailwind';
 

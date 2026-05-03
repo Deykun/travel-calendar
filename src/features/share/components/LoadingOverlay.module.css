@@ -1,0 +1,29 @@
+.container {
+  background-color: #2a2a26;
+  color: #979797;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    /* Thanks to: https://blog.spoongraphics.co.uk/freebies/8-free-seamless-vector-topographic-map-patterns */
+    background-image: url('./images/topographic-map-pattern.png');
+    background-size: 400px;
+    opacity: 0.025;
+    z-index: -1;
+    filter: invert(1);
+  }
+}
+
+.overlay-loader {
+  animation: spin infinite linear reverse 1.5s;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}
