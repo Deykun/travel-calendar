@@ -62,6 +62,8 @@ const emptyStore: FiltersStoreState = {
       maxCountriesInDay: 0,
       maxYearsAbroadInDay: 0,
       activeDays: [],
+      countriesCodes: [],
+      countriesCodesByYear: {},
     },
     summaryByDay: {},
     summaryByMonth: {},
