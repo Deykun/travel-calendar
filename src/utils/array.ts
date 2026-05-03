@@ -1,5 +1,3 @@
-import type { DateMMDD } from '@/types';
-
 export function chunkArray<T>(arr: T[], size: number): T[][] {
   const chunks: T[][] = [];
 
