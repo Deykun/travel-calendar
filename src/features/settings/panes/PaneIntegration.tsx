@@ -59,7 +59,7 @@ export function PaneIntegration() {
         <Input value={username} setValue={handleUsernameUpdate} isDisabled={isLoading} />
         <Button className="ml-auto" type="submit" isDisabled={!username} isLoading={isLoading}>
           <IconBolt />
-          <span>Get data</span>
+          <span>{t('integration.getData')}</span>
         </Button>
       </form>
       {lastUpdate && (

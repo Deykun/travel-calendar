@@ -12,6 +12,8 @@ import { cn } from '@/utils/tailwind';
 import { SummaryFlags } from './summary-flags/SummaryFlags';
 
 export function CalendarHeader() {
+  const lastUpdate = useDataStore((store) => store.integration.lastUpdate);
+
   const [shouldShowFlags, setShouldShowFlags] = useState(false);
 
   const maxCountriesInDay = useFiltersStore((store) => store.filtered.summary.maxCountriesInDay);
@@ -28,9 +30,19 @@ export function CalendarHeader() {
   const years = getArrayOfYears(activeFrom ?? from, activeTo ?? to);
   const totalYears = years.length;
 
+  if (!lastUpdate) {
+    return (
+      <header className={cn(classNamesLayoutGap, classNamesLayoutPx, classNamesLayoutGrid, 'mb-8')}>
+        <div className={cn('col-span-4 relative', 'p-5', 'bg-[#111110]', 'text-center', 'rounded-lg')}>
+          {t('integration.hintDemo')}
+        </div>
+      </header>
+    );
+  }
+
   return (
     <header className={cn(classNamesLayoutGap, classNamesLayoutPx, classNamesLayoutGrid, 'mb-8')}>
-      <div className={cn('col-span-2 relative', 'p-5 pt-3', 'bg-[#111110]', 'text-center', 'rounded-lg')}>
+      <div className={cn('col-span-3 @min-[1600px]:col-span-2 relative', 'p-5 pt-3', 'bg-[#111110]', 'text-center', 'rounded-lg')}>
         <button
           className={cn('absolute top-5 left-5', 'text-xs text-gray-400 tracking-wider', {
             'text-gray-500': visitedCountriesTotal === 0,
@@ -64,9 +76,9 @@ export function CalendarHeader() {
       </div>
       <div
         className={cn(
-          'col-span-2',
+          'col-span-3 @min-[1600px]:col-span-2',
           'flex flex-col justify-center',
-          'p-5 pt-3',
+          'p-5',
           'bg-[#111110]',
           'text-center',
           'rounded-lg',
