@@ -8,7 +8,7 @@ type Props = {
   shouldForceActive?: boolean;
 };
 
-export const TextCounter = ({ className = '', value, max, variant = 'slash', shouldForceActive = false }: Props) => {
+export const TextCounter = ({ className = '', value, max, variant = 'slash' }: Props) => {
   if (variant === 'percent') {
     return (
       <span className={cn('text-xs tracking-wider', 'text-[#fcff4e] font-semibold', className)}>

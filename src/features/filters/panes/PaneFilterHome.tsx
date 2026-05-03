@@ -1,7 +1,6 @@
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { Button } from '@/components/button/Buttonn';
 import { Checkbox } from '@/components/checkbox/Checkbox';
 import IconBulb from '@/components/icons/IconBulb';
 import IconTravel from '@/components/icons/IconTravel';
