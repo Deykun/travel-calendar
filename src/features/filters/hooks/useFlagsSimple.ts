@@ -12,6 +12,7 @@ export function useFlagsSimple(
         [year: string]: string[];
         [year: number]: string[];
       },
+  shouldGroupConsecutiveYears = true,
 ) {
   const shouldHighlightAbroadTravel = usePreferencesStore((store) => store.calendar.shouldHighlightAbroadTravel);
 
@@ -20,6 +21,7 @@ export function useFlagsSimple(
   const { flags, isHighlightAbroadTravelActive } = useMemo(() => {
     const { periodsByIds, countriesByYear } = getFlagsEntriesGroupedByYearSimple({
       countriesCodesByYear,
+      shouldGroupConsecutiveYears,
     });
 
     const abroadFlags = Object.values(periodsByIds);
@@ -34,7 +36,7 @@ export function useFlagsSimple(
       flags: abroadFlags,
       isHighlightAbroadTravelActive,
     };
-  }, [countriesCodesByYear, homeCountriesCodes, shouldHighlightAbroadTravel]);
+  }, [countriesCodesByYear, homeCountriesCodes, shouldGroupConsecutiveYears, shouldHighlightAbroadTravel]);
 
   return {
     flags,

@@ -61,10 +61,15 @@ export const Icon = ({
         }}
       ></span>
       <span
-        className={cn('col-start-1 row-start-1 text-sm font-semibold relative z-1 opacity-0 duration-500', {
-          'opacity-100': shouldShowAllNumbers || total > 1,
-          [styles['value']]: total > 1,
-        })}
+        className={cn(
+          'inline-flex flex-col justify-center',
+          'col-start-1 row-start-1 text-sm font-semibold relative z-1 opacity-0 duration-500',
+          classNameSize,
+          {
+            'opacity-100': shouldShowAllNumbers || total > 1,
+            [styles['value']]: total > 1,
+          },
+        )}
       >
         {total}
       </span>

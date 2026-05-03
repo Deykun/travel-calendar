@@ -15,7 +15,6 @@ type IntegrationNomadsApiResponse = {
 type FetchResponse = { isSuccess: true } | { isSuccess: false; reason: string };
 
 export const getDataFromNomads = async ({ username }: Params): Promise<FetchResponse> => {
-  console.log('called');
   if (!username) {
     return { isSuccess: false, reason: 'integration.errors.unableToFetch' };
   }

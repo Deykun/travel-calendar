@@ -81,12 +81,14 @@ export const getFlagsEntriesGroupedByYear = ({
 
 export const getFlagsEntriesGroupedByYearSimple = ({
   countriesCodesByYear = {},
+  shouldGroupConsecutiveYears = true,
 }: {
   countriesCodesByYear:
     | undefined
     | {
         [year: string | number]: string[];
       };
+  shouldGroupConsecutiveYears?: boolean;
 }): PeriodsIndex => {
   return Object.entries(countriesCodesByYear)
     .sort((a, b) => Number(a[0]) - Number(b[0]))
@@ -109,7 +111,7 @@ export const getFlagsEntriesGroupedByYearSimple = ({
             stack.countriesByYear[year] = [...stack.countriesByYear[year], countryCode];
           }
 
-          if (periodId) {
+          if (periodId && shouldGroupConsecutiveYears) {
             currentYear[countryCode] = periodId;
             stack.periodsByIds[periodId].to = year;
           } else {
