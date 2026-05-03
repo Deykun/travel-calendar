@@ -19,8 +19,8 @@ type Props = {
 export const Month = ({ className = '', month }: Props) => {
   const { t } = useTranslation();
 
-  const daysAbroad = useFiltersStore(
-    (store) => store.filtered.summaryByMonth[month.monthNumber]?.daysAbroad.length || 0,
+  const activeDays = useFiltersStore(
+    (store) => store.filtered.summaryByMonth[month.monthNumber]?.activeDays.length || 0,
   );
   const visitedCountries = useFiltersStore(
     (store) => store.filtered.summaryByMonth[month.monthNumber]?.countriesCodes.length || 0,
@@ -49,7 +49,7 @@ export const Month = ({ className = '', month }: Props) => {
         </FlagHover>
       </span>
       <h2 className={cn('text-2xl text-white', 'font-semibold mb-4')}>{t(month.name)} </h2>
-      <TextCounter className="absolute top-5 right-5" value={daysAbroad || 0} max={daysInMonth} />
+      <TextCounter className="absolute top-5 right-5" value={activeDays || 0} max={daysInMonth} />
       <div className={cn('grid grid-cols-7 gap-x-1.5 gap-y-1')}>
         {month.days.map((day) => (
           <Day key={day} dayKey={getDayKey({ day, month: month.monthNumber })} dayNumber={day} />

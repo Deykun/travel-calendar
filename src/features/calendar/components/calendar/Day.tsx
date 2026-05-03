@@ -10,11 +10,12 @@ import { EMPTY_ARRAY } from '@/utils/empty';
 import { cn } from '@/utils/tailwind';
 
 import { IconTravelForDay } from './IconTravelForDay';
+import type { DateMMDD } from '@/types';
 
 type Props = {
   className?: string;
   dayNumber: number;
-  dayKey: string;
+  dayKey: DateMMDD;
 };
 
 export const Day = ({ className = '', dayNumber, dayKey }: Props) => {

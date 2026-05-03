@@ -6,6 +6,7 @@ import IconTravel from '@/components/icons/IconTravel';
 import { useFlagsForDay } from '@/features/filters/hooks/useFlagsForDate';
 import useFiltersStore from '@/features/filters/stores/useFilterStore';
 import { ToggleShowHome } from '@/features/preferences/components/ToggleShowHome';
+import type { DateMMDD } from '@/types';
 import { EMPTY_ARRAY } from '@/utils/empty';
 import { cn } from '@/utils/tailwind';
 
@@ -14,7 +15,7 @@ import { DayTripDetails } from './day/DayTripDetails';
 
 type Props = {
   className?: string;
-  dayKey: string;
+  dayKey: DateMMDD;
 };
 
 const sidebarStyles = cn('rounded-lg', 'p-4', 'bg-black border border-[#2b2b27]');

@@ -4,13 +4,13 @@ import { devtools, persist } from 'zustand/middleware';
 import type { MonthNumber } from '@/features/calendar/types';
 import useDataStore from '@/features/settings/stores/useDateStore';
 import { getFiltered } from '@/features/settings/utils/get-filtered';
-import type { DateYYYYMMDD } from '@/types';
+import type { DateMMDD, DateYYYYMMDD } from '@/types';
 
 type SummaryDay = {
-  dayKey: string;
+  dayKey: DateMMDD;
   countriesCodes: string[];
   countriesCodesByYear: {
-    [year: number]: string[];
+    [year: number | string]: string[];
   };
   yearsAbroad: string[];
   sourceDates: DateYYYYMMDD[];
@@ -20,9 +20,9 @@ type SummaryMonth = {
   monthNumber: MonthNumber;
   countriesCodes: string[];
   countriesCodesByYear: {
-    [year: number]: string[];
+    [year: number | string]: string[];
   };
-  daysAbroad: string[];
+  activeDays: DateMMDD[];
   total: number;
 };
 
@@ -36,6 +36,11 @@ export type FiltersStoreState = {
     summary: {
       maxCountriesInDay: number;
       maxYearsAbroadInDay: number;
+      activeDays: DateMMDD[];
+      countriesCodes: string[];
+      countriesCodesByYear: {
+        [year: number | string]: string[];
+      };
     };
     summaryByDay: {
       [dayKey: string]: SummaryDay | undefined;
@@ -56,6 +61,7 @@ const emptyStore: FiltersStoreState = {
     summary: {
       maxCountriesInDay: 0,
       maxYearsAbroadInDay: 0,
+      activeDays: [],
     },
     summaryByDay: {},
     summaryByMonth: {},

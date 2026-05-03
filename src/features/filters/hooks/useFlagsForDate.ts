@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 
 import usePreferencesStore from '@/features/preferences/stores/usePreferencesStore';
 import useDataStore from '@/features/settings/stores/useDateStore';
+import type { DateMMDD } from '@/types';
 import { EMPTY_ARRAY, EMPTY_YYYYMMDD_ARRAY } from '@/utils/empty';
 
 import useFiltersStore from '../stores/useFilterStore';
@@ -14,7 +15,7 @@ export type FlagData = {
   tripsKeys: string[];
 };
 
-export function useFlagsForDay(dayKey: string, shouldForceShowHome?: boolean) {
+export function useFlagsForDay(dayKey: DateMMDD, shouldForceShowHome?: boolean) {
   const shouldShowHome = usePreferencesStore((store) => store.sidebars.shouldShowHome);
   const shouldHighlightAbroadTravel = usePreferencesStore((store) => store.calendar.shouldHighlightAbroadTravel);
 

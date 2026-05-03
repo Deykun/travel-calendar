@@ -1,3 +1,5 @@
+import type { DateMMDD } from '@/types';
+
 export function chunkArray<T>(arr: T[], size: number): T[][] {
   const chunks: T[][] = [];
 
@@ -12,6 +14,6 @@ export function mergeUnique<T>(arrayA: T[] | undefined, arrayB: T[] | undefined)
   return Array.from(new Set([...(arrayA || []), ...(arrayB || [])]));
 }
 
-export const mergeUniqueAndSort = (stringsA: string[] | undefined, stringsB: string[] | undefined) => {
+export function mergeUniqueAndSort<T extends string>(stringsA: T[] | undefined, stringsB: T[] | undefined): T[] {
   return mergeUnique(stringsA, stringsB).sort((a, b) => a.localeCompare(b));
-};
+}

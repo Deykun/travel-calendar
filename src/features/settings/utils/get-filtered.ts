@@ -89,7 +89,7 @@ export const getFiltered = (dataByDay: DataStoreState['dataByDay']): FiltersStor
           monthNumber,
           countriesCodes: [],
           countriesCodesByYear: {},
-          daysAbroad: [],
+          activeDays: [],
           total: getDaysInMonth(monthNumber),
         };
       }
@@ -123,10 +123,28 @@ export const getFiltered = (dataByDay: DataStoreState['dataByDay']): FiltersStor
         }
       });
 
-      if (summaryDay.countriesCodes.filter((country) => homeCountriesCodes.includes(country) === false).length > 0) {
-        stack.summaryByMonth[monthNumber].daysAbroad = Array.from(
-          new Set([summaryDay.dayKey, ...stack.summaryByMonth[monthNumber].daysAbroad]),
+      const activeCountriesCodes = summaryDay.countriesCodes.filter(
+        (country) => homeCountriesCodes.includes(country) === false,
+      );
+
+      if (activeCountriesCodes.length > 0) {
+        stack.summaryByMonth[monthNumber].activeDays = mergeUniqueAndSort(
+          stack.summaryByMonth[monthNumber].activeDays,
+          [summaryDay.dayKey],
         );
+        stack.summary.activeDays = mergeUniqueAndSort(stack.summary.activeDays, [summaryDay.dayKey]);
+        stack.summary.countriesCodes = mergeUniqueAndSort(stack.summary.countriesCodes, activeCountriesCodes);
+
+        Object.entries(summaryDay.countriesCodesByYear).forEach(([year, countriesCodes]) => {
+          if (!stack.summary.countriesCodesByYear[year]) {
+            stack.summary.countriesCodesByYear[year] = [];
+          }
+
+          stack.summary.countriesCodesByYear[year] = mergeUniqueAndSort(
+            stack.summary.countriesCodesByYear[year],
+            countriesCodes,
+          );
+        });
       }
 
       return stack;
@@ -136,6 +154,9 @@ export const getFiltered = (dataByDay: DataStoreState['dataByDay']): FiltersStor
       summary: {
         maxCountriesInDay: 0,
         maxYearsAbroadInDay: 0,
+        activeDays: [],
+        countriesCodes: [],
+        countriesCodesByYear: {},
       },
     },
   );

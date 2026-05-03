@@ -1,13 +1,15 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
+import type { DateMMDD } from '@/types';
+
 export type Sidebar =
   | {
       type: 'setting';
     }
   | {
       type: 'day';
-      dayKey: string;
+      dayKey: DateMMDD;
     }
   | {
       type: 'filters';
@@ -31,7 +33,7 @@ export const useSidebarStore = create<SidebarStore>()(
       ({
         ...emptyStore,
       }) satisfies SidebarStore,
-    { name: 'SidebarStore' },
+    { name: 'sidebarStore' },
   ),
 );
 

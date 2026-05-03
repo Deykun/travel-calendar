@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next';
+import { Fragment } from 'react/jsx-runtime';
 
 import { Radiobox } from '@/components/radiobox/Radiobox';
 import { MiniCalendarForYear } from '@/features/calendar/components/mini-calendar/MiniCalendarForYear';
@@ -36,7 +37,7 @@ export function PaneFilterDate() {
           const isToActive = (activeTo || '').startsWith(String(year));
 
           return (
-            <>
+            <Fragment key={year}>
               <span>
                 <Radiobox
                   key={year}
@@ -59,7 +60,7 @@ export function PaneFilterDate() {
                   <MiniCalendarForYear year={year} />
                 </Radiobox>
               </span>
-            </>
+            </Fragment>
           );
         })}
       </Pane.List>
