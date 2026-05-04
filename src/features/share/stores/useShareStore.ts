@@ -2,11 +2,11 @@ import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
 type ShareStore = {
-  state: 'idle' | 'loading';
+  state: 'waiting' | 'ready' | 'loading';
 };
 
 const emptyStore: ShareStore = {
-  state: 'idle',
+  state: 'waiting',
 };
 
 export const useShareStore = create<ShareStore>()(

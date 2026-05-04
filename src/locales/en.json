@@ -49,7 +49,7 @@
   "integration.errors.unableToFetch": "Unable to retrieve data for this user - either the account does not exist or the profile is private.",
   "integration.hintDemo": "To check the example calendar, click \"Get data\" in the Integration panel.",
   "integration.copySharableLink": "Copy sharable link",
-  "integration.loadingUser": "Loading user data",
+  "integration.loadingUser": "Preparing...",
   "play.play": "Play",
   "play.stop": "Stop",
   "country.name.uk": "United Kingdom",
