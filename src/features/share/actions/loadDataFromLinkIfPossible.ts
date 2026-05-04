@@ -33,5 +33,5 @@ export const loadDataFromLinkIfPossible = async (hash: string) => {
     //
   }
 
-  setShareState('idle');
+  setShareState('ready');
 };
