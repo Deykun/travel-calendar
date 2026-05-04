@@ -25,9 +25,18 @@ export function CalendarFooter() {
             <IconTravel total={0} classNameSize="size-8" />
             <span className="text-white font-semibold whitespace-nowrap">{t('preferences.homeCountry')}</span>
           </span>
-          {homeCountriesCodes.map((countryCode) => (
-            <CountrySummary key={countryCode} countryCode={countryCode} />
-          ))}
+          <div
+            className={cn(
+              'w-full grid grid-cols-[repeat(auto-fit,70px)]',
+              'place-items-start gap-x-8 gap-y-3 items-center',
+            )}
+          >
+            {homeCountriesCodes.map((countryCode) => (
+              <span key={countryCode} className="w-full inline-flex justify-center align-middle">
+                <CountrySummary countryCode={countryCode} />
+              </span>
+            ))}
+          </div>
         </div>
         <small>{t('preferences.homeCountry.tip')}</small>
       </div>

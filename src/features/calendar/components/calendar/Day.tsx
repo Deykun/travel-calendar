@@ -6,11 +6,11 @@ import { useFlagsSimple } from '@/features/filters/hooks/useFlagsSimple';
 import useFiltersStore from '@/features/filters/stores/useFilterStore';
 import usePreferencesStore from '@/features/preferences/stores/usePreferencesStore';
 import { closeSidebar, openSidebar, useSidebarStore } from '@/features/sidebar/stores/useSidebarStore';
+import type { DateMMDD } from '@/types';
 import { EMPTY_ARRAY } from '@/utils/empty';
 import { cn } from '@/utils/tailwind';
 
 import { IconTravelForDay } from './IconTravelForDay';
-import type { DateMMDD } from '@/types';
 
 type Props = {
   className?: string;
@@ -21,7 +21,9 @@ type Props = {
 export const Day = ({ className = '', dayNumber, dayKey }: Props) => {
   const counterShouldShow = usePreferencesStore((store) => store.calendar.counterShouldShow);
 
-  const isSidebarOpen = useSidebarStore((state) => state?.sidebar?.type === 'day' && state.sidebar.dayKey === dayKey);
+  const isSidebarOpen = useSidebarStore(
+    (state) => state?.sidebar?.type === 'day' && state.sidebar.dayKey === dayKey && state.isCollapsed === false,
+  );
   const countriesCodes = useFiltersStore((store) => store.filtered.summaryByDay[dayKey]?.countriesCodes || EMPTY_ARRAY);
   const yearsAbroad = useFiltersStore((store) => store.filtered.summaryByDay[dayKey]?.yearsAbroad || EMPTY_ARRAY);
 

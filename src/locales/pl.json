@@ -51,7 +51,7 @@
   "integration.errors.unableToFetch": "Nie można pobrać danych dla tego użytkownika - konto nie istnieje lub profil jest prywatny.",
   "integration.hintDemo": "Aby sprawdzić przykładowy kalendarz, kliknij \"Pobierz dane\" w panelu Integracji.",
   "integration.copySharableLink": "Skopiuj link profilu",
-  "integration.loadingUser": "Ładowanie danych użytkownika",
+  "integration.loadingUser": "Przygotowywanie...",
   "play.play": "Odtwórz",
   "play.stop": "Zatrzymaj",
   "country.name.uk": "Zjednoczone Królestwo",

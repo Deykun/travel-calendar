@@ -2,6 +2,7 @@ import { CalendarFooter } from './features/calendar/components/calendar-footer/C
 import { CalendarHeader } from './features/calendar/components/calendar-header/CalendarHeader';
 import { Calendar } from './features/calendar/components/calendar/Calendar';
 import { ButtonCopySharableLink } from './features/share/components/ButtonCopySharableLink';
+import { ButtonGoToNomads } from './features/share/components/ButtonGoToNomads';
 import { LoadingOverlay } from './features/share/components/LoadingOverlay';
 import { useLoadDataFromUrlIfPossible } from './features/share/hooks/useLoadDataFromUrlIfPossible';
 import { Sidebar } from './features/sidebar/components/Sidebar';
@@ -19,8 +20,8 @@ function App() {
               <CalendarHeader />
               <Calendar />
               <CalendarFooter />
-
-              <div className="mt-24 flex justify-center empty:hidden">
+              <div className="mt-24 flex flex-wrap justify-center gap-4 empty:hidden">
+                <ButtonGoToNomads />
                 <ButtonCopySharableLink />
               </div>
             </div>
