@@ -42,7 +42,15 @@ export function CalendarHeader() {
 
   return (
     <header className={cn(classNamesLayoutGap, classNamesLayoutPx, classNamesLayoutGrid, 'mb-8')}>
-      <div className={cn('col-span-3 @min-[1600px]:col-span-2 relative', 'p-5 pt-3', 'bg-[#111110]', 'text-center', 'rounded-lg')}>
+      <div
+        className={cn(
+          'col-span-3 @min-[1600px]:col-span-2 relative',
+          'p-5 pt-10 sm:pt-5',
+          'bg-[#111110]',
+          'text-center',
+          'rounded-lg',
+        )}
+      >
         <button
           className={cn('absolute top-5 left-5', 'text-xs text-gray-400 tracking-wider', {
             'text-gray-500': visitedCountriesTotal === 0,
@@ -84,14 +92,14 @@ export function CalendarHeader() {
           'rounded-lg',
         )}
       >
-        <div className="grid grid-cols-2 gap-2">
-          <div className="flex flex-col gap-2 items-center">
+        <div className="grid grid-cols-2 gap-4">
+          <div className="flex flex-col gap-3 items-center">
             <IconTravel total={maxCountriesInDay} classNameSize="size-12 text-2xl" shouldShowAllNumbers />
-            <h3>{t('summary.maxCountriesInDay')}</h3>
+            <h3 className="text-xs md:text-sm">{t('summary.maxCountriesInDay')}</h3>
           </div>
-          <div className="flex flex-col gap-2 items-center">
+          <div className="flex flex-col gap-3 items-center">
             <IconTravel total={maxYearsAbroadInDay} classNameSize="size-12 text-2xl" shouldShowAllNumbers />
-            <h3>{t('summary.maxYearsAbroadInDay')}</h3>
+            <h3 className="text-xs md:text-sm">{t('summary.maxYearsAbroadInDay')}</h3>
           </div>
         </div>
       </div>

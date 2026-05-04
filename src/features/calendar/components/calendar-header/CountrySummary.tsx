@@ -17,7 +17,7 @@ export function CountrySummary({ countryCode }: Props) {
         <TextCounter
           className={cn(
             'col-start-1 row-start-1',
-            'opacity-0 group-hover:opacity-100',
+            'opacity-100 group-hover:opacity-0',
             'font-normal text-[10px]',
             'transition-bounce',
           )}
@@ -27,7 +27,7 @@ export function CountrySummary({ countryCode }: Props) {
         <TextCounter
           className={cn(
             'col-start-1 row-start-1',
-            'opacity-100 group-hover:opacity-0',
+            'opacity-0 group-hover:opacity-100',
             'duration-150',
             'transition-bounce',
           )}
