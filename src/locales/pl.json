@@ -26,6 +26,7 @@
   "summary.countries_many": "{{count}} krajów",
   "summary.totalCountries": "odwiedzonych krajów",
   "summary.totalYearsAbroad": "lat za granicą",
+  "summary.orderOfUnlocking": "kolejność odblokowania",
   "summary.maxCountriesInDay": "Najwięcej krajów w jednym dniu",
   "summary.maxYearsAbroadInDay": "Najwięcej lat za granicą w jednym dniu",
   "preferences.calendar": "Kalendarz",

@@ -26,12 +26,25 @@ export const Day = ({ className = '', dayNumber, dayKey }: Props) => {
   );
   const countriesCodes = useFiltersStore((store) => store.filtered.summaryByDay[dayKey]?.countriesCodes || EMPTY_ARRAY);
   const yearsAbroad = useFiltersStore((store) => store.filtered.summaryByDay[dayKey]?.yearsAbroad || EMPTY_ARRAY);
+  const indexInSortingByUnlocking = useFiltersStore(
+    (store) => store.filtered.summaryByDay[dayKey]?.indexInSortingByUnlocking || 0,
+  );
 
   const countriesCodesByYear = useFiltersStore((store) => store.filtered.summaryByDay[dayKey]?.countriesCodesByYear);
 
   const { flags, isHighlightAbroadTravelActive } = useFlagsSimple(countriesCodesByYear);
 
-  const total = counterShouldShow === 'yearsAbroad' ? yearsAbroad.length : countriesCodes.length;
+  const total = useMemo(() => {
+    if (counterShouldShow === 'yearsAbroad') {
+      return yearsAbroad.length;
+    }
+
+    if (counterShouldShow === 'orderOfUnlocking') {
+      return indexInSortingByUnlocking;
+    }
+
+    return countriesCodes.length;
+  }, [counterShouldShow, countriesCodes.length, indexInSortingByUnlocking, yearsAbroad.length]);
 
   const handleClick = useCallback(() => {
     if (isSidebarOpen) {
@@ -74,7 +87,7 @@ export const Day = ({ className = '', dayNumber, dayKey }: Props) => {
       )}
     >
       <FlagHover flags={flags} className="inline-flex flex-col gap-1" from={from} shouldSkipGroup>
-        <IconTravelForDay total={total} counterShouldShow={counterShouldShow} />
+        <IconTravelForDay total={total} hasScale />
         <p className={cn('text-sm tracking-wider duration-500')}>{dayNumber}</p>
       </FlagHover>
     </button>

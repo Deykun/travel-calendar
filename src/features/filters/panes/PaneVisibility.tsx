@@ -10,7 +10,7 @@ import usePreferencesStore, {
 import { Pane } from '@/features/sidebar/components/pane/Pane';
 import { cn } from '@/utils/tailwind';
 
-import useFiltersStore from '../stores/useFilterStore';
+import { useMaxTotal } from '../hooks/useMaxTotal';
 
 export function PaneVisibility() {
   const shouldHighlightAbroadTravel = usePreferencesStore((store) => store.calendar.shouldHighlightAbroadTravel);
@@ -19,11 +19,7 @@ export function PaneVisibility() {
 
   const { t } = useTranslation();
 
-  const maxTotal = useFiltersStore((store) =>
-    counterShouldShow === 'numberOfCountries'
-      ? store.filtered.summary.maxCountriesInDay
-      : store.filtered.summary.maxYearsAbroadInDay,
-  );
+  const maxTotal = useMaxTotal();
 
   return (
     <Pane>
@@ -39,10 +35,20 @@ export function PaneVisibility() {
         <Radiobox isActive={counterShouldShow === 'yearsAbroad'} onChange={() => setCounterShouldShow('yearsAbroad')}>
           <div className={cn('flex flex-col gap-1', 'text-wrap')}>{t('summary.totalYearsAbroad')}</div>
         </Radiobox>
+        <Radiobox
+          isActive={counterShouldShow === 'orderOfUnlocking'}
+          onChange={() => setCounterShouldShow('orderOfUnlocking')}
+        >
+          <div className={cn('flex flex-col gap-1', 'text-wrap')}>{t('summary.orderOfUnlocking')}</div>
+        </Radiobox>
       </Pane.List>
       <Pane.Subtitle className="mt-2">{t('preferences.calendarOther')}</Pane.Subtitle>
       <Pane.List>
-        <Checkbox isActive={shouldCounterUseScale} onChange={toggleShouldCounterUseScale} isDisabled={maxTotal <= 1 && !shouldCounterUseScale}>
+        <Checkbox
+          isActive={shouldCounterUseScale}
+          onChange={toggleShouldCounterUseScale}
+          isDisabled={maxTotal <= 1 && !shouldCounterUseScale}
+        >
           <div className={cn('flex flex-col gap-1', 'text-wrap')}>
             {t('preferences.shouldCounterUseScale')}
             <small>

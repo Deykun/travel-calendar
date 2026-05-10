@@ -14,6 +14,7 @@ type SummaryDay = {
   };
   yearsAbroad: string[];
   sourceDates: DateYYYYMMDD[];
+  indexInSortingByUnlocking: number | undefined;
 };
 
 type SummaryMonth = {

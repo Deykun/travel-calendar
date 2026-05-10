@@ -1,20 +1,23 @@
 import IconTravel from '@/components/icons/IconTravel';
-import useFiltersStore from '@/features/filters/stores/useFilterStore';
-import usePreferencesStore, { type PreferencesStoreState } from '@/features/preferences/stores/usePreferencesStore';
+import { useMaxTotal } from '@/features/filters/hooks/useMaxTotal';
+import usePreferencesStore from '@/features/preferences/stores/usePreferencesStore';
 
 type Props = {
   total: number;
-  counterShouldShow: PreferencesStoreState['calendar']['counterShouldShow'];
+  hasScale?: boolean;
 };
 
-export const IconTravelForDay = ({ total, counterShouldShow }: Props) => {
+export const IconTravelForDay = ({ total, hasScale = false }: Props) => {
+  const shouldShowAllNumbers = usePreferencesStore((store) => store.calendar.counterShouldShow === 'orderOfUnlocking');
   const shouldCounterUseScale = usePreferencesStore((store) => store.calendar.shouldCounterUseScale);
 
-  const maxTotal = useFiltersStore((store) =>
-    counterShouldShow === 'numberOfCountries'
-      ? store.filtered.summary.maxCountriesInDay
-      : store.filtered.summary.maxYearsAbroadInDay,
-  );
+  const maxTotal = useMaxTotal();
 
-  return <IconTravel total={total} maxTotal={shouldCounterUseScale ? maxTotal : undefined} />;
+  return (
+    <IconTravel
+      total={total}
+      maxTotal={hasScale && shouldCounterUseScale ? maxTotal : undefined}
+      shouldShowAllNumbers={shouldShowAllNumbers}
+    />
+  );
 };
