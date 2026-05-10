@@ -24,6 +24,7 @@
   "summary.countries_other": "{{count}} countries",
   "summary.totalCountries": "Total countries visited",
   "summary.totalYearsAbroad": "Total years abroad",
+  "summary.orderOfUnlocking": "Order of unlocking",
   "summary.maxCountriesInDay": "Most countries in one day",
   "summary.maxYearsAbroadInDay": "Most years abroad in one day",
   "preferences.calendar": "Calendar",

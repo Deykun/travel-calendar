@@ -7,12 +7,18 @@ import { mergeUnique, mergeUniqueAndSort } from '@/utils/array';
 
 import { getDateWithoutYear, getIsFuture, getMonthWithoutDay, stringDateToObject } from '../../../utils/date';
 import type { DataStoreState } from '../stores/useDateStore';
+import type { DateYYYYMMDD } from '@/types';
 
 export const getFiltered = (dataByDay: DataStoreState['dataByDay']): FiltersStoreState['filtered'] => {
   const { homeCountriesCodes, from, to } = useFiltersStore.getState().activeFilters;
 
-  const summaryByDay: FiltersStoreState['filtered']['summaryByDay'] = Object.values(dataByDay).reduce(
-    (stack: FiltersStoreState['filtered']['summaryByDay'], dataDay) => {
+  const dataByDateSorted = Object.keys(dataByDay).sort() as DateYYYYMMDD[];
+
+  let indexInSortingByUnlocking = 0;
+
+  const summaryByDay: FiltersStoreState['filtered']['summaryByDay'] = dataByDateSorted.reduce(
+    (stack: FiltersStoreState['filtered']['summaryByDay'], dateYYYYMMDD) => {
+      const dataDay = dataByDay[dateYYYYMMDD];
       if (!dataDay) {
         return stack;
       }
@@ -50,11 +56,17 @@ export const getFiltered = (dataByDay: DataStoreState['dataByDay']): FiltersStor
           countriesCodesByYear: {},
           sourceDates: [],
           yearsAbroad: [],
+          indexInSortingByUnlocking: undefined,
         };
       }
 
       if (filteredCountriesForDay.length > 0) {
         stack[dayWithoutYear].yearsAbroad = mergeUnique(stack[dayWithoutYear].yearsAbroad, [String(year)]);
+
+        if (stack[dayWithoutYear].indexInSortingByUnlocking === undefined) {
+          indexInSortingByUnlocking += 1;
+          stack[dayWithoutYear].indexInSortingByUnlocking = indexInSortingByUnlocking;
+        }
       }
 
       stack[dayWithoutYear].sourceDates = mergeUnique(stack[dayWithoutYear].sourceDates, [dataDay.date]);
@@ -63,6 +75,8 @@ export const getFiltered = (dataByDay: DataStoreState['dataByDay']): FiltersStor
         stack[dayWithoutYear].countriesCodes,
         filteredCountriesForDay,
       );
+
+
 
       stack[dayWithoutYear].countriesCodesByYear[year] = mergeUniqueAndSort(
         stack[dayWithoutYear].countriesCodesByYear[year],
