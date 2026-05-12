@@ -8,16 +8,9 @@ type Props = {
 };
 
 export const IconTravelForDay = ({ total, hasScale = false }: Props) => {
-  const shouldShowAllNumbers = usePreferencesStore((store) => store.calendar.counterShouldShow === 'orderOfUnlocking');
   const shouldCounterUseScale = usePreferencesStore((store) => store.calendar.shouldCounterUseScale);
 
   const maxTotal = useMaxTotal();
 
-  return (
-    <IconTravel
-      total={total}
-      maxTotal={hasScale && shouldCounterUseScale ? maxTotal : undefined}
-      shouldShowAllNumbers={shouldShowAllNumbers}
-    />
-  );
+  return <IconTravel total={total} maxTotal={hasScale && shouldCounterUseScale ? maxTotal : undefined} />;
 };

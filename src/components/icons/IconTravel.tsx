@@ -10,6 +10,7 @@ type Props = {
   maxTotal?: number;
   shouldShowAllNumbers?: boolean;
   classNameSize?: string;
+  suffixAfter?: string;
 };
 
 export const Icon = ({
@@ -18,6 +19,7 @@ export const Icon = ({
   total,
   maxTotal,
   classNameSize = 'size-6',
+  suffixAfter = '',
 }: Props) => {
   const opacity = maxTotal && total > 0 ? Math.abs(1 - Math.min(1, (total + 0.75) / (maxTotal + 1))).toFixed(1) : '0';
 
@@ -68,11 +70,11 @@ export const Icon = ({
           {
             'opacity-100': shouldShowAllNumbers || total > 1,
             [styles['value']]: shouldShowAllNumbers ? total > 0 : total > 1,
-            'text-xs': total > 99,
+            'text-xs': total > 99 || suffixAfter,
           },
         )}
       >
-        {total}
+        {total}{suffixAfter}
       </span>
       <IconCheck
         className={cn(

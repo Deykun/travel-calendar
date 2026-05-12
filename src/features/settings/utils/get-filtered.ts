@@ -57,10 +57,14 @@ export const getFiltered = (dataByDay: DataStoreState['dataByDay']): FiltersStor
           sourceDates: [],
           yearsAbroad: [],
           indexInSortingByUnlocking: undefined,
+          totalDays: 0,
+          totalDaysAbroad: 0,
         };
       }
 
+      stack[dayWithoutYear].totalDays += 1;
       if (filteredCountriesForDay.length > 0) {
+        stack[dayWithoutYear].totalDaysAbroad += 1;
         stack[dayWithoutYear].yearsAbroad = mergeUnique(stack[dayWithoutYear].yearsAbroad, [String(year)]);
 
         if (stack[dayWithoutYear].indexInSortingByUnlocking === undefined) {
@@ -75,8 +79,6 @@ export const getFiltered = (dataByDay: DataStoreState['dataByDay']): FiltersStor
         stack[dayWithoutYear].countriesCodes,
         filteredCountriesForDay,
       );
-
-
 
       stack[dayWithoutYear].countriesCodesByYear[year] = mergeUniqueAndSort(
         stack[dayWithoutYear].countriesCodesByYear[year],
@@ -95,6 +97,9 @@ export const getFiltered = (dataByDay: DataStoreState['dataByDay']): FiltersStor
       if (!summaryDay) {
         return stack;
       }
+
+      stack.summary.totalDays += summaryDay.totalDays;
+      stack.summary.totalDaysAbroad += summaryDay.totalDaysAbroad;
 
       const monthNumber = getMonthWithoutDay(summaryDay.dayKey);
 
@@ -166,6 +171,8 @@ export const getFiltered = (dataByDay: DataStoreState['dataByDay']): FiltersStor
     {
       summaryByMonth: {},
       summary: {
+        totalDays: 0,
+        totalDaysAbroad: 0,
         maxCountriesInDay: 0,
         maxYearsAbroadInDay: 0,
         activeDays: [],

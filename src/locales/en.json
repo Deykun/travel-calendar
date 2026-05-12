@@ -27,6 +27,7 @@
   "summary.orderOfUnlocking": "Order of unlocking",
   "summary.maxCountriesInDay": "Most countries in one day",
   "summary.maxYearsAbroadInDay": "Most years abroad in one day",
+  "summary.percentageAbroad": "Abroad",
   "preferences.calendar": "Calendar",
   "preferences.theDayNumber.title": "The day number shows",
   "preferences.calendarOther": "Other",

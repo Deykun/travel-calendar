@@ -15,6 +15,8 @@ type SummaryDay = {
   yearsAbroad: string[];
   sourceDates: DateYYYYMMDD[];
   indexInSortingByUnlocking: number | undefined;
+  totalDays: number;
+  totalDaysAbroad: number;
 };
 
 type SummaryMonth = {
@@ -35,6 +37,8 @@ export type FiltersStoreState = {
   };
   filtered: {
     summary: {
+      totalDays: number;
+      totalDaysAbroad: number;
       maxCountriesInDay: number;
       maxYearsAbroadInDay: number;
       activeDays: DateMMDD[];
