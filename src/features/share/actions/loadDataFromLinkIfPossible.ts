@@ -1,4 +1,4 @@
-import { setHomeCountriesCodes } from '@/features/filters/stores/useFilterStore';
+import { refreshFiltered, setHomeCountriesCodes } from '@/features/filters/stores/useFilterStore';
 import { getDataFromNomads } from '@/features/settings/actions/get-data-from-nomads';
 import { openSidebarFilters } from '@/features/sidebar/stores/useSidebarStore';
 
@@ -24,6 +24,7 @@ export const loadDataFromLinkIfPossible = async (hash: string) => {
 
       if (response.isSuccess) {
         openSidebarFilters();
+        refreshFiltered();
 
         const homeCountriesCodes = params.h.split('-');
         setHomeCountriesCodes(homeCountriesCodes);

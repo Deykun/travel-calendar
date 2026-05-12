@@ -7,6 +7,7 @@ import useFiltersStore from '@/features/filters/stores/useFilterStore';
 import useDataStore from '@/features/settings/stores/useDateStore';
 import { classNamesLayoutGap, classNamesLayoutGrid, classNamesLayoutPx } from '@/layouts/layout-app';
 import { getArrayOfYears } from '@/utils/date';
+import { roundWithPrecision } from '@/utils/math';
 import { cn } from '@/utils/tailwind';
 
 import { SummaryFlags } from './summary-flags/SummaryFlags';
@@ -16,6 +17,8 @@ export function CalendarHeader() {
 
   const [shouldShowFlags, setShouldShowFlags] = useState(false);
 
+  const totalDays = useFiltersStore((store) => store.filtered.summary.totalDays);
+  const totalDaysAbroad = useFiltersStore((store) => store.filtered.summary.totalDaysAbroad);
   const maxCountriesInDay = useFiltersStore((store) => store.filtered.summary.maxCountriesInDay);
   const maxYearsAbroadInDay = useFiltersStore((store) => store.filtered.summary.maxYearsAbroadInDay);
 
@@ -92,7 +95,16 @@ export function CalendarHeader() {
           'rounded-lg',
         )}
       >
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-3 gap-4">
+          <div className="flex flex-col gap-3 items-center">
+            <IconTravel
+              total={roundWithPrecision((100 * totalDaysAbroad) / totalDays, 1)}
+              suffixAfter="%"
+              classNameSize="size-12 text-2xl"
+              shouldShowAllNumbers
+            />
+            <h3 className="text-xs md:text-sm">{t('summary.percentageAbroad')}</h3>
+          </div>
           <div className="flex flex-col gap-3 items-center">
             <IconTravel total={maxCountriesInDay} classNameSize="size-12 text-2xl" shouldShowAllNumbers />
             <h3 className="text-xs md:text-sm">{t('summary.maxCountriesInDay')}</h3>
