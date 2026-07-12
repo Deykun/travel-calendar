@@ -6,6 +6,8 @@ import useDataStore from '@/features/settings/stores/useDateStore';
 import { getFiltered } from '@/features/settings/utils/get-filtered';
 import type { DateMMDD, DateYYYYMMDD } from '@/types';
 
+export const NUMBER_OF_STREAKS_TO_TRACK = 5;
+
 type SummaryDay = {
   dayKey: DateMMDD;
   countriesCodes: string[];
@@ -27,6 +29,16 @@ type SummaryMonth = {
   };
   activeDays: DateMMDD[];
   total: number;
+};
+
+type StreakType = 'maxDays' | 'maxCountries';
+
+export type StreakSummary = {
+  type: StreakType;
+  countriesCodes: string[];
+  from: DateYYYYMMDD | undefined;
+  to: DateYYYYMMDD | undefined;
+  count: number;
 };
 
 export type FiltersStoreState = {
@@ -53,6 +65,27 @@ export type FiltersStoreState = {
     summaryByMonth: {
       [monthKey: string]: SummaryMonth | undefined;
     };
+    streaks: {
+      maxDays: StreakSummary[];
+      maxCountries: StreakSummary[];
+    };
+  };
+};
+
+export const getEmptyStreak = (type: StreakType): StreakSummary => {
+  return {
+    type: type,
+    countriesCodes: [],
+    from: undefined,
+    to: undefined,
+    count: 0,
+  };
+};
+
+export const getEmptyStreaks = (): FiltersStoreState['filtered']['streaks'] => {
+  return {
+    maxDays: [...Array(NUMBER_OF_STREAKS_TO_TRACK)].map(() => getEmptyStreak('maxDays')),
+    maxCountries: [...Array(NUMBER_OF_STREAKS_TO_TRACK)].map(() => getEmptyStreak('maxCountries')),
   };
 };
 
@@ -74,6 +107,7 @@ const emptyStore: FiltersStoreState = {
     },
     summaryByDay: {},
     summaryByMonth: {},
+    streaks: getEmptyStreaks(),
   },
 };
 
