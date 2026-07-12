@@ -29,6 +29,8 @@
   "summary.orderOfUnlocking": "kolejność odblokowania",
   "summary.maxCountriesInDay": "Najwięcej krajów w jednym dniu",
   "summary.maxYearsAbroadInDay": "Najwięcej lat za granicą w jednym dniu",
+  "summary.maxDaysInTheRow": "Najwięcej kolejnych dni za granicą",
+  "summary.maxCountriesInTheRow": "Najwięcej krajów z rzędu",
   "summary.percentageAbroad": "Za granicą",
   "preferences.calendar": "Kalendarz",
   "preferences.theDayNumber.title": "Numer dnia pokazuje liczbę",

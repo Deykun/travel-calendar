@@ -21,6 +21,8 @@ export function CalendarHeader() {
   const totalDaysAbroad = useFiltersStore((store) => store.filtered.summary.totalDaysAbroad);
   const maxCountriesInDay = useFiltersStore((store) => store.filtered.summary.maxCountriesInDay);
   const maxYearsAbroadInDay = useFiltersStore((store) => store.filtered.summary.maxYearsAbroadInDay);
+  const streakMaxDays = useFiltersStore((store) => store.filtered.streaks.maxDays);
+  const streakMaxCountries = useFiltersStore((store) => store.filtered.streaks.maxCountries);
 
   const visitedCountriesTotal = useFiltersStore((store) => store.filtered.summary.countriesCodes.length);
   const activeDaysTotal = useFiltersStore((store) => store.filtered.summary.activeDays.length);
@@ -112,6 +114,14 @@ export function CalendarHeader() {
           <div className="flex flex-col gap-3 items-center">
             <IconTravel total={maxYearsAbroadInDay} classNameSize="size-12 text-2xl" shouldShowAllNumbers />
             <h3 className="text-xs md:text-sm">{t('summary.maxYearsAbroadInDay')}</h3>
+          </div>
+          <div className="flex flex-col gap-3 items-center">
+            <IconTravel total={streakMaxDays[0]?.count} classNameSize="size-12 text-2xl" shouldShowAllNumbers />
+            <h3 className="text-xs md:text-sm">{t('summary.maxDaysInTheRow')}</h3>
+          </div>
+          <div className="flex flex-col gap-3 items-center">
+            <IconTravel total={streakMaxCountries[0]?.count} classNameSize="size-12 text-2xl" shouldShowAllNumbers />
+            <h3 className="text-xs md:text-sm">{t('summary.maxCountriesInTheRow')}</h3>
           </div>
         </div>
       </div>
