@@ -58,7 +58,7 @@ export const SidebarDay = ({ className, dayKey }: Props) => {
 
   return (
     <>
-      <div className={cn('text-center relative', sidebarStyles, className)}>
+      <div className={cn('text-center relative', sidebarStyles, className)} data-sidebar="day">
         <h2 className="text-2xl text-white font-semibold mb-6">
           <DatetimeDay date={`2000-${dayKey}`} />
         </h2>

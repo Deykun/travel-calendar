@@ -6,7 +6,6 @@ import { Datetime } from '@/components/datetime/datetime';
 import IconBolt from '@/components/icons/IconBolt';
 import IconWarning from '@/components/icons/IconWarning';
 import Input from '@/components/input/Input';
-import { ButtonCopySharableLink } from '@/features/share/components/ButtonCopySharableLink';
 import { Pane } from '@/features/sidebar/components/pane/Pane';
 import { openSidebarFilters } from '@/features/sidebar/stores/useSidebarStore';
 import { cn } from '@/utils/tailwind';
@@ -72,9 +71,6 @@ export function PaneIntegration() {
           .
         </p>
       )}
-      <div>
-        <ButtonCopySharableLink />
-      </div>
       {errorMessage && (
         <Pane.Footer>
           <h4 className="flex gap-2 mb-1 text-sm text-[white] font-semibold tracking-wide">

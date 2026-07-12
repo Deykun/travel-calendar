@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
+import type { MonthNumber } from '@/features/calendar/types';
 import type { DateMMDD } from '@/types';
 
 export type Sidebar =
@@ -10,6 +11,10 @@ export type Sidebar =
   | {
       type: 'day';
       dayKey: DateMMDD;
+    }
+  | {
+      type: 'month';
+      monthNumber: MonthNumber;
     }
   | {
       type: 'filters';

@@ -47,7 +47,7 @@ export function CalendarHeader() {
     <header className={cn(classNamesLayoutGap, classNamesLayoutPx, classNamesLayoutGrid, 'mb-8')}>
       <div
         className={cn(
-          'col-span-3 @min-[1600px]:col-span-2 relative',
+          'col-span-4 @min-[1600px]:col-span-2 relative',
           'p-5 pt-10 sm:pt-5',
           'bg-[#111110]',
           'text-center',
@@ -87,7 +87,7 @@ export function CalendarHeader() {
       </div>
       <div
         className={cn(
-          'col-span-3 @min-[1600px]:col-span-2',
+          'col-span-4 @min-[1600px]:col-span-2',
           'flex flex-col justify-center',
           'p-5',
           'bg-[#111110]',
