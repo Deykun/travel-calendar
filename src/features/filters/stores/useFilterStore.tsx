@@ -31,11 +31,14 @@ type SummaryMonth = {
   total: number;
 };
 
-type StreakType = 'maxDays' | 'maxCountries';
+export type StreakType = 'maxDays' | 'maxCountries';
 
 export type StreakSummary = {
   type: StreakType;
   countriesCodes: string[];
+  daysByCountry: {
+    [countryCode: string]: number | undefined;
+  };
   from: DateYYYYMMDD | undefined;
   to: DateYYYYMMDD | undefined;
   count: number;
@@ -76,6 +79,7 @@ export const getEmptyStreak = (type: StreakType): StreakSummary => {
   return {
     type: type,
     countriesCodes: [],
+    daysByCountry: {},
     from: undefined,
     to: undefined,
     count: 0,

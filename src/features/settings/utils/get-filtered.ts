@@ -34,9 +34,12 @@ export const getFiltered = (dataByDay: DataStoreState['dataByDay']): FiltersStor
       dateYYYYMMDD,
     ) => {
       const dataDay = dataByDay[dateYYYYMMDD];
+
       if (!dataDay) {
         return stack;
       }
+
+      const isLastDayOfRange = to === dataDay.date;
 
       const isBeforeRange = from && isBefore(dataDay.date, from);
       if (isBeforeRange) {
@@ -108,12 +111,20 @@ export const getFiltered = (dataByDay: DataStoreState['dataByDay']): FiltersStor
       const isAbroad = filteredCountriesForDay.length > 0;
       const isHome = filteredCountriesForDay.length < dataDay.countriesCodes.length;
 
-      const shouldStopStreak = isHome;
+      const shouldStopStreak = isHome || isLastDayOfRange;
       const shouldExtendStreak = isAbroad && !isHome;
       if (shouldExtendStreak) {
         stack.current.streak = {
           ...stack.current.streak,
           countriesCodes: mergeUnique(stack.current.streak.countriesCodes, filteredCountriesForDay),
+          daysByCountry: {
+            ...stack.current.streak.daysByCountry,
+            ...filteredCountriesForDay.reduce((newCountriesStack: StreakSummary['daysByCountry'], countryCode) => {
+              newCountriesStack[countryCode] = (stack.current.streak.daysByCountry?.[countryCode] ?? 0) + 1;
+
+              return newCountriesStack;
+            }, {}),
+          },
           from: stack.current.streak.from || dateYYYYMMDD,
           to: dateYYYYMMDD || stack.current.streak.to,
           count: stack.current.streak.count + 1,

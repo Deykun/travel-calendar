@@ -50,8 +50,8 @@ export const getDataFromNomads = async ({ username }: Params): Promise<FetchResp
       lastUpdate: Date.now(),
     },
     date: {
-      from: sortedDates.at(-1),
-      to: sortedDates.at(0),
+      from: sortedDates.at(0),
+      to: sortedDates.at(-1),
     },
     totalDaysByCountry,
     daysByCountry,

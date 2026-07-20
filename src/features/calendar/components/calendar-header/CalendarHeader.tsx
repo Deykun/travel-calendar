@@ -5,6 +5,7 @@ import IconTravel from '@/components/icons/IconTravel';
 import { TextCounter } from '@/components/text-counter/TextCounter';
 import useFiltersStore from '@/features/filters/stores/useFilterStore';
 import useDataStore from '@/features/settings/stores/useDateStore';
+import { openSidebar } from '@/features/sidebar/stores/useSidebarStore';
 import { classNamesLayoutGap, classNamesLayoutGrid, classNamesLayoutPx } from '@/layouts/layout-app';
 import { getArrayOfYears } from '@/utils/date';
 import { roundWithPrecision } from '@/utils/math';
@@ -118,10 +119,12 @@ export function CalendarHeader() {
           <div className="flex flex-col gap-3 items-center">
             <IconTravel total={streakMaxDays[0]?.count} classNameSize="size-12 text-2xl" shouldShowAllNumbers />
             <h3 className="text-xs md:text-sm">{t('summary.maxDaysInTheRow')}</h3>
+            <button onClick={() => openSidebar({ type: 'streak', streakType: 'maxDays', index: 0 })}>Show</button>
           </div>
           <div className="flex flex-col gap-3 items-center">
             <IconTravel total={streakMaxCountries[0]?.count} classNameSize="size-12 text-2xl" shouldShowAllNumbers />
             <h3 className="text-xs md:text-sm">{t('summary.maxCountriesInTheRow')}</h3>
+            <button onClick={() => openSidebar({ type: 'streak', streakType: 'maxCountries', index: 0 })}>Show</button>
           </div>
         </div>
       </div>
