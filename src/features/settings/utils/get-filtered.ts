@@ -4,10 +4,8 @@ import { isBefore } from 'date-fns/isBefore';
 import { getDaysInMonth } from '@/features/calendar/utils/get-days';
 import useFiltersStore, {
   type FiltersStoreState,
-  NUMBER_OF_STREAKS_TO_TRACK,
   type StreakSummary,
   getEmptyStreak,
-  getEmptyStreaks,
 } from '@/features/filters/stores/useFilterStore';
 import type { DateYYYYMMDD } from '@/types';
 import { filterEmpty, mergeUnique, mergeUniqueAndSort } from '@/utils/array';
@@ -26,7 +24,7 @@ export const getFiltered = (dataByDay: DataStoreState['dataByDay']): FiltersStor
     (
       stack: {
         summaryByDay: FiltersStoreState['filtered']['summaryByDay'];
-        streaks: FiltersStoreState['filtered']['streaks'];
+        streaks: StreakSummary[];
         current: {
           streak: StreakSummary;
         };
@@ -62,6 +60,10 @@ export const getFiltered = (dataByDay: DataStoreState['dataByDay']): FiltersStor
 
       const dayWithoutYear = getDateWithoutYear(dataDay.date);
       const { year } = stringDateToObject(dataDay.date);
+
+      if (!year) {
+        return stack;
+      }
 
       const filteredCountriesForDay = dataDay.countriesCodes.filter(
         (country) => homeCountriesCodes.includes(country) === false,
@@ -134,16 +136,9 @@ export const getFiltered = (dataByDay: DataStoreState['dataByDay']): FiltersStor
       if (shouldStopStreak) {
         const maxDaysStreak = stack.current.streak;
 
-        stack.streaks.maxDays = [...stack.streaks.maxDays, maxDaysStreak]
-          .sort((a, b) => b.count - a.count)
-          .slice(0, NUMBER_OF_STREAKS_TO_TRACK);
-        stack.streaks.maxCountries = [...stack.streaks.maxCountries, maxDaysStreak]
-          .map(
-            (streak) =>
-              ({ ...streak, type: 'maxCountries', count: streak.countriesCodes.length }) satisfies StreakSummary,
-          )
-          .sort((a, b) => b.count - a.count)
-          .slice(0, NUMBER_OF_STREAKS_TO_TRACK);
+        if (stack.current.streak.count > 0) {
+          stack.streaks.push(maxDaysStreak);
+        }
 
         stack.current.streak = getEmptyStreak('maxDays');
       }
@@ -152,12 +147,24 @@ export const getFiltered = (dataByDay: DataStoreState['dataByDay']): FiltersStor
     },
     {
       summaryByDay: {},
-      streaks: getEmptyStreaks(),
+      streaks: [],
       current: {
         streak: getEmptyStreak('maxDays'),
       },
     },
   );
+
+  const sortedStreaksMaxDays = streaks.sort((a, b) => b.count - a.count);
+  const sortedStreaksMaxCountries = sortedStreaksMaxDays
+    .map(
+      (streak) =>
+        ({
+          ...streak,
+          type: 'maxCountries',
+          count: streak.countriesCodes.length,
+        }) satisfies StreakSummary,
+    )
+    .sort((a, b) => b.count - a.count);
 
   const { summaryByMonth, summary } = Object.values(summaryByDay)
     .filter(filterEmpty)
@@ -252,6 +259,9 @@ export const getFiltered = (dataByDay: DataStoreState['dataByDay']): FiltersStor
     summaryByDay,
     summaryByMonth,
     summary,
-    streaks,
+    streaks: {
+      maxDays: sortedStreaksMaxDays,
+      maxCountries: sortedStreaksMaxCountries,
+    },
   };
 };

@@ -1,22 +1,33 @@
 import type { PropsWithChildren } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { ImageFlag } from '@/components/image-flag/ImageFlag';
 import { cn } from '@/utils/tailwind';
 
-type Props = {
+type SharedProps = {
   className?: string;
-  from?: number;
-  to?: number;
   countryCode: string;
   onClick?: () => void;
   isActive?: boolean;
   shouldShowHomeMarker?: boolean;
 };
 
+type PropsFromTo = {
+  from: number;
+  to: number;
+} & SharedProps;
+
+type PropsFromDays = {
+  numberOfDays?: number;
+} & SharedProps;
+
+type Props = PropsWithChildren<PropsFromTo> | PropsWithChildren<PropsFromDays>;
+
 export const Period = ({
   className = '',
   from,
   to,
+  numberOfDays,
   countryCode,
   onClick,
   isActive = false,
@@ -24,6 +35,8 @@ export const Period = ({
   shouldShowHomeMarker,
 }: PropsWithChildren<Props>) => {
   const Tag = onClick ? 'button' : 'span';
+
+  const { t } = useTranslation();
 
   return (
     <Tag
@@ -49,6 +62,7 @@ export const Period = ({
             {from} <br /> {to}
           </div>
         )}
+        {numberOfDays && t('summary.days', { postProcess: 'interval', count: numberOfDays })}
         {children}
       </div>
     </Tag>

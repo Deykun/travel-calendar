@@ -1,7 +1,5 @@
 import { useTranslation } from 'react-i18next';
 
-import styles from './SummaryFlags.module.css';
-
 import { Checkbox } from '@/components/checkbox/Checkbox';
 import { useFlagsSimple } from '@/features/filters/hooks/useFlagsSimple';
 import useFiltersStore from '@/features/filters/stores/useFilterStore';
@@ -33,7 +31,7 @@ export function SummaryFlags({ onClose }: Props) {
           count: visitedCountriesTotal,
         })}
       </Checkbox>
-      <div className={cn('relative', 'w-full', 'max-w-full', styles['scroll-content-wrapper'])}>
+      <div className={cn('relative', 'w-full', 'max-w-full', 'scroll-content-wrapper--horizontal')}>
         <div
           className={cn(
             'grid grid-flow-col justify-center-safe gap-3',

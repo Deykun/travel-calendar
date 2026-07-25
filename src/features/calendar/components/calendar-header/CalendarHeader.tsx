@@ -5,7 +5,7 @@ import IconTravel from '@/components/icons/IconTravel';
 import { TextCounter } from '@/components/text-counter/TextCounter';
 import useFiltersStore from '@/features/filters/stores/useFilterStore';
 import useDataStore from '@/features/settings/stores/useDateStore';
-import { openSidebar } from '@/features/sidebar/stores/useSidebarStore';
+import { BestStreak } from '@/features/streak/components/best-streak/BestStreak';
 import { classNamesLayoutGap, classNamesLayoutGrid, classNamesLayoutPx } from '@/layouts/layout-app';
 import { getArrayOfYears } from '@/utils/date';
 import { roundWithPrecision } from '@/utils/math';
@@ -18,13 +18,11 @@ export function CalendarHeader() {
 
   const [shouldShowFlags, setShouldShowFlags] = useState(false);
 
+  const totalTrips = useFiltersStore((store) => store.filtered.streaks.maxDays.length || 0);
   const totalDays = useFiltersStore((store) => store.filtered.summary.totalDays);
   const totalDaysAbroad = useFiltersStore((store) => store.filtered.summary.totalDaysAbroad);
   const maxCountriesInDay = useFiltersStore((store) => store.filtered.summary.maxCountriesInDay);
   const maxYearsAbroadInDay = useFiltersStore((store) => store.filtered.summary.maxYearsAbroadInDay);
-  const streakMaxDays = useFiltersStore((store) => store.filtered.streaks.maxDays);
-  const streakMaxCountries = useFiltersStore((store) => store.filtered.streaks.maxCountries);
-
   const visitedCountriesTotal = useFiltersStore((store) => store.filtered.summary.countriesCodes.length);
   const activeDaysTotal = useFiltersStore((store) => store.filtered.summary.activeDays.length);
   const activeFrom = useFiltersStore((store) => store.activeFilters.from);
@@ -98,7 +96,7 @@ export function CalendarHeader() {
           'rounded-lg',
         )}
       >
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-4 gap-4">
           <div className="flex flex-col gap-3 items-center">
             <IconTravel
               total={roundWithPrecision((100 * totalDaysAbroad) / totalDays, 1)}
@@ -106,7 +104,13 @@ export function CalendarHeader() {
               classNameSize="size-12 text-2xl"
               shouldShowAllNumbers
             />
-            <h3 className="text-xs md:text-sm">{t('summary.percentageAbroad')}</h3>
+            <h3 className="text-xs md:text-sm" title={`${totalDaysAbroad} / ${totalDays}`}>
+              {t('summary.percentageAbroad')}
+            </h3>
+          </div>
+          <div className="flex flex-col gap-3 items-center">
+            <IconTravel total={totalTrips} classNameSize="size-12 text-2xl" shouldShowAllNumbers />
+            <h3 className="text-xs md:text-sm">{t('summary.totalTrips')}</h3>
           </div>
           <div className="flex flex-col gap-3 items-center">
             <IconTravel total={maxCountriesInDay} classNameSize="size-12 text-2xl" shouldShowAllNumbers />
@@ -116,18 +120,10 @@ export function CalendarHeader() {
             <IconTravel total={maxYearsAbroadInDay} classNameSize="size-12 text-2xl" shouldShowAllNumbers />
             <h3 className="text-xs md:text-sm">{t('summary.maxYearsAbroadInDay')}</h3>
           </div>
-          <div className="flex flex-col gap-3 items-center">
-            <IconTravel total={streakMaxDays[0]?.count} classNameSize="size-12 text-2xl" shouldShowAllNumbers />
-            <h3 className="text-xs md:text-sm">{t('summary.maxDaysInTheRow')}</h3>
-            <button onClick={() => openSidebar({ type: 'streak', streakType: 'maxDays', index: 0 })}>Show</button>
-          </div>
-          <div className="flex flex-col gap-3 items-center">
-            <IconTravel total={streakMaxCountries[0]?.count} classNameSize="size-12 text-2xl" shouldShowAllNumbers />
-            <h3 className="text-xs md:text-sm">{t('summary.maxCountriesInTheRow')}</h3>
-            <button onClick={() => openSidebar({ type: 'streak', streakType: 'maxCountries', index: 0 })}>Show</button>
-          </div>
         </div>
       </div>
+      <BestStreak type="maxDays" />
+      <BestStreak type="maxCountries" />
       {shouldShowFlags && <SummaryFlags onClose={() => setShouldShowFlags(false)} />}
     </header>
   );

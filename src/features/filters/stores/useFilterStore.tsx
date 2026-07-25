@@ -6,8 +6,6 @@ import useDataStore from '@/features/settings/stores/useDateStore';
 import { getFiltered } from '@/features/settings/utils/get-filtered';
 import type { DateMMDD, DateYYYYMMDD } from '@/types';
 
-export const NUMBER_OF_STREAKS_TO_TRACK = 5;
-
 type SummaryDay = {
   dayKey: DateMMDD;
   countriesCodes: string[];
@@ -86,13 +84,6 @@ export const getEmptyStreak = (type: StreakType): StreakSummary => {
   };
 };
 
-export const getEmptyStreaks = (): FiltersStoreState['filtered']['streaks'] => {
-  return {
-    maxDays: [...Array(NUMBER_OF_STREAKS_TO_TRACK)].map(() => getEmptyStreak('maxDays')),
-    maxCountries: [...Array(NUMBER_OF_STREAKS_TO_TRACK)].map(() => getEmptyStreak('maxCountries')),
-  };
-};
-
 const emptyStore: FiltersStoreState = {
   activeFilters: {
     homeCountriesCodes: [],
@@ -111,7 +102,10 @@ const emptyStore: FiltersStoreState = {
     },
     summaryByDay: {},
     summaryByMonth: {},
-    streaks: getEmptyStreaks(),
+    streaks: {
+      maxDays: [],
+      maxCountries: [],
+    },
   },
 };
 

@@ -28,3 +28,27 @@ button {
   /* transition: 0.3s cubic-bezier(0.68, -0.35, 0.265, 1.05); */
   transition: 0.3s ease-in-out;
 }
+
+.scroll-content-wrapper--horizontal {
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    width: 2rem;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  &::before {
+    left: 0;
+    background-image: linear-gradient(to left, transparent, #111110);
+  }
+
+  &::after {
+    right: 0;
+    background-image: linear-gradient(to right, transparent, #111110);
+  }
+}
+

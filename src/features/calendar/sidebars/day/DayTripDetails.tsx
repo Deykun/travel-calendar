@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
 
+import { TextDateRange } from '@/components/text-date-range/TextDateRange';
 import { PlaceName } from '@/features/calendar/components/calendar/PlaceName';
 import useDataStore from '@/features/settings/stores/useDateStore';
 import { cn } from '@/utils/tailwind';
@@ -32,9 +33,11 @@ export const DayTripDetails = ({ tripKey, showOnlyForCountryCode }: Props) => {
         </span>
       </div>
       <p className="text-[#979797] text-[10px] tracking-wider -mt-1 mb-1">{t(`country.name.${trip.countryCode}`)}</p>
-      <p className={cn('text-[#979797] text-[12px] text-right', 'text-nowrap tracking-wider font-semibold', 'mb-2')}>
-        {trip?.from} - {trip?.to}
-      </p>
+      <TextDateRange
+        className={cn('text-[#979797] text-[12px] text-right', 'text-nowrap tracking-wider font-semibold', 'mb-2')}
+        from={trip.from}
+        to={trip.to}
+      />
     </div>
   );
 };

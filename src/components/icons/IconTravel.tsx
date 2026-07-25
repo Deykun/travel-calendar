@@ -59,7 +59,7 @@ export const Icon = ({
           // @ts-expect-error Doesn't know css
           cornerShape: 'inherit',
           borderRadius: 'inherit',
-          opacity,
+          opacity: opacity !== '0' && maxTotal === total ? 0 : opacity
         }}
       ></span>
       <span
