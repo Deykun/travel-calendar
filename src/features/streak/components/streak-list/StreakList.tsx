@@ -20,6 +20,10 @@ export function StreakList({ className }: Props) {
     return maxDaysStreaks.toSorted((a, b) => b.from?.localeCompare(a.from || '') || 0);
   }, [maxDaysStreaks]);
 
+  if (streaks.length === 0) {
+    return null;
+  }
+
   return (
     <div
       className={cn(
