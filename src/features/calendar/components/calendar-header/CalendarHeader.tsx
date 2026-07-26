@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import IconTravel from '@/components/icons/IconTravel';
@@ -11,14 +10,9 @@ import { getArrayOfYears } from '@/utils/date';
 import { roundWithPrecision } from '@/utils/math';
 import { cn } from '@/utils/tailwind';
 
-import { SummaryFlags } from './summary-flags/SummaryFlags';
-
 export function CalendarHeader() {
   const lastUpdate = useDataStore((store) => store.integration.lastUpdate);
 
-  const [shouldShowFlags, setShouldShowFlags] = useState(false);
-
-  const totalTrips = useFiltersStore((store) => store.filtered.streaks.maxDays.length || 0);
   const totalDays = useFiltersStore((store) => store.filtered.summary.totalDays);
   const totalDaysAbroad = useFiltersStore((store) => store.filtered.summary.totalDaysAbroad);
   const maxCountriesInDay = useFiltersStore((store) => store.filtered.summary.maxCountriesInDay);
@@ -55,17 +49,16 @@ export function CalendarHeader() {
           'rounded-lg',
         )}
       >
-        <button
+        <span
           className={cn('absolute top-5 left-5', 'text-xs text-gray-400 tracking-wider', {
             'text-gray-500': visitedCountriesTotal === 0,
           })}
-          onClick={() => setShouldShowFlags(!shouldShowFlags)}
         >
           {t('summary.countries', {
             postProcess: 'interval',
             count: visitedCountriesTotal,
           })}
-        </button>
+        </span>
         <div
           className={cn(
             'grid pointer-events-none',
@@ -86,6 +79,7 @@ export function CalendarHeader() {
         </div>
         <TextCounter className="absolute top-5 right-5" value={activeDaysTotal} max={366} />
       </div>
+      <StreaksSummary />
       <div
         className={cn(
           'col-span-4 @min-[1600px]:col-span-2',
@@ -96,11 +90,7 @@ export function CalendarHeader() {
           'rounded-lg',
         )}
       >
-        <div className="grid grid-cols-4 gap-4">
-          <div className="flex flex-col gap-3 items-center">
-            <IconTravel total={totalTrips} classNameSize="size-12 text-2xl" shouldShowAllNumbers />
-            <h3 className="text-xs md:text-sm">{t('summary.totalTrips')}</h3>
-          </div>
+        <div className="grid grid-cols-3 gap-4">
           <div className="flex flex-col gap-3 items-center">
             <IconTravel
               total={roundWithPrecision((100 * totalDaysAbroad) / totalDays, 1)}
@@ -122,8 +112,6 @@ export function CalendarHeader() {
           </div>
         </div>
       </div>
-      <StreaksSummary />
-      {shouldShowFlags && <SummaryFlags onClose={() => setShouldShowFlags(false)} />}
     </header>
   );
 }

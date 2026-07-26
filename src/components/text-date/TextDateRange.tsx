@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 
 import type { DateYYYYMMDD } from '@/types';
 import { cn } from '@/utils/tailwind';
+import { appFormatDate } from './utils/format-date';
 
 type Props = {
   className?: string;
@@ -9,10 +10,7 @@ type Props = {
   to: DateYYYYMMDD | undefined;
 };
 
-// 31-12-2025 -> 2025.12.31
-const formatDate = (date: string): string => {
-  return date.split('-').reverse().join('.');
-};
+
 
 export const TextDateRange = ({ className = '', from, to }: Props) => {
   const label = useMemo(() => {
@@ -21,18 +19,18 @@ export const TextDateRange = ({ className = '', from, to }: Props) => {
       const toYear = to.split('-')[0];
 
       if (fromYear === toYear) {
-        return `${formatDate(from).replace(`.${fromYear}`, '')} - ${formatDate(to)}`;
+        return `${appFormatDate(from, { shouldRemoveYear: true }).replace(`.${fromYear}`, '')} - ${appFormatDate(to)}`;
       }
 
-      return `${formatDate(from)} - ${formatDate(to)}`;
+      return `${appFormatDate(from)} - ${appFormatDate(to)}`;
     }
 
     if (from) {
-      return formatDate(from);
+      return appFormatDate(from);
     }
 
     if (to) {
-      return formatDate(to);
+      return appFormatDate(to);
     }
 
     return '';

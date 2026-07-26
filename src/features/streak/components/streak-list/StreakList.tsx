@@ -2,12 +2,14 @@ import { Fragment, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import IconTravel from '@/components/icons/IconTravel';
-import { TextDateRange } from '@/components/text-date-range/TextDateRange';
+import { TextDateRange } from '@/components/text-date/TextDateRange';
+import { appFormatDate } from '@/components/text-date/utils/format-date';
 import { Period } from '@/features/calendar/components/calendar/Period';
 import useFiltersStore, { type StreakType } from '@/features/filters/stores/useFilterStore';
 import usePreferencesStore from '@/features/preferences/stores/usePreferencesStore';
 import { getDaysBetweenDates } from '@/utils/date';
 import { cn } from '@/utils/tailwind';
+import IconArrowLeft from '@/components/icons/IconArrowLeft';
 
 type Props = {
   className?: string;
@@ -21,8 +23,6 @@ export function StreakList({ className }: Props) {
   const streaks = useMemo(() => {
     return maxDaysStreaks.toSorted((a, b) => b.from?.localeCompare(a.from || '') || 0);
   }, [maxDaysStreaks]);
-
-  console.log('streaks', streaks);
 
   return (
     <div
@@ -38,6 +38,16 @@ export function StreakList({ className }: Props) {
       )}
     >
       <h2 className={cn('text-2xl text-white', 'font-semibold mb-5')}>{t(`summary.tripsTitle`)}</h2>
+      <span
+        className={cn('absolute top-5 left-5', 'text-xs text-gray-400 tracking-wider', {
+          'text-gray-500': streaks.length === 0,
+        })}
+      >
+        {t('summary.trips', {
+          postProcess: 'interval',
+          count: streaks.length,
+        })}
+      </span>
       <div className={cn('relative', 'col-span-2 w-full', 'max-w-full', 'scroll-content-wrapper--horizontal')}>
         <div
           className={cn(
@@ -47,17 +57,32 @@ export function StreakList({ className }: Props) {
             'snap-x snap-mandatory touch-pan-x',
           )}
         >
-          {streaks.map((streak) => {
+          {streaks.map((streak, streakIndex) => {
             return (
               <Fragment key={streak.from}>
-                {streak.countriesCodes.reverse().map((countryCode) => (
-                  <Period
-                    className="w-14 h-20 snap-center"
-                    key={countryCode}
-                    numberOfDays={streak.daysByCountry[countryCode]}
-                    countryCode={countryCode}
-                  />
-                ))}
+                {streak.countriesCodes.reverse().map((countryCode, countryIndex) => {
+                  const isEndPoint = countryIndex === 0;
+                  const isStartPoint = countryIndex === streak.countriesCodes.length - 1;
+
+                  return (
+                    <Period
+                      className="w-14 h-20 snap-center"
+                      key={`${streakIndex}-${countryCode}`}
+                      numberOfDays={streak.daysByCountry[countryCode]}
+                      countryCode={countryCode}
+                    >
+                      {isStartPoint && streak.from && (
+                        <span className="text-gray-400 tracking-wider text-[7px]">{appFormatDate(streak.from)}</span>
+                      )}
+                      {!isStartPoint && !isEndPoint && (
+                        <IconArrowLeft className='size-4 block mx-auto mt-0.5 text-gray-400 opacity-30' />
+                      )}
+                      {isEndPoint && !isStartPoint && streak.to && (
+                        <span className="text-gray-400 tracking-wider text-[7px]">{appFormatDate(streak.to)}</span>
+                      )}
+                    </Period>
+                  );
+                })}
               </Fragment>
             );
           })}

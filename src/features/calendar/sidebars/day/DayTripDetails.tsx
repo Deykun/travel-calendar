@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 
-import { TextDateRange } from '@/components/text-date-range/TextDateRange';
+import { TextDateRange } from '@/components/text-date/TextDateRange';
 import { PlaceName } from '@/features/calendar/components/calendar/PlaceName';
 import useDataStore from '@/features/settings/stores/useDateStore';
 import { cn } from '@/utils/tailwind';

@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 
 import IconTravel from '@/components/icons/IconTravel';
-import { TextDateRange } from '@/components/text-date-range/TextDateRange';
+import { TextDateRange } from '@/components/text-date/TextDateRange';
 import { Period } from '@/features/calendar/components/calendar/Period';
 import useFiltersStore, { type StreakType } from '@/features/filters/stores/useFilterStore';
 import usePreferencesStore from '@/features/preferences/stores/usePreferencesStore';
