@@ -8,6 +8,7 @@ type DataStatus = 'missing' | 'ready';
 type IntegrationType = 'nomads.com';
 
 export type DataStoreState = {
+  version: string;
   status: DataStatus;
   integration: {
     type: IntegrationType | undefined;
@@ -45,6 +46,7 @@ export type DataStoreState = {
 };
 
 const emptyStore: DataStoreState = {
+  version: '1.1.0',
   status: 'missing',
   integration: {
     type: undefined,
@@ -74,6 +76,12 @@ export const useDataStore = create<DataStoreState>()(
     { name: 'dataStore' },
   ),
 );
+
+export const resetDataStore = () => {
+  useDataStore.setState({
+    ...emptyStore,
+  });
+};
 
 export const setIntegration = (newStore: DataStoreState) => {
   useDataStore.setState({

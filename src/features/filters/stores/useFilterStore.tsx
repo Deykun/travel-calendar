@@ -121,6 +121,12 @@ export const useFiltersStore = create<FiltersStoreState>()(
   ),
 );
 
+export const resetFilterStore = () => {
+  useFiltersStore.setState({
+    ...emptyStore,
+  });
+};
+
 export const refreshFiltered = () => {
   const dataByDay = useDataStore.getState().dataByDay;
 
