@@ -1,15 +1,11 @@
 import { Fragment, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import IconTravel from '@/components/icons/IconTravel';
-import { TextDateRange } from '@/components/text-date/TextDateRange';
+import IconArrowLeft from '@/components/icons/IconArrowLeft';
 import { appFormatDate } from '@/components/text-date/utils/format-date';
 import { Period } from '@/features/calendar/components/calendar/Period';
-import useFiltersStore, { type StreakType } from '@/features/filters/stores/useFilterStore';
-import usePreferencesStore from '@/features/preferences/stores/usePreferencesStore';
-import { getDaysBetweenDates } from '@/utils/date';
+import useFiltersStore from '@/features/filters/stores/useFilterStore';
 import { cn } from '@/utils/tailwind';
-import IconArrowLeft from '@/components/icons/IconArrowLeft';
 
 type Props = {
   className?: string;
@@ -75,7 +71,7 @@ export function StreakList({ className }: Props) {
                         <span className="text-gray-400 tracking-wider text-[7px]">{appFormatDate(streak.from)}</span>
                       )}
                       {!isStartPoint && !isEndPoint && (
-                        <IconArrowLeft className='size-4 block mx-auto mt-0.5 text-gray-400 opacity-30' />
+                        <IconArrowLeft className="size-4 block mx-auto mt-0.5 text-gray-400 opacity-30" />
                       )}
                       {isEndPoint && !isStartPoint && streak.to && (
                         <span className="text-gray-400 tracking-wider text-[7px]">{appFormatDate(streak.to)}</span>

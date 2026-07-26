@@ -69,7 +69,7 @@ Pane.Footer = ({
       className={cn(
         'mt-6 pr-2',
         {
-          [styles['footer']]: isSticky,
+          [styles['footer'] || '']: isSticky,
           'sticky -bottom-8 z-100': isSticky,
           '-mb-4 pb-4': isSticky,
           'pl-2 -ml-2': isSticky,

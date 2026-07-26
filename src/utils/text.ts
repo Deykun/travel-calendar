@@ -6,4 +6,14 @@ export const removeDiacritics = (text: string): string => {
     .replace(/\u0141/g, 'L');
 };
 
-export const capitalize = (text: string | undefined) => (text ? text[0].toUpperCase() + text.slice(1) : text);
+export const capitalize = (text: string | undefined) => {
+  if (!text) {
+    return text;
+  }
+
+  if (!text[0]) {
+    return text;
+  }
+
+  return text[0].toUpperCase() + text.slice(1);
+};

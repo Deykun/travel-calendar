@@ -83,6 +83,10 @@ export const getDataFromTrips = (trips: IntegrationNomadsTrip[]): Response => {
 
           const { year, month } = stringDateToObject(date);
 
+          if (!year) {
+            return stack;
+          }
+
           if (!stack.daysByCountryByMonthByYear[year]) {
             stack.daysByCountryByMonthByYear[year] = {};
           }

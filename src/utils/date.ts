@@ -31,7 +31,7 @@ export function stringDateToObject(date: DateYYYYMMDD) {
     console.error(`Invalid date string in ${date}`);
   }
 
-  const [year, month, day] = parts;
+  const [year, month, day] = parts as [number, number, number];
 
   return {
     year,

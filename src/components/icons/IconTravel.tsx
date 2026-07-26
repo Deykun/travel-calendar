@@ -69,7 +69,7 @@ export const Icon = ({
           classNameSize,
           {
             'opacity-100': shouldShowAllNumbers || total > 1,
-            [styles['value']]: shouldShowAllNumbers ? total > 0 : total > 1,
+            [styles['value'] || '']: shouldShowAllNumbers ? total > 0 : total > 1,
             'text-xs': total > 99 || suffixAfter,
           },
         )}

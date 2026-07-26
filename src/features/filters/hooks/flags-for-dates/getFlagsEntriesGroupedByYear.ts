@@ -49,11 +49,16 @@ export const getFlagsEntriesGroupedByYear = ({
 
         if (periodId) {
           currentYear[countryCode] = periodId;
-          stack.periodsByIds[periodId].to = year;
-          stack.periodsByIds[periodId].tripsKeys = mergeUnique(
-            stack.periodsByIds[periodId].tripsKeys,
-            dataForDay.tripsKeys,
-          );
+
+          if (stack.periodsByIds[periodId]) {
+            stack.periodsByIds[periodId].to = year;
+            stack.periodsByIds[periodId].tripsKeys = mergeUnique(
+              stack.periodsByIds[periodId].tripsKeys,
+              dataForDay.tripsKeys,
+            );
+          } else {
+            throw `Missing period ${periodId}`;
+          }
         } else {
           const newPeriodId = `${year}-${countryCode}`;
 
@@ -113,7 +118,12 @@ export const getFlagsEntriesGroupedByYearSimple = ({
 
           if (periodId && shouldGroupConsecutiveYears) {
             currentYear[countryCode] = periodId;
-            stack.periodsByIds[periodId].to = year;
+
+            if (stack.periodsByIds[periodId]) {
+              stack.periodsByIds[periodId].to = year;
+            } else {
+              throw `Missing period ${periodId}`;
+            }
           } else {
             const newPeriodId = `${year}-${countryCode}`;
 

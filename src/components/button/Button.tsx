@@ -60,7 +60,7 @@ export const Button = ({
         {
           'bg-[#d8da51] text-black hover:bg-[#fcff4e] hover:border-[#fcff4e]': variant === 'primary',
           'bg-transparent text-[#d8da51] hover:text-[#fcff4e] hover:border-[#fcff4e]': variant === 'secondary',
-          [styles['button--loading']]: isLoading,
+          [styles['button--loading'] || '']: isLoading,
         },
         className,
       )}
