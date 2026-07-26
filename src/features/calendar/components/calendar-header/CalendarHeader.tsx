@@ -5,7 +5,7 @@ import IconTravel from '@/components/icons/IconTravel';
 import { TextCounter } from '@/components/text-counter/TextCounter';
 import useFiltersStore from '@/features/filters/stores/useFilterStore';
 import useDataStore from '@/features/settings/stores/useDateStore';
-import { BestStreak } from '@/features/streak/components/best-streak/BestStreak';
+import { StreaksSummary } from '@/features/streak/components/StreaksSummary';
 import { classNamesLayoutGap, classNamesLayoutGrid, classNamesLayoutPx } from '@/layouts/layout-app';
 import { getArrayOfYears } from '@/utils/date';
 import { roundWithPrecision } from '@/utils/math';
@@ -90,13 +90,17 @@ export function CalendarHeader() {
         className={cn(
           'col-span-4 @min-[1600px]:col-span-2',
           'flex flex-col justify-center',
-          'p-5',
+          'p-5 pt-8',
           'bg-[#111110]',
           'text-center',
           'rounded-lg',
         )}
       >
         <div className="grid grid-cols-4 gap-4">
+          <div className="flex flex-col gap-3 items-center">
+            <IconTravel total={totalTrips} classNameSize="size-12 text-2xl" shouldShowAllNumbers />
+            <h3 className="text-xs md:text-sm">{t('summary.totalTrips')}</h3>
+          </div>
           <div className="flex flex-col gap-3 items-center">
             <IconTravel
               total={roundWithPrecision((100 * totalDaysAbroad) / totalDays, 1)}
@@ -109,10 +113,6 @@ export function CalendarHeader() {
             </h3>
           </div>
           <div className="flex flex-col gap-3 items-center">
-            <IconTravel total={totalTrips} classNameSize="size-12 text-2xl" shouldShowAllNumbers />
-            <h3 className="text-xs md:text-sm">{t('summary.totalTrips')}</h3>
-          </div>
-          <div className="flex flex-col gap-3 items-center">
             <IconTravel total={maxCountriesInDay} classNameSize="size-12 text-2xl" shouldShowAllNumbers />
             <h3 className="text-xs md:text-sm">{t('summary.maxCountriesInDay')}</h3>
           </div>
@@ -122,8 +122,7 @@ export function CalendarHeader() {
           </div>
         </div>
       </div>
-      <BestStreak type="maxDays" />
-      <BestStreak type="maxCountries" />
+      <StreaksSummary />
       {shouldShowFlags && <SummaryFlags onClose={() => setShouldShowFlags(false)} />}
     </header>
   );

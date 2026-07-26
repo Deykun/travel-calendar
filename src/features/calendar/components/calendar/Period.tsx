@@ -25,18 +25,20 @@ type Props = PropsWithChildren<PropsFromTo> | PropsWithChildren<PropsFromDays>;
 
 export const Period = ({
   className = '',
-  from,
-  to,
-  numberOfDays,
   countryCode,
   onClick,
   isActive = false,
   children,
   shouldShowHomeMarker,
+  ...props
 }: PropsWithChildren<Props>) => {
   const Tag = onClick ? 'button' : 'span';
 
   const { t } = useTranslation();
+
+  // from,
+  // to,
+  // numberOfDays,
 
   return (
     <Tag
@@ -56,13 +58,17 @@ export const Period = ({
     >
       <ImageFlag countryCode={countryCode} shouldShowHomeMarker={shouldShowHomeMarker} />
       <div className="mt-1 text-[12px] text-nowrap text-white tracking-widest font-semibold">
-        {from === to && from}
-        {from !== to && (
+        {'from' in props && props.from === props.to && props.from}
+        {'from' in props && props.from !== props.to && (
           <div className="text-[8px] -mt-0.5">
-            {from} <br /> {to}
+            {props.from} <br /> {props.to}
           </div>
         )}
-        {numberOfDays && t('summary.days', { postProcess: 'interval', count: numberOfDays })}
+        {'numberOfDays' in props && (
+          <div className="text-[8px]">
+            {t('summary.days', { postProcess: 'interval', count: props.numberOfDays })}
+          </div>
+        )}
         {children}
       </div>
     </Tag>

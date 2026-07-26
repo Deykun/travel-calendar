@@ -30,6 +30,10 @@ button {
 }
 
 .scroll-content-wrapper--horizontal {
+  > div {
+    scrollbar-width: thin;
+  }
+
   &::before,
   &::after {
     content: '';
@@ -51,4 +55,3 @@ button {
     background-image: linear-gradient(to right, transparent, #111110);
   }
 }
-
