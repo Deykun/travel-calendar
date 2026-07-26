@@ -45,8 +45,10 @@ export type DataStoreState = {
   };
 };
 
+export const APP_VERSION = '1.1.0';
+
 const emptyStore: DataStoreState = {
-  version: '1.1.0',
+  version: APP_VERSION,
   status: 'missing',
   integration: {
     type: undefined,
