@@ -22,14 +22,14 @@ export function StreaksSummary() {
     <div className={cn('col-span-4 py-3', 'grid grid-cols-6 gap-4 @min-[1200px]:gap-8 empty:hidden')}>
       {isSameStreak && (
         <>
-          <BestStreak type="maxDays" className="col-span-4 @min-[1200px]:col-span-3" />
-          <StreakList className="col-span-4 @min-[1200px]:col-span-3" />
+          <BestStreak type="maxDays" className="col-span-6 @min-[850px]:col-span-3" />
+          <StreakList className="col-span-6 @min-[850px]:col-span-3" />
         </>
       )}
       {!isSameStreak && (
         <>
-          <BestStreak type="maxDays" className="col-span-6 @min-[1200px]:col-span-2" />
-          <BestStreak type="maxCountries" className="col-span-6 @min-[1200px]:col-span-2" />
+          <BestStreak type="maxDays" className="col-span-6 @min-[850px]:col-span-3 @min-[1200px]:col-span-2" />
+          <BestStreak type="maxCountries" className="col-span-6 @min-[850px]:col-span-3 @min-[1200px]:col-span-2" />
           <StreakList className="col-span-6 @min-[1200px]:col-span-2" />
         </>
       )}
