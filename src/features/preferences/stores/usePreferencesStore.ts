@@ -35,6 +35,12 @@ export const usePreferencesStore = create<PreferencesStoreState>()(
   ),
 );
 
+export const resetPreferencesStore = () => {
+  usePreferencesStore.setState({
+    ...emptyStore,
+  });
+};
+
 export const toggleShouldShowHomeInSidebar = () => {
   usePreferencesStore.setState((state) => ({
     sidebars: {

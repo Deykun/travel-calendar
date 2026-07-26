@@ -1,6 +1,9 @@
 import { CalendarFooter } from './features/calendar/components/calendar-footer/CalendarFooter';
 import { CalendarHeader } from './features/calendar/components/calendar-header/CalendarHeader';
 import { Calendar } from './features/calendar/components/calendar/Calendar';
+import ErrorBoundary from './features/error-boundary/components/ErrorBoundary';
+import { Fallback } from './features/error-boundary/components/fallback/Fallback';
+import { useRefreshIfNeeded } from './features/error-boundary/hooks/useShouldRefresh';
 import { ButtonCopySharableLink } from './features/share/components/ButtonCopySharableLink';
 import { ButtonGoToNomads } from './features/share/components/ButtonGoToNomads';
 import { LoadingOverlay } from './features/share/components/LoadingOverlay';
@@ -9,10 +12,11 @@ import { Sidebar } from './features/sidebar/components/Sidebar';
 
 function App() {
   useLoadDataFromUrlIfPossible();
+  useRefreshIfNeeded();
 
   return (
-    <>
-      <div className="flex ">
+    <ErrorBoundary fallback={<Fallback />}>
+      <div className="flex">
         <Sidebar className="shrink-0 z-500" />
         <div className="w-full">
           <div className="overflow-hidden [@media(min-width:860px)]:pl-95 pt-24 pb-24">
@@ -29,7 +33,7 @@ function App() {
         </div>
       </div>
       <LoadingOverlay />
-    </>
+    </ErrorBoundary>
   );
 }
 

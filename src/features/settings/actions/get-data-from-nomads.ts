@@ -1,7 +1,7 @@
 import { setDateFilter, setHomeCountriesCodes } from '@/features/filters/stores/useFilterStore';
 import type { DateYYYYMMDD } from '@/types';
 
-import { setIntegration } from '../stores/useDateStore';
+import { APP_VERSION, setIntegration } from '../stores/useDateStore';
 import { type IntegrationNomadsTrip, getDataFromTrips } from './nomads/get-data-from-trips';
 
 type Params = {
@@ -43,6 +43,7 @@ export const getDataFromNomads = async ({ username }: Params): Promise<FetchResp
   const sortedDates = Object.keys(dataByDay) as DateYYYYMMDD[];
 
   setIntegration({
+    version: APP_VERSION,
     status: 'ready',
     integration: {
       type: 'nomads.com',
