@@ -1,3 +1,9 @@
+type Truthy<T> = T extends false | '' | 0 | null | undefined ? never : T; // from lodash
+
+export function filterEmpty<T>(value: T): value is Truthy<T> {
+  return !!value;
+}
+
 export function chunkArray<T>(arr: T[], size: number): T[][] {
   const chunks: T[][] = [];
 

@@ -15,6 +15,7 @@
     "moduleDetection": "force",
     "noEmit": true,
     "jsx": "react-jsx",
+    "noUncheckedIndexedAccess": true,
 
     /* Linting */
     "strict": true,

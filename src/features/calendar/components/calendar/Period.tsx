@@ -1,29 +1,44 @@
 import type { PropsWithChildren } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { ImageFlag } from '@/components/image-flag/ImageFlag';
 import { cn } from '@/utils/tailwind';
 
-type Props = {
+type SharedProps = {
   className?: string;
-  from?: number;
-  to?: number;
   countryCode: string;
   onClick?: () => void;
   isActive?: boolean;
   shouldShowHomeMarker?: boolean;
 };
 
+type PropsFromTo = {
+  from: number;
+  to: number;
+} & SharedProps;
+
+type PropsFromDays = {
+  numberOfDays?: number;
+} & SharedProps;
+
+type Props = PropsWithChildren<PropsFromTo> | PropsWithChildren<PropsFromDays>;
+
 export const Period = ({
   className = '',
-  from,
-  to,
   countryCode,
   onClick,
   isActive = false,
   children,
   shouldShowHomeMarker,
+  ...props
 }: PropsWithChildren<Props>) => {
   const Tag = onClick ? 'button' : 'span';
+
+  const { t } = useTranslation();
+
+  // from,
+  // to,
+  // numberOfDays,
 
   return (
     <Tag
@@ -43,10 +58,15 @@ export const Period = ({
     >
       <ImageFlag countryCode={countryCode} shouldShowHomeMarker={shouldShowHomeMarker} />
       <div className="mt-1 text-[12px] text-nowrap text-white tracking-widest font-semibold">
-        {from === to && from}
-        {from !== to && (
+        {'from' in props && props.from === props.to && props.from}
+        {'from' in props && props.from !== props.to && (
           <div className="text-[8px] -mt-0.5">
-            {from} <br /> {to}
+            {props.from} <br /> {props.to}
+          </div>
+        )}
+        {'numberOfDays' in props && (
+          <div className="text-[8px]">
+            {t('summary.days', { postProcess: 'interval', count: props.numberOfDays })}
           </div>
         )}
         {children}

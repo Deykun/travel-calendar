@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
 import type { MonthNumber } from '@/features/calendar/types';
+import type { StreakType } from '@/features/filters/stores/useFilterStore';
 import type { DateMMDD } from '@/types';
 
 export type Sidebar =
@@ -18,6 +19,11 @@ export type Sidebar =
     }
   | {
       type: 'filters';
+    }
+  | {
+      type: 'streak';
+      streakType: StreakType;
+      index: number;
     };
 
 type SidebarStore = {

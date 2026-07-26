@@ -29,6 +29,19 @@ type SummaryMonth = {
   total: number;
 };
 
+export type StreakType = 'maxDays' | 'maxCountries';
+
+export type StreakSummary = {
+  type: StreakType;
+  countriesCodes: string[];
+  daysByCountry: {
+    [countryCode: string]: number | undefined;
+  };
+  from: DateYYYYMMDD | undefined;
+  to: DateYYYYMMDD | undefined;
+  count: number;
+};
+
 export type FiltersStoreState = {
   activeFilters: {
     homeCountriesCodes: string[];
@@ -53,6 +66,21 @@ export type FiltersStoreState = {
     summaryByMonth: {
       [monthKey: string]: SummaryMonth | undefined;
     };
+    streaks: {
+      maxDays: StreakSummary[];
+      maxCountries: StreakSummary[];
+    };
+  };
+};
+
+export const getEmptyStreak = (type: StreakType): StreakSummary => {
+  return {
+    type: type,
+    countriesCodes: [],
+    daysByCountry: {},
+    from: undefined,
+    to: undefined,
+    count: 0,
   };
 };
 
@@ -74,6 +102,10 @@ const emptyStore: FiltersStoreState = {
     },
     summaryByDay: {},
     summaryByMonth: {},
+    streaks: {
+      maxDays: [],
+      maxCountries: [],
+    },
   },
 };
 

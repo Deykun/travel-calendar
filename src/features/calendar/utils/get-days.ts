@@ -45,5 +45,11 @@ export const DAYS_GROUPED_BY_MONTHS_BY_DAYS_IN_YEAR: {
 };
 
 export const getDaysInMonth = (monthNumber: MonthNumber) => {
-  return DAYS_IN_MONTH[monthNumber - 1];
+  const daysInMonth = DAYS_IN_MONTH[monthNumber - 1];
+
+  if (typeof daysInMonth !== 'number') {
+    throw new Error(`Invalid month number: ${monthNumber}`);
+  }
+
+  return daysInMonth;
 };

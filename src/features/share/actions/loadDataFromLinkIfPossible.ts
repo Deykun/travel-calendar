@@ -12,7 +12,9 @@ export const loadDataFromLinkIfPossible = async (hash: string) => {
       .reduce((stack: { [param: string]: string }, part) => {
         const [key, value] = part.split(':');
 
-        stack[key] = value;
+        if (typeof key === 'string' && typeof value === 'string') {
+          stack[key] = value;
+        }
 
         return stack;
       }, {});
@@ -26,7 +28,7 @@ export const loadDataFromLinkIfPossible = async (hash: string) => {
         openSidebarFilters();
         refreshFiltered();
 
-        const homeCountriesCodes = params.h.split('-');
+        const homeCountriesCodes = 'h' in params ? params.h.split('-') : [];
         setHomeCountriesCodes(homeCountriesCodes);
       }
     }

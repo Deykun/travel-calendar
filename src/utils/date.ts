@@ -15,13 +15,23 @@ export function getDateRange(from: DateLike, to: DateLike): DateYYYYMMDD[] {
   return dates;
 }
 
+export function getDaysBetweenDates(from: DateLike, to: DateLike): number {
+  const fromDate = new Date(from);
+  const toDate = new Date(to);
+
+  const diffTime = Math.abs(toDate.getTime() - fromDate.getTime());
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+  return diffDays + 1;
+}
+
 export function stringDateToObject(date: DateYYYYMMDD) {
   const parts = date.split('-').map(Number);
   if (parts.length !== 3) {
     console.error(`Invalid date string in ${date}`);
   }
 
-  const [year, month, day] = parts;
+  const [year, month, day] = parts as [number, number, number];
 
   return {
     year,

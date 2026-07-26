@@ -59,7 +59,7 @@ export const Icon = ({
           // @ts-expect-error Doesn't know css
           cornerShape: 'inherit',
           borderRadius: 'inherit',
-          opacity,
+          opacity: opacity !== '0' && maxTotal === total ? 0 : opacity
         }}
       ></span>
       <span
@@ -69,7 +69,7 @@ export const Icon = ({
           classNameSize,
           {
             'opacity-100': shouldShowAllNumbers || total > 1,
-            [styles['value']]: shouldShowAllNumbers ? total > 0 : total > 1,
+            [styles['value'] || '']: shouldShowAllNumbers ? total > 0 : total > 1,
             'text-xs': total > 99 || suffixAfter,
           },
         )}
