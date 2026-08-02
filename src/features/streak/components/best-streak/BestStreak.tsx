@@ -2,11 +2,12 @@ import { useTranslation } from 'react-i18next';
 
 import IconTravel from '@/components/icons/IconTravel';
 import { TextDateRange } from '@/components/text-date/TextDateRange';
-import { Period } from '@/features/calendar/components/calendar/Period';
 import useFiltersStore, { type StreakType } from '@/features/filters/stores/useFilterStore';
 import usePreferencesStore from '@/features/preferences/stores/usePreferencesStore';
 import { getDaysBetweenDates } from '@/utils/date';
 import { cn } from '@/utils/tailwind';
+
+import { StreakPeriod } from '../streak-period/StreakPeriod';
 
 const MINIMAL_STREAK_LENGTH_TO_SHOW = 1;
 
@@ -70,6 +71,8 @@ export function BestStreak({ type, className }: Props) {
         </div>
         <div className={cn('relative', 'col-span-4 w-full', 'max-w-full', 'scroll-content-wrapper--horizontal')}>
           <div
+            // Resets scroll
+            key={`${streak.from}-${streak.to}`}
             className={cn(
               'grid grid-flow-col justify-center-safe gap-3',
               'p-4 px-8',
@@ -77,13 +80,21 @@ export function BestStreak({ type, className }: Props) {
               'snap-x snap-mandatory touch-pan-x',
             )}
           >
-            {streak.countriesCodes.reverse().map((countryCode) => {
+            {streak.countriesCodes.toReversed().map((countryCode, countryIndex) => {
+              const isEndPoint = countryIndex === 0;
+              const isStartPoint = countryIndex === streak.countriesCodes.length - 1;
+
               return (
-                <Period
-                  className="w-14 h-20 snap-center"
+                <StreakPeriod
+                  className="w-14 h-20 snap-center relative"
                   key={countryCode}
                   numberOfDays={streak.daysByCountry[countryCode]}
                   countryCode={countryCode}
+                  isEndPoint={isEndPoint}
+                  isStartPoint={isStartPoint}
+                  // Dates are displayed in the header, so we don't need to pass them here
+                  from={undefined}
+                  to={undefined}
                 />
               );
             })}
