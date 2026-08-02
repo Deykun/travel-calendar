@@ -1,10 +1,6 @@
 import { Fragment, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import IconArrowLeft from '@/components/icons/IconArrowLeft';
-import IconCaretLeft from '@/components/icons/IconCaretLeft';
-import { appFormatDate } from '@/components/text-date/utils/format-date';
-import { Period } from '@/features/calendar/components/calendar/Period';
 import useFiltersStore from '@/features/filters/stores/useFilterStore';
 import { cn } from '@/utils/tailwind';
 
