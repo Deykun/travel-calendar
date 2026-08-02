@@ -36,10 +36,6 @@ export const Period = ({
 
   const { t } = useTranslation();
 
-  // from,
-  // to,
-  // numberOfDays,
-
   return (
     <Tag
       className={cn(

@@ -2,10 +2,13 @@ import { Fragment, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import IconArrowLeft from '@/components/icons/IconArrowLeft';
+import IconCaretLeft from '@/components/icons/IconCaretLeft';
 import { appFormatDate } from '@/components/text-date/utils/format-date';
 import { Period } from '@/features/calendar/components/calendar/Period';
 import useFiltersStore from '@/features/filters/stores/useFilterStore';
 import { cn } from '@/utils/tailwind';
+
+import { StreakPeriod } from '../streak-period/StreakPeriod';
 
 type Props = {
   className?: string;
@@ -23,6 +26,8 @@ export function StreakList({ className }: Props) {
   if (streaks.length === 0) {
     return null;
   }
+
+  console.log(streaks[0]?.countriesCodes);
 
   return (
     <div
@@ -50,6 +55,8 @@ export function StreakList({ className }: Props) {
       </span>
       <div className={cn('relative', 'col-span-2 w-full', 'max-w-full', 'scroll-content-wrapper--horizontal')}>
         <div
+          // Resets scroll
+          key={`${streaks.at(0)?.from}-${streaks.at(-1)?.to}`}
           className={cn(
             'grid grid-flow-col justify-center-safe gap-3',
             'p-4 px-8',
@@ -60,27 +67,21 @@ export function StreakList({ className }: Props) {
           {streaks.map((streak, streakIndex) => {
             return (
               <Fragment key={streak.from}>
-                {streak.countriesCodes.reverse().map((countryCode, countryIndex) => {
+                {streak.countriesCodes.toReversed().map((countryCode, countryIndex) => {
                   const isEndPoint = countryIndex === 0;
                   const isStartPoint = countryIndex === streak.countriesCodes.length - 1;
 
                   return (
-                    <Period
-                      className="w-14 h-20 snap-center"
+                    <StreakPeriod
+                      className="w-14 h-20 snap-center relative"
                       key={`${streakIndex}-${countryCode}`}
                       numberOfDays={streak.daysByCountry[countryCode]}
                       countryCode={countryCode}
-                    >
-                      {isStartPoint && streak.from && (
-                        <span className="text-gray-400 tracking-wider text-[7px]">{appFormatDate(streak.from)}</span>
-                      )}
-                      {!isStartPoint && !isEndPoint && (
-                        <IconArrowLeft className="size-4 block mx-auto mt-0.5 text-gray-400 opacity-30" />
-                      )}
-                      {isEndPoint && !isStartPoint && streak.to && (
-                        <span className="text-gray-400 tracking-wider text-[7px]">{appFormatDate(streak.to)}</span>
-                      )}
-                    </Period>
+                      isEndPoint={isEndPoint}
+                      isStartPoint={isStartPoint}
+                      from={streak.from}
+                      to={streak.to}
+                    />
                   );
                 })}
               </Fragment>
