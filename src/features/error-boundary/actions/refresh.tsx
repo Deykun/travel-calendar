@@ -17,6 +17,6 @@ export const forceRefresh = () => {
   refreshStore();
 
   setTimeout(() => {
-    location.href = `${currentLocation.split('?').at(1)}?wasRefreshed=1`;
+    location.href = `${currentLocation.split('?').at(0)}?wasRefreshed=1`;
   }, 5);
 };

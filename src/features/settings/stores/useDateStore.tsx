@@ -45,7 +45,7 @@ export type DataStoreState = {
   };
 };
 
-export const APP_VERSION = '1.1.0';
+export const APP_VERSION = '1.1.1';
 
 const emptyStore: DataStoreState = {
   version: APP_VERSION,
