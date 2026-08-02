@@ -23,8 +23,6 @@ export function StreakList({ className }: Props) {
     return null;
   }
 
-  console.log(streaks[0]?.countriesCodes);
-
   return (
     <div
       className={cn(
