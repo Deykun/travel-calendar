@@ -82,7 +82,7 @@ export function CalendarHeader() {
       <StreaksSummary />
       <div
         className={cn(
-          'col-span-4 @min-[1600px]:col-span-2',
+          'col-span-4 @min-[1600px]:col-span-2 @min-[1600px]:col-start-3 @min-[1600px]:row-start-1',
           'flex flex-col justify-center',
           'p-5 pt-8',
           'bg-[#111110]',
