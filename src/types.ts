@@ -16,6 +16,7 @@ export type MetadataPlace = {
 export type MetadataDay = {
   date: DateYYYYMMDD;
   countriesCodes: string[];
+  countriesUnlockedThisDay: string[];
   placeKeys: string[];
   tripsKeys: string[];
 };
