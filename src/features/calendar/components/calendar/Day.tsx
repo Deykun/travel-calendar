@@ -29,6 +29,13 @@ export const Day = ({ className = '', dayNumber, dayKey }: Props) => {
   const indexInSortingByUnlocking = useFiltersStore(
     (store) => store.filtered.summaryByDay[dayKey]?.indexInSortingByUnlocking || 0,
   );
+  const totalUnlockedCountries = useFiltersStore(
+    (store) => store.filtered.summaryByDay[dayKey]?.totalUnlockedCountries || 0,
+  );
+
+  const countriesUnlockedThisDay = useFiltersStore(
+    (store) => store.filtered.summaryByDay[dayKey]?.countriesUnlockedThisDay || [],
+  );
 
   const countriesCodesByYear = useFiltersStore((store) => store.filtered.summaryByDay[dayKey]?.countriesCodesByYear);
 
@@ -39,12 +46,22 @@ export const Day = ({ className = '', dayNumber, dayKey }: Props) => {
       return yearsAbroad.length;
     }
 
+    // console.log('countriesUnlockedThisDay', totalUnlockedCountries);
+    if (totalUnlockedCountries) {
+      console.log({
+        dayKey,
+        countriesUnlockedThisDay,
+        totalUnlockedCountries,
+      });
+    }
+
     if (counterShouldShow === 'orderOfUnlocking') {
-      return indexInSortingByUnlocking;
+      // return indexInSortingByUnlocking;
+      return totalUnlockedCountries;
     }
 
     return countriesCodes.length;
-  }, [counterShouldShow, countriesCodes.length, indexInSortingByUnlocking, yearsAbroad.length]);
+  }, [counterShouldShow, countriesCodes.length, countriesUnlockedThisDay, dayKey, totalUnlockedCountries, yearsAbroad.length]);
 
   const handleClick = useCallback(() => {
     if (isSidebarOpen) {

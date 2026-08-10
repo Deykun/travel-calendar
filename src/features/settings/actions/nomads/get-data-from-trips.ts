@@ -31,6 +31,8 @@ type Response = Pick<
 };
 
 export const getDataFromTrips = (trips: IntegrationNomadsTrip[]): Response => {
+  const unlockedCountries = new Set<string>();
+
   return trips
     .sort((a, b) => (isBefore(a.date_start, b.date_start) ? -1 : 1))
     .reduce(
@@ -74,6 +76,7 @@ export const getDataFromTrips = (trips: IntegrationNomadsTrip[]): Response => {
             stack.dataByDay[date] = {
               date,
               countriesCodes: [],
+              countriesUnlockedThisDay: [],
               placeKeys: [],
               tripsKeys: [],
             };
@@ -106,6 +109,11 @@ export const getDataFromTrips = (trips: IntegrationNomadsTrip[]): Response => {
             stack.dataByDay[date].countriesCodes.push(countryCode);
 
             stack.totalDaysByCountry[countryCode] = (stack.totalDaysByCountry?.[countryCode] || 0) + 1;
+          }
+
+          if (!unlockedCountries.has(countryCode)) {
+            unlockedCountries.add(countryCode);
+            stack.dataByDay[date].countriesUnlockedThisDay.push(countryCode);
           }
 
           if (!stack.dataByDay[date].placeKeys.includes(placeKey)) {
