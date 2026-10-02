@@ -12,7 +12,13 @@ export function useFlagsSimple(
         [year: string]: string[];
         [year: number]: string[];
       },
-  shouldGroupConsecutiveYears = true,
+  {
+    shouldGroupConsecutiveYears = true,
+    countriesUnlockedThisDay = [],
+  }: {
+    shouldGroupConsecutiveYears?: boolean;
+    countriesUnlockedThisDay?: string[];
+  } = {},
 ) {
   const shouldHighlightAbroadTravel = usePreferencesStore((store) => store.calendar.shouldHighlightAbroadTravel);
 
@@ -22,6 +28,7 @@ export function useFlagsSimple(
     const { periodsByIds, countriesByYear } = getFlagsEntriesGroupedByYearSimple({
       countriesCodesByYear,
       shouldGroupConsecutiveYears,
+      countriesUnlockedThisDay,
     });
 
     const abroadFlags = Object.values(periodsByIds);
@@ -36,7 +43,13 @@ export function useFlagsSimple(
       flags: abroadFlags,
       isHighlightAbroadTravelActive,
     };
-  }, [countriesCodesByYear, homeCountriesCodes, shouldGroupConsecutiveYears, shouldHighlightAbroadTravel]);
+  }, [
+    countriesCodesByYear,
+    countriesUnlockedThisDay,
+    homeCountriesCodes,
+    shouldGroupConsecutiveYears,
+    shouldHighlightAbroadTravel,
+  ]);
 
   return {
     flags,

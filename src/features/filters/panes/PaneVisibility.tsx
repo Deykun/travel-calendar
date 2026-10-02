@@ -36,6 +36,12 @@ export function PaneVisibility() {
           <div className={cn('flex flex-col gap-1', 'text-wrap')}>{t('summary.totalYearsAbroad')}</div>
         </Radiobox>
         <Radiobox
+          isActive={counterShouldShow === 'numberOfCountriesUnlocked'}
+          onChange={() => setCounterShouldShow('numberOfCountriesUnlocked')}
+        >
+          <div className={cn('flex flex-col gap-1', 'text-wrap')}>{t('summary.numberOfCountriesUnlocked')}</div>
+        </Radiobox>
+        <Radiobox
           isActive={counterShouldShow === 'orderOfUnlocking'}
           onChange={() => setCounterShouldShow('orderOfUnlocking')}
         >

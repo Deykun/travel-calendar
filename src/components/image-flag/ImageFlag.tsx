@@ -2,7 +2,12 @@ import type { PropsWithChildren } from 'react';
 
 import { cn } from '@/utils/tailwind';
 
+import IconFlagPlus from '../icons/IconFlagPlus';
+import IconPinPlus from '../icons/IconPinPlus';
+import IconPlus from '../icons/IconPlus';
+import IconPlusCircle from '../icons/IconPlusCircle';
 import IconTravel from '../icons/IconTravel';
+import IconTravelWrapper from '../icons/IconTravelWrapper';
 
 const fallbackFlags: { [key: string]: string | undefined } = {
   UK: 'GB',
@@ -12,9 +17,14 @@ const fallbackFlags: { [key: string]: string | undefined } = {
 type Props = {
   countryCode: string;
   shouldShowHomeMarker?: boolean;
+  wasUnlocked?: boolean;
 };
 
-export const ImageFlag = ({ countryCode, shouldShowHomeMarker = false }: PropsWithChildren<Props>) => {
+export const ImageFlag = ({
+  countryCode,
+  shouldShowHomeMarker = false,
+  wasUnlocked = false,
+}: PropsWithChildren<Props>) => {
   return (
     <span className={cn('inline-flex relative', 'p-1.5', 'bg-[#3d3d3d6e]', 'rounded-[10px]')}>
       <img
@@ -40,6 +50,11 @@ export const ImageFlag = ({ countryCode, shouldShowHomeMarker = false }: PropsWi
       />
       {shouldShowHomeMarker && (
         <IconTravel className="absolute -bottom-1 -right-1 z-10" classNameSize="size-5" total={0} />
+      )}
+      {wasUnlocked && (
+        <IconTravelWrapper className={cn('absolute -bottom-1 -right-1 z-10 size-5', 'bg-[#d8da51] text-black')}>
+          <IconPlus />
+        </IconTravelWrapper>
       )}
     </span>
   );

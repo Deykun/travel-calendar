@@ -13,6 +13,7 @@ export type FlagData = {
   from: number;
   to: number;
   tripsKeys: string[];
+  wasUnlocked?: boolean;
 };
 
 export function useFlagsForDay(dayKey: DateMMDD, shouldForceShowHome?: boolean) {
@@ -23,12 +24,16 @@ export function useFlagsForDay(dayKey: DateMMDD, shouldForceShowHome?: boolean) 
   const sourceDates = useFiltersStore(
     (store) => store.filtered.summaryByDay[dayKey]?.sourceDates || EMPTY_YYYYMMDD_ARRAY,
   );
+  const countriesUnlockedThisDay = useFiltersStore(
+    (store) => store.filtered.summaryByDay[dayKey]?.countriesUnlockedThisDay || EMPTY_ARRAY,
+  );
   const dataByDay = useDataStore((store) => store.dataByDay);
 
   const { flags, isHighlightAbroadTravelActive } = useMemo(() => {
     const { periodsByIds, countriesByYear } = getFlagsEntriesGroupedByYear({
       dates: sourceDates,
       dataByDay,
+      countriesUnlockedThisDay,
     });
 
     const allFlags = Object.values(periodsByIds);
@@ -49,7 +54,15 @@ export function useFlagsForDay(dayKey: DateMMDD, shouldForceShowHome?: boolean) 
       flags: shouldShowHomeToUse ? allFlags : abroadFlags,
       isHighlightAbroadTravelActive,
     };
-  }, [dataByDay, homeCountriesCodes, shouldForceShowHome, shouldHighlightAbroadTravel, shouldShowHome, sourceDates]);
+  }, [
+    countriesUnlockedThisDay,
+    dataByDay,
+    homeCountriesCodes,
+    shouldForceShowHome,
+    shouldHighlightAbroadTravel,
+    shouldShowHome,
+    sourceDates,
+  ]);
 
   return {
     flags,

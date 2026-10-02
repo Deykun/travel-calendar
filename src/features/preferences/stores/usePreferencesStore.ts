@@ -3,7 +3,7 @@ import { devtools, persist } from 'zustand/middleware';
 
 export type PreferencesStoreState = {
   calendar: {
-    counterShouldShow: 'numberOfCountries' | 'yearsAbroad' | 'orderOfUnlocking';
+    counterShouldShow: 'numberOfCountries' | 'yearsAbroad' | 'orderOfUnlocking' | 'numberOfCountriesUnlocked';
     shouldCounterUseScale: boolean;
     shouldHighlightAbroadTravel: boolean;
   };

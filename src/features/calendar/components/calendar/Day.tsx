@@ -32,14 +32,13 @@ export const Day = ({ className = '', dayNumber, dayKey }: Props) => {
   const totalUnlockedCountries = useFiltersStore(
     (store) => store.filtered.summaryByDay[dayKey]?.totalUnlockedCountries || 0,
   );
-
   const countriesUnlockedThisDay = useFiltersStore(
     (store) => store.filtered.summaryByDay[dayKey]?.countriesUnlockedThisDay || [],
   );
 
   const countriesCodesByYear = useFiltersStore((store) => store.filtered.summaryByDay[dayKey]?.countriesCodesByYear);
 
-  const { flags, isHighlightAbroadTravelActive } = useFlagsSimple(countriesCodesByYear);
+  const { flags, isHighlightAbroadTravelActive } = useFlagsSimple(countriesCodesByYear, { countriesUnlockedThisDay });
 
   const total = useMemo(() => {
     if (counterShouldShow === 'yearsAbroad') {
@@ -55,13 +54,24 @@ export const Day = ({ className = '', dayNumber, dayKey }: Props) => {
       });
     }
 
-    if (counterShouldShow === 'orderOfUnlocking') {
-      // return indexInSortingByUnlocking;
+    if (counterShouldShow === 'numberOfCountriesUnlocked') {
       return totalUnlockedCountries;
     }
 
+    if (counterShouldShow === 'orderOfUnlocking') {
+      return indexInSortingByUnlocking;
+    }
+
     return countriesCodes.length;
-  }, [counterShouldShow, countriesCodes.length, countriesUnlockedThisDay, dayKey, totalUnlockedCountries, yearsAbroad.length]);
+  }, [
+    counterShouldShow,
+    countriesCodes.length,
+    countriesUnlockedThisDay,
+    dayKey,
+    indexInSortingByUnlocking,
+    totalUnlockedCountries,
+    yearsAbroad.length,
+  ]);
 
   const handleClick = useCallback(() => {
     if (isSidebarOpen) {

@@ -18,14 +18,17 @@ type PeriodsIndex = {
   countriesByYear: {
     [year: string]: string[] | undefined;
   };
+  countriesToMarkAsUnlocked?: string[];
 };
 
 export const getFlagsEntriesGroupedByYear = ({
   dates,
   dataByDay,
+  countriesUnlockedThisDay = [],
 }: {
   dates: DateYYYYMMDD[];
   dataByDay: DataStoreState['dataByDay'];
+  countriesUnlockedThisDay?: string[];
 }): PeriodsIndex => {
   return dates.sort().reduce(
     (stack: PeriodsIndex, dateWithYear) => {
@@ -62,12 +65,19 @@ export const getFlagsEntriesGroupedByYear = ({
         } else {
           const newPeriodId = `${year}-${countryCode}`;
 
+          let wasUnlocked = false;
+          if (stack.countriesToMarkAsUnlocked?.includes(countryCode)) {
+            wasUnlocked = true;
+            stack.countriesToMarkAsUnlocked = stack.countriesToMarkAsUnlocked.filter((code) => code !== countryCode);
+          }
+
           currentYear[countryCode] = newPeriodId;
           stack.periodsByIds[newPeriodId] = {
             countryCode,
             from: year,
             to: year,
             tripsKeys: dataForDay.tripsKeys,
+            wasUnlocked,
           };
         }
       });
@@ -80,6 +90,7 @@ export const getFlagsEntriesGroupedByYear = ({
       periodsByIds: {},
       idByCountryByYear: {},
       countriesByYear: {},
+      countriesToMarkAsUnlocked: countriesUnlockedThisDay,
     },
   );
 };
@@ -87,6 +98,7 @@ export const getFlagsEntriesGroupedByYear = ({
 export const getFlagsEntriesGroupedByYearSimple = ({
   countriesCodesByYear = {},
   shouldGroupConsecutiveYears = true,
+  countriesUnlockedThisDay = [],
 }: {
   countriesCodesByYear:
     | undefined
@@ -94,6 +106,7 @@ export const getFlagsEntriesGroupedByYearSimple = ({
         [year: string | number]: string[];
       };
   shouldGroupConsecutiveYears?: boolean;
+  countriesUnlockedThisDay?: string[];
 }): PeriodsIndex => {
   return Object.entries(countriesCodesByYear)
     .sort((a, b) => Number(a[0]) - Number(b[0]))
@@ -127,6 +140,12 @@ export const getFlagsEntriesGroupedByYearSimple = ({
           } else {
             const newPeriodId = `${year}-${countryCode}`;
 
+            let wasUnlocked = false;
+            if (stack.countriesToMarkAsUnlocked?.includes(countryCode)) {
+              wasUnlocked = true;
+              stack.countriesToMarkAsUnlocked = stack.countriesToMarkAsUnlocked.filter((code) => code !== countryCode);
+            }
+
             currentYear[countryCode] = newPeriodId;
             stack.periodsByIds[newPeriodId] = {
               countryCode,
@@ -134,6 +153,7 @@ export const getFlagsEntriesGroupedByYearSimple = ({
               to: year,
               // Simple skips tripsKeys
               tripsKeys: [],
+              wasUnlocked,
             };
           }
         });
@@ -146,6 +166,7 @@ export const getFlagsEntriesGroupedByYearSimple = ({
         periodsByIds: {},
         idByCountryByYear: {},
         countriesByYear: {},
+        countriesToMarkAsUnlocked: countriesUnlockedThisDay,
       },
     );
 };
