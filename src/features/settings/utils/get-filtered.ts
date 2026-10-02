@@ -20,7 +20,7 @@ export const getFiltered = (dataByDay: DataStoreState['dataByDay']): FiltersStor
 
   let indexInSortingByUnlocking = 0;
 
-  const { summaryByDay, streaks } = dataByDateSorted.reduce(
+  const { summaryByDay, streaks, current } = dataByDateSorted.reduce(
     (
       stack: {
         summaryByDay: FiltersStoreState['filtered']['summaryByDay'];
@@ -153,6 +153,10 @@ export const getFiltered = (dataByDay: DataStoreState['dataByDay']): FiltersStor
       },
     },
   );
+
+  if (current.streak.count > 0) {
+    streaks.push(current.streak);
+  }
 
   const sortedStreaksMaxDays = streaks.sort((a, b) => b.count - a.count);
   const sortedStreaksMaxCountries = sortedStreaksMaxDays
