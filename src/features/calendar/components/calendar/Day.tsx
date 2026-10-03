@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react';
+import { memo, useCallback, useMemo } from 'react';
 
 import { FlagHover } from '@/components/flag-hover/FlagHover';
 import type { PanelFrom } from '@/components/flag-hover/FlagHoverPanel';
@@ -18,9 +18,8 @@ type Props = {
   dayKey: DateMMDD;
 };
 
-export const Day = ({ className = '', dayNumber, dayKey }: Props) => {
+export const Day = memo(({ className = '', dayNumber, dayKey }: Props) => {
   const counterShouldShow = usePreferencesStore((store) => store.calendar.counterShouldShow);
-
   const isSidebarOpen = useSidebarStore(
     (state) => state?.sidebar?.type === 'day' && state.sidebar.dayKey === dayKey && state.isCollapsed === false,
   );
@@ -33,7 +32,7 @@ export const Day = ({ className = '', dayNumber, dayKey }: Props) => {
     (store) => store.filtered.summaryByDay[dayKey]?.totalUnlockedCountries || 0,
   );
   const countriesUnlockedThisDay = useFiltersStore(
-    (store) => store.filtered.summaryByDay[dayKey]?.countriesUnlockedThisDay || [],
+    (store) => store.filtered.summaryByDay[dayKey]?.countriesUnlockedThisDay || EMPTY_ARRAY,
   );
 
   const countriesCodesByYear = useFiltersStore((store) => store.filtered.summaryByDay[dayKey]?.countriesCodesByYear);
@@ -108,4 +107,4 @@ export const Day = ({ className = '', dayNumber, dayKey }: Props) => {
       </FlagHover>
     </button>
   );
-};
+});

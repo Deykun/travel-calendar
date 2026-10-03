@@ -12,7 +12,6 @@ import { cn } from '@/utils/tailwind';
 
 export function CalendarHeader() {
   const lastUpdate = useDataStore((store) => store.integration.lastUpdate);
-
   const totalDays = useFiltersStore((store) => store.filtered.summary.totalDays);
   const totalDaysAbroad = useFiltersStore((store) => store.filtered.summary.totalDaysAbroad);
   const maxCountriesInDay = useFiltersStore((store) => store.filtered.summary.maxCountriesInDay);
