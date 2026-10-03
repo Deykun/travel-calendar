@@ -21,10 +21,11 @@ export function useFlagsSimple(
   } = {},
 ) {
   const shouldHighlightAbroadTravel = usePreferencesStore((store) => store.calendar.shouldHighlightAbroadTravel);
+  const shouldHighlightNewCountries = usePreferencesStore((store) => store.calendar.shouldHighlightNewCountries);
 
   const homeCountriesCodes = useFiltersStore((store) => store.activeFilters.homeCountriesCodes);
 
-  const { flags, isHighlightAbroadTravelActive } = useMemo(() => {
+  const { flags, isHighlightAbroadTravelActive, isNewCountryActive } = useMemo(() => {
     const { periodsByIds, countriesByYear } = getFlagsEntriesGroupedByYearSimple({
       countriesCodesByYear,
       shouldGroupConsecutiveYears,
@@ -39,9 +40,12 @@ export function useFlagsSimple(
         })
       : false;
 
+    const isNewCountry = shouldHighlightNewCountries && countriesUnlockedThisDay.length > 0;
+
     return {
       flags: abroadFlags,
       isHighlightAbroadTravelActive,
+      isNewCountryActive: isNewCountry,
     };
   }, [
     countriesCodesByYear,
@@ -49,10 +53,12 @@ export function useFlagsSimple(
     homeCountriesCodes,
     shouldGroupConsecutiveYears,
     shouldHighlightAbroadTravel,
+    shouldHighlightNewCountries,
   ]);
 
   return {
     flags,
     isHighlightAbroadTravelActive,
+    isNewCountryActive,
   };
 }

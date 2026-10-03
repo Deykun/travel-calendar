@@ -15,6 +15,7 @@ const countryByLocation: { [location: string]: string | undefined } = {
   Belize: 'bz',
   Tajikistan: 'tj',
   Morocco: 'ma',
+  Bonaire: 'nl',
   Tachileik: 'mm',
   'Sint Maarten': 'sx',
   'Saint Lucia': 'lc',
@@ -29,10 +30,12 @@ const countryByLocation: { [location: string]: string | undefined } = {
   'Denver City': 'us',
   'El Salvador': 'sv',
   Italy: 'it',
+  'French Polynesia': 'pf',
 };
 
 const countryByCountry: { [place: string]: string | undefined } = {
   ia: 'ir',
+  oi: 'so',
 };
 
 export const getCountryCodeFromTrip = (trip: IntegrationNomadsTrip): string => {

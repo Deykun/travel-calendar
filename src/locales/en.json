@@ -44,6 +44,8 @@
   "preferences.shouldCounterUseScale.tip": "The current maximum value is",
   "preferences.shouldHighlightAbroadTravel": "Highlight abroad travel",
   "preferences.shouldHighlightAbroadTravel.tip": "Travel between two countries that are not set as home.",
+  "preferences.shouldHighlightNewCountries": "Highlight new countries",
+  "preferences.shouldHighlightNewCountries.tip": "First recorded day of the year in the country.",
   "preferences.homeCountry": "Home country",
   "preferences.homeCountry.tip": "Those countries aren't counted on the calendar and are represented with a house icon.",
   "preferences.homeCountry.selectManyTip": "If you select all countries and then unselect the chosen ones, you can see how much of the calendar is covered by the unselected countries.",

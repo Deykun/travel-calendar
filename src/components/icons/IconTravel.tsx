@@ -1,3 +1,5 @@
+import type { PropsWithChildren } from 'react';
+
 import styles from './IconTravel.module.css';
 
 import IconCheck from '@/components/icons/IconCheck';
@@ -20,7 +22,8 @@ export const Icon = ({
   maxTotal,
   classNameSize = 'size-6',
   suffixAfter = '',
-}: Props) => {
+  children,
+}: PropsWithChildren<Props>) => {
   const opacity = maxTotal && total > 0 ? Math.abs(1 - Math.min(1, (total + 0.75) / (maxTotal + 1))).toFixed(1) : '0';
 
   return (
@@ -59,7 +62,7 @@ export const Icon = ({
           // @ts-expect-error Doesn't know css
           cornerShape: 'inherit',
           borderRadius: 'inherit',
-          opacity: opacity !== '0' && maxTotal === total ? 0 : opacity
+          opacity: opacity !== '0' && maxTotal === total ? 0 : opacity,
         }}
       ></span>
       <span
@@ -74,7 +77,8 @@ export const Icon = ({
           },
         )}
       >
-        {total}{suffixAfter}
+        {total}
+        {suffixAfter}
       </span>
       <IconCheck
         className={cn(
@@ -96,6 +100,7 @@ export const Icon = ({
           'text-[#54544b]',
         )}
       />
+      {children}
     </span>
   );
 };

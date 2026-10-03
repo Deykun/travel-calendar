@@ -48,6 +48,8 @@
   "preferences.shouldCounterUseScale.tip": "Obecna maksymalna wartość to",
   "preferences.shouldHighlightAbroadTravel": "Wyróżniaj podróże zagraniczne",
   "preferences.shouldHighlightAbroadTravel.tip": "Podróż między dwoma krajami, które nie są ustawione jako kraj domowy.",
+  "preferences.shouldHighlightNewCountries": "Wyróżniaj nowe kraje",
+  "preferences.shouldHighlightNewCountries.tip": "Pierwszy odnotowany dzień roku w kraju.",
   "preferences.homeCountry": "Kraj domowy",
   "preferences.homeCountry.tip": "Te kraje nie są uwzględniane w kalendarzu i są oznaczone ikoną domu.",
   "preferences.homeCountry.selectManyTip": "Jeśli wybierzesz wszystkie kraje, a następnie odznaczysz wybrane, możesz zobaczyć, jak dużą część kalendarza obejmują niewybrane kraje.",

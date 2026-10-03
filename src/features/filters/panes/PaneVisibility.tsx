@@ -6,6 +6,7 @@ import usePreferencesStore, {
   setCounterShouldShow,
   toggleShouldCounterUseScale,
   toggleShouldHighlightAbroadTravel,
+  toggleShouldHighlightNewCountries,
 } from '@/features/preferences/stores/usePreferencesStore';
 import { Pane } from '@/features/sidebar/components/pane/Pane';
 import { cn } from '@/utils/tailwind';
@@ -14,6 +15,8 @@ import { useMaxTotal } from '../hooks/useMaxTotal';
 
 export function PaneVisibility() {
   const shouldHighlightAbroadTravel = usePreferencesStore((store) => store.calendar.shouldHighlightAbroadTravel);
+  const shouldHighlightNewCountries = usePreferencesStore((store) => store.calendar.shouldHighlightNewCountries);
+
   const shouldCounterUseScale = usePreferencesStore((store) => store.calendar.shouldCounterUseScale);
   const counterShouldShow = usePreferencesStore((store) => store.calendar.counterShouldShow);
 
@@ -35,12 +38,12 @@ export function PaneVisibility() {
         <Radiobox isActive={counterShouldShow === 'yearsAbroad'} onChange={() => setCounterShouldShow('yearsAbroad')}>
           <div className={cn('flex flex-col gap-1', 'text-wrap')}>{t('summary.totalYearsAbroad')}</div>
         </Radiobox>
-        <Radiobox
+        {/* <Radiobox
           isActive={counterShouldShow === 'numberOfCountriesUnlocked'}
           onChange={() => setCounterShouldShow('numberOfCountriesUnlocked')}
         >
           <div className={cn('flex flex-col gap-1', 'text-wrap')}>{t('summary.numberOfCountriesUnlocked')}</div>
-        </Radiobox>
+        </Radiobox> */}
         <Radiobox
           isActive={counterShouldShow === 'orderOfUnlocking'}
           onChange={() => setCounterShouldShow('orderOfUnlocking')}
@@ -61,6 +64,12 @@ export function PaneVisibility() {
               <span className="opacity-75">{t('preferences.shouldCounterUseScale.tip')}</span>{' '}
               <strong className="text-white">{maxTotal}</strong>.
             </small>
+          </div>
+        </Checkbox>
+        <Checkbox isActive={shouldHighlightNewCountries} onChange={toggleShouldHighlightNewCountries}>
+          <div className={cn('flex flex-col gap-1', 'text-wrap')}>
+            {t('preferences.shouldHighlightNewCountries')}
+            <small className="opacity-75">{t('preferences.shouldHighlightNewCountries.tip')}</small>
           </div>
         </Checkbox>
         <Checkbox isActive={shouldHighlightAbroadTravel} onChange={toggleShouldHighlightAbroadTravel}>
