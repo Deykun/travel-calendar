@@ -54,7 +54,7 @@ export const FlagHoverPanel = ({ flags = [], title, from }: PropsWithChildren<Pr
           'w-48 flex-wrap': flags.length > 3,
         })}
       >
-        {flags.map(({ countryCode, from, to }) => {
+        {flags.map(({ countryCode, from, to, wasUnlocked }) => {
           return (
             <Period
               className="w-14 h-20"
@@ -62,6 +62,7 @@ export const FlagHoverPanel = ({ flags = [], title, from }: PropsWithChildren<Pr
               from={from}
               to={to}
               countryCode={countryCode}
+              wasUnlocked={wasUnlocked}
             />
           );
         })}

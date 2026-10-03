@@ -3,9 +3,10 @@ import { devtools, persist } from 'zustand/middleware';
 
 export type PreferencesStoreState = {
   calendar: {
-    counterShouldShow: 'numberOfCountries' | 'yearsAbroad' | 'orderOfUnlocking';
+    counterShouldShow: 'numberOfCountries' | 'yearsAbroad' | 'orderOfUnlocking' | 'numberOfCountriesUnlocked';
     shouldCounterUseScale: boolean;
     shouldHighlightAbroadTravel: boolean;
+    shouldHighlightNewCountries: boolean;
   };
   sidebars: {
     shouldShowHome: boolean;
@@ -17,6 +18,7 @@ const emptyStore: PreferencesStoreState = {
     counterShouldShow: 'numberOfCountries',
     shouldCounterUseScale: false,
     shouldHighlightAbroadTravel: false,
+    shouldHighlightNewCountries: false,
   },
   sidebars: {
     shouldShowHome: false,
@@ -55,6 +57,15 @@ export const toggleShouldHighlightAbroadTravel = () => {
     calendar: {
       ...state.calendar,
       shouldHighlightAbroadTravel: !state.calendar.shouldHighlightAbroadTravel,
+    },
+  }));
+};
+
+export const toggleShouldHighlightNewCountries = () => {
+  usePreferencesStore.setState((state) => ({
+    calendar: {
+      ...state.calendar,
+      shouldHighlightNewCountries: !state.calendar.shouldHighlightNewCountries,
     },
   }));
 };

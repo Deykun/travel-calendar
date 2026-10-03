@@ -1,8 +1,11 @@
 import type { PropsWithChildren } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { cn } from '@/utils/tailwind';
 
+import IconPlus from '../icons/IconPlus';
 import IconTravel from '../icons/IconTravel';
+import IconTravelWrapper from '../icons/IconTravelWrapper';
 
 const fallbackFlags: { [key: string]: string | undefined } = {
   UK: 'GB',
@@ -12,9 +15,17 @@ const fallbackFlags: { [key: string]: string | undefined } = {
 type Props = {
   countryCode: string;
   shouldShowHomeMarker?: boolean;
+  wasUnlocked?: boolean;
 };
 
-export const ImageFlag = ({ countryCode, shouldShowHomeMarker = false }: PropsWithChildren<Props>) => {
+export const ImageFlag = ({
+  countryCode,
+  shouldShowHomeMarker = false,
+  wasUnlocked = false,
+}: PropsWithChildren<Props>) => {
+  const { t } = useTranslation();
+  const safeCountryCode = fallbackFlags[countryCode.toUpperCase()] || countryCode.toUpperCase();
+
   return (
     <span className={cn('inline-flex relative', 'p-1.5', 'bg-[#3d3d3d6e]', 'rounded-[10px]')}>
       <img
@@ -32,14 +43,20 @@ export const ImageFlag = ({ countryCode, shouldShowHomeMarker = false }: PropsWi
           'tracking-widest',
           'text-xs',
         )}
-        alt={countryCode}
+        alt={safeCountryCode}
         loading="lazy"
         // https://purecatamphetamine.github.io/country-flag-icons/1x1/index.html
-        src={`https://purecatamphetamine.github.io/country-flag-icons/3x2/${fallbackFlags[countryCode.toUpperCase()] || countryCode.toUpperCase()}.svg`}
-        onError={() => console.error(`Missing flag for "${countryCode}".`)}
+        src={`https://purecatamphetamine.github.io/country-flag-icons/3x2/${safeCountryCode}.svg`}
+        onError={() => console.error(`Missing flag for "${safeCountryCode}".`)}
+        title={t(`country.name.${safeCountryCode.toLowerCase()}`)}
       />
       {shouldShowHomeMarker && (
         <IconTravel className="absolute -bottom-1 -right-1 z-10" classNameSize="size-5" total={0} />
+      )}
+      {wasUnlocked && (
+        <IconTravelWrapper className={cn('absolute -bottom-1 -right-1 z-10 size-4', 'bg-[#178001] text-white')}>
+          <IconPlus />
+        </IconTravelWrapper>
       )}
     </span>
   );

@@ -9,6 +9,7 @@ import type { DateMMDD, DateYYYYMMDD } from '@/types';
 type SummaryDay = {
   dayKey: DateMMDD;
   countriesCodes: string[];
+  countriesUnlockedThisDay: string[];
   countriesCodesByYear: {
     [year: number | string]: string[];
   };
@@ -17,6 +18,7 @@ type SummaryDay = {
   indexInSortingByUnlocking: number | undefined;
   totalDays: number;
   totalDaysAbroad: number;
+  totalUnlockedCountries: number;
 };
 
 type SummaryMonth = {

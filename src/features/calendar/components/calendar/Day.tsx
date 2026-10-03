@@ -29,14 +29,26 @@ export const Day = ({ className = '', dayNumber, dayKey }: Props) => {
   const indexInSortingByUnlocking = useFiltersStore(
     (store) => store.filtered.summaryByDay[dayKey]?.indexInSortingByUnlocking || 0,
   );
+  const totalUnlockedCountries = useFiltersStore(
+    (store) => store.filtered.summaryByDay[dayKey]?.totalUnlockedCountries || 0,
+  );
+  const countriesUnlockedThisDay = useFiltersStore(
+    (store) => store.filtered.summaryByDay[dayKey]?.countriesUnlockedThisDay || [],
+  );
 
   const countriesCodesByYear = useFiltersStore((store) => store.filtered.summaryByDay[dayKey]?.countriesCodesByYear);
 
-  const { flags, isHighlightAbroadTravelActive } = useFlagsSimple(countriesCodesByYear);
+  const { flags, isHighlightAbroadTravelActive, isNewCountryActive } = useFlagsSimple(countriesCodesByYear, {
+    countriesUnlockedThisDay,
+  });
 
   const total = useMemo(() => {
     if (counterShouldShow === 'yearsAbroad') {
       return yearsAbroad.length;
+    }
+
+    if (counterShouldShow === 'numberOfCountriesUnlocked') {
+      return totalUnlockedCountries;
     }
 
     if (counterShouldShow === 'orderOfUnlocking') {
@@ -44,7 +56,7 @@ export const Day = ({ className = '', dayNumber, dayKey }: Props) => {
     }
 
     return countriesCodes.length;
-  }, [counterShouldShow, countriesCodes.length, indexInSortingByUnlocking, yearsAbroad.length]);
+  }, [counterShouldShow, countriesCodes.length, indexInSortingByUnlocking, totalUnlockedCountries, yearsAbroad.length]);
 
   const handleClick = useCallback(() => {
     if (isSidebarOpen) {
@@ -80,14 +92,18 @@ export const Day = ({ className = '', dayNumber, dayKey }: Props) => {
         {
           'text-[#979797] hover:bg-[#fffb000d] hover:text-white': !isSidebarOpen && total > 0,
           'text-[#3d3d3d] hover:bg-[#4545341c] hover:text-[#656565]': !isSidebarOpen && total === 0,
-          'text-white bg-[#26393f]': isHighlightAbroadTravelActive,
           'text-white bg-[#fff3]': isSidebarOpen,
         },
         className,
       )}
     >
       <FlagHover flags={flags} className="inline-flex flex-col gap-1" from={from} shouldSkipGroup>
-        <IconTravelForDay total={total} hasScale />
+        <IconTravelForDay
+          total={total}
+          hasScale
+          isNewCountryActive={isNewCountryActive}
+          isHighlightAbroadTravelActive={isHighlightAbroadTravelActive}
+        />
         <p className={cn('text-sm tracking-wider duration-500')}>{dayNumber}</p>
       </FlagHover>
     </button>

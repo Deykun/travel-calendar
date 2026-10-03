@@ -73,7 +73,7 @@ export const SidebarDay = ({ className, dayKey }: Props) => {
           </div>
         </div>
         <div className={cn('flex flex-wrap justify-center gap-3', 'p-2 pb-3')}>
-          {flags.map(({ from, to, countryCode, tripsKeys }) => (
+          {flags.map(({ from, to, countryCode, tripsKeys, wasUnlocked }) => (
             <Period
               className="w-14 h-20"
               key={getFlagKey({ year: from, countryCode })}
@@ -89,6 +89,7 @@ export const SidebarDay = ({ className, dayKey }: Props) => {
               }
               isActive={details.flagKey === getFlagKey({ year: from, countryCode })}
               shouldShowHomeMarker={homeCountriesCodes.includes(countryCode)}
+              wasUnlocked={wasUnlocked}
             />
           ))}
         </div>

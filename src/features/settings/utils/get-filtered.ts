@@ -69,16 +69,22 @@ export const getFiltered = (dataByDay: DataStoreState['dataByDay']): FiltersStor
         (country) => homeCountriesCodes.includes(country) === false,
       );
 
+      const filteredUnlockedForDay = (dataDay.countriesUnlockedThisDay ?? []).filter(
+        (country) => homeCountriesCodes.includes(country) === false,
+      );
+
       if (!stack.summaryByDay[dayWithoutYear]) {
         stack.summaryByDay[dayWithoutYear] = {
           dayKey: dayWithoutYear,
           countriesCodes: [],
+          countriesUnlockedThisDay: [],
           countriesCodesByYear: {},
           sourceDates: [],
           yearsAbroad: [],
           indexInSortingByUnlocking: undefined,
           totalDays: 0,
           totalDaysAbroad: 0,
+          totalUnlockedCountries: 0,
         };
       }
 
@@ -92,6 +98,14 @@ export const getFiltered = (dataByDay: DataStoreState['dataByDay']): FiltersStor
         if (stack.summaryByDay[dayWithoutYear].indexInSortingByUnlocking === undefined) {
           indexInSortingByUnlocking += 1;
           stack.summaryByDay[dayWithoutYear].indexInSortingByUnlocking = indexInSortingByUnlocking;
+        }
+
+        if (filteredUnlockedForDay.length) {
+          stack.summaryByDay[dayWithoutYear].totalUnlockedCountries += filteredUnlockedForDay.length;
+          stack.summaryByDay[dayWithoutYear].countriesUnlockedThisDay = mergeUniqueAndSort(
+            stack.summaryByDay[dayWithoutYear].countriesUnlockedThisDay,
+            filteredUnlockedForDay,
+          );
         }
       }
 

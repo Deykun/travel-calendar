@@ -13,22 +13,28 @@ export type FlagData = {
   from: number;
   to: number;
   tripsKeys: string[];
+  wasUnlocked?: boolean;
 };
 
 export function useFlagsForDay(dayKey: DateMMDD, shouldForceShowHome?: boolean) {
   const shouldShowHome = usePreferencesStore((store) => store.sidebars.shouldShowHome);
   const shouldHighlightAbroadTravel = usePreferencesStore((store) => store.calendar.shouldHighlightAbroadTravel);
+  const shouldHighlightNewCountries = usePreferencesStore((store) => store.calendar.shouldHighlightNewCountries);
 
   const homeCountriesCodes = useFiltersStore((store) => store.activeFilters.homeCountriesCodes || EMPTY_ARRAY);
   const sourceDates = useFiltersStore(
     (store) => store.filtered.summaryByDay[dayKey]?.sourceDates || EMPTY_YYYYMMDD_ARRAY,
   );
+  const countriesUnlockedThisDay = useFiltersStore(
+    (store) => store.filtered.summaryByDay[dayKey]?.countriesUnlockedThisDay || EMPTY_ARRAY,
+  );
   const dataByDay = useDataStore((store) => store.dataByDay);
 
-  const { flags, isHighlightAbroadTravelActive } = useMemo(() => {
+  const { flags, isHighlightAbroadTravelActive, isNewCountryActive } = useMemo(() => {
     const { periodsByIds, countriesByYear } = getFlagsEntriesGroupedByYear({
       dates: sourceDates,
       dataByDay,
+      countriesUnlockedThisDay,
     });
 
     const allFlags = Object.values(periodsByIds);
@@ -45,14 +51,27 @@ export function useFlagsForDay(dayKey: DateMMDD, shouldForceShowHome?: boolean) 
         })
       : false;
 
+    const isNewCountry = shouldHighlightNewCountries && countriesUnlockedThisDay.length > 0;
+
     return {
       flags: shouldShowHomeToUse ? allFlags : abroadFlags,
       isHighlightAbroadTravelActive,
+      isNewCountryActive: isNewCountry,
     };
-  }, [dataByDay, homeCountriesCodes, shouldForceShowHome, shouldHighlightAbroadTravel, shouldShowHome, sourceDates]);
+  }, [
+    countriesUnlockedThisDay,
+    dataByDay,
+    homeCountriesCodes,
+    shouldForceShowHome,
+    shouldHighlightAbroadTravel,
+    shouldHighlightNewCountries,
+    shouldShowHome,
+    sourceDates,
+  ]);
 
   return {
     flags,
     isHighlightAbroadTravelActive,
+    isNewCountryActive,
   };
 }
