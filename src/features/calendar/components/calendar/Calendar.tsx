@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 
 import usePreferencesStore, { type PreferencesStoreState } from '@/features/preferences/stores/usePreferencesStore';
+import useDataStore from '@/features/settings/stores/useDateStore';
 import { classNamesLayoutGap, classNamesLayoutGrid, classNamesLayoutPx } from '@/layouts/layout-app';
 import { cn } from '@/utils/tailwind';
 
@@ -20,7 +21,13 @@ const titleByCountryShouldShow: Record<PreferencesStoreState['calendar']['counte
 
 export const Calendar = ({ className }: Props) => {
   const { t } = useTranslation();
+
+  const dataStatus = useDataStore((store) => store.status);
   const counterShouldShow = usePreferencesStore((store) => store.calendar.counterShouldShow);
+
+  if (dataStatus !== 'ready') {
+    return null;
+  }
 
   return (
     <>
