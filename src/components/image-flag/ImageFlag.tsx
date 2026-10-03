@@ -3,10 +3,7 @@ import { useTranslation } from 'react-i18next';
 
 import { cn } from '@/utils/tailwind';
 
-import IconFlagPlus from '../icons/IconFlagPlus';
-import IconPinPlus from '../icons/IconPinPlus';
 import IconPlus from '../icons/IconPlus';
-import IconPlusCircle from '../icons/IconPlusCircle';
 import IconTravel from '../icons/IconTravel';
 import IconTravelWrapper from '../icons/IconTravelWrapper';
 

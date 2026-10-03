@@ -1,7 +1,5 @@
 import IconForward from '@/components/icons/IconForward';
-import IconPlaneTransit from '@/components/icons/IconPlaneTransit';
 import IconPlus from '@/components/icons/IconPlus';
-import IconTransit from '@/components/icons/IconTransit';
 import IconTravel from '@/components/icons/IconTravel';
 import IconTravelWrapper from '@/components/icons/IconTravelWrapper';
 import { useMaxTotal } from '@/features/filters/hooks/useMaxTotal';

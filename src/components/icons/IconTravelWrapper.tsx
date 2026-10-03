@@ -1,9 +1,5 @@
 import type { PropsWithChildren } from 'react';
 
-import styles from './IconTravel.module.css';
-
-import IconCheck from '@/components/icons/IconCheck';
-import IconHome from '@/components/icons/IconHome';
 import { cn } from '@/utils/tailwind';
 
 type Props = {
