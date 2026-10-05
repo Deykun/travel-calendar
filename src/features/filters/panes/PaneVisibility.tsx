@@ -12,8 +12,10 @@ import { Pane } from '@/features/sidebar/components/pane/Pane';
 import { cn } from '@/utils/tailwind';
 
 import { useMaxTotal } from '../hooks/useMaxTotal';
+import useFiltersStore, { toggleShouldIncludeFuture } from '../stores/useFilterStore';
 
 export function PaneVisibility() {
+  const shouldIncludeFuture = useFiltersStore((store) => store.activeFilters.shouldIncludeFuture);
   const shouldHighlightAbroadTravel = usePreferencesStore((store) => store.calendar.shouldHighlightAbroadTravel);
   const shouldHighlightNewCountries = usePreferencesStore((store) => store.calendar.shouldHighlightNewCountries);
 
@@ -77,6 +79,9 @@ export function PaneVisibility() {
             {t('preferences.shouldHighlightAbroadTravel')}
             <small className="opacity-75">{t('preferences.shouldHighlightAbroadTravel.tip')}</small>
           </div>
+        </Checkbox>
+        <Checkbox isActive={shouldIncludeFuture} onChange={toggleShouldIncludeFuture}>
+          <div className={cn('flex flex-col gap-1', 'text-wrap')}>{t('preferences.shouldIncludeFuture')}</div>
         </Checkbox>
       </Pane.List>
     </Pane>

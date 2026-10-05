@@ -14,7 +14,7 @@ import { getDateWithoutYear, getIsFuture, getMonthWithoutDay, stringDateToObject
 import type { DataStoreState } from '../stores/useDateStore';
 
 export const getFiltered = (dataByDay: DataStoreState['dataByDay']): FiltersStoreState['filtered'] => {
-  const { homeCountriesCodes, from, to } = useFiltersStore.getState().activeFilters;
+  const { homeCountriesCodes, from, to, shouldIncludeFuture } = useFiltersStore.getState().activeFilters;
 
   const dataByDateSorted = Object.keys(dataByDay).sort() as DateYYYYMMDD[];
 
@@ -50,12 +50,8 @@ export const getFiltered = (dataByDay: DataStoreState['dataByDay']): FiltersStor
       }
 
       const isFuture = getIsFuture(dataDay.date);
-      if (isFuture) {
-        const shouldBeIncludedBecauseFilteredForYear = Boolean(from) || Boolean(to);
-
-        if (!shouldBeIncludedBecauseFilteredForYear) {
-          return stack;
-        }
+      if (isFuture && !shouldIncludeFuture) {
+        return stack;
       }
 
       const dayWithoutYear = getDateWithoutYear(dataDay.date);

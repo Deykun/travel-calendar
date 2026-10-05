@@ -47,6 +47,7 @@ export type StreakSummary = {
 export type FiltersStoreState = {
   activeFilters: {
     homeCountriesCodes: string[];
+    shouldIncludeFuture: boolean;
     from: DateYYYYMMDD | undefined;
     to: DateYYYYMMDD | undefined;
   };
@@ -89,6 +90,7 @@ export const getEmptyStreak = (type: StreakType): StreakSummary => {
 const emptyStore: FiltersStoreState = {
   activeFilters: {
     homeCountriesCodes: [],
+    shouldIncludeFuture: false,
     from: undefined,
     to: undefined,
   },
@@ -198,6 +200,18 @@ export const setToFilter = (to: DateYYYYMMDD | undefined) => {
     activeFilters: {
       ...state.activeFilters,
       to,
+    },
+  }));
+
+  refreshFiltered();
+};
+
+export const toggleShouldIncludeFuture = () => {
+  useFiltersStore.setState((state) => ({
+    ...state,
+    activeFilters: {
+      ...state.activeFilters,
+      shouldIncludeFuture: !state.activeFilters.shouldIncludeFuture,
     },
   }));
 
