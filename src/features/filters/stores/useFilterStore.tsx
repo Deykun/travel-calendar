@@ -62,6 +62,7 @@ export type FiltersStoreState = {
       countriesCodesByYear: {
         [year: number | string]: string[];
       };
+      countriesUnlocked: string[];
     };
     summaryByDay: {
       [dayKey: string]: SummaryDay | undefined;
@@ -101,6 +102,7 @@ const emptyStore: FiltersStoreState = {
       maxCountriesInDay: 0,
       maxYearsAbroadInDay: 0,
       activeDays: [],
+      countriesUnlocked: [],
       countriesCodes: [],
       countriesCodesByYear: {},
     },

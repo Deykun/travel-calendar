@@ -17,6 +17,7 @@ export function CalendarHeader() {
   const maxCountriesInDay = useFiltersStore((store) => store.filtered.summary.maxCountriesInDay);
   const maxYearsAbroadInDay = useFiltersStore((store) => store.filtered.summary.maxYearsAbroadInDay);
   const visitedCountriesTotal = useFiltersStore((store) => store.filtered.summary.countriesCodes.length);
+  const unlockedCountriesTotal = useFiltersStore((store) => store.filtered.summary.countriesUnlocked.length);
   const activeDaysTotal = useFiltersStore((store) => store.filtered.summary.activeDays.length);
   const activeFrom = useFiltersStore((store) => store.activeFilters.from);
   const activeTo = useFiltersStore((store) => store.activeFilters.to);
@@ -89,7 +90,7 @@ export function CalendarHeader() {
           'rounded-lg',
         )}
       >
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-2 @min-[1200px]:grid-cols-4 gap-4">
           <div className="flex flex-col gap-3 items-center">
             <IconTravel
               total={roundWithPrecision((100 * totalDaysAbroad) / totalDays, 1)}
@@ -108,6 +109,10 @@ export function CalendarHeader() {
           <div className="flex flex-col gap-3 items-center">
             <IconTravel total={maxYearsAbroadInDay} classNameSize="size-12 text-2xl" shouldShowAllNumbers />
             <h3 className="text-xs md:text-sm">{t('summary.maxYearsAbroadInDay')}</h3>
+          </div>
+          <div className="flex flex-col gap-3 items-center">
+            <IconTravel total={unlockedCountriesTotal} classNameSize="size-12 text-2xl" shouldShowAllNumbers />
+            <h3 className="text-xs md:text-sm">{t('summary.newCountries')}</h3>
           </div>
         </div>
       </div>
