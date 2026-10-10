@@ -240,6 +240,10 @@ export const getFiltered = (dataByDay: DataStoreState['dataByDay']): FiltersStor
           );
           stack.summary.activeDays = mergeUniqueAndSort(stack.summary.activeDays, [summaryDay.dayKey]);
           stack.summary.countriesCodes = mergeUniqueAndSort(stack.summary.countriesCodes, activeCountriesCodes);
+          stack.summary.countriesUnlocked = mergeUniqueAndSort(
+            stack.summary.countriesUnlocked,
+            summaryDay.countriesUnlockedThisDay,
+          );
 
           Object.entries(summaryDay.countriesCodesByYear).forEach(([year, countriesCodes]) => {
             if (!stack.summary.countriesCodesByYear[year]) {
@@ -265,6 +269,7 @@ export const getFiltered = (dataByDay: DataStoreState['dataByDay']): FiltersStor
           activeDays: [],
           countriesCodes: [],
           countriesCodesByYear: {},
+          countriesUnlocked: [],
         },
       },
     );

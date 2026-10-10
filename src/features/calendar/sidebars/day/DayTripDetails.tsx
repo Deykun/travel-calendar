@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { TextDateRange } from '@/components/text-date/TextDateRange';
 import { PlaceName } from '@/features/calendar/components/calendar/PlaceName';
 import useDataStore from '@/features/settings/stores/useDateStore';
+import { openSidebar } from '@/features/sidebar/stores/useSidebarStore';
 import { cn } from '@/utils/tailwind';
 
 type Props = {
@@ -32,7 +33,15 @@ export const DayTripDetails = ({ tripKey, showOnlyForCountryCode }: Props) => {
           {t('summary.days', { postProcess: 'interval', count: trip.days })}
         </span>
       </div>
-      <p className="text-[#979797] text-[10px] tracking-wider -mt-1 mb-1">{t(`country.name.${trip.countryCode}`)}</p>
+      <p className="text-[#979797] text-[10px] tracking-wider -mt-1 mb-1">
+        <button
+          type="button"
+          onClick={() => openSidebar({ type: 'country', countryCode: trip.countryCode })}
+          className="hover:text-white duration-300"
+        >
+          {t(`country.name.${trip.countryCode}`)}
+        </button>
+      </p>
       <TextDateRange
         className={cn('text-[#979797] text-[12px] text-right', 'text-nowrap tracking-wider font-semibold', 'mb-2')}
         from={trip.from}

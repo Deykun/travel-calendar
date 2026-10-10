@@ -7,6 +7,7 @@ const countryByLocation: { [location: string]: string | undefined } = {
   Malta: 'mt',
   'Costa Rica': 'cr',
   Curaçao: 'cw',
+  'Czech Republic': 'cz',
   Seychelles: 'sc',
   Martinique: 'fr',
   Malé: 'mv',
@@ -31,6 +32,14 @@ const countryByLocation: { [location: string]: string | undefined } = {
   'El Salvador': 'sv',
   Italy: 'it',
   'French Polynesia': 'pf',
+  Yangon: 'mm',
+  Türkiye: 'tr',
+  'Ivory Coast': 'ci',
+  'Independent Papua New Guinea': 'pg',
+  'Democratic Republic of the Congo': 'cd',
+  'Republic of the Congo': 'cg',
+  'Falkland Islands': 'fk',
+  'The Gambia': 'gm',
 };
 
 const countryByCountry: { [place: string]: string | undefined } = {

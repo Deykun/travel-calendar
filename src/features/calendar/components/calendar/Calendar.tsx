@@ -31,7 +31,9 @@ export const Calendar = ({ className }: Props) => {
 
   return (
     <>
-      <h2 className={cn(classNamesLayoutPx, 'mb-3')}>{t(titleByCountryShouldShow[counterShouldShow])}</h2>
+      <h2 className={cn(classNamesLayoutPx, 'pt-6  text-center', 'text-2xl text-white font-semibold mb-6')}>
+        {t(titleByCountryShouldShow[counterShouldShow])}
+      </h2>
       <div className={cn(classNamesLayoutGap, classNamesLayoutPx, classNamesLayoutGrid, className)}>
         {DAYS_GROUPED_BY_MONTHS.map((month) => (
           <Month key={month.monthNumber} month={month} />
