@@ -40,6 +40,16 @@ const countryByLocation: { [location: string]: string | undefined } = {
   'Republic of the Congo': 'cg',
   'Falkland Islands': 'fk',
   'The Gambia': 'gm',
+  'Dunmore Town': 'bs',
+  Nassau: 'bs',
+  Tamuning: 'gu',
+  Macau: 'mo',
+  'Saint Thomas': 'vi',
+  'São Tomé and Príncipe': 'st',
+  Chuuk: 'fm',
+  'Cameron Highlands': 'my',
+  'Saint Martin': 'sx',
+  Brunei: 'bn',
 };
 
 const countryByCountry: { [place: string]: string | undefined } = {
