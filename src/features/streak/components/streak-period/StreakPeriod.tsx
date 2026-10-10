@@ -3,7 +3,7 @@ import { useCallback } from 'react';
 import IconCaretLeft from '@/components/icons/IconCaretLeft';
 import { appFormatDate } from '@/components/text-date/utils/format-date';
 import { Period } from '@/features/calendar/components/calendar/Period';
-import { openSidebar, useSidebarStore } from '@/features/sidebar/stores/useSidebarStore';
+import { closeSidebar, openSidebar, useSidebarStore } from '@/features/sidebar/stores/useSidebarStore';
 import type { DateYYYYMMDD } from '@/types';
 import { cn } from '@/utils/tailwind';
 
@@ -33,8 +33,13 @@ export function StreakPeriod({
   );
 
   const handleClick = useCallback(() => {
+    if (isSidebarOpen) {
+      closeSidebar();
+
+      return;
+    }
     openSidebar({ type: 'country', countryCode });
-  }, [countryCode]);
+  }, [countryCode, isSidebarOpen]);
 
   return (
     <Period
