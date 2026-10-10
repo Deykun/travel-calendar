@@ -1,7 +1,9 @@
+import { useCallback } from 'react';
 
 import IconCaretLeft from '@/components/icons/IconCaretLeft';
 import { appFormatDate } from '@/components/text-date/utils/format-date';
 import { Period } from '@/features/calendar/components/calendar/Period';
+import { openSidebar } from '@/features/sidebar/stores/useSidebarStore';
 import type { DateYYYYMMDD } from '@/types';
 import { cn } from '@/utils/tailwind';
 
@@ -25,11 +27,17 @@ export function StreakPeriod({
   from,
 }: Props) {
   const isOnlyPoint = isEndPoint && isStartPoint;
+
+  const handleClick = useCallback(() => {
+    openSidebar({ type: 'country', countryCode });
+  }, [countryCode]);
+
   return (
     <Period
       className={cn('w-14 h-20 snap-center relative', className)}
       numberOfDays={numberOfDays}
       countryCode={countryCode}
+      onClick={handleClick}
     >
       <div className={cn('w-full mt-1 flex items-center justify-center', 'text-gray-400 tracking-wider text-[7px]')}>
         {isEndPoint && !isStartPoint && to && appFormatDate(to)}

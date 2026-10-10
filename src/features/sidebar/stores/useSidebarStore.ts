@@ -21,6 +21,10 @@ export type Sidebar =
       type: 'filters';
     }
   | {
+      type: 'country';
+      countryCode: string;
+    }
+  | {
       type: 'streak';
       streakType: StreakType;
       index: number;

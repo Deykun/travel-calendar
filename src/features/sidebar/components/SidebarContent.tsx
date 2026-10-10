@@ -1,3 +1,4 @@
+import { SidebarCountry } from '@/features/calendar/sidebars/SidebarCountry';
 import { SidebarDay } from '@/features/calendar/sidebars/SidebarDay';
 import { SidebarMonth } from '@/features/calendar/sidebars/SidebarMonth';
 import { SidebarFilters } from '@/features/filters/sidebars/SidebarFilters';
@@ -22,6 +23,10 @@ export const SidebarContent = () => {
 
   if (sidebar?.type === 'filters') {
     return <SidebarFilters />;
+  }
+
+  if (sidebar?.type === 'country' && sidebar?.countryCode) {
+    return <SidebarCountry countryCode={sidebar.countryCode} />;
   }
 
   return null;
