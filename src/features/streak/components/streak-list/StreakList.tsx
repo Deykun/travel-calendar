@@ -54,7 +54,7 @@ export function StreakList({ className }: Props) {
           className={cn(
             'grid grid-flow-col justify-center-safe gap-3',
             'p-4 px-8',
-            'overflow-auto',
+            'overflow-x-scroll overflow-y-hidden',
             'snap-x snap-mandatory touch-pan-x',
           )}
         >

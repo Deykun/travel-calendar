@@ -41,9 +41,12 @@ export function BestStreak({ type, className }: Props) {
         className,
       )}
     >
-      <h2 className={cn('text-2xl text-white', 'font-semibold mb-5')}>{t(`summary.${type}Title`)}</h2>
-      <TextDateRange className="absolute top-6 left-5 text-[9px]" from={streak.from} to={undefined} />
-      <TextDateRange className="absolute top-6 right-5 text-[9px]" from={undefined} to={streak.to} />
+      <h2 className={cn('text-2xl text-white', 'font-semibold')}>{t(`summary.${type}Title`)}</h2>
+      <p className={cn('flex items-center justify-center gap-2', 'mt-2 mb-2')}>
+        <TextDateRange className="text-[11px]" from={streak.from} to={undefined} />
+        <span>{' - '}</span>
+        <TextDateRange className="text-[11px]" from={undefined} to={streak.to} />
+      </p>
       <div className="grid grid-cols-8 gap-4">
         {streak.from && streak.to && (
           <div className={cn('col-span-2', 'flex flex-col gap-3 items-center pt-5')}>
@@ -76,7 +79,7 @@ export function BestStreak({ type, className }: Props) {
             className={cn(
               'grid grid-flow-col justify-center-safe gap-3',
               'p-4 px-8',
-              'overflow-auto',
+              'overflow-x-scroll overflow-y-hidden',
               'snap-x snap-mandatory touch-pan-x',
             )}
           >

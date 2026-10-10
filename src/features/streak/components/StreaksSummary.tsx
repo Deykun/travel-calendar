@@ -28,9 +28,9 @@ export function StreaksSummary() {
       )}
       {!isSameStreak && (
         <>
-          <BestStreak type="maxDays" className="col-span-6 @min-[850px]:col-span-3 @min-[1200px]:col-span-2" />
-          <BestStreak type="maxCountries" className="col-span-6 @min-[850px]:col-span-3 @min-[1200px]:col-span-2" />
-          <StreakList className="col-span-6 @min-[1200px]:col-span-2" />
+          <BestStreak type="maxDays" className="col-span-6 @min-[850px]:col-span-3" />
+          <BestStreak type="maxCountries" className="col-span-6 @min-[850px]:col-span-3" />
+          <StreakList className="col-span-6" />
         </>
       )}
     </div>
