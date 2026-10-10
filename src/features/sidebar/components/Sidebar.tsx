@@ -32,7 +32,9 @@ export function Sidebar({ className = '' }: Props) {
         className={cn(
           'fixed top-0 left-0',
           'h-dvh',
-          'overflow-auto',
+          'overflow-y-scroll',
+          '[scrollbar-width:thin]',
+          '[scrollbar-color:rgb(255_255_255/0.2)_transparent]',
           'w-95',
           'max-w-full',
           'p-2 sm:p-6',
