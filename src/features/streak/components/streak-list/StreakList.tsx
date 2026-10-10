@@ -11,6 +11,7 @@ type Props = {
 };
 
 export function StreakList({ className }: Props) {
+  const visitedCountriesTotal = useFiltersStore((store) => store.filtered.summary.countriesCodes.length);
   const maxDaysStreaks = useFiltersStore((store) => store.filtered.streaks.maxDays);
 
   const { t } = useTranslation();
@@ -36,17 +37,30 @@ export function StreakList({ className }: Props) {
         className,
       )}
     >
-      <h2 className={cn('text-2xl text-white', 'font-semibold mb-5')}>{t(`summary.tripsTitle`)}</h2>
-      <span
-        className={cn('absolute top-5 left-5', 'text-xs text-gray-400 tracking-wider', {
-          'text-gray-500': streaks.length === 0,
-        })}
-      >
-        {t('summary.trips', {
-          postProcess: 'interval',
-          count: streaks.length,
-        })}
-      </span>
+      <h2 className={cn('text-2xl text-white', 'font-semibold mb-3')}>{t(`summary.tripsTitle`)}</h2>
+      <p className={cn('flex items-center justify-center gap-2', 'mb-2')}>
+        <span
+          className={cn('text-xs text-gray-400 tracking-wider', {
+            'text-gray-500': streaks.length === 0,
+          })}
+        >
+          {t('summary.trips', {
+            postProcess: 'interval',
+            count: streaks.length,
+          })}
+        </span>
+        <span>{' - '}</span>
+        <span
+          className={cn('text-xs text-gray-400 tracking-wider', {
+            'text-gray-500': visitedCountriesTotal === 0,
+          })}
+        >
+          {t('summary.countries', {
+            postProcess: 'interval',
+            count: visitedCountriesTotal,
+          })}
+        </span>
+      </p>
       <div className={cn('relative', 'col-span-2 w-full', 'max-w-full', 'scroll-content-wrapper--horizontal')}>
         <div
           // Resets scroll

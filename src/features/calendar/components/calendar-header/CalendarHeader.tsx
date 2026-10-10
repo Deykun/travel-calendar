@@ -82,38 +82,42 @@ export function CalendarHeader() {
       <StreaksSummary />
       <div
         className={cn(
-          'col-span-4 @min-[1600px]:col-span-2 @min-[1600px]:col-start-3 @min-[1600px]:row-start-1',
-          'flex flex-col justify-center',
-          'p-5 pt-8',
-          'bg-[#111110]',
-          'text-center',
-          'rounded-lg',
+          'col-span-4',
+          'text-center text-white',
+          'grid grid-cols-2 @min-[1200px]:grid-cols-4 gap-4 gap-y-12',
         )}
       >
-        <div className="grid grid-cols-2 @min-[1200px]:grid-cols-4 gap-4">
-          <div className="flex flex-col gap-3 items-center">
-            <IconTravel
-              total={roundWithPrecision((100 * totalDaysAbroad) / totalDays, 1)}
-              suffixAfter="%"
-              classNameSize="size-12 text-2xl"
-              shouldShowAllNumbers
-            />
-            <h3 className="text-xs md:text-sm" title={`${totalDaysAbroad} / ${totalDays}`}>
-              {t('summary.percentageAbroad')}
-            </h3>
-          </div>
-          <div className="flex flex-col gap-3 items-center">
-            <IconTravel total={maxCountriesInDay} classNameSize="size-12 text-2xl" shouldShowAllNumbers />
-            <h3 className="text-xs md:text-sm">{t('summary.maxCountriesInDay')}</h3>
-          </div>
-          <div className="flex flex-col gap-3 items-center">
-            <IconTravel total={maxYearsAbroadInDay} classNameSize="size-12 text-2xl" shouldShowAllNumbers />
-            <h3 className="text-xs md:text-sm">{t('summary.maxYearsAbroadInDay')}</h3>
-          </div>
-          <div className="flex flex-col gap-3 items-center">
-            <IconTravel total={unlockedCountriesTotal} classNameSize="size-12 text-2xl" shouldShowAllNumbers />
-            <h3 className="text-xs md:text-sm">{t('summary.newCountries')}</h3>
-          </div>
+        <div className="flex flex-col gap-3 items-center">
+          <IconTravel
+            total={roundWithPrecision((100 * totalDaysAbroad) / totalDays, 1)}
+            suffixAfter="%"
+            classNameSize="size-12 text-2xl"
+            shouldShowAllNumbers
+          />
+          <h3
+            className={cn('text-xs md:text-sm', 'text-white font-semibold whitespace-nowrap')}
+            title={`${totalDaysAbroad} / ${totalDays}`}
+          >
+            {t('summary.percentageAbroad')}
+          </h3>
+        </div>
+        <div className="flex flex-col gap-3 items-center">
+          <IconTravel total={maxCountriesInDay} classNameSize="size-12 text-2xl" shouldShowAllNumbers />
+          <h3 className={cn('text-xs md:text-sm', 'text-white font-semibold whitespace-nowrap')}>
+            {t('summary.maxCountriesInDay')}
+          </h3>
+        </div>
+        <div className="flex flex-col gap-3 items-center">
+          <IconTravel total={maxYearsAbroadInDay} classNameSize="size-12 text-2xl" shouldShowAllNumbers />
+          <h3 className={cn('text-xs md:text-sm', 'text-white font-semibold whitespace-nowrap')}>
+            {t('summary.maxYearsAbroadInDay')}
+          </h3>
+        </div>
+        <div className="flex flex-col gap-3 items-center">
+          <IconTravel total={unlockedCountriesTotal} classNameSize="size-12 text-2xl" shouldShowAllNumbers />
+          <h3 className={cn('text-xs md:text-sm', 'text-white font-semibold whitespace-nowrap')}>
+            {t('summary.newCountries')}
+          </h3>
         </div>
       </div>
     </header>
