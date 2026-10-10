@@ -39,6 +39,10 @@ export const getDataFromTrips = (trips: IntegrationNomadsTrip[]): Response => {
       (stack: Response, trip) => {
         const dates = getDateRange(trip.date_start, trip.date_end);
         const countryCode = getCountryCodeFromTrip(trip) || '??';
+        // nomads quirky location
+        if (countryCode === 'void') {
+          return stack;
+        }
 
         const placeKey = getPlaceKey({
           place: trip.place,

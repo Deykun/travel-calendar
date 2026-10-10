@@ -123,8 +123,11 @@ export const getFiltered = (dataByDay: DataStoreState['dataByDay']): FiltersStor
       const isAbroad = filteredCountriesForDay.length > 0;
       const isHome = filteredCountriesForDay.length < dataDay.countriesCodes.length;
 
-      const shouldStopStreak = isHome || isLastDayOfRange;
-      const shouldExtendStreak = isAbroad && !isHome;
+      const hasActiveStreak = stack.current.streak.count > 0;
+      const shouldStopStreak = hasActiveStreak && (isHome || isLastDayOfRange);
+      // If isHome=true but hasActiveStreak=false - first day of the trip
+      const shouldExtendStreak = isAbroad && (!isHome || !hasActiveStreak);
+
       if (shouldExtendStreak) {
         stack.current.streak = {
           ...stack.current.streak,
