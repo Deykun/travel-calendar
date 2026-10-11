@@ -11,12 +11,16 @@ export const useMaxTotal = () => {
       return store.filtered.summary.maxCountriesInDay;
     }
 
-    if (counterShouldShow === 'orderOfUnlocking') {
+    if (counterShouldShow === 'yearOfUnlocking') {
       return store.filtered.summary.activeDays.length;
     }
 
-    if (counterShouldShow === 'numberOfCountriesUnlocked') {
-      return store.filtered.summary.totalDaysAbroad;
+    if (counterShouldShow === 'yearsAbroad') {
+      return store.filtered.summary.maxYearsAbroadInDay;
+    }
+
+    if (counterShouldShow === 'numberOfUnlockedCountries') {
+      return store.filtered.summary.maxCountriesUnlockedInDay;
     }
 
     return store.filtered.summary.maxYearsAbroadInDay;

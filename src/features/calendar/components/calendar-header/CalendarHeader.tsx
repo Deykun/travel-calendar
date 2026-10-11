@@ -82,9 +82,9 @@ export function CalendarHeader() {
       <StreaksSummary />
       <div
         className={cn(
-          'col-span-4',
+          'col-span-4 my-6',
           'text-center text-white',
-          'grid grid-cols-2 @min-[1200px]:grid-cols-4 gap-4 gap-y-12',
+          'grid grid-cols-2 @min-[920px]:grid-cols-4 gap-4 gap-y-12',
         )}
       >
         <div className="flex flex-col gap-3 items-center">

@@ -10,6 +10,7 @@ type SharedProps = {
   onClick?: () => void;
   isActive?: boolean;
   wasUnlocked?: boolean;
+  hasAbroadTravel?: boolean;
   shouldShowHomeMarker?: boolean;
 };
 
@@ -32,6 +33,7 @@ export const Period = ({
   children,
   shouldShowHomeMarker,
   wasUnlocked = false,
+  hasAbroadTravel = false,
   ...props
 }: PropsWithChildren<Props>) => {
   const Tag = onClick ? 'button' : 'span';
@@ -54,7 +56,12 @@ export const Period = ({
       )}
       onClick={onClick}
     >
-      <ImageFlag countryCode={countryCode} shouldShowHomeMarker={shouldShowHomeMarker} wasUnlocked={wasUnlocked} />
+      <ImageFlag
+        countryCode={countryCode}
+        shouldShowHomeMarker={shouldShowHomeMarker}
+        wasUnlocked={wasUnlocked}
+        hasAbroadTravel={hasAbroadTravel}
+      />
       <div className="mt-1 text-[12px] text-nowrap text-white tracking-widest font-semibold">
         {'from' in props && props.from === props.to && props.from}
         {'from' in props && props.from !== props.to && (

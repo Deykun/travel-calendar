@@ -14,6 +14,7 @@ export type FlagData = {
   to: number;
   tripsKeys: string[];
   wasUnlocked?: boolean;
+  hasAbroadTravel?: boolean;
 };
 
 export function useFlagsForDay(dayKey: DateMMDD, shouldForceShowHome?: boolean) {

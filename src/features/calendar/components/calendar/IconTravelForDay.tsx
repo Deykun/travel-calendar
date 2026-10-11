@@ -8,6 +8,7 @@ import { cn } from '@/utils/tailwind';
 
 type Props = {
   total: number;
+  visualTotal?: number | string;
   hasScale?: boolean;
   isNewCountryActive?: boolean;
   isHighlightAbroadTravelActive?: boolean;
@@ -15,6 +16,7 @@ type Props = {
 
 export const IconTravelForDay = ({
   total,
+  visualTotal,
   hasScale = false,
   isNewCountryActive = false,
   isHighlightAbroadTravelActive = false,
@@ -24,7 +26,11 @@ export const IconTravelForDay = ({
   const maxTotal = useMaxTotal();
 
   return (
-    <IconTravel total={total} maxTotal={hasScale && shouldCounterUseScale ? maxTotal : undefined}>
+    <IconTravel
+      total={total}
+      visualTotal={visualTotal}
+      maxTotal={hasScale && shouldCounterUseScale ? maxTotal : undefined}
+    >
       {isHighlightAbroadTravelActive && (
         <IconTravelWrapper
           className={cn(

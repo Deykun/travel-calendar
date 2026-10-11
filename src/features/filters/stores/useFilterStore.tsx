@@ -56,6 +56,7 @@ export type FiltersStoreState = {
       totalDays: number;
       totalDaysAbroad: number;
       maxCountriesInDay: number;
+      maxCountriesUnlockedInDay: number;
       maxYearsAbroadInDay: number;
       activeDays: DateMMDD[];
       countriesCodes: string[];
@@ -100,6 +101,7 @@ const emptyStore: FiltersStoreState = {
       totalDays: 0,
       totalDaysAbroad: 0,
       maxCountriesInDay: 0,
+      maxCountriesUnlockedInDay: 0,
       maxYearsAbroadInDay: 0,
       activeDays: [],
       countriesUnlocked: [],

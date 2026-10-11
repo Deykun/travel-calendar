@@ -46,16 +46,29 @@ export const Day = memo(({ className = '', dayNumber, dayKey }: Props) => {
       return yearsAbroad.length;
     }
 
-    if (counterShouldShow === 'numberOfCountriesUnlocked') {
+    if (counterShouldShow === 'numberOfUnlockedCountries') {
       return totalUnlockedCountries;
     }
 
-    if (counterShouldShow === 'orderOfUnlocking') {
+    if (counterShouldShow === 'yearOfUnlocking') {
       return indexInSortingByUnlocking;
     }
 
     return countriesCodes.length;
   }, [counterShouldShow, countriesCodes.length, indexInSortingByUnlocking, totalUnlockedCountries, yearsAbroad.length]);
+
+  const visualTotal = useMemo(() => {
+    if (counterShouldShow !== 'yearOfUnlocking') {
+      return undefined;
+    }
+
+    const firstYear = flags?.[0]?.from;
+    if (firstYear) {
+      return `'${String(firstYear).slice(2)}`;
+    }
+
+    return undefined;
+  }, [counterShouldShow, flags]);
 
   const handleClick = useCallback(() => {
     if (isSidebarOpen) {
@@ -100,6 +113,7 @@ export const Day = memo(({ className = '', dayNumber, dayKey }: Props) => {
         <IconTravelForDay
           total={total}
           hasScale
+          visualTotal={visualTotal}
           isNewCountryActive={isNewCountryActive}
           isHighlightAbroadTravelActive={isHighlightAbroadTravelActive}
         />

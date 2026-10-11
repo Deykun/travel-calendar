@@ -250,6 +250,10 @@ export const getFiltered = (dataByDay: DataStoreState['dataByDay']): FiltersStor
             summaryDay.countriesUnlockedThisDay,
           );
 
+          if (summaryDay.countriesUnlockedThisDay.length > stack.summary.maxCountriesUnlockedInDay) {
+            stack.summary.maxCountriesUnlockedInDay = summaryDay.countriesUnlockedThisDay.length;
+          }
+
           Object.entries(summaryDay.countriesCodesByYear).forEach(([year, countriesCodes]) => {
             if (!stack.summary.countriesCodesByYear[year]) {
               stack.summary.countriesCodesByYear[year] = [];
@@ -270,6 +274,7 @@ export const getFiltered = (dataByDay: DataStoreState['dataByDay']): FiltersStor
           totalDays: 0,
           totalDaysAbroad: 0,
           maxCountriesInDay: 0,
+          maxCountriesUnlockedInDay: 0,
           maxYearsAbroadInDay: 0,
           activeDays: [],
           countriesCodes: [],

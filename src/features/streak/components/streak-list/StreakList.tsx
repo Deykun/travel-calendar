@@ -11,6 +11,7 @@ type Props = {
 };
 
 export function StreakList({ className }: Props) {
+  const totalDaysAbroad = useFiltersStore((store) => store.filtered.summary.totalDaysAbroad);
   const visitedCountriesTotal = useFiltersStore((store) => store.filtered.summary.countriesCodes.length);
   const maxDaysStreaks = useFiltersStore((store) => store.filtered.streaks.maxDays);
 
@@ -59,6 +60,14 @@ export function StreakList({ className }: Props) {
             postProcess: 'interval',
             count: visitedCountriesTotal,
           })}
+        </span>
+        <span>{' - '}</span>
+        <span
+          className={cn('text-xs text-gray-400 tracking-wider', {
+            'text-gray-500': totalDaysAbroad === 0,
+          })}
+        >
+          {t('summary.days', { postProcess: 'interval', count: totalDaysAbroad })}
         </span>
       </p>
       <div className={cn('relative', 'col-span-2 w-full', 'max-w-full', 'scroll-content-wrapper--horizontal')}>

@@ -15,8 +15,8 @@ type Props = {
 const titleByCountryShouldShow: Record<PreferencesStoreState['calendar']['counterShouldShow'], string> = {
   numberOfCountries: 'summary.totalCountries',
   yearsAbroad: 'summary.totalYearsAbroad',
-  numberOfCountriesUnlocked: 'summary.numberOfCountriesUnlocked',
-  orderOfUnlocking: 'summary.orderOfUnlocking',
+  numberOfUnlockedCountries: 'summary.numberOfUnlockedCountries',
+  yearOfUnlocking: 'summary.yearOfUnlocking',
 };
 
 export const Calendar = ({ className }: Props) => {
@@ -31,7 +31,7 @@ export const Calendar = ({ className }: Props) => {
 
   return (
     <>
-      <h2 className={cn(classNamesLayoutPx, 'pt-6  text-center', 'text-2xl text-white font-semibold mb-6')}>
+      <h2 className={cn(classNamesLayoutPx, 'text-center', 'text-2xl text-white font-semibold mb-6')}>
         {t(titleByCountryShouldShow[counterShouldShow])}
       </h2>
       <div className={cn(classNamesLayoutGap, classNamesLayoutPx, classNamesLayoutGrid, className)}>

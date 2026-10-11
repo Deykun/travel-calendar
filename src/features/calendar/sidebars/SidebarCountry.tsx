@@ -25,11 +25,16 @@ const sidebarStyles = cn('rounded-lg', 'p-4', 'bg-black border border-[#2b2b27]'
 
 export const SidebarCountry = ({ className, countryCode }: Props) => {
   const tripsByKey = useDataStore((store) => store.tripsByKey);
+  const maxDaysStreaks = useFiltersStore((store) => store.filtered.streaks.maxDays);
   const homeCountriesCodes = useFiltersStore((store) => store.activeFilters.homeCountriesCodes || EMPTY_ARRAY);
 
   const { t } = useTranslation();
 
   const { activeDays, daysInYear } = useCountryDays(countryCode);
+
+  const totalTrips = useMemo(() => {
+    return maxDaysStreaks.filter(({ countriesCodes }) => countriesCodes.includes(countryCode)).length;
+  }, [countryCode, maxDaysStreaks]);
 
   const { trips, totalVisitedPlaces, totalYearsAbroad } = useMemo(() => {
     const trips: MetadataTrip[] = Object.values(tripsByKey)
@@ -66,7 +71,7 @@ export const SidebarCountry = ({ className, countryCode }: Props) => {
         <h2 className="text-2xl text-white font-semibold mb-6">{t(`country.name.${countryCode.toLowerCase()}`)}</h2>
         <div className="grid grid-cols-3 gap-2">
           <div className="inline-flex flex-col gap-2 items-center">
-            <IconTravel total={trips.length} shouldShowAllNumbers />
+            <IconTravel total={totalTrips} shouldShowAllNumbers />
             <span className="text-[#979797] text-sm tracking-wider">{t('summary.tripsTitle')}</span>
           </div>
           <div className="inline-flex flex-col gap-2 items-center">

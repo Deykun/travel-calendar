@@ -40,20 +40,20 @@ export function PaneVisibility() {
         <Radiobox isActive={counterShouldShow === 'yearsAbroad'} onChange={() => setCounterShouldShow('yearsAbroad')}>
           <div className={cn('flex flex-col gap-1', 'text-wrap')}>{t('summary.totalYearsAbroad')}</div>
         </Radiobox>
-        {/* <Radiobox
-          isActive={counterShouldShow === 'numberOfCountriesUnlocked'}
-          onChange={() => setCounterShouldShow('numberOfCountriesUnlocked')}
-        >
-          <div className={cn('flex flex-col gap-1', 'text-wrap')}>{t('summary.numberOfCountriesUnlocked')}</div>
-        </Radiobox> */}
         <Radiobox
-          isActive={counterShouldShow === 'orderOfUnlocking'}
-          onChange={() => setCounterShouldShow('orderOfUnlocking')}
+          isActive={counterShouldShow === 'yearOfUnlocking'}
+          onChange={() => setCounterShouldShow('yearOfUnlocking')}
         >
-          <div className={cn('flex flex-col gap-1', 'text-wrap')}>{t('summary.orderOfUnlocking')}</div>
+          <div className={cn('flex flex-col gap-1', 'text-wrap')}>{t('summary.yearOfUnlocking')}</div>
+        </Radiobox>
+        <Radiobox
+          isActive={counterShouldShow === 'numberOfUnlockedCountries'}
+          onChange={() => setCounterShouldShow('numberOfUnlockedCountries')}
+        >
+          <div className={cn('flex flex-col gap-1', 'text-wrap')}>{t('summary.numberOfUnlockedCountries')}</div>
         </Radiobox>
       </Pane.List>
-      <Pane.Subtitle className="mt-2">{t('preferences.calendarOther')}</Pane.Subtitle>
+      <Pane.Subtitle className="-mt-6">{t('preferences.calendarOther')}</Pane.Subtitle>
       <Pane.List>
         <Checkbox
           isActive={shouldCounterUseScale}

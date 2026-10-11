@@ -21,6 +21,25 @@ type PeriodsIndex = {
   countriesToMarkAsUnlocked?: string[];
 };
 
+/*
+  Marks periods sharing a year with another country, e.g. cz 2018, de 2019, nl 2019, gr 2020 -> de & nl.
+*/
+const markPeriodsWithAbroadTravel = (stack: PeriodsIndex): PeriodsIndex => {
+  Object.entries(stack.countriesByYear).forEach(([year, countriesCodes = []]) => {
+    if (new Set(countriesCodes).size < 2) {
+      return;
+    }
+
+    Object.values(stack.idByCountryByYear[year] || {}).forEach((periodId) => {
+      if (periodId && stack.periodsByIds[periodId]) {
+        stack.periodsByIds[periodId].hasAbroadTravel = true;
+      }
+    });
+  });
+
+  return stack;
+};
+
 export const getFlagsEntriesGroupedByYear = ({
   dates,
   dataByDay,
@@ -30,7 +49,7 @@ export const getFlagsEntriesGroupedByYear = ({
   dataByDay: DataStoreState['dataByDay'];
   countriesUnlockedThisDay?: string[];
 }): PeriodsIndex => {
-  return dates.sort().reduce(
+  const stack = dates.sort().reduce(
     (stack: PeriodsIndex, dateWithYear) => {
       const year = Number(dateWithYear.split('-')[0]);
       const dataForDay = dataByDay[dateWithYear];
@@ -93,6 +112,8 @@ export const getFlagsEntriesGroupedByYear = ({
       countriesToMarkAsUnlocked: countriesUnlockedThisDay,
     },
   );
+
+  return markPeriodsWithAbroadTravel(stack);
 };
 
 export const getFlagsEntriesGroupedByYearSimple = ({
@@ -108,7 +129,7 @@ export const getFlagsEntriesGroupedByYearSimple = ({
   shouldGroupConsecutiveYears?: boolean;
   countriesUnlockedThisDay?: string[];
 }): PeriodsIndex => {
-  return Object.entries(countriesCodesByYear)
+  const stack = Object.entries(countriesCodesByYear)
     .sort((a, b) => Number(a[0]) - Number(b[0]))
     .reduce(
       (stack: PeriodsIndex, [rawYear, countriesCodes]) => {
@@ -169,4 +190,6 @@ export const getFlagsEntriesGroupedByYearSimple = ({
         countriesToMarkAsUnlocked: countriesUnlockedThisDay,
       },
     );
+
+  return markPeriodsWithAbroadTravel(stack);
 };

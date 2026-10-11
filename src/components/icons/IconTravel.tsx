@@ -9,6 +9,7 @@ import { cn } from '@/utils/tailwind';
 type Props = {
   className?: string;
   total: number;
+  visualTotal?: number | string;
   maxTotal?: number;
   shouldShowAllNumbers?: boolean;
   classNameSize?: string;
@@ -19,12 +20,15 @@ export const Icon = ({
   className = '',
   shouldShowAllNumbers = false,
   total,
+  visualTotal,
   maxTotal,
   classNameSize = 'size-6',
   suffixAfter = '',
   children,
 }: PropsWithChildren<Props>) => {
   const opacity = maxTotal && total > 0 ? Math.abs(1 - Math.min(1, (total + 0.75) / (maxTotal + 1))).toFixed(1) : '0';
+
+  const totalToDisplay = visualTotal ?? total;
 
   return (
     <span
@@ -73,11 +77,11 @@ export const Icon = ({
           {
             'opacity-100': shouldShowAllNumbers || total > 1,
             [styles['value'] || '']: shouldShowAllNumbers ? total > 0 : total > 1,
-            'text-xs': total > 99 || suffixAfter,
+            'text-xs': (typeof totalToDisplay === 'string' && totalToDisplay.length > 2) || total > 99 || suffixAfter,
           },
         )}
       >
-        {total}
+        {totalToDisplay}
         {suffixAfter}
       </span>
       <IconCheck
