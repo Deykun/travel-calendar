@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import IconTravel from '@/components/icons/IconTravel';
 import { ImageFlag } from '@/components/image-flag/ImageFlag';
 import { TextCounter } from '@/components/text-counter/TextCounter';
+import { PlaceName } from '@/features/calendar/components/calendar/PlaceName';
 import useFiltersStore from '@/features/filters/stores/useFilterStore';
 import useDataStore from '@/features/settings/stores/useDateStore';
 import { getDayKey } from '@/features/settings/utils/get-day-key';
@@ -21,22 +22,44 @@ type Props = {
   countryCode: string;
 };
 
+type PlaceSummary = {
+  placeKey: string;
+  days: number;
+  visits: number;
+};
+
 const sidebarStyles = cn('rounded-lg', 'p-4', 'bg-black border border-[#2b2b27]');
 
 export const SidebarCountry = ({ className, countryCode }: Props) => {
   const tripsByKey = useDataStore((store) => store.tripsByKey);
+  const maxDaysStreaks = useFiltersStore((store) => store.filtered.streaks.maxDays);
   const homeCountriesCodes = useFiltersStore((store) => store.activeFilters.homeCountriesCodes || EMPTY_ARRAY);
 
   const { t } = useTranslation();
 
   const { activeDays, daysInYear } = useCountryDays(countryCode);
 
-  const { trips, totalVisitedPlaces, totalYearsAbroad } = useMemo(() => {
+  const totalTrips = useMemo(() => {
+    return maxDaysStreaks.filter(({ countriesCodes }) => countriesCodes.includes(countryCode)).length;
+  }, [countryCode, maxDaysStreaks]);
+
+  const { trips, places, totalVisitedPlaces, totalYearsAbroad } = useMemo(() => {
     const trips: MetadataTrip[] = Object.values(tripsByKey)
       .filter((trip): trip is MetadataTrip => trip?.countryCode === countryCode)
       .sort((a, b) => a.from.localeCompare(b.from));
 
-    const totalVisitedPlaces = new Set(trips.map(({ placeKey }) => placeKey)).size;
+    const daysByPlaceKey: Record<string, PlaceSummary> = {};
+    trips.forEach(({ placeKey, days }) => {
+      daysByPlaceKey[placeKey] ??= { placeKey, days: 0, visits: 0 };
+      daysByPlaceKey[placeKey].days += days;
+      daysByPlaceKey[placeKey].visits += 1;
+    });
+
+    const totalVisitedPlaces = Object.keys(daysByPlaceKey).length;
+
+    const places: PlaceSummary[] = Object.values(daysByPlaceKey).sort(
+      (a, b) => b.days - a.days || b.visits - a.visits || a.placeKey.localeCompare(b.placeKey),
+    );
 
     const yearsAbroad = new Set<number>();
     trips.forEach(({ from, to }) => {
@@ -48,7 +71,7 @@ export const SidebarCountry = ({ className, countryCode }: Props) => {
     });
     const totalYearsAbroad = yearsAbroad.size;
 
-    return { trips, totalVisitedPlaces, totalYearsAbroad };
+    return { trips, places, totalVisitedPlaces, totalYearsAbroad };
   }, [tripsByKey, countryCode]);
 
   if (!countryCode) {
@@ -66,7 +89,7 @@ export const SidebarCountry = ({ className, countryCode }: Props) => {
         <h2 className="text-2xl text-white font-semibold mb-6">{t(`country.name.${countryCode.toLowerCase()}`)}</h2>
         <div className="grid grid-cols-3 gap-2">
           <div className="inline-flex flex-col gap-2 items-center">
-            <IconTravel total={trips.length} shouldShowAllNumbers />
+            <IconTravel total={totalTrips} shouldShowAllNumbers />
             <span className="text-[#979797] text-sm tracking-wider">{t('summary.tripsTitle')}</span>
           </div>
           <div className="inline-flex flex-col gap-2 items-center">
@@ -107,8 +130,28 @@ export const SidebarCountry = ({ className, countryCode }: Props) => {
           </div>
         ))}
       </div>
+      {places.length > 0 && (
+        <div className={cn(sidebarStyles, 'mt-8', 'flex flex-col gap-3')}>
+          <strong className="text-[#979797] text-sm tracking-wider font-normal">{t('summary.placesTitle')}</strong>
+          {places.map(({ placeKey, days, visits: placeVisits }) => (
+            <div key={placeKey} className={cn('flex gap-1 justify-between items-baseline', 'text-[#979797]')}>
+              <strong className="text-white tracking-wider font-semibold">
+                <PlaceName placeKey={placeKey} />
+              </strong>
+              <span className="flex flex-col items-end">
+                <span className={cn('text-white text-[10px] text-nowrap tracking-widest font-medium')}>
+                  {t('summary.days', { postProcess: 'interval', count: days })}
+                </span>
+                <span className="mt-1 text-[10px] text-nowrap tracking-wider">
+                  {t('summary.visits', { postProcess: 'interval', count: placeVisits })}
+                </span>
+              </span>
+            </div>
+          ))}
+        </div>
+      )}
       {trips.length > 0 && (
-        <div className={cn(sidebarStyles, 'mt-8', 'flex flex-col gap-5')}>
+        <div className={cn(sidebarStyles, 'mt-8', 'flex flex-col gap-8')}>
           {trips.map(({ key: tripKey }) => (
             <DayTripDetails key={tripKey} tripKey={tripKey} showOnlyForCountryCode={countryCode} />
           ))}

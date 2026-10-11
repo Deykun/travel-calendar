@@ -20,6 +20,7 @@ export function useFlagsSimple(
     countriesUnlockedThisDay?: string[];
   } = {},
 ) {
+  const counterShouldShow = usePreferencesStore((store) => store.calendar.counterShouldShow);
   const shouldHighlightAbroadTravel = usePreferencesStore((store) => store.calendar.shouldHighlightAbroadTravel);
   const shouldHighlightNewCountries = usePreferencesStore((store) => store.calendar.shouldHighlightNewCountries);
 
@@ -40,7 +41,9 @@ export function useFlagsSimple(
         })
       : false;
 
-    const isNewCountry = shouldHighlightNewCountries && countriesUnlockedThisDay.length > 0;
+    const isNewCountry =
+      (shouldHighlightNewCountries || counterShouldShow === 'numberOfUnlockedCountries') &&
+      countriesUnlockedThisDay.length > 0;
 
     return {
       flags: abroadFlags,

@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { FlagHover } from '@/components/flag-hover/FlagHover';
@@ -41,6 +41,11 @@ export const Month = ({ className = '', month }: Props) => {
 
   const { flags } = useFlagsSimple(countriesCodesByYear);
 
+  const flagsToShow = useMemo(() => {
+    // Doesn't make sense for month
+    return flags.map((flag) => ({ ...flag, hasAbroadTravel: false }));
+  }, [flags]);
+
   const daysInMonth = getDaysInMonth(month.monthNumber);
 
   const handleClick = useCallback(() => {
@@ -62,7 +67,7 @@ export const Month = ({ className = '', month }: Props) => {
         })}
         onClick={handleClick}
       >
-        <FlagHover flags={flags} from="bottom-left">
+        <FlagHover flags={flagsToShow} from="bottom-left">
           {t('summary.countries', {
             postProcess: 'interval',
             count: visitedCountries,

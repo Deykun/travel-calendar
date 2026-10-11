@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 
 import { cn } from '@/utils/tailwind';
 
+import IconForward from '../icons/IconForward';
 import IconPlus from '../icons/IconPlus';
 import IconTravel from '../icons/IconTravel';
 import IconTravelWrapper from '../icons/IconTravelWrapper';
@@ -16,12 +17,14 @@ type Props = {
   countryCode: string;
   shouldShowHomeMarker?: boolean;
   wasUnlocked?: boolean;
+  hasAbroadTravel?: boolean;
 };
 
 export const ImageFlag = ({
   countryCode,
   shouldShowHomeMarker = false,
   wasUnlocked = false,
+  hasAbroadTravel = false,
 }: PropsWithChildren<Props>) => {
   const { t } = useTranslation();
   const safeCountryCode = fallbackFlags[countryCode.toUpperCase()] || countryCode.toUpperCase();
@@ -52,6 +55,11 @@ export const ImageFlag = ({
       />
       {shouldShowHomeMarker && (
         <IconTravel className="absolute -bottom-1 -right-1 z-10" classNameSize="size-5" total={0} />
+      )}
+      {hasAbroadTravel && (
+        <IconTravelWrapper className={cn('absolute -bottom-1 -left-1 z-10 size-4', 'bg-[#4173b3] text-black')}>
+          <IconForward />
+        </IconTravelWrapper>
       )}
       {wasUnlocked && (
         <IconTravelWrapper className={cn('absolute -bottom-1 -right-1 z-10 size-4', 'bg-[#178001] text-white')}>

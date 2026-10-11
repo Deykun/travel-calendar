@@ -23,7 +23,8 @@ export function StreaksSummary() {
       {isSameStreak && (
         <>
           <StreakList className="col-span-6" />
-          <BestStreak type="maxDays" className="col-span-6" />
+          <BestStreak type="maxDays" index={0} className="col-span-6 @min-[850px]:col-span-3" />
+          <BestStreak type="maxDays" index={1} className="col-span-6 @min-[850px]:col-span-3" />
         </>
       )}
       {!isSameStreak && (

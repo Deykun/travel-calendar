@@ -18,6 +18,8 @@ type Props = {
   dayKey: DateMMDD;
 };
 
+const HAS_ZERO_BUT_PRESENT = 0.001;
+
 export const Day = memo(({ className = '', dayNumber, dayKey }: Props) => {
   const counterShouldShow = usePreferencesStore((store) => store.calendar.counterShouldShow);
   const isSidebarOpen = useSidebarStore(
@@ -46,16 +48,33 @@ export const Day = memo(({ className = '', dayNumber, dayKey }: Props) => {
       return yearsAbroad.length;
     }
 
-    if (counterShouldShow === 'numberOfCountriesUnlocked') {
-      return totalUnlockedCountries;
+    if (counterShouldShow === 'numberOfUnlockedCountries') {
+      return totalUnlockedCountries || (countriesCodes.length > 0 ? HAS_ZERO_BUT_PRESENT : 0);
     }
 
-    if (counterShouldShow === 'orderOfUnlocking') {
+    if (counterShouldShow === 'yearOfUnlocking') {
       return indexInSortingByUnlocking;
     }
 
     return countriesCodes.length;
   }, [counterShouldShow, countriesCodes.length, indexInSortingByUnlocking, totalUnlockedCountries, yearsAbroad.length]);
+
+  const visualTotal = useMemo(() => {
+    if (counterShouldShow === 'numberOfUnlockedCountries') {
+      if (total === HAS_ZERO_BUT_PRESENT) {
+        return ' ';
+      }
+    }
+
+    if (counterShouldShow === 'yearOfUnlocking') {
+      const firstYear = flags?.[0]?.from;
+      if (firstYear) {
+        return `'${String(firstYear).slice(2)}`;
+      }
+    }
+
+    return undefined;
+  }, [counterShouldShow, flags, total]);
 
   const handleClick = useCallback(() => {
     if (isSidebarOpen) {
@@ -100,6 +119,7 @@ export const Day = memo(({ className = '', dayNumber, dayKey }: Props) => {
         <IconTravelForDay
           total={total}
           hasScale
+          visualTotal={visualTotal}
           isNewCountryActive={isNewCountryActive}
           isHighlightAbroadTravelActive={isHighlightAbroadTravelActive}
         />
