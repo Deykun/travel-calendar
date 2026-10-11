@@ -20,8 +20,6 @@ export function ButtonDownloadImage() {
     }
     const domElement = document.getElementById('shareable-content-wrapper');
 
-    console.log('domElement', domElement);
-
     if (!domElement) {
       return;
     }
