@@ -1,6 +1,8 @@
 import { useTranslation } from 'react-i18next';
 
+import IconPlus from '@/components/icons/IconPlus';
 import IconTravel from '@/components/icons/IconTravel';
+import IconTravelWrapper from '@/components/icons/IconTravelWrapper';
 import { TextCounter } from '@/components/text-counter/TextCounter';
 import useFiltersStore from '@/features/filters/stores/useFilterStore';
 import useDataStore from '@/features/settings/stores/useDateStore';
@@ -114,7 +116,12 @@ export function CalendarHeader() {
           </h3>
         </div>
         <div className="flex flex-col gap-3 items-center">
-          <IconTravel total={unlockedCountriesTotal} classNameSize="size-12 text-2xl" shouldShowAllNumbers />
+          <span className="relative">
+            <IconTravel total={unlockedCountriesTotal} classNameSize="size-12 text-2xl" shouldShowAllNumbers />
+            <IconTravelWrapper className={cn('absolute -bottom-2 -right-2 z-1 size-5', 'bg-[#178001] text-white')}>
+              <IconPlus />
+            </IconTravelWrapper>
+          </span>
           <h3 className={cn('text-xs md:text-sm', 'text-white font-semibold whitespace-nowrap')}>
             {t('summary.newCountries')}
           </h3>

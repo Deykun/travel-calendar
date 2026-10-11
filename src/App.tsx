@@ -19,8 +19,8 @@ function App() {
       <div className="flex">
         <Sidebar className="shrink-0 z-500" />
         <div className="w-full">
-          <div className="overflow-hidden [@media(min-width:860px)]:pl-95 pt-24 pb-24">
-            <div className="@container max-w-[2000px] mx-auto">
+          <div className="overflow-hidden [@media(min-width:860px)]:pl-95 py-12">
+            <div id="shareable-content" className="@container max-w-[2000px] mx-auto py-12">
               <CalendarHeader />
               <Calendar />
               <CalendarFooter />

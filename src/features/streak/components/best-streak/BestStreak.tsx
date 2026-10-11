@@ -14,13 +14,14 @@ const MINIMAL_STREAK_LENGTH_TO_SHOW = 1;
 type Props = {
   type: StreakType;
   className?: string;
+  index?: number;
 };
 
-export function BestStreak({ type, className }: Props) {
+export function BestStreak({ type, index = 0, className }: Props) {
   const shouldCounterUseScale = usePreferencesStore((store) => store.calendar.shouldCounterUseScale);
-  const maxTotalDays = useFiltersStore((store) => store.filtered.streaks.maxDays?.[0]?.count || 0);
-  const maxTotalCountries = useFiltersStore((store) => store.filtered.streaks.maxCountries?.[0]?.count || 0);
-  const streak = useFiltersStore((store) => store.filtered.streaks[type][0]);
+  const maxTotalDays = useFiltersStore((store) => store.filtered.streaks.maxDays?.[index]?.count || 0);
+  const maxTotalCountries = useFiltersStore((store) => store.filtered.streaks.maxCountries?.[index]?.count || 0);
+  const streak = useFiltersStore((store) => store.filtered.streaks[type][index]);
 
   const { t } = useTranslation();
 
@@ -41,7 +42,9 @@ export function BestStreak({ type, className }: Props) {
         className,
       )}
     >
-      <h2 className={cn('text-2xl text-white', 'font-semibold mb-3')}>{t(`summary.${type}Title`)}</h2>
+      <h2 className={cn('text-2xl text-white', 'font-semibold mb-3')}>
+        {t(`summary.${type}Title${index ? index + 1 : ''}`)}
+      </h2>
       <p className={cn('flex items-center justify-center gap-2', 'mb-2')}>
         <TextDateRange className="text-[11px]" from={streak.from} to={undefined} />
         <span>{' - '}</span>
