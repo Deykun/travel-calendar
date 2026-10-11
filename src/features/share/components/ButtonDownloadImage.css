@@ -1,0 +1,38 @@
+.SHARING-VIEW {
+  width: 1400px;
+
+  #shareable-content {
+    position: relative;
+    font-family: 'Poppins', sans-serif;
+    min-height: 100dvh;
+    background-color: #2a2a26;
+    color: #979797;
+  }
+
+  #shareable-content-bg {
+    position: absolute;
+    inset: 0;
+    /* Thanks to: https://blog.spoongraphics.co.uk/freebies/8-free-seamless-vector-topographic-map-patterns */
+    background-image: url('https://deykun.github.io/travel-calendar/images/topographic-map-pattern.png');
+    background-size: 400px;
+    opacity: 0.025;
+    z-index: 0;
+    filter: invert(1);
+  }
+}
+
+#shareable-content-container:has(.SHARING-VIEW) {
+  position: relative;
+  opacity: 0.1;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 1;
+    backdrop-filter: blur(12px);
+  }
+}
