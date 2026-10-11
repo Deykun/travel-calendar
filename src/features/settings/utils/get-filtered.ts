@@ -14,6 +14,7 @@ import { getDateWithoutYear, getIsFuture, getMonthWithoutDay, stringDateToObject
 import type { DataStoreState } from '../stores/useDateStore';
 
 export const getFiltered = (dataByDay: DataStoreState['dataByDay']): FiltersStoreState['filtered'] => {
+  console.info('Filtering...');
   const { homeCountriesCodes, from, to, shouldIncludeFuture } = useFiltersStore.getState().activeFilters;
 
   const dataByDateSorted = Object.keys(dataByDay).sort() as DateYYYYMMDD[];
@@ -127,8 +128,9 @@ export const getFiltered = (dataByDay: DataStoreState['dataByDay']): FiltersStor
       const shouldStopStreak = hasActiveStreak && (isHome || isLastDayOfRange);
       // If isHome=true but hasActiveStreak=false - first day of the trip
       const shouldExtendStreak = isAbroad && (!isHome || !hasActiveStreak);
+      const shouldExtendStreakForLastDay = shouldStopStreak && isAbroad;
 
-      if (shouldExtendStreak) {
+      if (shouldExtendStreak || shouldExtendStreakForLastDay) {
         stack.current.streak = {
           ...stack.current.streak,
           countriesCodes: mergeUnique(stack.current.streak.countriesCodes, filteredCountriesForDay),
