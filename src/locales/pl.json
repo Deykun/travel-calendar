@@ -27,6 +27,8 @@
   "summary.trips_one": "1 podróż",
   "summary.trips_few": "{{count}} podróże",
   "summary.trips_many": "{{count}} podróży",
+  "summary.visits_one": "1 wizyta",
+  "summary.visits_other": "{{count}}  wizyt",
   "summary.totalCountries": "Odwiedzonych krajów",
   "summary.totalYearsAbroad": "Lat za granicą",
   "summary.yearOfUnlocking": "Rok odblokowania",

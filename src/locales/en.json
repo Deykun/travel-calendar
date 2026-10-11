@@ -24,6 +24,8 @@
   "summary.countries_other": "{{count}} countries",
   "summary.trips_one": "one trip",
   "summary.trips_other": "{{count}} trips",
+  "summary.visits_one": "one visit",
+  "summary.visits_other": "{{count}}  visits",
   "summary.totalCountries": "Total countries visited",
   "summary.totalYearsAbroad": "Total years abroad",
   "summary.totalTrips": "Trips",
