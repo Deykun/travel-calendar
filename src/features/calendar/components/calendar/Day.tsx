@@ -18,6 +18,8 @@ type Props = {
   dayKey: DateMMDD;
 };
 
+const HAS_ZERO_BUT_PRESENT = 0.001;
+
 export const Day = memo(({ className = '', dayNumber, dayKey }: Props) => {
   const counterShouldShow = usePreferencesStore((store) => store.calendar.counterShouldShow);
   const isSidebarOpen = useSidebarStore(
@@ -47,7 +49,7 @@ export const Day = memo(({ className = '', dayNumber, dayKey }: Props) => {
     }
 
     if (counterShouldShow === 'numberOfUnlockedCountries') {
-      return totalUnlockedCountries;
+      return totalUnlockedCountries || (countriesCodes.length > 0 ? HAS_ZERO_BUT_PRESENT : 0);
     }
 
     if (counterShouldShow === 'yearOfUnlocking') {
@@ -58,17 +60,21 @@ export const Day = memo(({ className = '', dayNumber, dayKey }: Props) => {
   }, [counterShouldShow, countriesCodes.length, indexInSortingByUnlocking, totalUnlockedCountries, yearsAbroad.length]);
 
   const visualTotal = useMemo(() => {
-    if (counterShouldShow !== 'yearOfUnlocking') {
-      return undefined;
+    if (counterShouldShow === 'numberOfUnlockedCountries') {
+      if (total === HAS_ZERO_BUT_PRESENT) {
+        return ' ';
+      }
     }
 
-    const firstYear = flags?.[0]?.from;
-    if (firstYear) {
-      return `'${String(firstYear).slice(2)}`;
+    if (counterShouldShow === 'yearOfUnlocking') {
+      const firstYear = flags?.[0]?.from;
+      if (firstYear) {
+        return `'${String(firstYear).slice(2)}`;
+      }
     }
 
     return undefined;
-  }, [counterShouldShow, flags]);
+  }, [counterShouldShow, flags, total]);
 
   const handleClick = useCallback(() => {
     if (isSidebarOpen) {

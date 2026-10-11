@@ -53,6 +53,7 @@ export const Icon = ({
       <span
         className={cn('absolute top-0 left-0 size-full bg-[#d8da51] scale-0 duration-500', {
           'scale-100': total > 0,
+          'bg-[#565630] scale-50': total > 0 && total < 1,
         })}
         style={{
           // @ts-expect-error Doesn't know css
@@ -66,7 +67,7 @@ export const Icon = ({
           // @ts-expect-error Doesn't know css
           cornerShape: 'inherit',
           borderRadius: 'inherit',
-          opacity: opacity !== '0' && maxTotal === total ? 0 : opacity,
+          opacity: (opacity !== '0' && maxTotal === total) || total < 1 ? 0 : opacity,
         }}
       ></span>
       <span
