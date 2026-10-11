@@ -44,8 +44,28 @@
     <meta name="msapplication-TileColor" content="#ffffff" />
     <meta name="msapplication-TileImage" content="/travel-calendar/ms-icon-144x144.png" />
     <meta name="theme-color" content="#fcff4e" />
-    <script type="module" crossorigin src="/travel-calendar/assets/index-u7RdeZIe.js"></script>
-    <link rel="stylesheet" crossorigin href="/travel-calendar/assets/index-BXHoI_5z.css">
+    <style>
+      body {
+        position: relative;
+        font-family: 'Poppins', sans-serif;
+        min-height: 100dvh;
+        background-color: #2a2a26;
+        color: #979797;
+        &::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          /* Thanks to: https://blog.spoongraphics.co.uk/freebies/8-free-seamless-vector-topographic-map-patterns */
+          background-image: url('/travel-calendar/images/topographic-map-pattern.png');
+          background-size: 400px;
+          opacity: 0.025;
+          z-index: -1;
+          filter: invert(1);
+        }
+      }
+    </style>
+    <script type="module" crossorigin src="/travel-calendar/assets/index-BrstaLjZ.js"></script>
+    <link rel="stylesheet" crossorigin href="/travel-calendar/assets/index-BvOrOV-y.css">
   </head>
   <body>
     <div id="root"></div>
