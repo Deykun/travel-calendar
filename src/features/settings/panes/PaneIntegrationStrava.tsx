@@ -13,7 +13,9 @@ import { cn } from '@/utils/tailwind';
 import { getDataFromNomads } from '../actions/get-data-from-nomads';
 import useDataStore from '../stores/useDateStore';
 
-export function PaneIntegration() {
+const STRAVA_EXPORT_URL = 'https://www.strava.com/athlete/delete_your_account';
+
+export function PaneIntegrationStatsHunters() {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const integrationCode = useDataStore((store) => store.integration.integrationCode);
@@ -22,10 +24,10 @@ export function PaneIntegration() {
 
   const { t } = useTranslation();
 
-  const handleUsernameUpdate = (newValue: string) => {
-    setUsername(newValue);
-    setErrorMessage('');
-  };
+  //   const handleUsernameUpdate = (newValue: string) => {
+  //     setUsername(newValue);
+  //     setErrorMessage('');
+  //   };
 
   const handleSubmitNomads: React.SubmitEventHandler<HTMLFormElement> = async (event) => {
     event.preventDefault();
@@ -55,8 +57,24 @@ export function PaneIntegration() {
     <Pane>
       <Pane.Title>{t('integration.title')}</Pane.Title>
       <form onSubmit={handleSubmitNomads} className={cn('flex flex-col gap-3')}>
-        <Pane.Subtitle>{t('integration.withNomads')}</Pane.Subtitle>
-        <Input value={username} setValue={handleUsernameUpdate} isDisabled={isLoading} />
+        <Pane.Subtitle>{t('integration.withStrava')}</Pane.Subtitle>
+        <p className="text-[#979797] text-xs">{t('integration.strava.intro')}</p>
+        <ol className="list-decimal pl-4 flex flex-col gap-1 text-[#979797] text-xs [&_a]:text-white [&_a]:underline">
+          <li
+            dangerouslySetInnerHTML={{
+              __html: t('integration.strava.step1', {
+                link: `<a href="${STRAVA_EXPORT_URL}" target="_blank" rel="noreferrer">${t('integration.strava.step1Link')}</a>`,
+              }),
+            }}
+          />
+          <li>{t('integration.strava.step2')}</li>
+          <li>{t('integration.strava.step3')}</li>
+          <li>{t('integration.strava.step4')}</li>
+        </ol>
+        <p
+          className="text-[#979797] text-xs [&_strong]:text-white [&_strong]:font-normal"
+          dangerouslySetInnerHTML={{ __html: `🔒 ${t('integration.strava.privacy')}` }}
+        />
         <Button className="ml-auto" type="submit" isDisabled={!username} isLoading={isLoading}>
           <IconBolt />
           <span>{t('integration.getData')}</span>

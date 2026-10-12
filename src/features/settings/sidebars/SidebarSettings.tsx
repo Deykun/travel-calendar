@@ -3,7 +3,8 @@ import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/button/Button';
 import IconGithub from '@/components/icons/IconGithub';
 
-import { PaneIntegration } from '../panes/PaneIntegration';
+import { PaneIntegrationNomads } from '../panes/PaneIntegrationNomads';
+import { PaneIntegrationStatsHunters } from '../panes/PaneIntegrationStrava';
 import { PaneLanguage } from '../panes/PaneLanguage';
 import useDataStore from '../stores/useDateStore';
 
@@ -13,7 +14,8 @@ export function SidebarSettings() {
 
   return (
     <div className="flex flex-col gap-6">
-      <PaneIntegration />
+      <PaneIntegrationNomads />
+      <PaneIntegrationStatsHunters />
       <PaneLanguage />
       <div className="flex justify-between items-center">
         <Button tagName="a" href="https://github.com/Deykun/travel-calendar" target="_blank">
