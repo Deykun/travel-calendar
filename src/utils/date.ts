@@ -1,3 +1,5 @@
+import { parseISO } from 'date-fns';
+
 import type { MonthNumber } from '@/features/calendar/types';
 import type { DateLike, DateMMDD, DateYYYYMMDD } from '@/types';
 
@@ -81,4 +83,20 @@ export function getArrayOfYears(from?: DateYYYYMMDD, to?: DateYYYYMMDD) {
 
 export const getDaysInYear = (year: number) => {
   return new Date(year, 1, 29).getMonth() == 1 ? 366 : 365;
+};
+
+// 2026-03-28T10:00:00Z | Date | timestamp -> 2026-03-28 in local time, undefined when unparsable
+export const getAppDateIfPossible = (date: DateLike | undefined): DateYYYYMMDD | undefined => {
+  if (!date) {
+    return undefined;
+  }
+
+  // parseISO treats date-only strings as local midnight, new Date() would shift them to UTC
+  const parsed = typeof date === 'string' ? parseISO(date) : new Date(date);
+
+  if (Number.isNaN(parsed.getTime())) {
+    return undefined;
+  }
+
+  return objectDateToString({ year: parsed.getFullYear(), month: parsed.getMonth() + 1, day: parsed.getDate() });
 };

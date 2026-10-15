@@ -53,7 +53,7 @@ export function PaneIntegrationNomads() {
 
   return (
     <Pane>
-      <Pane.Title>{t('integration.title')}</Pane.Title>
+      <Pane.Title>{t('integration.fromNomads')}</Pane.Title>
       <form onSubmit={handleSubmitNomads} className={cn('flex flex-col gap-3')}>
         <Pane.Subtitle>{t('integration.withNomads')}</Pane.Subtitle>
         <Input value={username} setValue={handleUsernameUpdate} isDisabled={isLoading} />

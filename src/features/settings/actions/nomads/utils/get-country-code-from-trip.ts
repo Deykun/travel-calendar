@@ -1,6 +1,6 @@
 import i18nEn from '@/locales/en.json';
 
-import type { IntegrationNomadsTrip } from '../get-data-from-trips';
+import type { IntegrationNomadsTrip } from '../get-data-from-nomads-trips';
 
 const countryByLocation: { [location: string]: string | undefined } = {
   'Sri Lanka': 'lk',

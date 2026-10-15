@@ -30,7 +30,7 @@ type Response = Pick<
   totalDaysByCountry: TotalDaysByCountry;
 };
 
-export const getDataFromTrips = (trips: IntegrationNomadsTrip[]): Response => {
+export const getDataFromNomadsTrips = (trips: IntegrationNomadsTrip[]): Response => {
   const unlockedCountries = new Set<string>();
 
   return trips

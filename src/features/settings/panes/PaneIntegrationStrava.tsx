@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -11,6 +12,7 @@ import { openSidebarFilters } from '@/features/sidebar/stores/useSidebarStore';
 import { cn } from '@/utils/tailwind';
 
 import { getDataFromNomads } from '../actions/get-data-from-nomads';
+import { getDataFromStravaActivities } from '../actions/strava/get-data-from-strava-activities';
 import useDataStore from '../stores/useDateStore';
 
 const STRAVA_EXPORT_URL = 'https://www.strava.com/athlete/delete_your_account';
@@ -55,7 +57,7 @@ export function PaneIntegrationStatsHunters() {
 
   return (
     <Pane>
-      <Pane.Title>{t('integration.title')}</Pane.Title>
+      <Pane.Title>{t('integration.fromStrava')}</Pane.Title>
       <form onSubmit={handleSubmitNomads} className={cn('flex flex-col gap-3')}>
         <Pane.Subtitle>{t('integration.withStrava')}</Pane.Subtitle>
         <p className="text-[#979797] text-xs">{t('integration.strava.intro')}</p>
@@ -80,6 +82,21 @@ export function PaneIntegrationStatsHunters() {
           <span>{t('integration.getData')}</span>
         </Button>
       </form>
+      <input
+        className={clsx(
+          'w-full',
+          'py-1.5 px-3',
+          'text-sm',
+          'bg-[#282824] rounded-sm',
+          'caret-[#d8da51] text-white',
+          'outline-none',
+        )}
+        onChange={(event) =>
+          event.target.files ? getDataFromStravaActivities(Array.from(event.target.files)) : undefined
+        }
+        type="file"
+        multiple
+      />
       {lastUpdate && (
         <p className="text-[#979797] text-xs mt-2">
           {t('integration.lastUpdatePrefix')}{' '}
