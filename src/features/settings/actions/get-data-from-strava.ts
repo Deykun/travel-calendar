@@ -2,43 +2,37 @@ import { setDateFilter, setHomeCountriesCodes } from '@/features/filters/stores/
 import type { DateYYYYMMDD } from '@/types';
 
 import { APP_VERSION, setIntegration } from '../stores/useDateStore';
+import { getDataFromStravaActivities } from './strava/get-data-from-strava-activities';
+import { parseStravaFiles } from './strava/parse-strava-files';
 import type { IntegrationStravaActivity } from './strava/types';
 
 type Params = {
-  username: string;
-};
-
-type IntegrationStravaResponse = {
-  trips: IntegrationStravaActivity[];
+  files: File[];
 };
 
 type FetchResponse = { isSuccess: true } | { isSuccess: false; reason: string };
 
-export const getDataFromStrava = async ({ username }: Params): Promise<FetchResponse> => {
-  if (!username) {
+export const getDataFromStrava = async ({ files }: Params): Promise<FetchResponse> => {
+  if (!files.length) {
     return { isSuccess: false, reason: 'integration.errors.unableToFetch' };
   }
 
-  let StravaData: IntegrationStravaResponse | undefined;
+  let activities: IntegrationStravaActivity[] | undefined;
 
   try {
-    const response = await fetch(`https://Strava.com/@${username}.json`);
-
-    if (!response.ok) {
-      return { isSuccess: false, reason: 'integration.errors.unableToFetch' };
-    }
-
-    StravaData = (await response.json()) as IntegrationStravaResponse;
+    activities = await parseStravaFiles(files);
   } catch (error) {
     console.error('Failed to fetch data:', error);
   }
 
-  if (!StravaData) {
+  console.log('activities', activities);
+
+  if (!activities) {
     return { isSuccess: false, reason: 'integration.errors.unableToFetch' };
   }
 
   const { dataByDay, placesByKey, tripsByKey, totalDaysByCountry, daysByCountry, daysByCountryByMonthByYear } =
-    getDataFromNomadsTrips(StravaData.trips);
+    getDataFromStravaActivities(activities);
 
   const sortedDates = Object.keys(dataByDay) as DateYYYYMMDD[];
 
@@ -46,8 +40,8 @@ export const getDataFromStrava = async ({ username }: Params): Promise<FetchResp
     version: APP_VERSION,
     status: 'ready',
     integration: {
-      type: 'Strava.com',
-      integrationCode: username,
+      type: 'gpx',
+      integrationCode: '',
       lastUpdate: Date.now(),
     },
     date: {

@@ -5,7 +5,7 @@ import type { DateLike, DateMMDD, DateYYYYMMDD, MetadataDay, MetadataPlace, Meta
 
 type DataStatus = 'missing' | 'ready';
 
-type IntegrationType = 'nomads.com';
+type IntegrationType = 'nomads.com' | 'gpx';
 
 export type DataStoreState = {
   version: string;

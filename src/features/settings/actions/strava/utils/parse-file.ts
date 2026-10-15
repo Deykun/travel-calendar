@@ -20,7 +20,7 @@ export const createPoint = ({
   return { latitude: Number(latitude), longitude: Number(longitude), time: time, altitude: Number(altitude) };
 };
 
-const processFileContent = (fileContent): IntegrationStravaActivity | undefined => {
+const processFileContent = (id: string, fileContent): IntegrationStravaActivity | undefined => {
   const xmlParser = new DOMParser();
   const xmlFileContent = xmlParser.parseFromString(fileContent, 'text/xml');
 
@@ -59,39 +59,23 @@ const processFileContent = (fileContent): IntegrationStravaActivity | undefined 
           }
         }
 
-        // console.log({ time });
-        //   let altitude = rawPoint.querySelector('ele') !== null ? rawPoint.querySelector('ele').textContent : 0;
-
-        console.log(latitude, longitude);
         if (latitude && longitude) {
           activityLatitude = Number(latitude);
           activityLongitude = Number(longitude);
 
-          const countryCode = lookup(latitude, longitude, true);
+          const countryCodes = (lookup(latitude, longitude, true) || []) as string[];
 
-          // console.log(y);
-
-          if (countryCode) {
-            visitedCountries.push(countryCode.toLowerCase());
+          if (countryCodes.length > 0) {
+            visitedCountries.push(...countryCodes.map((countryCodes) => countryCodes.toLowerCase()));
           }
         }
       }
-
-      //   if (latitude !== null && longitude !== null) {
-      //     let newPoint = createPoint(latitude, longitude, time, altitude);
-      //     points.push(newPoint);
-      //   }
     });
-
-    // if (points.length > 0) {
-    //   fragments.push(points);
-    //   points = [];
-    // }
   });
 
   if (date_start && date_end) {
     return {
-      id: 'ss',
+      id,
       date_start,
       date_end,
       place: visitedCountries.at(-1) ?? '',
@@ -101,30 +85,27 @@ const processFileContent = (fileContent): IntegrationStravaActivity | undefined 
     };
   }
 
-  // return trackData;
   return;
 };
 
-export const readFile = (file: File) => {
-  return new Promise<void>((resolve, reject) => {
+export const readFile = (file: File): Promise<IntegrationStravaActivity | undefined> => {
+  return new Promise<IntegrationStravaActivity | undefined>((resolve) => {
     const reader = new FileReader();
     reader.onabort = () => {
       console.warn('File on abort.');
-      return resolve();
+      return resolve(undefined);
     };
     reader.onerror = () => {
       console.warn('File on error.');
-      return resolve();
+      return resolve(undefined);
     };
 
     reader.readAsBinaryString(file);
 
     reader.onloadend = () => {
       const fileContent = reader.result;
-      const activity = processFileContent(fileContent);
-      console.log(activity);
-      //   track.status = 'success';
-      return resolve();
+      const activity = processFileContent(file.name, fileContent);
+      resolve(activity);
     };
   });
 };

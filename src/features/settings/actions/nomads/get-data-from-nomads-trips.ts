@@ -30,45 +30,45 @@ type Response = Pick<
   totalDaysByCountry: TotalDaysByCountry;
 };
 
-export const getDataFromNomadsTrips = (trips: IntegrationNomadsTrip[]): Response => {
+export const getDataFromNomadsTrips = (items: IntegrationNomadsTrip[]): Response => {
   const unlockedCountries = new Set<string>();
 
-  return trips
+  return items
     .sort((a, b) => (isBefore(a.date_start, b.date_start) ? -1 : 1))
     .reduce(
-      (stack: Response, trip) => {
-        const dates = getDateRange(trip.date_start, trip.date_end);
-        const countryCode = getCountryCodeFromTrip(trip) || '??';
+      (stack: Response, item) => {
+        const dates = getDateRange(item.date_start, item.date_end);
+        const countryCode = getCountryCodeFromTrip(item) || '??';
         // nomads quirky location
         if (countryCode === 'void') {
           return stack;
         }
 
         const placeKey = getPlaceKey({
-          place: trip.place,
-          country: trip.country_code,
+          place: item.place,
+          country: item.country_code,
         });
 
         if (!stack.placesByKey[placeKey]) {
           stack.placesByKey[placeKey] = {
             key: placeKey,
-            name: trip.place,
+            name: item.place,
             country: countryCode,
-            latitude: trip.latitude,
-            longitude: trip.longitude,
+            latitude: item.latitude,
+            longitude: item.longitude,
             tripsKeys: [],
           };
         }
 
-        stack.placesByKey[placeKey].tripsKeys = [...stack.placesByKey[placeKey].tripsKeys, trip.trip_id];
+        stack.placesByKey[placeKey].tripsKeys = [...stack.placesByKey[placeKey].tripsKeys, item.trip_id];
 
-        if (!stack.tripsByKey[trip.trip_id]) {
-          stack.tripsByKey[trip.trip_id] = {
-            key: trip.trip_id,
+        if (!stack.tripsByKey[item.trip_id]) {
+          stack.tripsByKey[item.trip_id] = {
+            key: item.trip_id,
             placeKey: placeKey,
             countryCode: countryCode,
-            from: trip.date_start,
-            to: trip.date_end,
+            from: item.date_start,
+            to: item.date_end,
             days: dates.length,
           };
         }
@@ -107,7 +107,7 @@ export const getDataFromNomadsTrips = (trips: IntegrationNomadsTrip[]): Response
             [dayWithoutYear],
           );
 
-          stack.dataByDay[date].tripsKeys = mergeUnique(stack.dataByDay[date].tripsKeys, [trip.trip_id]);
+          stack.dataByDay[date].tripsKeys = mergeUnique(stack.dataByDay[date].tripsKeys, [item.trip_id]);
 
           if (!stack.dataByDay[date].countriesCodes.includes(countryCode)) {
             stack.dataByDay[date].countriesCodes.push(countryCode);
