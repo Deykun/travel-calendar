@@ -79,6 +79,8 @@ export const SidebarCountry = ({ className, countryCode }: Props) => {
     return null;
   }
 
+  const hasVisitsButNoKnownPlaces = activeDays.length > 0 && totalVisitedPlaces === 0;
+
   return (
     <>
       <div className={cn('text-center relative', sidebarStyles, className)} data-sidebar="country">
@@ -97,8 +99,8 @@ export const SidebarCountry = ({ className, countryCode }: Props) => {
           </div>
           <div className="inline-flex flex-col gap-2 items-center">
             <IconTravel
-              total={totalVisitedPlaces}
-              visualTotal={totalVisitedPlaces === 0 && activeDays.length > 0 ? '?' : totalVisitedPlaces}
+              total={hasVisitsButNoKnownPlaces ? 1 : totalVisitedPlaces}
+              visualTotal={hasVisitsButNoKnownPlaces ? '?' : totalVisitedPlaces}
               shouldShowAllNumbers
             />
             <span className="text-[#979797] text-sm tracking-wider">

@@ -52,7 +52,7 @@ export const getDataFromStrava = async ({ files }: Params): Promise<FetchRespons
   let activities: IntegrationStravaActivity[] = [];
 
   try {
-    activities = await parseStravaFiles(files, 'firstCountry');
+    activities = await parseStravaFiles(files, 'preflight');
   } catch (error) {
     console.error('Failed to fetch data:', error);
   }
@@ -64,13 +64,6 @@ export const getDataFromStrava = async ({ files }: Params): Promise<FetchRespons
   const activitiesToUse = flattenActivities(activities);
 
   setStoreWithActivities(activitiesToUse);
-
-  // activities = await parseStravaFiles(files, 'allCountries');
-
-  // const hasActivityWithMultipleCountries = activities.some((activity) => activity.country_codes.length > 1);
-  // if (hasActivityWithMultipleCountries) {
-  //   setStoreWithActivities(activities);
-  // }
 
   return { isSuccess: true };
 };

@@ -13,7 +13,7 @@ type Props = {
 };
 
 const getGoogleMapsUrl = ({ latitude, longitude }: { latitude: number; longitude: number }) =>
-  `https://www.google.com/maps/@${latitude},${longitude},14z`;
+  `https://www.google.com/maps/@${latitude.toFixed(4)},${longitude.toFixed(4)},14z`;
 
 export const DayTripDetails = ({ tripKey, showOnlyForCountryCode }: Props) => {
   const trip = useDataStore((store) => store.tripsByKey[tripKey]);

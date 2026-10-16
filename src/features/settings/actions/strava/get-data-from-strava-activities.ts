@@ -33,9 +33,23 @@ type Response = Pick<
 export const getDataFromStravaActivities = (items: IntegrationStravaActivity[]): Response => {
   const unlockedCountries = new Set<string>();
 
-  console.log(items);
+  // Activity can be in multiple countries, that separates them
+  const itemsToUse = items
+    .sort((a, b) => (isBefore(a.date_start, b.date_start) ? -1 : 1))
+    .reduce((stack: IntegrationStravaActivity[], item) => {
+      (item.country_codes || []).forEach((countryCode) => {
+        if (countryCode) {
+          stack.push({
+            ...item,
+            country_codes: [countryCode],
+          });
+        }
+      });
 
-  return items
+      return stack;
+    }, []);
+
+  return itemsToUse
     .sort((a, b) => (isBefore(a.date_start, b.date_start) ? -1 : 1))
     .reduce(
       (stack: Response, item) => {

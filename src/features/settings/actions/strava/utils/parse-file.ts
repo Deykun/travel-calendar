@@ -1,13 +1,15 @@
 // https://github.com/Deykun/react-scieski/blob/master/src/utils/tracks.js
 import type { DateYYYYMMDD } from '@/types';
+import { filterEmpty, getSpreadIndexes } from '@/utils/array';
 import { getAppDateIfPossible } from '@/utils/date';
 import { createLocationFinder } from '@/utils/location';
 
 import type { IntegrationStravaActivity } from '../types';
+import { STRAVA_PREFLIGHT_POINTS_TO_CHECK } from './constants';
 
 const locationFinder = createLocationFinder();
 
-export type ParseFileMode = 'firstCountry' | 'allCountries';
+export type ParseFileMode = 'preflight' | 'allPoints';
 
 export const createPoint = ({
   latitude,
@@ -31,49 +33,36 @@ const processFileContent = (id: string, fileContent, mode: ParseFileMode): Integ
   let date_end: DateYYYYMMDD | undefined;
   let activityLatitude: number | undefined;
   let activityLongitude: number | undefined;
-  const visitedCountries: string[] = [];
+  const visitedCountries = new Set<string>();
 
-  const rawFragmentsGPS = [...xmlFileContent.querySelectorAll('trkseg')]; // [...] to change NodeList to Array
+  const rawPointsGPX = [...xmlFileContent.querySelectorAll('trkpt')];
 
-  rawFragmentsGPS.forEach((rawFragment) => {
-    const rawPointsGPX = [...rawFragment.querySelectorAll('trkpt')]; // [...] to change NodeList to Array
+  const pointsToCheck =
+    mode === 'preflight'
+      ? getSpreadIndexes(rawPointsGPX.length, STRAVA_PREFLIGHT_POINTS_TO_CHECK)
+          .map((index) => rawPointsGPX[index])
+          .filter(filterEmpty)
+      : rawPointsGPX;
 
-    rawPointsGPX.forEach((rawPoint, index) => {
-      // export const getAppDateIfPossible = (date: DateLike): DateYYYYMMDD | undefined => {
+  pointsToCheck.forEach((rawPoint) => {
+    const date = getAppDateIfPossible(rawPoint.querySelector('time')?.textContent);
+    if (date) {
+      date_start = date_start ?? date;
+      date_end = date; // last checked point wins
+    }
 
-      if (visitedCountries.length === 0 || mode === 'allCountries') {
-        const latitude = rawPoint.getAttribute('lat') !== null ? rawPoint.getAttribute('lat') : null;
-        const longitude = rawPoint.getAttribute('lon') !== null ? rawPoint.getAttribute('lon') : null;
+    const latitude = rawPoint.getAttribute('lat');
+    const longitude = rawPoint.getAttribute('lon');
 
-        if (!date_start) {
-          const time = rawPoint.querySelector('time')?.textContent;
-          const date = getAppDateIfPossible(time);
-          if (date) {
-            date_start = date;
-            date_end = date;
-          }
-        } else {
-          if (index === rawPointsGPX.length - 1) {
-            const time = rawPoint.querySelector('time')?.textContent;
-            const date = getAppDateIfPossible(time);
-            if (date) {
-              date_end = date;
-            }
-          }
-        }
+    if (latitude && longitude) {
+      // first point with coords is the activity location
+      activityLatitude = activityLatitude ?? Number(latitude);
+      activityLongitude = activityLongitude ?? Number(longitude);
 
-        if (latitude && longitude) {
-          activityLatitude = Number(latitude);
-          activityLongitude = Number(longitude);
-
-          const countryCodes = locationFinder.getCountries(activityLatitude, activityLongitude);
-
-          if (countryCodes.length > 0) {
-            visitedCountries.push(...countryCodes.map((countryCodes) => countryCodes.toLowerCase()));
-          }
-        }
-      }
-    });
+      locationFinder.getCountries(Number(latitude), Number(longitude)).forEach((countryCode) => {
+        visitedCountries.add(countryCode.toLowerCase());
+      });
+    }
   });
 
   if (date_start && date_end) {
@@ -82,7 +71,7 @@ const processFileContent = (id: string, fileContent, mode: ParseFileMode): Integ
       date_start,
       date_end,
       place: '',
-      country_codes: visitedCountries,
+      country_codes: [...visitedCountries],
       latitude: activityLatitude,
       longitude: activityLongitude,
     };
