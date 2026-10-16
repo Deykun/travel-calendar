@@ -25,7 +25,7 @@ type TotalDaysByCountry = {
 
 type Response = Pick<
   DataStoreState,
-  'placesByKey' | 'dataByDay' | 'tripsByKey' | 'daysByCountry' | 'daysByCountryByMonthByYear'
+  'placesByKey' | 'dataByDay' | 'tripsByKey' | 'daysByCountry' | 'daysByCountryByMonthByYear' | 'unlockingDateByCountry'
 > & {
   totalDaysByCountry: TotalDaysByCountry;
 };
@@ -134,6 +134,7 @@ export const getDataFromStravaActivities = (items: IntegrationStravaActivity[]):
           if (!unlockedCountries.has(countryCode)) {
             unlockedCountries.add(countryCode);
             stack.dataByDay[date].countriesUnlockedThisDay.push(countryCode);
+            stack.unlockingDateByCountry[countryCode] = date;
           }
 
           if (!stack.dataByDay[date].placeKeys.includes(placeKey)) {
@@ -150,6 +151,7 @@ export const getDataFromStravaActivities = (items: IntegrationStravaActivity[]):
         totalDaysByCountry: {},
         daysByCountry: {},
         daysByCountryByMonthByYear: {},
+        unlockingDateByCountry: {},
       },
     );
 };

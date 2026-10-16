@@ -3,11 +3,11 @@ import { useTranslation } from 'react-i18next';
 
 import { Datetime } from '@/components/datetime/datetime';
 import IconWarning from '@/components/icons/IconWarning';
+import { Progressbar } from '@/components/progressbar/Progressbar';
 import { Pane } from '@/features/sidebar/components/pane/Pane';
 import { cn } from '@/utils/tailwind';
 
 import { getDataFromStrava } from '../actions/get-data-from-strava';
-import { parseStravaFiles } from '../actions/strava/parse-strava-files';
 import useStravaIntegrationsStore from '../actions/strava/stores/useStravaIntegrationStore';
 import useDataStore from '../stores/useDateStore';
 
@@ -58,7 +58,12 @@ export function PaneIntegrationStatsHunters() {
         type="file"
         multiple
       />
-      {integrationStatus.processed} + {integrationStatus.rejected} / {integrationStatus.total}
+      <Progressbar
+        key={integrationStatus.startedAt}
+        value={integrationStatus.processed + integrationStatus.rejected}
+        total={integrationStatus.total}
+        startedAt={integrationStatus.startedAt}
+      />
       {lastUpdate && (
         <p className="text-[#979797] text-xs mt-2">
           {t('integration.lastUpdatePrefix')}{' '}

@@ -7,6 +7,7 @@ export type StravaIntegrationsStoreState = {
     processed: number;
     rejected: number;
     total: number;
+    startedAt: number;
   };
 };
 
@@ -16,6 +17,7 @@ const emptyStore: StravaIntegrationsStoreState = {
     processed: 0,
     rejected: 0,
     total: 0,
+    startedAt: 0,
   },
 };
 
@@ -43,6 +45,7 @@ export const stravaStartLoading = (params: { total: number }) => {
       ...emptyStore.status,
       state: 'loading',
       total: params.total,
+      startedAt: Date.now(),
     },
   }));
 };

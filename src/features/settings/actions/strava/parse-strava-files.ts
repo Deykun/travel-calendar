@@ -19,7 +19,7 @@ export const parseStravaFiles = async (files: File[], mode: ParseFileMode): Prom
 
   const activities: IntegrationStravaActivity[] = [];
 
-  const limit = pLimit(mode === 'preflight' ? 100 : 10);
+  const limit = pLimit(mode === 'preflight' ? 200 : 10);
 
   const promises = filesToParse.map((file) => {
     return limit(

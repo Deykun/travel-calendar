@@ -1,4 +1,5 @@
 import { setDateFilter, setHomeCountriesCodes } from '@/features/filters/stores/useFilterStore';
+import { openSidebarFilters } from '@/features/sidebar/stores/useSidebarStore';
 import type { DateYYYYMMDD } from '@/types';
 
 import { APP_VERSION, setIntegration } from '../stores/useDateStore';
@@ -37,8 +38,15 @@ export const getDataFromNomads = async ({ username }: Params): Promise<FetchResp
     return { isSuccess: false, reason: 'integration.errors.unableToFetch' };
   }
 
-  const { dataByDay, placesByKey, tripsByKey, totalDaysByCountry, daysByCountry, daysByCountryByMonthByYear } =
-    getDataFromNomadsTrips(nomadsData.trips);
+  const {
+    dataByDay,
+    placesByKey,
+    tripsByKey,
+    totalDaysByCountry,
+    daysByCountry,
+    daysByCountryByMonthByYear,
+    unlockingDateByCountry,
+  } = getDataFromNomadsTrips(nomadsData.trips);
 
   const sortedDates = Object.keys(dataByDay) as DateYYYYMMDD[];
 
@@ -58,6 +66,7 @@ export const getDataFromNomads = async ({ username }: Params): Promise<FetchResp
     daysByCountry,
     dataByDay,
     daysByCountryByMonthByYear,
+    unlockingDateByCountry,
     placesByKey,
     tripsByKey,
   });
@@ -68,6 +77,7 @@ export const getDataFromNomads = async ({ username }: Params): Promise<FetchResp
 
   setHomeCountriesCodes(homeCountries);
   setDateFilter(undefined, undefined);
+  openSidebarFilters();
 
   return { isSuccess: true };
 };

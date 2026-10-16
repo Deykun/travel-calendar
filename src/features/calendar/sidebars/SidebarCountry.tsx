@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import IconTravel from '@/components/icons/IconTravel';
 import { ImageFlag } from '@/components/image-flag/ImageFlag';
 import { TextCounter } from '@/components/text-counter/TextCounter';
+import { TextDateRange } from '@/components/text-date/TextDateRange';
 import { PlaceName } from '@/features/calendar/components/calendar/PlaceName';
 import useFiltersStore from '@/features/filters/stores/useFilterStore';
 import useDataStore from '@/features/settings/stores/useDateStore';
@@ -31,6 +32,7 @@ type PlaceSummary = {
 const sidebarStyles = cn('rounded-lg', 'p-4', 'bg-black border border-[#2b2b27]');
 
 export const SidebarCountry = ({ className, countryCode }: Props) => {
+  const unlockingDate = useDataStore((store) => store.unlockingDateByCountry[countryCode]);
   const tripsByKey = useDataStore((store) => store.tripsByKey);
   const placesByKey = useDataStore((store) => store.placesByKey);
   const maxDaysStreaks = useFiltersStore((store) => store.filtered.streaks.maxDays);
@@ -115,7 +117,14 @@ export const SidebarCountry = ({ className, countryCode }: Props) => {
           </div>
         </div>
       </div>
-      <div className={cn('grid grid-cols-4 gap-2 mt-6', 'text-center')}>
+
+      {unlockingDate && (
+        <p className={cn('text-center mt-6 text-[10px]')}>
+          {t('summary.firstTimeInCountry')}{' '}
+          <TextDateRange className={cn('text-white text-[10px]')} from={unlockingDate} to={undefined} />
+        </p>
+      )}
+      <div className={cn('grid grid-cols-4 gap-2 mt-4', 'text-center')}>
         {DAYS_GROUPED_BY_MONTHS_BY_DAYS_IN_YEAR[daysInYear].map((month) => (
           <div key={month.monthNumber} className={cn('p-1.5 rounded-sm')}>
             <strong className="block mb-2 text-white text-[8px] tracking-widest font-normal">{t(month.name)}</strong>

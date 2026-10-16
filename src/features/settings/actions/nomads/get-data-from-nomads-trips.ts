@@ -25,7 +25,7 @@ type TotalDaysByCountry = {
 
 type Response = Pick<
   DataStoreState,
-  'placesByKey' | 'dataByDay' | 'tripsByKey' | 'daysByCountry' | 'daysByCountryByMonthByYear'
+  'placesByKey' | 'dataByDay' | 'tripsByKey' | 'daysByCountry' | 'daysByCountryByMonthByYear' | 'unlockingDateByCountry'
 > & {
   totalDaysByCountry: TotalDaysByCountry;
 };
@@ -118,6 +118,7 @@ export const getDataFromNomadsTrips = (items: IntegrationNomadsTrip[]): Response
           if (!unlockedCountries.has(countryCode)) {
             unlockedCountries.add(countryCode);
             stack.dataByDay[date].countriesUnlockedThisDay.push(countryCode);
+            stack.unlockingDateByCountry[countryCode] = date;
           }
 
           if (!stack.dataByDay[date].placeKeys.includes(placeKey)) {
@@ -134,6 +135,7 @@ export const getDataFromNomadsTrips = (items: IntegrationNomadsTrip[]): Response
         totalDaysByCountry: {},
         daysByCountry: {},
         daysByCountryByMonthByYear: {},
+        unlockingDateByCountry: {},
       },
     );
 };

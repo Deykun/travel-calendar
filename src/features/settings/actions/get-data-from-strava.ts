@@ -15,8 +15,15 @@ type Params = {
 type FetchResponse = { isSuccess: true } | { isSuccess: false; reason: string };
 
 const setStoreWithActivities = (activities: IntegrationStravaActivity[]) => {
-  const { dataByDay, placesByKey, tripsByKey, totalDaysByCountry, daysByCountry, daysByCountryByMonthByYear } =
-    getDataFromStravaActivities(activities);
+  const {
+    dataByDay,
+    placesByKey,
+    tripsByKey,
+    totalDaysByCountry,
+    daysByCountry,
+    daysByCountryByMonthByYear,
+    unlockingDateByCountry,
+  } = getDataFromStravaActivities(activities);
 
   const sortedDates = Object.keys(dataByDay) as DateYYYYMMDD[];
 
@@ -36,6 +43,7 @@ const setStoreWithActivities = (activities: IntegrationStravaActivity[]) => {
     daysByCountry,
     dataByDay,
     daysByCountryByMonthByYear,
+    unlockingDateByCountry,
     placesByKey,
     tripsByKey,
   });

@@ -34,6 +34,9 @@ export type DataStoreState = {
           };
     };
   };
+  unlockingDateByCountry: {
+    [countryCode: string]: DateYYYYMMDD | undefined;
+  };
   placesByKey: {
     [placeKey: string]: MetadataPlace | undefined;
   };
@@ -45,7 +48,7 @@ export type DataStoreState = {
   };
 };
 
-export const APP_VERSION = '1.4';
+export const APP_VERSION = '1.4.1';
 
 const emptyStore: DataStoreState = {
   version: APP_VERSION,
@@ -62,6 +65,7 @@ const emptyStore: DataStoreState = {
   totalDaysByCountry: {},
   daysByCountry: {},
   daysByCountryByMonthByYear: {},
+  unlockingDateByCountry: {},
   placesByKey: {},
   dataByDay: {},
   tripsByKey: {},
