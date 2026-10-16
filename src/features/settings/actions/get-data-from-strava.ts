@@ -5,6 +5,8 @@ import { APP_VERSION, setIntegration } from '../stores/useDateStore';
 import { getDataFromStravaActivities } from './strava/get-data-from-strava-activities';
 import { parseStravaFiles } from './strava/parse-strava-files';
 import type { IntegrationStravaActivity } from './strava/types';
+import { flattenActivities } from './strava/utils/flatten-activities';
+import { getHomeCountriesForStrava } from './strava/utils/get-home-countries-for-strava';
 
 type Params = {
   files: File[];
@@ -12,25 +14,7 @@ type Params = {
 
 type FetchResponse = { isSuccess: true } | { isSuccess: false; reason: string };
 
-export const getDataFromStrava = async ({ files }: Params): Promise<FetchResponse> => {
-  if (!files.length) {
-    return { isSuccess: false, reason: 'integration.errors.unableToFetch' };
-  }
-
-  let activities: IntegrationStravaActivity[] | undefined;
-
-  try {
-    activities = await parseStravaFiles(files);
-  } catch (error) {
-    console.error('Failed to fetch data:', error);
-  }
-
-  console.log('activities', activities);
-
-  if (!activities) {
-    return { isSuccess: false, reason: 'integration.errors.unableToFetch' };
-  }
-
+const setStoreWithActivities = (activities: IntegrationStravaActivity[]) => {
   const { dataByDay, placesByKey, tripsByKey, totalDaysByCountry, daysByCountry, daysByCountryByMonthByYear } =
     getDataFromStravaActivities(activities);
 
@@ -56,12 +40,37 @@ export const getDataFromStrava = async ({ files }: Params): Promise<FetchRespons
     tripsByKey,
   });
 
-  const homeCountries = Object.entries(daysByCountry)
-    .filter(([, activeDays]) => (activeDays || []).length >= 365)
-    .map(([countryCode]) => countryCode);
-
-  setHomeCountriesCodes(homeCountries);
+  setHomeCountriesCodes(getHomeCountriesForStrava(daysByCountry));
   setDateFilter(undefined, undefined);
+};
+
+export const getDataFromStrava = async ({ files }: Params): Promise<FetchResponse> => {
+  if (!files.length) {
+    return { isSuccess: false, reason: 'integration.errors.unableToFetch' };
+  }
+
+  let activities: IntegrationStravaActivity[] = [];
+
+  try {
+    activities = await parseStravaFiles(files, 'firstCountry');
+  } catch (error) {
+    console.error('Failed to fetch data:', error);
+  }
+
+  if (activities.length === 0) {
+    return { isSuccess: false, reason: 'integration.errors.unableToFetch' };
+  }
+
+  const activitiesToUse = flattenActivities(activities);
+
+  setStoreWithActivities(activitiesToUse);
+
+  // activities = await parseStravaFiles(files, 'allCountries');
+
+  // const hasActivityWithMultipleCountries = activities.some((activity) => activity.country_codes.length > 1);
+  // if (hasActivityWithMultipleCountries) {
+  //   setStoreWithActivities(activities);
+  // }
 
   return { isSuccess: true };
 };

@@ -1,10 +1,13 @@
 // https://github.com/Deykun/react-scieski/blob/master/src/utils/tracks.js
-import lookup from 'coordinate_to_country';
-
 import type { DateYYYYMMDD } from '@/types';
 import { getAppDateIfPossible } from '@/utils/date';
+import { createLocationFinder } from '@/utils/location';
 
 import type { IntegrationStravaActivity } from '../types';
+
+const locationFinder = createLocationFinder();
+
+export type ParseFileMode = 'firstCountry' | 'allCountries';
 
 export const createPoint = ({
   latitude,
@@ -20,7 +23,7 @@ export const createPoint = ({
   return { latitude: Number(latitude), longitude: Number(longitude), time: time, altitude: Number(altitude) };
 };
 
-const processFileContent = (id: string, fileContent): IntegrationStravaActivity | undefined => {
+const processFileContent = (id: string, fileContent, mode: ParseFileMode): IntegrationStravaActivity | undefined => {
   const xmlParser = new DOMParser();
   const xmlFileContent = xmlParser.parseFromString(fileContent, 'text/xml');
 
@@ -38,7 +41,7 @@ const processFileContent = (id: string, fileContent): IntegrationStravaActivity 
     rawPointsGPX.forEach((rawPoint, index) => {
       // export const getAppDateIfPossible = (date: DateLike): DateYYYYMMDD | undefined => {
 
-      if (visitedCountries.length === 0) {
+      if (visitedCountries.length === 0 || mode === 'allCountries') {
         const latitude = rawPoint.getAttribute('lat') !== null ? rawPoint.getAttribute('lat') : null;
         const longitude = rawPoint.getAttribute('lon') !== null ? rawPoint.getAttribute('lon') : null;
 
@@ -63,7 +66,7 @@ const processFileContent = (id: string, fileContent): IntegrationStravaActivity 
           activityLatitude = Number(latitude);
           activityLongitude = Number(longitude);
 
-          const countryCodes = (lookup(latitude, longitude, true) || []) as string[];
+          const countryCodes = locationFinder.getCountries(activityLatitude, activityLongitude);
 
           if (countryCodes.length > 0) {
             visitedCountries.push(...countryCodes.map((countryCodes) => countryCodes.toLowerCase()));
@@ -78,7 +81,7 @@ const processFileContent = (id: string, fileContent): IntegrationStravaActivity 
       id,
       date_start,
       date_end,
-      place: visitedCountries.at(-1) ?? '',
+      place: '',
       country_codes: visitedCountries,
       latitude: activityLatitude,
       longitude: activityLongitude,
@@ -88,7 +91,7 @@ const processFileContent = (id: string, fileContent): IntegrationStravaActivity 
   return;
 };
 
-export const readFile = (file: File): Promise<IntegrationStravaActivity | undefined> => {
+export const readFile = (file: File, mode: ParseFileMode): Promise<IntegrationStravaActivity | undefined> => {
   return new Promise<IntegrationStravaActivity | undefined>((resolve) => {
     const reader = new FileReader();
     reader.onabort = () => {
@@ -104,7 +107,7 @@ export const readFile = (file: File): Promise<IntegrationStravaActivity | undefi
 
     reader.onloadend = () => {
       const fileContent = reader.result;
-      const activity = processFileContent(file.name, fileContent);
+      const activity = processFileContent(file.name, fileContent, mode);
       resolve(activity);
     };
   });

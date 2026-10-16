@@ -32,6 +32,7 @@ const sidebarStyles = cn('rounded-lg', 'p-4', 'bg-black border border-[#2b2b27]'
 
 export const SidebarCountry = ({ className, countryCode }: Props) => {
   const tripsByKey = useDataStore((store) => store.tripsByKey);
+  const placesByKey = useDataStore((store) => store.placesByKey);
   const maxDaysStreaks = useFiltersStore((store) => store.filtered.streaks.maxDays);
   const homeCountriesCodes = useFiltersStore((store) => store.activeFilters.homeCountriesCodes || EMPTY_ARRAY);
 
@@ -55,11 +56,11 @@ export const SidebarCountry = ({ className, countryCode }: Props) => {
       daysByPlaceKey[placeKey].visits += 1;
     });
 
-    const totalVisitedPlaces = Object.keys(daysByPlaceKey).length;
+    const places: PlaceSummary[] = Object.values(daysByPlaceKey)
+      .filter(({ placeKey }) => placesByKey[placeKey]?.name)
+      .sort((a, b) => b.days - a.days || b.visits - a.visits || a.placeKey.localeCompare(b.placeKey));
 
-    const places: PlaceSummary[] = Object.values(daysByPlaceKey).sort(
-      (a, b) => b.days - a.days || b.visits - a.visits || a.placeKey.localeCompare(b.placeKey),
-    );
+    const totalVisitedPlaces = places.length;
 
     const yearsAbroad = new Set<number>();
     trips.forEach(({ from, to }) => {
@@ -72,7 +73,7 @@ export const SidebarCountry = ({ className, countryCode }: Props) => {
     const totalYearsAbroad = yearsAbroad.size;
 
     return { trips, places, totalVisitedPlaces, totalYearsAbroad };
-  }, [tripsByKey, countryCode]);
+  }, [tripsByKey, placesByKey, countryCode]);
 
   if (!countryCode) {
     return null;
@@ -90,11 +91,19 @@ export const SidebarCountry = ({ className, countryCode }: Props) => {
         <div className="grid grid-cols-3 gap-2">
           <div className="inline-flex flex-col gap-2 items-center">
             <IconTravel total={totalTrips} shouldShowAllNumbers />
-            <span className="text-[#979797] text-sm tracking-wider">{t('summary.tripsTitle')}</span>
+            <span className="text-[#979797] text-sm tracking-wider">
+              {t('summary.trips_no_number', { count: totalTrips })}
+            </span>
           </div>
           <div className="inline-flex flex-col gap-2 items-center">
-            <IconTravel total={totalVisitedPlaces} shouldShowAllNumbers />
-            <span className="text-[#979797] text-sm tracking-wider">{t('summary.placesTitle')}</span>
+            <IconTravel
+              total={totalVisitedPlaces}
+              visualTotal={totalVisitedPlaces === 0 && activeDays.length > 0 ? '?' : totalVisitedPlaces}
+              shouldShowAllNumbers
+            />
+            <span className="text-[#979797] text-sm tracking-wider">
+              {t('summary.place', { count: totalVisitedPlaces })}
+            </span>
           </div>
           <div className="inline-flex flex-col gap-2 items-center">
             <IconTravel total={totalYearsAbroad} shouldShowAllNumbers />
@@ -151,10 +160,13 @@ export const SidebarCountry = ({ className, countryCode }: Props) => {
         </div>
       )}
       {trips.length > 0 && (
-        <div className={cn(sidebarStyles, 'mt-8', 'flex flex-col gap-8')}>
-          {trips.map(({ key: tripKey }) => (
-            <DayTripDetails key={tripKey} tripKey={tripKey} showOnlyForCountryCode={countryCode} />
-          ))}
+        <div className={cn(sidebarStyles, 'mt-8', 'flex flex-col gap-3')}>
+          <strong className="text-[#979797] text-sm tracking-wider font-normal">{t('summary.tripsTitle')}</strong>
+          <div className="flex flex-col gap-8">
+            {trips.toReversed().map(({ key: tripKey }) => (
+              <DayTripDetails key={tripKey} tripKey={tripKey} showOnlyForCountryCode={countryCode} />
+            ))}
+          </div>
         </div>
       )}
     </>

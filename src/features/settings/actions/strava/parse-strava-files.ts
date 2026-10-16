@@ -3,9 +3,9 @@ import pLimit from 'p-limit';
 import { stravaAddFile, stravaStartLoading } from './stores/useStravaIntegrationStore';
 import type { IntegrationStravaActivity } from './types';
 import { STRAVA_ALLOWED_FORMATS } from './utils/constants';
-import { readFile } from './utils/parse-file';
+import { type ParseFileMode, readFile } from './utils/parse-file';
 
-export const parseStravaFiles = async (files: File[]): Promise<IntegrationStravaActivity[]> => {
+export const parseStravaFiles = async (files: File[], mode: ParseFileMode): Promise<IntegrationStravaActivity[]> => {
   const filesToParse = files.filter((file) =>
     STRAVA_ALLOWED_FORMATS.includes(file?.name?.split('.')?.at(-1)?.toLowerCase() || ''),
   );
@@ -19,14 +19,14 @@ export const parseStravaFiles = async (files: File[]): Promise<IntegrationStrava
 
   const activities: IntegrationStravaActivity[] = [];
 
-  const limit = pLimit(30);
+  const limit = pLimit(mode === 'firstCountry' ? 100 : 10);
 
   const promises = filesToParse.map((file) => {
     return limit(
       () =>
         new Promise<boolean>((resolve) => {
           const processFile = async (file: File) => {
-            const activity = await readFile(file);
+            const activity = await readFile(file, mode);
             const isSuccess = !!activity;
             if (isSuccess) {
               activities.push(activity);

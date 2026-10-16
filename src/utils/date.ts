@@ -100,3 +100,21 @@ export const getAppDateIfPossible = (date: DateLike | undefined): DateYYYYMMDD |
 
   return objectDateToString({ year: parsed.getFullYear(), month: parsed.getMonth() + 1, day: parsed.getDate() });
 };
+
+// 2026-03-01 -> 2026-02-28
+export const getPreviousDay = (date: DateYYYYMMDD): DateYYYYMMDD => {
+  const { year, month, day } = stringDateToObject(date);
+  // local Date ctor rolls day 0 over to the last day of the previous month/year
+  const previous = new Date(year, month - 1, day - 1);
+
+  return objectDateToString({ year: previous.getFullYear(), month: previous.getMonth() + 1, day: previous.getDate() });
+};
+
+// 2026-02-28 -> 2026-03-01
+export const getNextDay = (date: DateYYYYMMDD): DateYYYYMMDD => {
+  const { year, month, day } = stringDateToObject(date);
+  // local Date ctor rolls day > month length over to the next month/year
+  const next = new Date(year, month - 1, day + 1);
+
+  return objectDateToString({ year: next.getFullYear(), month: next.getMonth() + 1, day: next.getDate() });
+};
