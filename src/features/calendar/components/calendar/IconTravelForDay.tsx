@@ -21,9 +21,14 @@ export const IconTravelForDay = ({
   isNewCountryActive = false,
   isHighlightAbroadTravelActive = false,
 }: Props) => {
+  const isFirstDayInCountryMode = usePreferencesStore(
+    (store) => store.calendar.counterShouldShow === 'numberOfUnlockedCountries',
+  );
   const shouldCounterUseScale = usePreferencesStore((store) => store.calendar.shouldCounterUseScale);
 
   const maxTotal = useMaxTotal();
+
+  const shouldBlockAbroadTravelForFirstDay = isFirstDayInCountryMode && !isNewCountryActive;
 
   return (
     <IconTravel
@@ -31,7 +36,7 @@ export const IconTravelForDay = ({
       visualTotal={visualTotal}
       maxTotal={hasScale && shouldCounterUseScale ? maxTotal : undefined}
     >
-      {isHighlightAbroadTravelActive && (
+      {isHighlightAbroadTravelActive && !shouldBlockAbroadTravelForFirstDay && (
         <IconTravelWrapper
           className={cn(
             'absolute -bottom-2 -left-2 z-1 size-3.75',

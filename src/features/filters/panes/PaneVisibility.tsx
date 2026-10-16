@@ -70,7 +70,11 @@ export function PaneVisibility() {
             </small>
           </div>
         </Checkbox>
-        <Checkbox isActive={shouldHighlightNewCountries} onChange={toggleShouldHighlightNewCountries}>
+        <Checkbox
+          isActive={shouldHighlightNewCountries || counterShouldShow === 'numberOfUnlockedCountries'}
+          onChange={toggleShouldHighlightNewCountries}
+          isDisabled={counterShouldShow === 'numberOfUnlockedCountries'}
+        >
           <div className={cn('flex flex-col gap-1', 'text-wrap')}>
             {t('preferences.shouldHighlightNewCountries')}
             <small className="opacity-75">{t('preferences.shouldHighlightNewCountries.tip')}</small>

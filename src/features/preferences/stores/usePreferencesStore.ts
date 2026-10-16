@@ -32,7 +32,7 @@ const emptyStore: PreferencesStoreState = {
     shouldShowHome: false,
   },
   streaks: {
-    typeToShow: 'streaks',
+    typeToShow: 'weakStreaks',
   },
 };
 
