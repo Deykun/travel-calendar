@@ -27,6 +27,19 @@ export function getDaysBetweenDates(from: DateLike, to: DateLike): number {
   return diffDays + 1;
 }
 
+// inclusive on both ends; YYYY-MM-DD strings compare correctly lexicographically
+export function isDateBetween({
+  date,
+  from,
+  to,
+}: {
+  date: DateYYYYMMDD;
+  from: DateYYYYMMDD;
+  to: DateYYYYMMDD;
+}): boolean {
+  return date >= from && date <= to;
+}
+
 export function stringDateToObject(date: DateYYYYMMDD) {
   const parts = date.split('-').map(Number);
   if (parts.length !== 3) {

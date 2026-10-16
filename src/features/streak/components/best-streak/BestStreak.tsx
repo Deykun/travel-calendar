@@ -101,9 +101,9 @@ export function BestStreak({ type, index = 0, className }: Props) {
                   countryCode={countryCode}
                   isEndPoint={isEndPoint}
                   isStartPoint={isStartPoint}
-                  // Dates are displayed in the header, so we don't need to pass them here
-                  from={undefined}
-                  to={undefined}
+                  from={streak.from}
+                  to={streak.to}
+                  shouldShowDates={false}
                 />
               );
             })}

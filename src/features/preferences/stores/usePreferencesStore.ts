@@ -18,6 +18,7 @@ export type PreferencesStoreState = {
   };
   streaks: {
     typeToShow: 'streaks' | 'weakStreaks';
+    shouldHighlightNewCountries: boolean;
   };
 };
 
@@ -33,6 +34,7 @@ const emptyStore: PreferencesStoreState = {
   },
   streaks: {
     typeToShow: 'weakStreaks',
+    shouldHighlightNewCountries: false,
   },
 };
 
@@ -72,11 +74,20 @@ export const toggleShouldHighlightAbroadTravel = () => {
   }));
 };
 
-export const toggleShouldHighlightNewCountries = () => {
+export const toggleShouldHighlightNewCountriesInCalendar = () => {
   usePreferencesStore.setState((state) => ({
     calendar: {
       ...state.calendar,
       shouldHighlightNewCountries: !state.calendar.shouldHighlightNewCountries,
+    },
+  }));
+};
+
+export const toggleShouldHighlightNewCountriesInStreaks = () => {
+  usePreferencesStore.setState((state) => ({
+    streaks: {
+      ...state.streaks,
+      shouldHighlightNewCountries: !state.streaks.shouldHighlightNewCountries,
     },
   }));
 };

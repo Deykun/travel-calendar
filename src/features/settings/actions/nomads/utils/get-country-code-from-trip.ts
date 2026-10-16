@@ -55,6 +55,7 @@ const countryByLocation: { [location: string]: string | undefined } = {
 const countryByCountry: { [place: string]: string | undefined } = {
   ia: 'ir',
   oi: 'so',
+  ku: 'iq',
 };
 
 export const getCountryCodeFromTrip = (trip: IntegrationNomadsTrip): string => {

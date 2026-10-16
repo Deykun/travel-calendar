@@ -1,11 +1,13 @@
 import { PaneFilterDate } from '../panes/PaneFilterDate';
 import { PaneFilterHome } from '../panes/PaneFilterHome';
-import { PaneVisibility } from '../panes/PaneVisibility';
+import { PaneVisibilityCalendar } from '../panes/PaneVisibilityCalendar';
+import { PaneVisibilityStreaks } from '../panes/PaneVisibilityStreaks';
 
 export const SidebarFilters = () => {
   return (
     <div className="flex flex-col gap-6">
-      <PaneVisibility />
+      <PaneVisibilityCalendar />
+      <PaneVisibilityStreaks />
       <PaneFilterDate />
       <PaneFilterHome />
     </div>

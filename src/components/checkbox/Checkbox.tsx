@@ -34,7 +34,7 @@ export const Checkbox = ({
         'max-w-full',
         'inline-flex gap-2 items-center',
         'self-start rounded-sm',
-        'py-1 pl-2 pr-3 -mx-2',
+        'py-1 pl-2 pr-3',
         {
           'hover:bg-[#1d1d0f]': !isActive,
           'bg-[#40403f] text-white': isActive,
