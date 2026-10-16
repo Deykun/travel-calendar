@@ -18,6 +18,7 @@ import {
   stringDateToObject,
 } from '../../../utils/date';
 import type { DataStoreState } from '../stores/useDateStore';
+import { getWeakStreaks } from './get-weak-streaks';
 
 export const getFiltered = (dataByDay: DataStoreState['dataByDay']): FiltersStoreState['filtered'] => {
   console.info('Filtering...');
@@ -305,6 +306,19 @@ export const getFiltered = (dataByDay: DataStoreState['dataByDay']): FiltersStor
     streaks: {
       maxDays: sortedStreaksMaxDays,
       maxCountries: sortedStreaksMaxCountries,
+    },
+    weakStreaks: {
+      maxDays: getWeakStreaks(sortedStreaksMaxDays),
+      maxCountries: getWeakStreaks(sortedStreaksMaxDays)
+        .map(
+          (streak) =>
+            ({
+              ...streak,
+              type: 'maxCountries',
+              count: streak.countriesCodes.length,
+            }) satisfies StreakSummary,
+        )
+        .sort((a, b) => b.count - a.count),
     },
   };
 };

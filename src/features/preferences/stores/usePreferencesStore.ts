@@ -16,6 +16,9 @@ export type PreferencesStoreState = {
   sidebars: {
     shouldShowHome: boolean;
   };
+  streaks: {
+    typeToShow: 'streaks' | 'weakStreaks';
+  };
 };
 
 const emptyStore: PreferencesStoreState = {
@@ -27,6 +30,9 @@ const emptyStore: PreferencesStoreState = {
   },
   sidebars: {
     shouldShowHome: false,
+  },
+  streaks: {
+    typeToShow: 'streaks',
   },
 };
 
@@ -89,6 +95,15 @@ export const setCounterShouldShow = (value: PreferencesStoreState['calendar']['c
     calendar: {
       ...state.calendar,
       counterShouldShow: value,
+    },
+  }));
+};
+
+export const setStreakTypeToUse = (typeToShow: PreferencesStoreState['streaks']['typeToShow']) => {
+  usePreferencesStore.setState((state) => ({
+    streaks: {
+      ...state.streaks,
+      typeToShow: typeToShow,
     },
   }));
 };
