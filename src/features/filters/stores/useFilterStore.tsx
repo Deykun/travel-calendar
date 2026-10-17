@@ -75,7 +75,7 @@ export type FiltersStoreState = {
       maxDays: StreakSummary[];
       maxCountries: StreakSummary[];
     };
-    weakStreaks: {
+    kindStreaks: {
       maxDays: StreakSummary[];
       maxCountries: StreakSummary[];
     };
@@ -118,7 +118,7 @@ const emptyStore: FiltersStoreState = {
       maxDays: [],
       maxCountries: [],
     },
-    weakStreaks: {
+    kindStreaks: {
       maxDays: [],
       maxCountries: [],
     },

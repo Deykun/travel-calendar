@@ -38,7 +38,7 @@ export const mergeStreaks = (streakA: StreakSummary, streakB: StreakSummary): St
   return { ...merged, count: getStreakCount(merged) };
 };
 
-export const getWeakStreaks = (streaks: StreakSummary[]): StreakSummary[] => {
+export const getKindStreaks = (streaks: StreakSummary[]): StreakSummary[] => {
   const sortedByStart = [...streaks].sort((a, b) => (a.from ?? '').localeCompare(b.from ?? ''));
 
   const mergedStreaks = sortedByStart.reduce((stack: StreakSummary[], streak) => {

@@ -12,7 +12,7 @@ type Props = {
 };
 
 export function StreakList({ className }: Props) {
-  const streakTypeToUse = usePreferencesStore((store) => store.streaks?.typeToShow || 'weakStreaks');
+  const streakTypeToUse = usePreferencesStore((store) => store.streaks?.typeToShow || 'kindStreaks');
   const totalDaysAbroad = useFiltersStore((store) => store.filtered.summary.totalDaysAbroad);
   const visitedCountriesTotal = useFiltersStore((store) => store.filtered.summary.countriesCodes.length);
   const maxDaysStreaks = useFiltersStore((store) => store.filtered[streakTypeToUse].maxDays);

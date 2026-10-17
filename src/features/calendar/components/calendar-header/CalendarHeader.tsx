@@ -4,6 +4,7 @@ import IconPlus from '@/components/icons/IconPlus';
 import IconTravel from '@/components/icons/IconTravel';
 import IconTravelWrapper from '@/components/icons/IconTravelWrapper';
 import { TextCounter } from '@/components/text-counter/TextCounter';
+import { useTotalDays } from '@/features/filters/hooks/useTotalDays';
 import useFiltersStore from '@/features/filters/stores/useFilterStore';
 import useDataStore from '@/features/settings/stores/useDateStore';
 import { StreaksSummary } from '@/features/streak/components/StreaksSummary';
@@ -14,7 +15,6 @@ import { cn } from '@/utils/tailwind';
 
 export function CalendarHeader() {
   const lastUpdate = useDataStore((store) => store.integration.lastUpdate);
-  const totalDays = useFiltersStore((store) => store.filtered.summary.totalDays);
   const totalDaysAbroad = useFiltersStore((store) => store.filtered.summary.totalDaysAbroad);
   const maxCountriesInDay = useFiltersStore((store) => store.filtered.summary.maxCountriesInDay);
   const maxYearsAbroadInDay = useFiltersStore((store) => store.filtered.summary.maxYearsAbroadInDay);
@@ -24,6 +24,8 @@ export function CalendarHeader() {
   const activeFrom = useFiltersStore((store) => store.activeFilters.from);
   const activeTo = useFiltersStore((store) => store.activeFilters.to);
   const { from, to } = useDataStore((store) => store.date);
+
+  const totalDays = useTotalDays();
 
   const { t } = useTranslation();
 
@@ -39,6 +41,8 @@ export function CalendarHeader() {
       </header>
     );
   }
+
+  const percentageAbroad = roundWithPrecision((100 * totalDaysAbroad) / totalDays, 1);
 
   return (
     <header className={cn(classNamesLayoutGap, classNamesLayoutPx, classNamesLayoutGrid, 'mb-8')}>
@@ -91,8 +95,8 @@ export function CalendarHeader() {
       >
         <div className="flex flex-col gap-3 items-center">
           <IconTravel
-            total={roundWithPrecision((100 * totalDaysAbroad) / totalDays, 1)}
-            suffixAfter="%"
+            total={percentageAbroad > 0 && percentageAbroad < 1 ? 1 : percentageAbroad}
+            visualTotal={`${percentageAbroad}%`}
             classNameSize="size-12 text-2xl"
             shouldShowAllNumbers
           />

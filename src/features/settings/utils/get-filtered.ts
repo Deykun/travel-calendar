@@ -18,7 +18,7 @@ import {
   stringDateToObject,
 } from '../../../utils/date';
 import type { DataStoreState } from '../stores/useDateStore';
-import { getWeakStreaks } from './get-weak-streaks';
+import { getKindStreaks } from './get-forgiving-streaks';
 
 export const getFiltered = (dataByDay: DataStoreState['dataByDay']): FiltersStoreState['filtered'] => {
   console.info('Filtering...');
@@ -307,9 +307,9 @@ export const getFiltered = (dataByDay: DataStoreState['dataByDay']): FiltersStor
       maxDays: sortedStreaksMaxDays,
       maxCountries: sortedStreaksMaxCountries,
     },
-    weakStreaks: {
-      maxDays: getWeakStreaks(sortedStreaksMaxDays),
-      maxCountries: getWeakStreaks(sortedStreaksMaxDays)
+    kindStreaks: {
+      maxDays: getKindStreaks(sortedStreaksMaxDays),
+      maxCountries: getKindStreaks(sortedStreaksMaxDays)
         .map(
           (streak) =>
             ({

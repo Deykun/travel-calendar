@@ -6,6 +6,8 @@ import IconGithub from '@/components/icons/IconGithub';
 import { PaneIntegrationNomads } from '../panes/PaneIntegrationNomads';
 import { PaneIntegrationStatsHunters } from '../panes/PaneIntegrationStrava';
 import { PaneLanguage } from '../panes/PaneLanguage';
+import { PaneSettingsHome } from '../panes/PaneSettingsHome';
+import { PaneSettingsTrips } from '../panes/PaneSettingsTrips';
 import useDataStore from '../stores/useDateStore';
 
 export function SidebarSettings() {
@@ -14,9 +16,11 @@ export function SidebarSettings() {
 
   return (
     <div className="flex flex-col gap-6">
+      <PaneLanguage />
       <PaneIntegrationNomads />
       <PaneIntegrationStatsHunters />
-      <PaneLanguage />
+      <PaneSettingsTrips />
+      <PaneSettingsHome />
       <div className="flex justify-between items-center">
         <Button tagName="a" href="https://github.com/Deykun/travel-calendar" target="_blank">
           <IconGithub />

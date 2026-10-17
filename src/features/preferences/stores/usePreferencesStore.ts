@@ -17,7 +17,7 @@ export type PreferencesStoreState = {
     shouldShowHome: boolean;
   };
   streaks: {
-    typeToShow: 'streaks' | 'weakStreaks';
+    typeToShow: 'streaks' | 'kindStreaks';
     shouldHighlightNewCountries: boolean;
   };
 };
@@ -33,7 +33,7 @@ const emptyStore: PreferencesStoreState = {
     shouldShowHome: false,
   },
   streaks: {
-    typeToShow: 'weakStreaks',
+    typeToShow: 'kindStreaks',
     shouldHighlightNewCountries: false,
   },
 };

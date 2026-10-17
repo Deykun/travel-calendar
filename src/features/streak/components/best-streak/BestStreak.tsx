@@ -18,7 +18,7 @@ type Props = {
 };
 
 export function BestStreak({ type, index = 0, className }: Props) {
-  const streakTypeToUse = usePreferencesStore((store) => store.streaks?.typeToShow || 'weakStreaks');
+  const streakTypeToUse = usePreferencesStore((store) => store.streaks?.typeToShow || 'kindStreaks');
   const shouldCounterUseScale = usePreferencesStore((store) => store.calendar.shouldCounterUseScale);
   const maxTotalDays = useFiltersStore((store) => store.filtered[streakTypeToUse].maxDays?.[index]?.count || 0);
   const maxTotalCountries = useFiltersStore(
