@@ -11,7 +11,7 @@ import useDataStore from '../stores/useDateStore';
 
 const STRAVA_EXPORT_URL = 'https://www.strava.com/athlete/delete_your_account';
 
-export function PaneIntegrationStatsHunters() {
+export function PaneIntegrationStrava() {
   const integration = useDataStore((store) => store.integration);
   const integrationStatus = useStravaIntegrationsStore((store) => store.status);
 
@@ -50,7 +50,7 @@ export function PaneIntegrationStatsHunters() {
         onChange={(event) =>
           event.target.files ? getDataFromStrava({ files: Array.from(event.target.files) }) : undefined
         }
-        // disabled={integrationStatus.state === 'loading'}
+        disabled={integrationStatus.state === 'loading'}
         type="file"
         multiple
       />

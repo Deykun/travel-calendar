@@ -4,7 +4,7 @@ import { Button } from '@/components/button/Button';
 import IconGithub from '@/components/icons/IconGithub';
 
 import { PaneIntegrationNomads } from '../panes/PaneIntegrationNomads';
-import { PaneIntegrationStatsHunters } from '../panes/PaneIntegrationStrava';
+import { PaneIntegrationStrava } from '../panes/PaneIntegrationStrava';
 import { PaneLanguage } from '../panes/PaneLanguage';
 import { PaneSettingsHome } from '../panes/PaneSettingsHome';
 import { PaneSettingsTrips } from '../panes/PaneSettingsTrips';
@@ -17,8 +17,8 @@ export function SidebarSettings() {
   return (
     <div className="flex flex-col gap-6">
       <PaneLanguage />
+      <PaneIntegrationStrava />
       <PaneIntegrationNomads />
-      <PaneIntegrationStatsHunters />
       <PaneSettingsTrips />
       <PaneSettingsHome />
       <div className="flex justify-between items-center">

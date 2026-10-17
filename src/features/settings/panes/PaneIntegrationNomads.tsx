@@ -16,8 +16,8 @@ import useDataStore from '../stores/useDateStore';
 export function PaneIntegrationNomads() {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const integration = useDataStore((store) => store.integration);
   const integrationCode = useDataStore((store) => store.integration.integrationCode);
-  const lastUpdate = useDataStore((store) => store.integration.lastUpdate);
   const [username, setUsername] = useState(integrationCode ?? 'deykun');
 
   const { t } = useTranslation();
@@ -62,11 +62,11 @@ export function PaneIntegrationNomads() {
           <span>{t('integration.getData')}</span>
         </Button>
       </form>
-      {lastUpdate && (
+      {integration.type === 'nomads.com' && integration.lastUpdate && (
         <p className="text-[#979797] text-xs mt-2">
           {t('integration.lastUpdatePrefix')}{' '}
           <span className="text-white">
-            <Datetime date={lastUpdate} />
+            <Datetime date={integration.lastUpdate} />
           </span>
           .
         </p>

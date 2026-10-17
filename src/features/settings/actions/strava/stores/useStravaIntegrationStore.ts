@@ -23,12 +23,9 @@ const emptyStore: StravaIntegrationsStoreState = {
 
 export const useStravaIntegrationsStore = create<StravaIntegrationsStoreState>()(
   devtools(
-    persist(
-      () => ({
-        ...emptyStore,
-      }),
-      { name: 'stravaIntegrationsStore' },
-    ),
+    () => ({
+      ...emptyStore,
+    }),
     { name: 'stravaIntegrationsStore' },
   ),
 );

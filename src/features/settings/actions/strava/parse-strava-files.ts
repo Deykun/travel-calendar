@@ -1,6 +1,6 @@
 import pLimit from 'p-limit';
 
-import { stravaAddFile, stravaStartLoading } from './stores/useStravaIntegrationStore';
+import { stravaAddFile, stravaEndLoading, stravaStartLoading } from './stores/useStravaIntegrationStore';
 import type { IntegrationStravaActivity } from './types';
 import type { ParseFileMode } from './utils/build-activity';
 import { STRAVA_ALLOWED_FORMATS } from './utils/constants';
@@ -45,6 +45,8 @@ export const parseStravaFiles = async (files: File[], mode: ParseFileMode): Prom
   });
 
   await Promise.all(promises);
+
+  stravaEndLoading();
 
   return activities;
 };

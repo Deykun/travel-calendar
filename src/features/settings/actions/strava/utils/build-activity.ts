@@ -53,12 +53,6 @@ export const buildActivity = <T extends object>(
 
       locationFinder.getCountries(latitude, longitude).forEach((countryCode) => {
         const verifiedCountry = getCountryCodeFromStringIfPossible(countryCode);
-        if (countryCode === 'XK') {
-          console.log({
-            countryCode,
-            verifiedCountry,
-          });
-        }
 
         if (verifiedCountry) {
           visitedCountries.add(verifiedCountry);
