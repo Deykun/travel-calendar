@@ -2,14 +2,13 @@ import pLimit from 'p-limit';
 
 import { stravaAddFile, stravaStartLoading } from './stores/useStravaIntegrationStore';
 import type { IntegrationStravaActivity } from './types';
+import type { ParseFileMode } from './utils/build-activity';
 import { STRAVA_ALLOWED_FORMATS } from './utils/constants';
-import { type ParseFileMode, readFile } from './utils/parse-file';
+import { getFileFormat } from './utils/read-file-content';
+import { readStravaFile } from './utils/read-strava-file';
 
 export const parseStravaFiles = async (files: File[], mode: ParseFileMode): Promise<IntegrationStravaActivity[]> => {
-  const filesToParse = files.filter((file) =>
-    STRAVA_ALLOWED_FORMATS.includes(file?.name?.split('.')?.at(-1)?.toLowerCase() || ''),
-  );
-  console.log(files);
+  const filesToParse = files.filter((file) => STRAVA_ALLOWED_FORMATS.includes(getFileFormat(file?.name ?? '')));
 
   if (filesToParse.length === 0) {
     return [];
@@ -26,13 +25,19 @@ export const parseStravaFiles = async (files: File[], mode: ParseFileMode): Prom
       () =>
         new Promise<boolean>((resolve) => {
           const processFile = async (file: File) => {
-            const activity = await readFile(file, mode);
-            const isSuccess = !!activity;
-            if (isSuccess) {
+            let activity: IntegrationStravaActivity | undefined;
+
+            try {
+              activity = await readStravaFile(file, mode);
+            } catch (error) {
+              console.warn(`File read error: ${file.name}`, error);
+            }
+
+            if (activity) {
               activities.push(activity);
             }
-            stravaAddFile(isSuccess ? 'processed' : 'rejected');
-            resolve(isSuccess);
+            stravaAddFile(activity ? 'processed' : 'rejected');
+            resolve(!!activity);
           };
           processFile(file);
         }),

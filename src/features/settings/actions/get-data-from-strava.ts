@@ -31,7 +31,7 @@ const setStoreWithActivities = (activities: IntegrationStravaActivity[]) => {
     version: APP_VERSION,
     status: 'ready',
     integration: {
-      type: 'gpx',
+      type: 'activities',
       integrationCode: '',
       lastUpdate: Date.now(),
     },

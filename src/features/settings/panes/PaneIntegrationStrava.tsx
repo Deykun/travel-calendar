@@ -1,8 +1,6 @@
-import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Datetime } from '@/components/datetime/datetime';
-import IconWarning from '@/components/icons/IconWarning';
 import { Progressbar } from '@/components/progressbar/Progressbar';
 import { Pane } from '@/features/sidebar/components/pane/Pane';
 import { cn } from '@/utils/tailwind';
@@ -14,9 +12,7 @@ import useDataStore from '../stores/useDateStore';
 const STRAVA_EXPORT_URL = 'https://www.strava.com/athlete/delete_your_account';
 
 export function PaneIntegrationStatsHunters() {
-  const [errorMessage, setErrorMessage] = useState('');
-  const integrationCode = useDataStore((store) => store.integration.integrationCode);
-  const lastUpdate = useDataStore((store) => store.integration.lastUpdate);
+  const integration = useDataStore((store) => store.integration);
   const integrationStatus = useStravaIntegrationsStore((store) => store.status);
 
   const { t } = useTranslation();
@@ -64,22 +60,14 @@ export function PaneIntegrationStatsHunters() {
         total={integrationStatus.total}
         startedAt={integrationStatus.startedAt}
       />
-      {lastUpdate && (
+      {integration.type === 'activities' && integration.lastUpdate && (
         <p className="text-[#979797] text-xs mt-2">
           {t('integration.lastUpdatePrefix')}{' '}
           <span className="text-white">
-            <Datetime date={lastUpdate} />
+            <Datetime date={integration.lastUpdate} />
           </span>
           .
         </p>
-      )}
-      {errorMessage && (
-        <Pane.Footer>
-          <h4 className="flex gap-2 mb-1 text-sm text-[white] font-semibold tracking-wide">
-            <IconWarning className="size-5 text-[#d8da51]" /> <span>{t('common.error')}</span>
-          </h4>
-          <p className="text-xs mb-2">{t(errorMessage)}</p>
-        </Pane.Footer>
       )}
     </Pane>
   );
