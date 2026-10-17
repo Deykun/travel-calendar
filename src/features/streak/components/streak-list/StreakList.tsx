@@ -2,6 +2,7 @@ import { Fragment, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import useFiltersStore from '@/features/filters/stores/useFilterStore';
+import usePreferencesStore from '@/features/preferences/stores/usePreferencesStore';
 import { cn } from '@/utils/tailwind';
 
 import { StreakPeriod } from '../streak-period/StreakPeriod';
@@ -11,9 +12,10 @@ type Props = {
 };
 
 export function StreakList({ className }: Props) {
+  const streakTypeToUse = usePreferencesStore((store) => store.streaks?.typeToShow || 'kindStreaks');
   const totalDaysAbroad = useFiltersStore((store) => store.filtered.summary.totalDaysAbroad);
   const visitedCountriesTotal = useFiltersStore((store) => store.filtered.summary.countriesCodes.length);
-  const maxDaysStreaks = useFiltersStore((store) => store.filtered.streaks.maxDays);
+  const maxDaysStreaks = useFiltersStore((store) => store.filtered[streakTypeToUse].maxDays);
 
   const { t } = useTranslation();
 

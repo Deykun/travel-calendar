@@ -13,7 +13,7 @@ type Props = {
   className?: string;
 };
 
-export const PaneFilterHome = ({ className = '' }: Props) => {
+export const PaneSettingsHome = ({ className = '' }: Props) => {
   const [wasAllToggled, setWasAllToggled] = useState(true);
   const homeCountriesCodes = useFiltersStore((store) => store.activeFilters.homeCountriesCodes);
   const totalDaysByCountry = useDataStore((store) => store.totalDaysByCountry);

@@ -13,11 +13,11 @@ import { cn } from '@/utils/tailwind';
 import { getDataFromNomads } from '../actions/get-data-from-nomads';
 import useDataStore from '../stores/useDateStore';
 
-export function PaneIntegration() {
+export function PaneIntegrationNomads() {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const integration = useDataStore((store) => store.integration);
   const integrationCode = useDataStore((store) => store.integration.integrationCode);
-  const lastUpdate = useDataStore((store) => store.integration.lastUpdate);
   const [username, setUsername] = useState(integrationCode ?? 'deykun');
 
   const { t } = useTranslation();
@@ -53,7 +53,7 @@ export function PaneIntegration() {
 
   return (
     <Pane>
-      <Pane.Title>{t('integration.title')}</Pane.Title>
+      <Pane.Title>{t('integration.fromNomads')}</Pane.Title>
       <form onSubmit={handleSubmitNomads} className={cn('flex flex-col gap-3')}>
         <Pane.Subtitle>{t('integration.withNomads')}</Pane.Subtitle>
         <Input value={username} setValue={handleUsernameUpdate} isDisabled={isLoading} />
@@ -62,11 +62,11 @@ export function PaneIntegration() {
           <span>{t('integration.getData')}</span>
         </Button>
       </form>
-      {lastUpdate && (
+      {integration.type === 'nomads.com' && integration.lastUpdate && (
         <p className="text-[#979797] text-xs mt-2">
           {t('integration.lastUpdatePrefix')}{' '}
           <span className="text-white">
-            <Datetime date={lastUpdate} />
+            <Datetime date={integration.lastUpdate} />
           </span>
           .
         </p>

@@ -5,7 +5,7 @@ import type { DateLike, DateMMDD, DateYYYYMMDD, MetadataDay, MetadataPlace, Meta
 
 type DataStatus = 'missing' | 'ready';
 
-type IntegrationType = 'nomads.com';
+type IntegrationType = 'nomads.com' | 'activities';
 
 export type DataStoreState = {
   version: string;
@@ -34,6 +34,9 @@ export type DataStoreState = {
           };
     };
   };
+  unlockingDateByCountry: {
+    [countryCode: string]: DateYYYYMMDD | undefined;
+  };
   placesByKey: {
     [placeKey: string]: MetadataPlace | undefined;
   };
@@ -45,7 +48,7 @@ export type DataStoreState = {
   };
 };
 
-export const APP_VERSION = '1.3';
+export const APP_VERSION = '1.4.2';
 
 const emptyStore: DataStoreState = {
   version: APP_VERSION,
@@ -62,6 +65,7 @@ const emptyStore: DataStoreState = {
   totalDaysByCountry: {},
   daysByCountry: {},
   daysByCountryByMonthByYear: {},
+  unlockingDateByCountry: {},
   placesByKey: {},
   dataByDay: {},
   tripsByKey: {},

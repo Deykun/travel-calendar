@@ -6,18 +6,22 @@ import usePreferencesStore, {
   setCounterShouldShow,
   toggleShouldCounterUseScale,
   toggleShouldHighlightAbroadTravel,
-  toggleShouldHighlightNewCountries,
+  toggleShouldHighlightNewCountriesInCalendar,
+  toggleShouldHighlightNewCountriesInStreaks,
 } from '@/features/preferences/stores/usePreferencesStore';
 import { Pane } from '@/features/sidebar/components/pane/Pane';
 import { cn } from '@/utils/tailwind';
 
 import { useMaxTotal } from '../hooks/useMaxTotal';
-import useFiltersStore, { toggleShouldIncludeFuture } from '../stores/useFilterStore';
 
-export function PaneVisibility() {
-  const shouldIncludeFuture = useFiltersStore((store) => store.activeFilters.shouldIncludeFuture);
+export function PaneVisibilityCalendar() {
   const shouldHighlightAbroadTravel = usePreferencesStore((store) => store.calendar.shouldHighlightAbroadTravel);
-  const shouldHighlightNewCountries = usePreferencesStore((store) => store.calendar.shouldHighlightNewCountries);
+  const shouldHighlightNewCountriesInCalendar = usePreferencesStore(
+    (store) => store.calendar.shouldHighlightNewCountries,
+  );
+  const shouldHighlightNewCountriesInStreaks = usePreferencesStore(
+    (store) => store.streaks.shouldHighlightNewCountries,
+  );
 
   const shouldCounterUseScale = usePreferencesStore((store) => store.calendar.shouldCounterUseScale);
   const counterShouldShow = usePreferencesStore((store) => store.calendar.counterShouldShow);
@@ -53,7 +57,28 @@ export function PaneVisibility() {
           <div className={cn('flex flex-col gap-1', 'text-wrap')}>{t('summary.numberOfUnlockedCountries')}</div>
         </Radiobox>
       </Pane.List>
-      <Pane.Subtitle className="-mt-6">{t('preferences.calendarOther')}</Pane.Subtitle>
+      <Pane.Subtitle className="mt-3">{t('preferences.shouldHighlightNewCountries')}</Pane.Subtitle>
+      <Pane.List>
+        <Checkbox
+          isActive={shouldHighlightNewCountriesInStreaks || counterShouldShow === 'numberOfUnlockedCountries'}
+          onChange={toggleShouldHighlightNewCountriesInStreaks}
+          isDisabled={counterShouldShow === 'numberOfUnlockedCountries'}
+        >
+          <div className={cn('flex flex-col gap-1', 'text-wrap')}>
+            {t('preferences.shouldHighlightNewCountries.trips')}
+          </div>
+        </Checkbox>
+        <Checkbox
+          isActive={shouldHighlightNewCountriesInCalendar || counterShouldShow === 'numberOfUnlockedCountries'}
+          onChange={toggleShouldHighlightNewCountriesInCalendar}
+          isDisabled={counterShouldShow === 'numberOfUnlockedCountries'}
+        >
+          <div className={cn('flex flex-col gap-1', 'text-wrap')}>
+            {t('preferences.shouldHighlightNewCountries.calendar')}
+          </div>
+        </Checkbox>
+      </Pane.List>
+      <Pane.Subtitle className="mt-3">{t('preferences.calendarOther')}</Pane.Subtitle>
       <Pane.List>
         <Checkbox
           isActive={shouldCounterUseScale}
@@ -68,20 +93,12 @@ export function PaneVisibility() {
             </small>
           </div>
         </Checkbox>
-        <Checkbox isActive={shouldHighlightNewCountries} onChange={toggleShouldHighlightNewCountries}>
-          <div className={cn('flex flex-col gap-1', 'text-wrap')}>
-            {t('preferences.shouldHighlightNewCountries')}
-            <small className="opacity-75">{t('preferences.shouldHighlightNewCountries.tip')}</small>
-          </div>
-        </Checkbox>
+
         <Checkbox isActive={shouldHighlightAbroadTravel} onChange={toggleShouldHighlightAbroadTravel}>
           <div className={cn('flex flex-col gap-1', 'text-wrap')}>
             {t('preferences.shouldHighlightAbroadTravel')}
             <small className="opacity-75">{t('preferences.shouldHighlightAbroadTravel.tip')}</small>
           </div>
-        </Checkbox>
-        <Checkbox isActive={shouldIncludeFuture} onChange={toggleShouldIncludeFuture}>
-          <div className={cn('flex flex-col gap-1', 'text-wrap')}>{t('preferences.shouldIncludeFuture')}</div>
         </Checkbox>
       </Pane.List>
     </Pane>

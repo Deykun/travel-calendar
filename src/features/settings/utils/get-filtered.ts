@@ -10,18 +10,29 @@ import useFiltersStore, {
 import type { DateYYYYMMDD } from '@/types';
 import { filterEmpty, mergeUnique, mergeUniqueAndSort } from '@/utils/array';
 
-import { getDateWithoutYear, getIsFuture, getMonthWithoutDay, stringDateToObject } from '../../../utils/date';
+import {
+  getDateRange,
+  getDateWithoutYear,
+  getIsFuture,
+  getMonthWithoutDay,
+  stringDateToObject,
+} from '../../../utils/date';
 import type { DataStoreState } from '../stores/useDateStore';
+import { getKindStreaks } from './get-forgiving-streaks';
 
 export const getFiltered = (dataByDay: DataStoreState['dataByDay']): FiltersStoreState['filtered'] => {
   console.info('Filtering...');
   const { homeCountriesCodes, from, to, shouldIncludeFuture } = useFiltersStore.getState().activeFilters;
 
+  //
   const dataByDateSorted = Object.keys(dataByDay).sort() as DateYYYYMMDD[];
+  const sortedFrom = dataByDateSorted.at(0);
+  const sortedTo = dataByDateSorted.at(-1);
+  const fullDateRange = sortedFrom && sortedTo ? getDateRange(sortedFrom, sortedTo) : dataByDateSorted;
 
   let indexInSortingByUnlocking = 0;
 
-  const { summaryByDay, streaks, current } = dataByDateSorted.reduce(
+  const { summaryByDay, streaks, current } = fullDateRange.reduce(
     (
       stack: {
         summaryByDay: FiltersStoreState['filtered']['summaryByDay'];
@@ -35,6 +46,13 @@ export const getFiltered = (dataByDay: DataStoreState['dataByDay']): FiltersStor
       const dataDay = dataByDay[dateYYYYMMDD];
 
       if (!dataDay) {
+        // No data should result in ended streak
+        const maxDaysStreak = stack.current.streak;
+        if (stack.current.streak.count > 0) {
+          stack.streaks.push(maxDaysStreak);
+        }
+        stack.current.streak = getEmptyStreak('maxDays');
+
         return stack;
       }
 
@@ -122,15 +140,12 @@ export const getFiltered = (dataByDay: DataStoreState['dataByDay']): FiltersStor
 
       // It can be both if the selected day is when we go abroad or when we return.
       const isAbroad = filteredCountriesForDay.length > 0;
-      const isHome = filteredCountriesForDay.length < dataDay.countriesCodes.length;
 
-      const hasActiveStreak = stack.current.streak.count > 0;
-      const shouldStopStreak = hasActiveStreak && (isHome || isLastDayOfRange);
-      // If isHome=true but hasActiveStreak=false - first day of the trip
-      const shouldExtendStreak = isAbroad && (!isHome || !hasActiveStreak);
-      const shouldExtendStreakForLastDay = shouldStopStreak && isAbroad;
+      // We don't break streaks if someone visits the country but the same day they were abroad
+      const shouldStopStreak = !isAbroad || isLastDayOfRange;
+      const shouldExtendStreak = isAbroad;
 
-      if (shouldExtendStreak || shouldExtendStreakForLastDay) {
+      if (shouldExtendStreak) {
         stack.current.streak = {
           ...stack.current.streak,
           countriesCodes: mergeUnique(stack.current.streak.countriesCodes, filteredCountriesForDay),
@@ -291,6 +306,19 @@ export const getFiltered = (dataByDay: DataStoreState['dataByDay']): FiltersStor
     streaks: {
       maxDays: sortedStreaksMaxDays,
       maxCountries: sortedStreaksMaxCountries,
+    },
+    kindStreaks: {
+      maxDays: getKindStreaks(sortedStreaksMaxDays),
+      maxCountries: getKindStreaks(sortedStreaksMaxDays)
+        .map(
+          (streak) =>
+            ({
+              ...streak,
+              type: 'maxCountries',
+              count: streak.countriesCodes.length,
+            }) satisfies StreakSummary,
+        )
+        .sort((a, b) => b.count - a.count),
     },
   };
 };
