@@ -98,6 +98,7 @@
   "integration.strava.step3": "Strava wyśle Ci e-mailem plik ZIP z danymi o aktywnościach. Może to potrwać kilka godzin.",
   "integration.strava.step4": "Rozpakuj plik ZIP i prześlij pliki z podkatalogu activities, przeciągając je i upuszczając w obszarze przesyłania na tej stronie.",
   "integration.strava.dropzone": "Upuść tutaj pliki GPX lub FIT z folderu activities albo kliknij, aby wybrać.",
+  "integration.strava.dropAnywhere": "Upuść tutaj swoje pliki",
   "integration.strava.privacy": "<strong>Twoja prywatność ma znaczenie:</strong> całe przetwarzanie odbywa się bezpośrednio w Twojej przeglądarce. Twoje pliki nigdy nie są przesyłane ani przechowywane na żadnym serwerze.",
   "integration.getData": "Pobierz dane",
   "integration.lastUpdatePrefix": "Ostatnia aktualizacja",

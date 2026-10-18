@@ -7,13 +7,18 @@ import { cn } from '@/utils/tailwind';
 
 import { getDataFromStrava } from '../actions/get-data-from-strava';
 import useStravaIntegrationsStore from '../actions/strava/stores/useStravaIntegrationStore';
+import { WindowDropzone } from '../components/WindowDropzone';
 import useDataStore from '../stores/useDateStore';
 
 const STRAVA_EXPORT_URL = 'https://www.strava.com/athlete/delete_your_account';
 
+const handleFiles = (files: File[]) => getDataFromStrava({ files });
+
 export function PaneIntegrationStrava() {
   const integration = useDataStore((store) => store.integration);
   const integrationStatus = useStravaIntegrationsStore((store) => store.status);
+
+  const isLoading = integrationStatus.state === 'loading';
 
   const { t } = useTranslation();
 
@@ -56,15 +61,14 @@ export function PaneIntegrationStrava() {
         <input
           // Invisible but covering the whole label: keeps native click + drag-and-drop
           className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-          onChange={(event) =>
-            event.target.files ? getDataFromStrava({ files: Array.from(event.target.files) }) : undefined
-          }
-          disabled={integrationStatus.state === 'loading'}
+          onChange={(event) => (event.target.files ? handleFiles(Array.from(event.target.files)) : undefined)}
+          disabled={isLoading}
           accept=".gpx,.fit,.gz"
           type="file"
           multiple
         />
       </label>
+      <WindowDropzone onDrop={handleFiles} isDisabled={isLoading} />
       {integrationStatus.total > 0 && (
         <Progressbar
           key={integrationStatus.startedAt}

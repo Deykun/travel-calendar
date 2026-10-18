@@ -91,6 +91,7 @@
   "integration.strava.step3": "Strava will email you a ZIP file containing your activity data. This may take several hours.",
   "integration.strava.step4": "Extract the ZIP file and upload the files from the activities subdirectory by dragging and dropping them into the upload area on this page.",
   "integration.strava.dropzone": "Drop GPX or FIT files from the activities folder here, or click to browse.",
+  "integration.strava.dropAnywhere": "Drop your files here",
   "integration.strava.privacy": "<strong>Your privacy matters:</strong> All processing happens directly in your browser. Your files are never uploaded to or stored on any server.",
   "integration.getData": "Get data",
   "integration.lastUpdatePrefix": "Last update",
