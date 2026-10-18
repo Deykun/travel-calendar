@@ -38,28 +38,41 @@ export function PaneIntegrationStrava() {
         className="text-[#979797] text-xs [&_strong]:text-white [&_strong]:font-normal"
         dangerouslySetInnerHTML={{ __html: `🔒 ${t('integration.strava.privacy')}` }}
       />
-      <input
+      <label
         className={cn(
-          'w-full',
-          'py-1.5 px-3',
-          'text-sm',
+          'relative',
+          'flex items-center justify-center',
+          'w-full min-h-20 p-3',
+          'text-xs text-center text-[#979797]',
           'bg-[#282824] rounded-sm',
-          'caret-[#d8da51] text-white',
-          'outline-none',
+          'border-2 border-dashed border-[#979797]/40',
+          'hover:border-[#d8da51] hover:text-white',
+          'focus-within:border-[#fcff4e] focus-within:text-white',
+          'has-disabled:opacity-45 has-disabled:pointer-events-none',
+          'duration-500',
         )}
-        onChange={(event) =>
-          event.target.files ? getDataFromStrava({ files: Array.from(event.target.files) }) : undefined
-        }
-        disabled={integrationStatus.state === 'loading'}
-        type="file"
-        multiple
-      />
-      <Progressbar
-        key={integrationStatus.startedAt}
-        value={integrationStatus.processed + integrationStatus.rejected}
-        total={integrationStatus.total}
-        startedAt={integrationStatus.startedAt}
-      />
+      >
+        {t('integration.strava.dropzone')}
+        <input
+          // Invisible but covering the whole label: keeps native click + drag-and-drop
+          className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+          onChange={(event) =>
+            event.target.files ? getDataFromStrava({ files: Array.from(event.target.files) }) : undefined
+          }
+          disabled={integrationStatus.state === 'loading'}
+          accept=".gpx,.fit,.gz"
+          type="file"
+          multiple
+        />
+      </label>
+      {integrationStatus.total > 0 && (
+        <Progressbar
+          key={integrationStatus.startedAt}
+          value={integrationStatus.processed + integrationStatus.rejected}
+          total={integrationStatus.total}
+          startedAt={integrationStatus.startedAt}
+        />
+      )}
       {integration.type === 'activities' && integration.lastUpdate && (
         <p className="text-[#979797] text-xs mt-2">
           {t('integration.lastUpdatePrefix')}{' '}
