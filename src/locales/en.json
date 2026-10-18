@@ -68,6 +68,8 @@
   "preferences.shouldShowStreaks": "Streaks",
   "preferences.shouldShowKindStreaks": "Kind streaks",
   "preferences.shouldShowKindStreaks.tip": "A single missed day doesn't break them.",
+  "preferences.shouldShowVeryKindStreaks": "Very kind streaks",
+  "preferences.shouldShowVeryKindStreaks.tip": "Up to two missed days don't break them.",
   "preferences.homeCountry": "Home country",
   "preferences.homeCountry.tip": "Those countries aren't counted on the calendar and are represented with a house icon.",
   "preferences.homeCountry.selectManyTip": "If you select all countries and then unselect the chosen ones, you can see how much of the calendar is covered by the unselected countries.",

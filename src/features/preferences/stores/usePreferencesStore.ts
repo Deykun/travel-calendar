@@ -17,7 +17,7 @@ export type PreferencesStoreState = {
     shouldShowHome: boolean;
   };
   streaks: {
-    typeToShow: 'streaks' | 'kindStreaks';
+    typeToShow: 'streaks' | 'kindStreaks' | 'veryKindStreaks';
     shouldHighlightNewCountries: boolean;
   };
 };

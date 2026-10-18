@@ -18,7 +18,19 @@ import {
   stringDateToObject,
 } from '../../../utils/date';
 import type { DataStoreState } from '../stores/useDateStore';
-import { getKindStreaks } from './get-forgiving-streaks';
+import { getKindStreaks } from './get-kind-streaks';
+
+const toMaxCountriesStreaks = (streaks: StreakSummary[]): StreakSummary[] =>
+  streaks
+    .map(
+      (streak) =>
+        ({
+          ...streak,
+          type: 'maxCountries',
+          count: streak.countriesCodes.length,
+        }) satisfies StreakSummary,
+    )
+    .sort((a, b) => b.count - a.count);
 
 export const getFiltered = (dataByDay: DataStoreState['dataByDay']): FiltersStoreState['filtered'] => {
   console.info('Filtering...');
@@ -189,16 +201,8 @@ export const getFiltered = (dataByDay: DataStoreState['dataByDay']): FiltersStor
   }
 
   const sortedStreaksMaxDays = streaks.sort((a, b) => b.count - a.count);
-  const sortedStreaksMaxCountries = sortedStreaksMaxDays
-    .map(
-      (streak) =>
-        ({
-          ...streak,
-          type: 'maxCountries',
-          count: streak.countriesCodes.length,
-        }) satisfies StreakSummary,
-    )
-    .sort((a, b) => b.count - a.count);
+  const kindStreaksMaxDays = getKindStreaks(sortedStreaksMaxDays, 1);
+  const veryKindStreaksMaxDays = getKindStreaks(sortedStreaksMaxDays, 2);
 
   const { summaryByMonth, summary } = Object.values(summaryByDay)
     .filter(filterEmpty)
@@ -305,20 +309,15 @@ export const getFiltered = (dataByDay: DataStoreState['dataByDay']): FiltersStor
     summary,
     streaks: {
       maxDays: sortedStreaksMaxDays,
-      maxCountries: sortedStreaksMaxCountries,
+      maxCountries: toMaxCountriesStreaks(sortedStreaksMaxDays),
     },
     kindStreaks: {
-      maxDays: getKindStreaks(sortedStreaksMaxDays),
-      maxCountries: getKindStreaks(sortedStreaksMaxDays)
-        .map(
-          (streak) =>
-            ({
-              ...streak,
-              type: 'maxCountries',
-              count: streak.countriesCodes.length,
-            }) satisfies StreakSummary,
-        )
-        .sort((a, b) => b.count - a.count),
+      maxDays: kindStreaksMaxDays,
+      maxCountries: toMaxCountriesStreaks(kindStreaksMaxDays),
+    },
+    veryKindStreaks: {
+      maxDays: veryKindStreaksMaxDays,
+      maxCountries: toMaxCountriesStreaks(veryKindStreaksMaxDays),
     },
   };
 };

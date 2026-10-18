@@ -77,6 +77,8 @@
   "preferences.shouldShowStreaks": "Serie",
   "preferences.shouldShowKindStreaks": "Przyjazne serie",
   "preferences.shouldShowKindStreaks.tip": "Jeden pominięty dzień ich nie przerywa.",
+  "preferences.shouldShowVeryKindStreaks": "Bardzo przyjazne serie",
+  "preferences.shouldShowVeryKindStreaks.tip": "Do dwóch pominiętych dni ich nie przerywa.",
   "preferences.homeCountry": "Kraj domowy",
   "preferences.homeCountry.tip": "Te kraje nie są uwzględniane w kalendarzu i są oznaczone ikoną domu.",
   "preferences.homeCountry.selectManyTip": "Jeśli wybierzesz wszystkie kraje, a następnie odznaczysz wybrane, możesz zobaczyć, jak dużą część kalendarza obejmują niewybrane kraje.",

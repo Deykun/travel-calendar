@@ -31,6 +31,15 @@ export function PaneSettingsTrips() {
             <small className="opacity-75">{t('preferences.shouldShowKindStreaks.tip')}</small>
           </div>
         </Radiobox>
+        <Radiobox
+          isActive={streakTypeToShow === 'veryKindStreaks'}
+          onChange={() => setStreakTypeToUse('veryKindStreaks')}
+        >
+          <div className={cn('flex flex-col gap-1', 'text-wrap')}>
+            {t('preferences.shouldShowVeryKindStreaks')}
+            <small className="opacity-75">{t('preferences.shouldShowVeryKindStreaks.tip')}</small>
+          </div>
+        </Radiobox>
       </Pane.List>
       {rangeTo && isFuture(rangeTo) && (
         <>
