@@ -26,25 +26,33 @@ export function PaneIntegrationStrava() {
   return (
     <Pane>
       <Pane.Title>{t('integration.fromStrava')}</Pane.Title>
-      <Pane.Subtitle>{t('integration.withStrava')}</Pane.Subtitle>
-      <p className="text-[#979797] text-xs">{t('integration.strava.intro')}</p>
-      <ol className="list-decimal pl-4 flex flex-col gap-1 text-[#979797] text-xs [&_a]:text-white [&_a]:underline">
+      <Pane.Subtitle>{t('integration.strava.subtitle')}</Pane.Subtitle>
+      <ol className="list-decimal pl-4 flex flex-col gap-2 text-[#979797] text-sm [&_a]:text-white [&_a]:hover:text-[#d8da51] [&_a]:duration-500">
+        <li>
+          <span
+            dangerouslySetInnerHTML={{
+              __html: t('integration.strava.step1', {
+                link: `<a href="${STRAVA_EXPORT_URL}" target="_blank" rel="noreferrer">${t('integration.strava.step1Link')}</a>`,
+              }),
+            }}
+          />
+          <small className="block text-xs opacity-50 mt-2">{t('integration.strava.step1Note')}</small>
+        </li>
+        <li>{t('integration.strava.step2')}</li>
         <li
           dangerouslySetInnerHTML={{
-            __html: t('integration.strava.step1', {
-              link: `<a href="${STRAVA_EXPORT_URL}" target="_blank" rel="noreferrer">${t('integration.strava.step1Link')}</a>`,
+            __html: t('integration.strava.step3', {
+              folder: '<span class="text-white">activities</span>',
             }),
           }}
         />
-        <li>{t('integration.strava.step2')}</li>
-        <li>{t('integration.strava.step3')}</li>
-        <li>{t('integration.strava.step4')}</li>
       </ol>
       <label
         className={cn(
+          'mt-2',
           'relative',
           'flex items-center justify-center',
-          'w-full min-h-20 p-3',
+          'w-full min-h-25 p-3',
           'text-xs text-center text-[#979797]',
           'bg-[#282824] rounded-sm',
           'border-2 border-dashed border-[#979797]/40',
