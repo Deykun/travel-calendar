@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 
 import { Datetime } from '@/components/datetime/datetime';
+import IconBulb from '@/components/icons/IconBulb';
 import { Progressbar } from '@/components/progressbar/Progressbar';
 import { Pane } from '@/features/sidebar/components/pane/Pane';
 import { cn } from '@/utils/tailwind';
@@ -39,10 +40,6 @@ export function PaneIntegrationStrava() {
         <li>{t('integration.strava.step3')}</li>
         <li>{t('integration.strava.step4')}</li>
       </ol>
-      <p
-        className="text-[#979797] text-xs [&_strong]:text-white [&_strong]:font-normal"
-        dangerouslySetInnerHTML={{ __html: `🔒 ${t('integration.strava.privacy')}` }}
-      />
       <label
         className={cn(
           'relative',
@@ -86,6 +83,16 @@ export function PaneIntegrationStrava() {
           .
         </p>
       )}
+      <Pane.Footer>
+        <h4 className="flex gap-2 mb-1 text-sm text-[white] font-semibold tracking-wide">
+          <IconBulb className="size-5 text-[#d8da51]" /> <span>{t('integration.strava.privacyTitle')}</span>
+        </h4>
+        <ul className="list-disc pl-4 flex flex-col gap-1 text-xs">
+          <li>{t('integration.strava.privacyBrowser')}</li>
+          <li>{t('integration.strava.privacyLocation')}</li>
+          <li>{t('integration.strava.privacyAnalytics')}</li>
+        </ul>
+      </Pane.Footer>
     </Pane>
   );
 }
