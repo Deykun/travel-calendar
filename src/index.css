@@ -36,3 +36,8 @@ button {
     background-image: linear-gradient(to right, transparent, #111110);
   }
 }
+
+::selection {
+  background-color: #d8da516a;
+  color: white;
+}
