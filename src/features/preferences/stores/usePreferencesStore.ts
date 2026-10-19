@@ -27,14 +27,14 @@ const emptyStore: PreferencesStoreState = {
     counterShouldShow: 'numberOfCountries',
     shouldCounterUseScale: false,
     shouldHighlightAbroadTravel: false,
-    shouldHighlightNewCountries: false,
+    shouldHighlightNewCountries: true,
   },
   sidebars: {
     shouldShowHome: false,
   },
   streaks: {
     typeToShow: 'kindStreaks',
-    shouldHighlightNewCountries: false,
+    shouldHighlightNewCountries: true,
   },
 };
 

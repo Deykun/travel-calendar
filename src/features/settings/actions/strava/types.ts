@@ -8,4 +8,12 @@ export type IntegrationStravaActivity = {
   country_codes: string[];
   latitude?: number | undefined;
   longitude?: number | undefined;
+  coordinatesByCountry: {
+    [countryCode: string]:
+      | {
+          latitude?: number;
+          longitude?: number;
+        }
+      | undefined;
+  };
 };

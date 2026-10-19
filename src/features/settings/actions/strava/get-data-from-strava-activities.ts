@@ -42,6 +42,8 @@ export const getDataFromStravaActivities = (items: IntegrationStravaActivity[]):
           stack.push({
             ...item,
             country_codes: [countryCode],
+            latitude: item.coordinatesByCountry[countryCode]?.latitude || item.latitude,
+            longitude: item.coordinatesByCountry[countryCode]?.longitude || item.longitude,
           });
         }
       });

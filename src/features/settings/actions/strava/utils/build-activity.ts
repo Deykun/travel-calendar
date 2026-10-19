@@ -36,11 +36,13 @@ export const buildActivity = <T extends object>(
   let activityLatitude: number | undefined;
   let activityLongitude: number | undefined;
   const visitedCountries = new Set<string>();
+  const coordinatesByCountry: IntegrationStravaActivity['coordinatesByCountry'] = {};
 
   pointsToCheck.forEach((rawPoint) => {
     const { latitude, longitude, time } = toPoint(rawPoint);
 
     const date = getAppDateIfPossible(time ?? undefined);
+
     if (date) {
       date_start = date_start ?? date;
       date_end = date; // last checked point wins
@@ -54,8 +56,10 @@ export const buildActivity = <T extends object>(
       locationFinder.getCountries(latitude, longitude).forEach((countryCode) => {
         const verifiedCountry = getCountryCodeFromStringIfPossible(countryCode);
 
-        if (verifiedCountry) {
+        if (verifiedCountry && !visitedCountries.has(verifiedCountry)) {
           visitedCountries.add(verifiedCountry);
+          // first point in a new country is that country's location
+          coordinatesByCountry[verifiedCountry] = { latitude, longitude };
         }
       });
     }
@@ -92,6 +96,7 @@ export const buildActivity = <T extends object>(
       country_codes: [...visitedCountries],
       latitude: activityLatitude,
       longitude: activityLongitude,
+      coordinatesByCountry,
     };
   }
 
