@@ -5,7 +5,7 @@ import type { DateLike, DateMMDD, DateYYYYMMDD, MetadataDay, MetadataPlace, Meta
 
 type DataStatus = 'missing' | 'ready';
 
-type IntegrationType = 'nomads.com' | 'activities';
+export type IntegrationType = 'nomads.com' | 'activities';
 
 export type DataStoreState = {
   version: string;
@@ -14,6 +14,7 @@ export type DataStoreState = {
     type: IntegrationType | undefined;
     integrationCode: string | undefined;
     lastUpdate: DateLike | undefined;
+    totalDataPoints: number | undefined;
   };
   date: {
     from: DateYYYYMMDD | undefined;
@@ -57,6 +58,7 @@ const emptyStore: DataStoreState = {
     type: undefined,
     integrationCode: undefined,
     lastUpdate: undefined,
+    totalDataPoints: undefined,
   },
   date: {
     from: undefined,

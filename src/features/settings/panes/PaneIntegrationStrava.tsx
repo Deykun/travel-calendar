@@ -1,6 +1,5 @@
 import { useTranslation } from 'react-i18next';
 
-import { Datetime } from '@/components/datetime/datetime';
 import IconBulb from '@/components/icons/IconBulb';
 import { Progressbar } from '@/components/progressbar/Progressbar';
 import { Pane } from '@/features/sidebar/components/pane/Pane';
@@ -8,6 +7,7 @@ import { cn } from '@/utils/tailwind';
 
 import { getDataFromStrava } from '../actions/get-data-from-strava';
 import useStravaIntegrationsStore from '../actions/strava/stores/useStravaIntegrationStore';
+import { IntegrationLastUpdate } from '../components/IntegrationLastUpdate';
 import { WindowDropzone } from '../components/WindowDropzone';
 import useDataStore from '../stores/useDateStore';
 
@@ -22,6 +22,9 @@ export function PaneIntegrationStrava() {
   const isLoading = integrationStatus.state === 'loading';
 
   const { t } = useTranslation();
+
+  const shouldShowProgress =
+    integrationStatus.total > 0 && integrationStatus.total !== integrationStatus.processed + integrationStatus.rejected;
 
   return (
     <Pane>
@@ -74,7 +77,7 @@ export function PaneIntegrationStrava() {
         />
       </label>
       <WindowDropzone onDrop={handleFiles} isDisabled={isLoading} />
-      {integrationStatus.total > 0 && (
+      {shouldShowProgress && (
         <Progressbar
           key={integrationStatus.startedAt}
           value={integrationStatus.processed + integrationStatus.rejected}
@@ -82,15 +85,7 @@ export function PaneIntegrationStrava() {
           startedAt={integrationStatus.startedAt}
         />
       )}
-      {integration.type === 'activities' && integration.lastUpdate && (
-        <p className="text-[#979797] text-xs mt-2">
-          {t('integration.lastUpdatePrefix')}{' '}
-          <span className="text-white">
-            <Datetime date={integration.lastUpdate} />
-          </span>
-          .
-        </p>
-      )}
+      {integration.type === 'activities' && <IntegrationLastUpdate date={integration.lastUpdate} className="mt-2" />}
       <Pane.Footer>
         <h4 className="flex gap-2 mb-1 text-sm text-[white] font-semibold tracking-wide">
           <IconBulb className="size-5 text-[#d8da51]" /> <span>{t('integration.strava.privacyTitle')}</span>

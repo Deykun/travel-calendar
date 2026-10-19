@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Button } from '@/components/button/Button';
-import { Datetime } from '@/components/datetime/datetime';
 import IconBolt from '@/components/icons/IconBolt';
 import IconWarning from '@/components/icons/IconWarning';
 import Input from '@/components/input/Input';
@@ -11,6 +10,7 @@ import { openSidebarFilters } from '@/features/sidebar/stores/useSidebarStore';
 import { cn } from '@/utils/tailwind';
 
 import { getDataFromNomads } from '../actions/get-data-from-nomads';
+import { IntegrationLastUpdate } from '../components/IntegrationLastUpdate';
 import useDataStore from '../stores/useDateStore';
 
 export function PaneIntegrationNomads() {
@@ -62,15 +62,7 @@ export function PaneIntegrationNomads() {
           <span>{t('integration.getData')}</span>
         </Button>
       </form>
-      {integration.type === 'nomads.com' && integration.lastUpdate && (
-        <p className="text-[#979797] text-xs mt-2">
-          {t('integration.lastUpdatePrefix')}{' '}
-          <span className="text-white">
-            <Datetime date={integration.lastUpdate} />
-          </span>
-          .
-        </p>
-      )}
+      {integration.type === 'nomads.com' && <IntegrationLastUpdate date={integration.lastUpdate} className="mt-2" />}
       {errorMessage && (
         <Pane.Footer>
           <h4 className="flex gap-2 mb-1 text-sm text-[white] font-semibold tracking-wide">

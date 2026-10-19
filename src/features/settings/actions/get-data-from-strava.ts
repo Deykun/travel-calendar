@@ -1,4 +1,5 @@
 import { setDateFilter, setHomeCountriesCodes } from '@/features/filters/stores/useFilterStore';
+import { openSidebarFilters } from '@/features/sidebar/stores/useSidebarStore';
 import type { DateYYYYMMDD } from '@/types';
 
 import { APP_VERSION, setIntegration } from '../stores/useDateStore';
@@ -14,7 +15,10 @@ type Params = {
 
 type FetchResponse = { isSuccess: true } | { isSuccess: false; reason: string };
 
-const setStoreWithActivities = (activities: IntegrationStravaActivity[]) => {
+const setStoreWithActivities = (
+  activities: IntegrationStravaActivity[],
+  { totalDataPoints = 0 }: { totalDataPoints: number },
+) => {
   const {
     dataByDay,
     placesByKey,
@@ -34,6 +38,7 @@ const setStoreWithActivities = (activities: IntegrationStravaActivity[]) => {
       type: 'activities',
       integrationCode: '',
       lastUpdate: Date.now(),
+      totalDataPoints,
     },
     date: {
       from: sortedDates.at(0),
@@ -50,6 +55,7 @@ const setStoreWithActivities = (activities: IntegrationStravaActivity[]) => {
 
   setHomeCountriesCodes(getHomeCountriesForStrava(daysByCountry));
   setDateFilter(undefined, undefined);
+  openSidebarFilters();
 };
 
 export const getDataFromStrava = async ({ files }: Params): Promise<FetchResponse> => {
@@ -71,7 +77,7 @@ export const getDataFromStrava = async ({ files }: Params): Promise<FetchRespons
 
   const activitiesToUse = flattenActivities(activities);
 
-  setStoreWithActivities(activitiesToUse);
+  setStoreWithActivities(activitiesToUse, { totalDataPoints: activities.length });
 
   return { isSuccess: true };
 };

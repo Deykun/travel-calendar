@@ -57,6 +57,7 @@ export const getDataFromNomads = async ({ username }: Params): Promise<FetchResp
       type: 'nomads.com',
       integrationCode: username,
       lastUpdate: Date.now(),
+      totalDataPoints: nomadsData.trips.length,
     },
     date: {
       from: sortedDates.at(0),
