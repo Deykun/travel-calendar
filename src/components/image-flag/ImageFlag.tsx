@@ -7,6 +7,7 @@ import IconForward from '../icons/IconForward';
 import IconPlus from '../icons/IconPlus';
 import IconTravel from '../icons/IconTravel';
 import IconTravelWrapper from '../icons/IconTravelWrapper';
+import { Image } from '../image/Image';
 
 const fallbackFlags: { [key: string]: string | undefined } = {
   UK: 'GB',
@@ -31,7 +32,7 @@ export const ImageFlag = ({
 
   return (
     <span className={cn('inline-flex relative', 'p-1.5', 'bg-[#3d3d3d6e]', 'rounded-[10px]')}>
-      <img
+      <Image
         className={cn(
           'w-9',
           'aspect-3/2',

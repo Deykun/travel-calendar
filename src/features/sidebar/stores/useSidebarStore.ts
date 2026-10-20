@@ -5,9 +5,15 @@ import type { MonthNumber } from '@/features/calendar/types';
 import type { StreakType } from '@/features/filters/stores/useFilterStore';
 import type { DateMMDD } from '@/types';
 
+export type SettingsScrollTarget = 'data' | 'home' | 'trips';
+
 export type Sidebar =
   | {
       type: 'setting';
+      scrollTo?: SettingsScrollTarget;
+    }
+  | {
+      type: 'share';
     }
   | {
       type: 'day';
@@ -59,15 +65,22 @@ export function openSidebar(sidebar: Sidebar) {
   });
 }
 
-export function openSidebarSettings() {
+export function openSidebarSettings(scrollTo?: SettingsScrollTarget) {
   openSidebar({
     type: 'setting',
+    scrollTo,
   });
 }
 
 export function openSidebarFilters() {
   openSidebar({
     type: 'filters',
+  });
+}
+
+export function openSidebarShare() {
+  openSidebar({
+    type: 'share',
   });
 }
 

@@ -1,5 +1,6 @@
 .SHARING-VIEW {
   width: 1400px;
+  pointer-events: none;
 
   #shareable-content {
     position: relative;

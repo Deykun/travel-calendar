@@ -8,13 +8,14 @@ type Props = {
   className?: string;
 };
 
-export function Pane({ children, className = '' }: PropsWithChildren<Props>) {
+export function Pane({ children, className = '', id }: PropsWithChildren<Props & { id?: string }>) {
   if (!children) {
     return null;
   }
 
   return (
     <div
+      id={id}
       className={cn(
         'rounded-lg',
         'p-4',

@@ -4,6 +4,7 @@ import { Button } from '@/components/button/Button';
 import IconBolt from '@/components/icons/IconBolt';
 import { refreshStore } from '@/features/error-boundary/actions/refresh';
 import { Pane } from '@/features/sidebar/components/pane/Pane';
+import type { SettingsScrollTarget } from '@/features/sidebar/stores/useSidebarStore';
 
 import { IntegrationLastUpdate } from '../components/IntegrationLastUpdate';
 import useDataStore, { type IntegrationType } from '../stores/useDateStore';
@@ -19,10 +20,11 @@ const dataPointsLabelKeyByType: Record<IntegrationType, string> = {
 };
 
 type Props = {
+  id?: SettingsScrollTarget;
   onOpenIntegrations: () => void;
 };
 
-export function PaneIntegrationManagement({ onOpenIntegrations }: Props) {
+export function PaneIntegrationManagement({ id, onOpenIntegrations }: Props) {
   const integration = useDataStore((store) => store.integration);
   const { t } = useTranslation();
 
@@ -31,7 +33,7 @@ export function PaneIntegrationManagement({ onOpenIntegrations }: Props) {
   const hasDataPoints = dataPointsLabelKey !== undefined && integration.totalDataPoints !== undefined;
 
   return (
-    <Pane>
+    <Pane id={id}>
       <Pane.Title>{t('integration.management.title')}</Pane.Title>
       <Pane.Subtitle>{t('integration.management.subtitle')}</Pane.Subtitle>
       <div className="flex flex-wrap justify-end gap-2 mt-2">

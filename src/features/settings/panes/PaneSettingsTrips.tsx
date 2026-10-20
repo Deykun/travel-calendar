@@ -6,11 +6,16 @@ import { Radiobox } from '@/components/radiobox/Radiobox';
 import useFiltersStore, { toggleShouldIncludeFuture } from '@/features/filters/stores/useFilterStore';
 import usePreferencesStore, { setStreakTypeToUse } from '@/features/preferences/stores/usePreferencesStore';
 import { Pane } from '@/features/sidebar/components/pane/Pane';
+import type { SettingsScrollTarget } from '@/features/sidebar/stores/useSidebarStore';
 import { cn } from '@/utils/tailwind';
 
 import useDataStore from '../stores/useDateStore';
 
-export function PaneSettingsTrips() {
+type Props = {
+  id?: SettingsScrollTarget;
+};
+
+export function PaneSettingsTrips({ id }: Props) {
   const shouldIncludeFuture = useFiltersStore((store) => store.activeFilters.shouldIncludeFuture);
   const streakTypeToShow = usePreferencesStore((store) => store.streaks.typeToShow);
   const rangeTo = useDataStore((store) => store.date.to);
@@ -21,7 +26,7 @@ export function PaneSettingsTrips() {
   const { t } = useTranslation();
 
   return (
-    <Pane>
+    <Pane id={id}>
       <Pane.Title>{t('preferences.streaks.title')}</Pane.Title>
       <Pane.Subtitle>{t('preferences.streaksAccumulation.title')}</Pane.Subtitle>
       <Pane.List>

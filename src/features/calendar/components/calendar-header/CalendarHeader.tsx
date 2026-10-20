@@ -4,7 +4,7 @@ import IconPlus from '@/components/icons/IconPlus';
 import IconTravel from '@/components/icons/IconTravel';
 import IconTravelWrapper from '@/components/icons/IconTravelWrapper';
 import { TextCounter } from '@/components/text-counter/TextCounter';
-import { useTotalDays } from '@/features/filters/hooks/useTotalDays';
+import { useTotalDays } from '@/features/filters/hooks/use-total-days/useTotalDays';
 import useFiltersStore from '@/features/filters/stores/useFilterStore';
 import useDataStore from '@/features/settings/stores/useDateStore';
 import { StreaksSummary } from '@/features/streak/components/StreaksSummary';
@@ -48,7 +48,7 @@ export function CalendarHeader() {
     <header className={cn(classNamesLayoutGap, classNamesLayoutPx, classNamesLayoutGrid, 'mb-8')}>
       <div
         className={cn(
-          'col-span-4 @min-[1600px]:col-span-2 relative',
+          'col-span-4 @min-[1600px]:col-span-4 relative',
           'p-5 pt-10 sm:pt-5',
           'bg-[#111110]',
           'text-center',
