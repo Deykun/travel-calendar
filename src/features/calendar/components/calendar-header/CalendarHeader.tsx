@@ -4,6 +4,8 @@ import IconPlus from '@/components/icons/IconPlus';
 import IconTravel from '@/components/icons/IconTravel';
 import IconTravelWrapper from '@/components/icons/IconTravelWrapper';
 import { TextCounter } from '@/components/text-counter/TextCounter';
+import { AppIntro } from '@/features/app-intro/components/AppIntro';
+import { useTotalDays } from '@/features/filters/hooks/use-total-days/useTotalDays';
 import useFiltersStore from '@/features/filters/stores/useFilterStore';
 import useDataStore from '@/features/settings/stores/useDateStore';
 import { StreaksSummary } from '@/features/streak/components/StreaksSummary';
@@ -14,7 +16,6 @@ import { cn } from '@/utils/tailwind';
 
 export function CalendarHeader() {
   const lastUpdate = useDataStore((store) => store.integration.lastUpdate);
-  const totalDays = useFiltersStore((store) => store.filtered.summary.totalDays);
   const totalDaysAbroad = useFiltersStore((store) => store.filtered.summary.totalDaysAbroad);
   const maxCountriesInDay = useFiltersStore((store) => store.filtered.summary.maxCountriesInDay);
   const maxYearsAbroadInDay = useFiltersStore((store) => store.filtered.summary.maxYearsAbroadInDay);
@@ -25,26 +26,24 @@ export function CalendarHeader() {
   const activeTo = useFiltersStore((store) => store.activeFilters.to);
   const { from, to } = useDataStore((store) => store.date);
 
+  const totalDays = useTotalDays();
+
   const { t } = useTranslation();
 
   const years = getArrayOfYears(activeFrom ?? from, activeTo ?? to);
   const totalYears = years.length;
 
   if (!lastUpdate) {
-    return (
-      <header className={cn(classNamesLayoutGap, classNamesLayoutPx, classNamesLayoutGrid, 'mb-8')}>
-        <div className={cn('col-span-4 relative', 'p-5', 'bg-[#111110]', 'text-center', 'rounded-lg')}>
-          {t('integration.hintDemo')}
-        </div>
-      </header>
-    );
+    return <AppIntro />;
   }
+
+  const percentageAbroad = roundWithPrecision((100 * totalDaysAbroad) / totalDays, 1);
 
   return (
     <header className={cn(classNamesLayoutGap, classNamesLayoutPx, classNamesLayoutGrid, 'mb-8')}>
       <div
         className={cn(
-          'col-span-4 @min-[1600px]:col-span-2 relative',
+          'col-span-4 @min-[1600px]:col-span-4 relative',
           'p-5 pt-10 sm:pt-5',
           'bg-[#111110]',
           'text-center',
@@ -91,8 +90,8 @@ export function CalendarHeader() {
       >
         <div className="flex flex-col gap-3 items-center">
           <IconTravel
-            total={roundWithPrecision((100 * totalDaysAbroad) / totalDays, 1)}
-            suffixAfter="%"
+            total={percentageAbroad > 0 && percentageAbroad < 1 ? 1 : percentageAbroad}
+            visualTotal={`${percentageAbroad}%`}
             classNameSize="size-12 text-2xl"
             shouldShowAllNumbers
           />

@@ -9,7 +9,7 @@ export const ButtonSettings = () => {
   const { t } = useTranslation();
 
   return (
-    <Button onClick={openSidebarSettings} variant={isSidebarOpen ? 'primary' : 'secondary'}>
+    <Button onClick={() => openSidebarSettings()} variant={isSidebarOpen ? 'primary' : 'secondary'}>
       <IconGear />
       <span>{t('label.settings')}</span>
     </Button>

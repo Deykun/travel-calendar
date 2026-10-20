@@ -20,7 +20,7 @@ function App() {
       <div className="flex">
         <Sidebar className="shrink-0 z-500" />
         <div className="w-full">
-          <div className="overflow-hidden [@media(min-width:860px)]:pl-95 py-12">
+          <div className="overflow-hidden [@media(min-width:860px)]:pl-100 py-12">
             <div id="shareable-content-container">
               <div id="shareable-content-wrapper">
                 <div id="shareable-content" className="@container max-w-[2000px] mx-auto py-12">

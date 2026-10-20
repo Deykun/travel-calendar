@@ -8,6 +8,7 @@ import './ButtonDownloadImage.css';
 import { Button } from '@/components/button/Button';
 import IconImage from '@/components/icons/IconImage';
 import useDataStore from '@/features/settings/stores/useDateStore';
+import { openSidebarShare } from '@/features/sidebar/stores/useSidebarStore';
 
 export function ButtonDownloadImage() {
   const [isDownloading, setIsDownloading] = useState(false);
@@ -25,6 +26,7 @@ export function ButtonDownloadImage() {
     }
 
     setIsDownloading(true);
+    openSidebarShare();
 
     domElement.classList.add('SHARING-VIEW');
 

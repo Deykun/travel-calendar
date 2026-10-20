@@ -7,6 +7,7 @@ import IconForward from '../icons/IconForward';
 import IconPlus from '../icons/IconPlus';
 import IconTravel from '../icons/IconTravel';
 import IconTravelWrapper from '../icons/IconTravelWrapper';
+import { Image } from '../image/Image';
 
 const fallbackFlags: { [key: string]: string | undefined } = {
   UK: 'GB',
@@ -27,11 +28,11 @@ export const ImageFlag = ({
   hasAbroadTravel = false,
 }: PropsWithChildren<Props>) => {
   const { t } = useTranslation();
-  const safeCountryCode = fallbackFlags[countryCode.toUpperCase()] || countryCode.toUpperCase();
+  const safeCountryCodeForImage = fallbackFlags[countryCode.toUpperCase()] || countryCode.toUpperCase();
 
   return (
     <span className={cn('inline-flex relative', 'p-1.5', 'bg-[#3d3d3d6e]', 'rounded-[10px]')}>
-      <img
+      <Image
         className={cn(
           'w-9',
           'aspect-3/2',
@@ -46,12 +47,12 @@ export const ImageFlag = ({
           'tracking-widest',
           'text-xs',
         )}
-        alt={safeCountryCode}
+        alt={countryCode}
         loading="lazy"
         // https://purecatamphetamine.github.io/country-flag-icons/1x1/index.html
-        src={`https://purecatamphetamine.github.io/country-flag-icons/3x2/${safeCountryCode}.svg`}
-        onError={() => console.error(`Missing flag for "${safeCountryCode}".`)}
-        title={t(`country.name.${safeCountryCode.toLowerCase()}`)}
+        src={`https://purecatamphetamine.github.io/country-flag-icons/3x2/${safeCountryCodeForImage}.svg`}
+        onError={() => console.error(`Missing flag for "${safeCountryCodeForImage}".`)}
+        title={t(`country.name.${countryCode}`)}
       />
       {shouldShowHomeMarker && (
         <IconTravel className="absolute -bottom-1 -right-1 z-10" classNameSize="size-5" total={0} />

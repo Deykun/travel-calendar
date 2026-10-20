@@ -35,7 +35,7 @@ export function Sidebar({ className = '' }: Props) {
           'overflow-y-scroll',
           '[scrollbar-width:thin]',
           '[scrollbar-color:rgb(255_255_255/0.2)_transparent]',
-          'w-95',
+          'w-100',
           'max-w-full',
           'p-2 sm:p-6',
           'bg-[#111110]',

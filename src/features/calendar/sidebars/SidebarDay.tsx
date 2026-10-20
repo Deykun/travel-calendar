@@ -96,10 +96,13 @@ export const SidebarDay = ({ className, dayKey }: Props) => {
         <ToggleShowHome className="mt-4" />
       </div>
       {details.tripsKeys.length > 0 && (
-        <div className={cn(sidebarStyles, 'mt-8', 'flex flex-col gap-5')}>
-          {details.tripsKeys.map((tripKey) => (
-            <DayTripDetails key={tripKey} tripKey={tripKey} showOnlyForCountryCode={details.countryCode || undefined} />
-          ))}
+        <div className={cn(sidebarStyles, 'mt-8', 'flex flex-col gap-3')}>
+          <strong className="text-[#979797] text-sm tracking-wider font-normal">{t('summary.tripsTitle')}</strong>
+          <div className="flex flex-col gap-5">
+            {details.tripsKeys.map((tripKey) => (
+              <DayTripDetails key={tripKey} tripKey={tripKey} showOnlyForCountryCode={details.countryCode || undefined} />
+            ))}
+          </div>
         </div>
       )}
     </>

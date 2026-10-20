@@ -18,10 +18,13 @@ type Props = {
 };
 
 export function BestStreak({ type, index = 0, className }: Props) {
+  const streakTypeToUse = usePreferencesStore((store) => store.streaks?.typeToShow || 'kindStreaks');
   const shouldCounterUseScale = usePreferencesStore((store) => store.calendar.shouldCounterUseScale);
-  const maxTotalDays = useFiltersStore((store) => store.filtered.streaks.maxDays?.[index]?.count || 0);
-  const maxTotalCountries = useFiltersStore((store) => store.filtered.streaks.maxCountries?.[index]?.count || 0);
-  const streak = useFiltersStore((store) => store.filtered.streaks[type][index]);
+  const maxTotalDays = useFiltersStore((store) => store.filtered[streakTypeToUse].maxDays?.[index]?.count || 0);
+  const maxTotalCountries = useFiltersStore(
+    (store) => store.filtered[streakTypeToUse].maxCountries?.[index]?.count || 0,
+  );
+  const streak = useFiltersStore((store) => store.filtered[streakTypeToUse][type][index]);
 
   const { t } = useTranslation();
 
@@ -98,9 +101,9 @@ export function BestStreak({ type, index = 0, className }: Props) {
                   countryCode={countryCode}
                   isEndPoint={isEndPoint}
                   isStartPoint={isStartPoint}
-                  // Dates are displayed in the header, so we don't need to pass them here
-                  from={undefined}
-                  to={undefined}
+                  from={streak.from}
+                  to={streak.to}
+                  shouldShowDates={false}
                 />
               );
             })}

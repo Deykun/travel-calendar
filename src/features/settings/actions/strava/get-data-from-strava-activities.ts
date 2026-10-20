@@ -6,10 +6,10 @@ import { mergeUnique } from '@/utils/array';
 import { getDateRange, getDateWithoutYear, stringDateToObject } from '../../../../utils/date';
 import type { DataStoreState } from '../../stores/useDateStore';
 import { getPlaceKey } from '../../utils/get-place-key';
-import { getCountryCodeFromTrip } from './utils/get-country-code-from-trip';
+import type { IntegrationStravaActivity } from './types';
 
 export type IntegrationNomadsTrip = {
-  trip_id: string;
+  id: string;
   date_start: DateYYYYMMDD;
   date_end: DateYYYYMMDD;
   place: string;
@@ -25,50 +25,68 @@ type TotalDaysByCountry = {
 
 type Response = Pick<
   DataStoreState,
-  'placesByKey' | 'dataByDay' | 'tripsByKey' | 'daysByCountry' | 'daysByCountryByMonthByYear'
+  'placesByKey' | 'dataByDay' | 'tripsByKey' | 'daysByCountry' | 'daysByCountryByMonthByYear' | 'unlockingDateByCountry'
 > & {
   totalDaysByCountry: TotalDaysByCountry;
 };
 
-export const getDataFromTrips = (trips: IntegrationNomadsTrip[]): Response => {
+export const getDataFromStravaActivities = (items: IntegrationStravaActivity[]): Response => {
   const unlockedCountries = new Set<string>();
 
-  return trips
+  // Activity can be in multiple countries, that separates them
+  const itemsToUse = items
+    .sort((a, b) => (isBefore(a.date_start, b.date_start) ? -1 : 1))
+    .reduce((stack: IntegrationStravaActivity[], item) => {
+      (item.country_codes || []).forEach((countryCode) => {
+        if (countryCode) {
+          stack.push({
+            ...item,
+            country_codes: [countryCode],
+            latitude: item.coordinatesByCountry[countryCode]?.latitude || item.latitude,
+            longitude: item.coordinatesByCountry[countryCode]?.longitude || item.longitude,
+          });
+        }
+      });
+
+      return stack;
+    }, []);
+
+  return itemsToUse
     .sort((a, b) => (isBefore(a.date_start, b.date_start) ? -1 : 1))
     .reduce(
-      (stack: Response, trip) => {
-        const dates = getDateRange(trip.date_start, trip.date_end);
-        const countryCode = getCountryCodeFromTrip(trip) || '??';
-        // nomads quirky location
-        if (countryCode === 'void') {
+      (stack: Response, item) => {
+        const dates = getDateRange(item.date_start, item.date_end);
+        const countryCode = item?.country_codes?.at(-1);
+
+        if (!countryCode) {
           return stack;
         }
 
         const placeKey = getPlaceKey({
-          place: trip.place,
-          country: trip.country_code,
+          place: countryCode,
+          country: countryCode,
         });
 
         if (!stack.placesByKey[placeKey]) {
           stack.placesByKey[placeKey] = {
             key: placeKey,
-            name: trip.place,
+            name: item.place,
             country: countryCode,
-            latitude: trip.latitude,
-            longitude: trip.longitude,
+            latitude: item.latitude,
+            longitude: item.longitude,
             tripsKeys: [],
           };
         }
 
-        stack.placesByKey[placeKey].tripsKeys = [...stack.placesByKey[placeKey].tripsKeys, trip.trip_id];
+        stack.placesByKey[placeKey].tripsKeys = [...stack.placesByKey[placeKey].tripsKeys, item.id];
 
-        if (!stack.tripsByKey[trip.trip_id]) {
-          stack.tripsByKey[trip.trip_id] = {
-            key: trip.trip_id,
+        if (!stack.tripsByKey[item.id]) {
+          stack.tripsByKey[item.id] = {
+            key: item.id,
             placeKey: placeKey,
             countryCode: countryCode,
-            from: trip.date_start,
-            to: trip.date_end,
+            from: item.date_start,
+            to: item.date_end,
             days: dates.length,
           };
         }
@@ -107,7 +125,7 @@ export const getDataFromTrips = (trips: IntegrationNomadsTrip[]): Response => {
             [dayWithoutYear],
           );
 
-          stack.dataByDay[date].tripsKeys = mergeUnique(stack.dataByDay[date].tripsKeys, [trip.trip_id]);
+          stack.dataByDay[date].tripsKeys = mergeUnique(stack.dataByDay[date].tripsKeys, [item.id]);
 
           if (!stack.dataByDay[date].countriesCodes.includes(countryCode)) {
             stack.dataByDay[date].countriesCodes.push(countryCode);
@@ -118,6 +136,7 @@ export const getDataFromTrips = (trips: IntegrationNomadsTrip[]): Response => {
           if (!unlockedCountries.has(countryCode)) {
             unlockedCountries.add(countryCode);
             stack.dataByDay[date].countriesUnlockedThisDay.push(countryCode);
+            stack.unlockingDateByCountry[countryCode] = date;
           }
 
           if (!stack.dataByDay[date].placeKeys.includes(placeKey)) {
@@ -134,6 +153,7 @@ export const getDataFromTrips = (trips: IntegrationNomadsTrip[]): Response => {
         totalDaysByCountry: {},
         daysByCountry: {},
         daysByCountryByMonthByYear: {},
+        unlockingDateByCountry: {},
       },
     );
 };

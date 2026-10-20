@@ -17,10 +17,10 @@ type Props = {
   isLoading?: boolean;
   isInverted?: boolean;
   isText?: boolean;
-  isLarge?: boolean;
   hasBorder?: boolean;
   dataTestId?: string;
   variant?: 'primary' | 'secondary';
+  size?: 'md' | 'sm';
 };
 
 export const Button = ({
@@ -36,6 +36,7 @@ export const Button = ({
   isLoading = false,
   dataTestId,
   variant = 'primary',
+  size = 'md',
 }: Props) => {
   const Tag = tagName || 'button';
 
@@ -46,18 +47,17 @@ export const Button = ({
         'relative',
         'group',
         'inline-flex',
-        'items-center gap-2',
+        'items-center',
         '*:duration-150',
-        '[&>svg]:shrink-0 [&>svg]:size-6',
+        '[&>svg]:shrink-0',
         'active:[&>svg]:scale-120',
-        '[&>svg]:first:-ml-1.5',
-        '[&>svg]:last:-mr-1.5',
-        'py-2 px-4 rounded-xl',
         'border-2 border-[#d8da51]',
         'text-black',
-        'text-sm font-medium',
+        'font-medium',
         'transition-bounce',
         {
+          'gap-2 py-2 px-4 rounded-xl text-sm [&>svg]:size-6 [&>svg]:first:-ml-1.5 [&>svg]:last:-mr-1.5': size === 'md',
+          'gap-1.5 py-1 px-3 rounded-lg text-xs [&>svg]:size-5 [&>svg]:first:-ml-1 [&>svg]:last:-mr-1': size === 'sm',
           'bg-[#d8da51] text-black hover:bg-[#fcff4e] hover:border-[#fcff4e]': variant === 'primary',
           'bg-transparent text-[#d8da51] hover:text-[#fcff4e] hover:border-[#fcff4e]': variant === 'secondary',
           [styles['button--loading'] || '']: isLoading,

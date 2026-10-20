@@ -14,6 +14,22 @@ export function chunkArray<T>(arr: T[], size: number): T[][] {
   return chunks;
 }
 
+/** Evenly spread indexes, always incl. first & last, e.g. (101, 5) → [0, 25, 50, 75, 100] */
+export function getSpreadIndexes(length: number, count: number): number[] {
+  if (length <= 0 || count <= 0) {
+    return [];
+  }
+
+  if (length === 1 || count === 1) {
+    return [0];
+  }
+
+  const step = (length - 1) / (count - 1);
+  const indexes = Array.from({ length: count }, (_, i) => Math.round(i * step));
+
+  return Array.from(new Set(indexes)); // dedupe when length < count
+}
+
 export function mergeUnique<T>(arrayA: T[] | undefined, arrayB: T[] | undefined): T[] {
   return Array.from(new Set([...(arrayA || []), ...(arrayB || [])]));
 }

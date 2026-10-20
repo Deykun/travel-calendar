@@ -3,6 +3,7 @@ import { SidebarDay } from '@/features/calendar/sidebars/SidebarDay';
 import { SidebarMonth } from '@/features/calendar/sidebars/SidebarMonth';
 import { SidebarFilters } from '@/features/filters/sidebars/SidebarFilters';
 import { SidebarSettings } from '@/features/settings/sidebars/SidebarSettings';
+import { SidebarShare } from '@/features/share/sidebars/SidebarShare';
 
 import { useSidebarStore } from '../stores/useSidebarStore';
 
@@ -10,7 +11,11 @@ export const SidebarContent = () => {
   const sidebar = useSidebarStore((store) => store.sidebar);
 
   if (sidebar?.type === 'setting') {
-    return <SidebarSettings />;
+    return <SidebarSettings scrollTo={sidebar.scrollTo} />;
+  }
+
+  if (sidebar?.type === 'share') {
+    return <SidebarShare />;
   }
 
   if (sidebar?.type === 'day' && sidebar?.dayKey) {

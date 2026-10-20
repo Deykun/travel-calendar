@@ -16,6 +16,10 @@ export type PreferencesStoreState = {
   sidebars: {
     shouldShowHome: boolean;
   };
+  streaks: {
+    typeToShow: 'streaks' | 'kindStreaks' | 'veryKindStreaks';
+    shouldHighlightNewCountries: boolean;
+  };
 };
 
 const emptyStore: PreferencesStoreState = {
@@ -23,10 +27,14 @@ const emptyStore: PreferencesStoreState = {
     counterShouldShow: 'numberOfCountries',
     shouldCounterUseScale: false,
     shouldHighlightAbroadTravel: false,
-    shouldHighlightNewCountries: false,
+    shouldHighlightNewCountries: true,
   },
   sidebars: {
     shouldShowHome: false,
+  },
+  streaks: {
+    typeToShow: 'kindStreaks',
+    shouldHighlightNewCountries: true,
   },
 };
 
@@ -66,11 +74,20 @@ export const toggleShouldHighlightAbroadTravel = () => {
   }));
 };
 
-export const toggleShouldHighlightNewCountries = () => {
+export const toggleShouldHighlightNewCountriesInCalendar = () => {
   usePreferencesStore.setState((state) => ({
     calendar: {
       ...state.calendar,
       shouldHighlightNewCountries: !state.calendar.shouldHighlightNewCountries,
+    },
+  }));
+};
+
+export const toggleShouldHighlightNewCountriesInStreaks = () => {
+  usePreferencesStore.setState((state) => ({
+    streaks: {
+      ...state.streaks,
+      shouldHighlightNewCountries: !state.streaks.shouldHighlightNewCountries,
     },
   }));
 };
@@ -89,6 +106,15 @@ export const setCounterShouldShow = (value: PreferencesStoreState['calendar']['c
     calendar: {
       ...state.calendar,
       counterShouldShow: value,
+    },
+  }));
+};
+
+export const setStreakTypeToUse = (typeToShow: PreferencesStoreState['streaks']['typeToShow']) => {
+  usePreferencesStore.setState((state) => ({
+    streaks: {
+      ...state.streaks,
+      typeToShow: typeToShow,
     },
   }));
 };
