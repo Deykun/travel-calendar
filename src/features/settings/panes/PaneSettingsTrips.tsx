@@ -34,6 +34,7 @@ export function PaneSettingsTrips({ id }: Props) {
           classNameChildren="overflow-hidden"
           isActive={streakTypeToShow === 'streaks'}
           onChange={() => setStreakTypeToUse('streaks')}
+          isDisabled={streaksCount === 0}
         >
           <span className="whitespace-nowrap text-ellipsis overflow-hidden">{t('preferences.shouldShowStreaks')}</span>
           <strong className="shrink-0 font-semibold text-white text-xs">
@@ -44,6 +45,7 @@ export function PaneSettingsTrips({ id }: Props) {
           classNameChildren={cn('flex-col items-start', 'text-wrap', 'overflow-hidden')}
           isActive={streakTypeToShow === 'kindStreaks'}
           onChange={() => setStreakTypeToUse('kindStreaks')}
+          isDisabled={streaksCount === 0}
         >
           <span className={cn('flex gap-1 items-center', 'max-w-full')}>
             <span className="whitespace-nowrap text-ellipsis overflow-hidden">
@@ -59,6 +61,7 @@ export function PaneSettingsTrips({ id }: Props) {
           classNameChildren={cn('flex-col items-start', 'text-wrap', 'overflow-hidden')}
           isActive={streakTypeToShow === 'veryKindStreaks'}
           onChange={() => setStreakTypeToUse('veryKindStreaks')}
+          isDisabled={streaksCount === 0}
         >
           <span className={cn('flex gap-1 items-center', 'max-w-full')}>
             <span className="whitespace-nowrap text-ellipsis overflow-hidden">

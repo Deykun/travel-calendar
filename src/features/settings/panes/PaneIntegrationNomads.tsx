@@ -6,49 +6,33 @@ import IconBolt from '@/components/icons/IconBolt';
 import IconWarning from '@/components/icons/IconWarning';
 import Input from '@/components/input/Input';
 import { Pane } from '@/features/sidebar/components/pane/Pane';
-import { openSidebarFilters } from '@/features/sidebar/stores/useSidebarStore';
 import { cn } from '@/utils/tailwind';
 
-import { getDataFromNomads } from '../actions/get-data-from-nomads';
 import { IntegrationLastUpdate } from '../components/IntegrationLastUpdate';
+import { useNomadsIntegration } from '../hooks/useNomadsIntegration';
 import useDataStore from '../stores/useDateStore';
 
 export function PaneIntegrationNomads() {
-  const [isLoading, setIsLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
+  const { isLoading, errorMessage, clearError, fetchNomads } = useNomadsIntegration();
   const integration = useDataStore((store) => store.integration);
   const integrationCode = useDataStore((store) => store.integration.integrationCode);
-  const [username, setUsername] = useState(integrationCode ?? 'deykun');
+  const [username, setUsername] = useState(integrationCode ?? '');
 
   const { t } = useTranslation();
 
   const handleUsernameUpdate = (newValue: string) => {
     setUsername(newValue);
-    setErrorMessage('');
+    clearError();
   };
 
-  const handleSubmitNomads: React.SubmitEventHandler<HTMLFormElement> = async (event) => {
+  const handleSubmitNomads: React.SubmitEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
 
-    if (isLoading) {
+    if (!username) {
       return;
     }
 
-    setIsLoading(true);
-
-    if (username) {
-      const response = await getDataFromNomads({ username });
-
-      if (response.isSuccess) {
-        openSidebarFilters();
-
-        return;
-      }
-
-      setErrorMessage(response.reason);
-    }
-
-    setIsLoading(false);
+    fetchNomads(username);
   };
 
   return (
@@ -56,7 +40,7 @@ export function PaneIntegrationNomads() {
       <Pane.Title>{t('integration.fromNomads')}</Pane.Title>
       <form onSubmit={handleSubmitNomads} className={cn('flex flex-col gap-3')}>
         <Pane.Subtitle>{t('integration.withNomads')}</Pane.Subtitle>
-        <Input value={username} setValue={handleUsernameUpdate} isDisabled={isLoading} />
+        <Input value={username} setValue={handleUsernameUpdate} isDisabled={isLoading} placeholder="Username" />
         <Button className="ml-auto" type="submit" isDisabled={!username} isLoading={isLoading}>
           <IconBolt />
           <span>{t('integration.getData')}</span>

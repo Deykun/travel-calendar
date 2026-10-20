@@ -6,9 +6,10 @@ type Props = {
   defaultValue?: string;
   setValue?: (value: string) => void;
   isDisabled?: boolean;
+  placeholder?: string;
 };
 
-const Input = ({ className = '', value, defaultValue, setValue, isDisabled = false }: Props) => {
+const Input = ({ className = '', value, defaultValue, setValue, isDisabled = false, placeholder }: Props) => {
   return (
     <div
       className={clsx(
@@ -25,12 +26,13 @@ const Input = ({ className = '', value, defaultValue, setValue, isDisabled = fal
         value={value}
         defaultValue={defaultValue}
         onChange={(e) => (setValue ? setValue(e.target.value || '') : {})}
+        placeholder={placeholder}
         className={clsx(
           'w-full',
           'py-1.5 px-3',
           'text-sm',
           'bg-[#282824] rounded-sm',
-          'caret-[#d8da51] text-white',
+          'caret-[#d8da51] text-white placeholder:text-gray-500',
           'outline-none',
           {
             'opacity-45': isDisabled,

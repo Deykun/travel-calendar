@@ -8,15 +8,17 @@ export const refreshStore = () => {
   resetPreferencesStore();
 };
 
+const WAS_REFRESHED_KEY = 'TRAVEL_CALENDAR_WAS_REFRESHED';
+
 export const forceRefresh = () => {
-  const currentLocation = location.href;
-  if (currentLocation.includes('wasRefreshed=1')) {
+  if (sessionStorage.getItem(WAS_REFRESHED_KEY) === 'true') {
     return;
   }
 
+  sessionStorage.setItem(WAS_REFRESHED_KEY, 'true');
   refreshStore();
 
   setTimeout(() => {
-    location.href = `${currentLocation.split('?').at(0)}?wasRefreshed=1`;
+    location.reload();
   }, 5);
 };

@@ -4,6 +4,7 @@ import IconPlus from '@/components/icons/IconPlus';
 import IconTravel from '@/components/icons/IconTravel';
 import IconTravelWrapper from '@/components/icons/IconTravelWrapper';
 import { TextCounter } from '@/components/text-counter/TextCounter';
+import { AppIntro } from '@/features/app-intro/components/AppIntro';
 import { useTotalDays } from '@/features/filters/hooks/use-total-days/useTotalDays';
 import useFiltersStore from '@/features/filters/stores/useFilterStore';
 import useDataStore from '@/features/settings/stores/useDateStore';
@@ -33,13 +34,7 @@ export function CalendarHeader() {
   const totalYears = years.length;
 
   if (!lastUpdate) {
-    return (
-      <header className={cn(classNamesLayoutGap, classNamesLayoutPx, classNamesLayoutGrid, 'mb-8')}>
-        <div className={cn('col-span-4 relative', 'p-5', 'bg-[#111110]', 'text-center', 'rounded-lg')}>
-          {t('integration.hintDemo')}
-        </div>
-      </header>
-    );
+    return <AppIntro />;
   }
 
   const percentageAbroad = roundWithPrecision((100 * totalDaysAbroad) / totalDays, 1);
