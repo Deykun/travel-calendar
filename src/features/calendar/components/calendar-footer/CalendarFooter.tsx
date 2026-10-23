@@ -27,7 +27,7 @@ export function CalendarFooter() {
 
   return (
     <section className={cn(classNamesLayoutGap, classNamesLayoutPx, classNamesLayoutGrid, 'my-8', 'group')}>
-      {homeCountriesCodes.length === 0 && (
+      {homeCountriesCodes.length > 0 && (
         <div className="col-span-4 p-5">
           <div className="flex gap-8 items-center mb-4">
             <button
