@@ -5,8 +5,6 @@ import { getDaysInMonth } from '@/features/calendar/utils/get-days';
 import useFiltersStore, {
   type FiltersStoreState,
   GAP_BY_STREAK_KIND,
-  type StreakSummary,
-  type StreaksByType,
   getEmptyStreak,
 } from '@/features/filters/stores/useFilterStore';
 import type { DateYYYYMMDD } from '@/types';
@@ -18,32 +16,16 @@ import {
   getIsFuture,
   getMonthWithoutDay,
   stringDateToObject,
-} from '../../../utils/date';
-import type { DataStoreState } from '../stores/useDateStore';
-import { getKindStreaks } from './get-kind-streaks';
-
-const toMaxCountriesStreaks = (streaks: StreakSummary[]): StreakSummary[] =>
-  streaks
-    .map(
-      (streak) =>
-        ({
-          ...streak,
-          type: 'maxCountries',
-          count: streak.countriesCodes.length,
-        }) satisfies StreakSummary,
-    )
-    .sort((a, b) => b.count - a.count);
-
-const toStreaksByType = (maxDays: StreakSummary[]): StreaksByType => ({
-  maxDays,
-  maxCountries: toMaxCountriesStreaks(maxDays),
-});
+} from '../../../../utils/date';
+import type { DataStoreState } from '../../stores/useDateStore';
+import { getKindStreaks } from '../get-kind-streaks';
+import { closeCurrentStreak, extendCurrentStreak, toStreaksByType } from './streaks';
+import type { StackByDay } from './types';
 
 export const getFiltered = (dataByDay: DataStoreState['dataByDay']): FiltersStoreState['filtered'] => {
   console.info('Filtering...');
   const { homeCountriesCodes, from, to, shouldIncludeFuture } = useFiltersStore.getState().activeFilters;
 
-  //
   const dataByDateSorted = Object.keys(dataByDay).sort() as DateYYYYMMDD[];
   const sortedFrom = dataByDateSorted.at(0);
   const sortedTo = dataByDateSorted.at(-1);
@@ -52,25 +34,12 @@ export const getFiltered = (dataByDay: DataStoreState['dataByDay']): FiltersStor
   let indexInSortingByUnlocking = 0;
 
   const { summaryByDay, streaks, current } = fullDateRange.reduce(
-    (
-      stack: {
-        summaryByDay: FiltersStoreState['filtered']['summaryByDay'];
-        streaks: StreakSummary[];
-        current: {
-          streak: StreakSummary;
-        };
-      },
-      dateYYYYMMDD,
-    ) => {
+    (stack: StackByDay, dateYYYYMMDD) => {
       const dataDay = dataByDay[dateYYYYMMDD];
 
       if (!dataDay) {
         // No data should result in ended streak
-        const maxDaysStreak = stack.current.streak;
-        if (stack.current.streak.count > 0) {
-          stack.streaks.push(maxDaysStreak);
-        }
-        stack.current.streak = getEmptyStreak('maxDays');
+        stack = closeCurrentStreak(stack);
 
         return stack;
       }
@@ -165,31 +134,11 @@ export const getFiltered = (dataByDay: DataStoreState['dataByDay']): FiltersStor
       const shouldExtendStreak = isAbroad;
 
       if (shouldExtendStreak) {
-        stack.current.streak = {
-          ...stack.current.streak,
-          countriesCodes: mergeUnique(stack.current.streak.countriesCodes, filteredCountriesForDay),
-          daysByCountry: {
-            ...stack.current.streak.daysByCountry,
-            ...filteredCountriesForDay.reduce((newCountriesStack: StreakSummary['daysByCountry'], countryCode) => {
-              newCountriesStack[countryCode] = (stack.current.streak.daysByCountry?.[countryCode] ?? 0) + 1;
-
-              return newCountriesStack;
-            }, {}),
-          },
-          from: stack.current.streak.from || dateYYYYMMDD,
-          to: dateYYYYMMDD || stack.current.streak.to,
-          count: stack.current.streak.count + 1,
-        };
+        stack = extendCurrentStreak(stack, dateYYYYMMDD, filteredCountriesForDay);
       }
 
       if (shouldStopStreak) {
-        const maxDaysStreak = stack.current.streak;
-
-        if (stack.current.streak.count > 0) {
-          stack.streaks.push(maxDaysStreak);
-        }
-
-        stack.current.streak = getEmptyStreak('maxDays');
+        stack = closeCurrentStreak(stack);
       }
 
       return stack;
