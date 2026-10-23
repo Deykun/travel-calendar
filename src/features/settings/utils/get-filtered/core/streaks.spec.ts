@@ -2,8 +2,8 @@ import { describe, expect, it } from 'vitest';
 
 import { type StreakSummary, getEmptyStreak } from '@/features/filters/stores/useFilterStore';
 
+import type { StackByDay } from '../types';
 import { closeCurrentStreak, extendCurrentStreak, toStreaksByType } from './streaks';
-import type { StackByDay } from './types';
 
 const getStack = (streak: Partial<StreakSummary> = {}): StackByDay => ({
   summaryByDay: {},
@@ -11,6 +11,9 @@ const getStack = (streak: Partial<StreakSummary> = {}): StackByDay => ({
   current: {
     streak: { ...getEmptyStreak('maxDays'), ...streak },
   },
+  indexInSortingByUnlocking: 0,
+  yearOfUnlockingByCountry: {},
+  yearOfUnlockingByDateMMDD: {},
 });
 
 const getStreak = (streak: Partial<StreakSummary> = {}): StreakSummary => ({

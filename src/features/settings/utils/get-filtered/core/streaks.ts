@@ -2,7 +2,7 @@ import { type StreakSummary, type StreaksByType, getEmptyStreak } from '@/featur
 import type { DateYYYYMMDD } from '@/types';
 import { mergeUnique } from '@/utils/array';
 
-import type { StackByDay } from './types';
+import type { StackByDay } from '../types';
 
 export const extendCurrentStreak = (
   stack: StackByDay,

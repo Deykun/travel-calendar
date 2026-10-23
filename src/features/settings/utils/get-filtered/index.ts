@@ -1,6 +1,3 @@
-import { isAfter } from 'date-fns';
-import { isBefore } from 'date-fns/isBefore';
-
 import { getDaysInMonth } from '@/features/calendar/utils/get-days';
 import useFiltersStore, {
   type FiltersStoreState,
@@ -8,150 +5,40 @@ import useFiltersStore, {
   getEmptyStreak,
 } from '@/features/filters/stores/useFilterStore';
 import type { DateYYYYMMDD } from '@/types';
-import { filterEmpty, mergeUnique, mergeUniqueAndSort } from '@/utils/array';
+import { filterEmpty, mergeUniqueAndSort } from '@/utils/array';
 
-import {
-  getDateRange,
-  getDateWithoutYear,
-  getIsFuture,
-  getMonthWithoutDay,
-  stringDateToObject,
-} from '../../../../utils/date';
+import { getDateRange, getMonthWithoutDay } from '../../../../utils/date';
 import type { DataStoreState } from '../../stores/useDateStore';
 import { getKindStreaks } from '../get-kind-streaks';
-import { closeCurrentStreak, extendCurrentStreak, toStreaksByType } from './streaks';
+import { toStreaksByType } from './core/streaks';
+import { filterStackByDay } from './filter-stack-by-day';
 import type { StackByDay } from './types';
 
 export const getFiltered = (dataByDay: DataStoreState['dataByDay']): FiltersStoreState['filtered'] => {
   console.info('Filtering...');
-  const { homeCountriesCodes, from, to, shouldIncludeFuture } = useFiltersStore.getState().activeFilters;
+  const { activeFilters } = useFiltersStore.getState();
+  const { homeCountriesCodes } = activeFilters;
 
   const dataByDateSorted = Object.keys(dataByDay).sort() as DateYYYYMMDD[];
   const sortedFrom = dataByDateSorted.at(0);
   const sortedTo = dataByDateSorted.at(-1);
   const fullDateRange = sortedFrom && sortedTo ? getDateRange(sortedFrom, sortedTo) : dataByDateSorted;
 
-  let indexInSortingByUnlocking = 0;
-
   const { summaryByDay, streaks, current } = fullDateRange.reduce(
-    (stack: StackByDay, dateYYYYMMDD) => {
-      const dataDay = dataByDay[dateYYYYMMDD];
-
-      if (!dataDay) {
-        // No data should result in ended streak
-        stack = closeCurrentStreak(stack);
-
-        return stack;
-      }
-
-      const isLastDayOfRange = to === dataDay.date;
-
-      const isBeforeRange = from && isBefore(dataDay.date, from);
-      if (isBeforeRange) {
-        return stack;
-      }
-
-      const isAfterRange = to && isAfter(dataDay.date, to);
-      if (isAfterRange) {
-        return stack;
-      }
-
-      const isFuture = getIsFuture(dataDay.date);
-      if (isFuture && !shouldIncludeFuture) {
-        return stack;
-      }
-
-      const dayWithoutYear = getDateWithoutYear(dataDay.date);
-      const { year } = stringDateToObject(dataDay.date);
-
-      if (!year) {
-        return stack;
-      }
-
-      const filteredCountriesForDay = dataDay.countriesCodes.filter(
-        (country) => homeCountriesCodes.includes(country) === false,
-      );
-
-      const filteredUnlockedForDay = (dataDay.countriesUnlockedThisDay ?? []).filter(
-        (country) => homeCountriesCodes.includes(country) === false,
-      );
-
-      if (!stack.summaryByDay[dayWithoutYear]) {
-        stack.summaryByDay[dayWithoutYear] = {
-          dayKey: dayWithoutYear,
-          countriesCodes: [],
-          countriesUnlockedThisDay: [],
-          countriesCodesByYear: {},
-          sourceDates: [],
-          yearsAbroad: [],
-          indexInSortingByUnlocking: undefined,
-          totalDays: 0,
-          totalDaysAbroad: 0,
-          totalUnlockedCountries: 0,
-        };
-      }
-
-      stack.summaryByDay[dayWithoutYear].totalDays += 1;
-      if (filteredCountriesForDay.length > 0) {
-        stack.summaryByDay[dayWithoutYear].totalDaysAbroad += 1;
-        stack.summaryByDay[dayWithoutYear].yearsAbroad = mergeUnique(stack.summaryByDay[dayWithoutYear].yearsAbroad, [
-          String(year),
-        ]);
-
-        if (stack.summaryByDay[dayWithoutYear].indexInSortingByUnlocking === undefined) {
-          indexInSortingByUnlocking += 1;
-          stack.summaryByDay[dayWithoutYear].indexInSortingByUnlocking = indexInSortingByUnlocking;
-        }
-
-        if (filteredUnlockedForDay.length) {
-          stack.summaryByDay[dayWithoutYear].totalUnlockedCountries += filteredUnlockedForDay.length;
-          stack.summaryByDay[dayWithoutYear].countriesUnlockedThisDay = mergeUniqueAndSort(
-            stack.summaryByDay[dayWithoutYear].countriesUnlockedThisDay,
-            filteredUnlockedForDay,
-          );
-        }
-      }
-
-      stack.summaryByDay[dayWithoutYear].sourceDates = mergeUnique(stack.summaryByDay[dayWithoutYear].sourceDates, [
-        dataDay.date,
-      ]);
-
-      stack.summaryByDay[dayWithoutYear].countriesCodes = mergeUniqueAndSort(
-        stack.summaryByDay[dayWithoutYear].countriesCodes,
-        filteredCountriesForDay,
-      );
-
-      stack.summaryByDay[dayWithoutYear].countriesCodesByYear[year] = mergeUniqueAndSort(
-        stack.summaryByDay[dayWithoutYear].countriesCodesByYear[year],
-        filteredCountriesForDay,
-      );
-
-      // It can be both if the selected day is when we go abroad or when we return.
-      const isAbroad = filteredCountriesForDay.length > 0;
-
-      // We don't break streaks if someone visits the country but the same day they were abroad
-      const shouldStopStreak = !isAbroad || isLastDayOfRange;
-      const shouldExtendStreak = isAbroad;
-
-      if (shouldExtendStreak) {
-        stack = extendCurrentStreak(stack, dateYYYYMMDD, filteredCountriesForDay);
-      }
-
-      if (shouldStopStreak) {
-        stack = closeCurrentStreak(stack);
-      }
-
-      return stack;
-    },
+    (stack: StackByDay, dateYYYYMMDD) => filterStackByDay(stack, dateYYYYMMDD, { dataByDay, activeFilters }),
     {
       summaryByDay: {},
       streaks: [],
       current: {
         streak: getEmptyStreak('maxDays'),
       },
+      indexInSortingByUnlocking: 0,
+      yearOfUnlockingByCountry: {},
+      yearOfUnlockingByDateMMDD: {},
     },
   );
 
+  // Closes streak when it's live at the end of the range
   if (current.streak.count > 0) {
     streaks.push(current.streak);
   }
