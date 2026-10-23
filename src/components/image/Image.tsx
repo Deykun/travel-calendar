@@ -4,12 +4,17 @@ import { cn } from '@/utils/tailwind';
 
 type Props = ComponentProps<'img'>;
 
-export const Image = ({ className, alt = '', onLoad, onError, ...props }: Props) => {
+const loadedImages: {
+  [url: string]: true;
+} = {};
+
+export const Image = ({ className, alt = '', src = '', onLoad, onError, ...props }: Props) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasError, setHasError] = useState(false);
 
   const handleLoad = (e: SyntheticEvent<HTMLImageElement>) => {
     setIsLoaded(true);
+    loadedImages[src] = true;
     onLoad?.(e);
   };
 
@@ -20,10 +25,20 @@ export const Image = ({ className, alt = '', onLoad, onError, ...props }: Props)
 
   const isSettled = isLoaded || hasError;
 
+  const loadedEarlier = loadedImages[src] || false;
+
   return (
     <img
       {...props}
-      className={cn('transition-opacity duration-250', isSettled ? 'opacity-100' : 'opacity-0', className)}
+      src={src}
+      className={cn(
+        {
+          'transition-opacity duration-250': !loadedEarlier,
+          'opacity-100': !loadedEarlier && isSettled,
+          'opacity-0': !loadedEarlier && !isSettled,
+        },
+        className,
+      )}
       alt={alt}
       data-loaded={isLoaded || undefined}
       data-error={hasError || undefined}

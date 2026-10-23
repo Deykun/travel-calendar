@@ -20,6 +20,9 @@ export type PreferencesStoreState = {
     typeToShow: 'streaks' | 'kindStreaks' | 'veryKindStreaks';
     shouldHighlightNewCountries: boolean;
   };
+  date: {
+    shouldFilterToSingleYear: boolean;
+  };
 };
 
 const emptyStore: PreferencesStoreState = {
@@ -35,6 +38,9 @@ const emptyStore: PreferencesStoreState = {
   streaks: {
     typeToShow: 'kindStreaks',
     shouldHighlightNewCountries: true,
+  },
+  date: {
+    shouldFilterToSingleYear: false,
   },
 };
 
@@ -97,6 +103,15 @@ export const toggleShouldCounterUseScale = () => {
     calendar: {
       ...state.calendar,
       shouldCounterUseScale: !state.calendar.shouldCounterUseScale,
+    },
+  }));
+};
+
+export const toggleShouldFilterToSingleYear = () => {
+  usePreferencesStore.setState((state) => ({
+    date: {
+      ...state.date,
+      shouldFilterToSingleYear: !state.date.shouldFilterToSingleYear,
     },
   }));
 };
