@@ -69,6 +69,8 @@
   "preferences.shouldCounterUseScale.tip": "Obecna maksymalna wartość to",
   "preferences.shouldHighlightAbroadTravel": "Wyróżniaj \"tranzyt\"",
   "preferences.shouldHighlightAbroadTravel.tip": "Podróż między dwoma krajami, które nie są ustawione jako kraj domowy.",
+  "preferences.shouldShowChangesInLastYearRange": "Pokazuj zmiany w ostatnim roku",
+  "preferences.shouldShowChangesInLastYearRange.tip": "Ostatni rok wybranego zakresu.",
   "preferences.shouldHighlightNewCountries": "Wyróżniaj nowe kraje",
   "preferences.shouldHighlightNewCountries.trips": "W podróżach",
   "preferences.shouldHighlightNewCountries.calendar": "W kalendarzu",

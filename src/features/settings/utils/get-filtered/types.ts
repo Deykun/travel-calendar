@@ -15,3 +15,5 @@ export type StackByDay = {
     [dateMMDD: DateMMDD]: number;
   };
 };
+
+export type StackByMonth = Pick<FiltersStoreState['filtered'], 'summaryByMonth' | 'summary'>;

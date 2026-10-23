@@ -59,7 +59,13 @@ export function PaneFilterDate() {
   return (
     <Pane>
       <Pane.Title>{t('preferences.years')}</Pane.Title>
-      <Pane.List className="grid grid-cols-2 gap-2 justify-cen">
+      <Pane.Subtitle>{t('label.settings')}</Pane.Subtitle>
+      <Pane.List>
+        <Checkbox isActive={shouldFilterToSingleYear} onChange={toggleShouldFilterToSingleYear}>
+          {t('preferences.shouldFilterToSingleYear')}
+        </Checkbox>
+      </Pane.List>
+      <Pane.List className="mt-3 grid grid-cols-2 gap-2 justify-center">
         <Pane.Subtitle>{t('preferences.from')}</Pane.Subtitle>
         <Pane.Subtitle>{t('preferences.to')}</Pane.Subtitle>
         {years.map((year) => {
@@ -69,21 +75,13 @@ export function PaneFilterDate() {
           return (
             <Fragment key={year}>
               <span>
-                <Radiobox
-                  key={year}
-                  isActive={isFromActive}
-                  onChange={() => handleYearChange('from', year)}
-                >
+                <Radiobox key={year} isActive={isFromActive} onChange={() => handleYearChange('from', year)}>
                   <span>{year}</span>
                   <MiniCalendarForYear year={year} />
                 </Radiobox>
               </span>
               <span>
-                <Radiobox
-                  key={year}
-                  isActive={isToActive}
-                  onChange={() => handleYearChange('to', year)}
-                >
+                <Radiobox key={year} isActive={isToActive} onChange={() => handleYearChange('to', year)}>
                   <span>{year}</span>
                   <MiniCalendarForYear year={year} />
                 </Radiobox>
@@ -91,12 +89,6 @@ export function PaneFilterDate() {
             </Fragment>
           );
         })}
-      </Pane.List>
-      <Pane.Subtitle className="mt-3">{t('common.other')}</Pane.Subtitle>
-      <Pane.List>
-        <Checkbox isActive={shouldFilterToSingleYear} onChange={toggleShouldFilterToSingleYear}>
-          {t('preferences.shouldFilterToSingleYear')}
-        </Checkbox>
       </Pane.List>
       <PlayControls fromYear={activeFromYear} toYear={activeToYear} />
     </Pane>

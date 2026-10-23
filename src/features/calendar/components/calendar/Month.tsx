@@ -2,7 +2,8 @@ import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { FlagHover } from '@/components/flag-hover/FlagHover';
-import { TextCounter } from '@/components/text-counter/TextCounter';
+import { VisitedCountries } from '@/features/calendar/components/common/VisitedCountries';
+import { VisitedDays } from '@/features/calendar/components/common/VisitedDays';
 import { useFlagsSimple } from '@/features/filters/hooks/useFlagsSimple';
 import useFiltersStore from '@/features/filters/stores/useFilterStore';
 import { getDayKey } from '@/features/settings/utils/get-day-key';
@@ -26,13 +27,6 @@ export const Month = ({ className = '', month }: Props) => {
       state?.sidebar?.type === 'month' &&
       state.sidebar.monthNumber === month.monthNumber &&
       state.isCollapsed === false,
-  );
-
-  const activeDays = useFiltersStore(
-    (store) => store.filtered.summaryByMonth[month.monthNumber]?.activeDays.length || 0,
-  );
-  const visitedCountries = useFiltersStore(
-    (store) => store.filtered.summaryByMonth[month.monthNumber]?.countriesCodes.length || 0,
   );
 
   const countriesCodesByYear = useFiltersStore(
@@ -60,22 +54,17 @@ export const Month = ({ className = '', month }: Props) => {
 
   return (
     <article className={cn('p-5 pt-3', 'bg-[#111110]', 'text-center', 'rounded-lg', 'relative hover:z-10', className)}>
-      <button
-        className={cn('absolute top-5 left-5', 'text-xs text-gray-400 tracking-wider', 'duration-500', {
-          'text-gray-500': visitedCountries === 0,
-          'text-white': isSidebarOpen,
-        })}
-        onClick={handleClick}
-      >
+      <button className="absolute top-4 left-5" onClick={handleClick}>
         <FlagHover flags={flagsToShow} from="bottom-left">
-          {t('summary.countries', {
-            postProcess: 'interval',
-            count: visitedCountries,
-          })}
+          <VisitedCountries
+            className={cn('duration-500', { 'text-white': isSidebarOpen })}
+            place="month"
+            monthNumber={month.monthNumber}
+          />
         </FlagHover>
       </button>
       <h2 className={cn('text-2xl text-white', 'font-semibold mb-4')}>{t(month.name)} </h2>
-      <TextCounter className="absolute top-5 right-5" value={activeDays || 0} max={daysInMonth} />
+      <VisitedDays className="absolute top-5 right-5" place="month" monthNumber={month.monthNumber} max={daysInMonth} />
       <div className={cn('grid grid-cols-7 gap-x-1.5 gap-y-1')}>
         {month.days.map((day) => (
           <Day key={day} dayKey={getDayKey({ day, month: month.monthNumber })} dayNumber={day} />

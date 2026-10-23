@@ -6,7 +6,7 @@ import useDataStore from '@/features/settings/stores/useDateStore';
 import { getFiltered } from '@/features/settings/utils/get-filtered';
 import type { DateMMDD, DateYYYYMMDD } from '@/types';
 
-type SummaryDay = {
+export type SummaryDay = {
   dayKey: DateMMDD;
   countriesCodes: string[];
   countriesUnlockedThisDay: string[];
@@ -29,6 +29,11 @@ type SummaryMonth = {
   };
   activeDays: DateMMDD[];
   total: number;
+};
+
+export type SummaryYear = {
+  countriesUnlocked: string[];
+  daysUnlocked: DateMMDD[];
 };
 
 export type StreakType = 'maxDays' | 'maxCountries';
@@ -84,6 +89,9 @@ export type FiltersStoreState = {
     summaryByMonth: {
       [monthKey: string]: SummaryMonth | undefined;
     };
+    summaryByYear: {
+      [year: number]: SummaryYear | undefined;
+    };
     streaks: {
       [kind in StreakKind]: StreaksByType;
     };
@@ -127,6 +135,7 @@ const emptyStore: FiltersStoreState = {
     },
     summaryByDay: {},
     summaryByMonth: {},
+    summaryByYear: {},
     streaks: {
       regular: getEmptyStreaksByType(),
       kind: getEmptyStreaksByType(),

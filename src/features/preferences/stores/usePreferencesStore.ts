@@ -23,6 +23,7 @@ export type PreferencesStoreState = {
     shouldHighlightNewCountries: boolean;
   };
   date: {
+    shouldShowChangesInLastYearRange: boolean;
     shouldFilterToSingleYear: boolean;
   };
 };
@@ -42,6 +43,7 @@ const emptyStore: PreferencesStoreState = {
     shouldHighlightNewCountries: true,
   },
   date: {
+    shouldShowChangesInLastYearRange: false,
     shouldFilterToSingleYear: false,
   },
 };
@@ -114,6 +116,15 @@ export const toggleShouldFilterToSingleYear = () => {
     date: {
       ...state.date,
       shouldFilterToSingleYear: !state.date.shouldFilterToSingleYear,
+    },
+  }));
+};
+
+export const toggleShouldShowChangesInLastYearRange = () => {
+  usePreferencesStore.setState((state) => ({
+    date: {
+      ...state.date,
+      shouldShowChangesInLastYearRange: !state.date.shouldShowChangesInLastYearRange,
     },
   }));
 };
