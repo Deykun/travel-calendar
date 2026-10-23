@@ -4,7 +4,9 @@ import { isBefore } from 'date-fns/isBefore';
 import { getDaysInMonth } from '@/features/calendar/utils/get-days';
 import useFiltersStore, {
   type FiltersStoreState,
+  GAP_BY_STREAK_KIND,
   type StreakSummary,
+  type StreaksByType,
   getEmptyStreak,
 } from '@/features/filters/stores/useFilterStore';
 import type { DateYYYYMMDD } from '@/types';
@@ -31,6 +33,11 @@ const toMaxCountriesStreaks = (streaks: StreakSummary[]): StreakSummary[] =>
         }) satisfies StreakSummary,
     )
     .sort((a, b) => b.count - a.count);
+
+const toStreaksByType = (maxDays: StreakSummary[]): StreaksByType => ({
+  maxDays,
+  maxCountries: toMaxCountriesStreaks(maxDays),
+});
 
 export const getFiltered = (dataByDay: DataStoreState['dataByDay']): FiltersStoreState['filtered'] => {
   console.info('Filtering...');
@@ -200,9 +207,9 @@ export const getFiltered = (dataByDay: DataStoreState['dataByDay']): FiltersStor
     streaks.push(current.streak);
   }
 
-  const sortedStreaksMaxDays = streaks.sort((a, b) => b.count - a.count);
-  const kindStreaksMaxDays = getKindStreaks(sortedStreaksMaxDays, 1);
-  const veryKindStreaksMaxDays = getKindStreaks(sortedStreaksMaxDays, 2);
+  const regularStreaksMaxDays = streaks.sort((a, b) => b.count - a.count);
+  const kindStreaksMaxDays = getKindStreaks(regularStreaksMaxDays, GAP_BY_STREAK_KIND.kind);
+  const veryKindStreaksMaxDays = getKindStreaks(regularStreaksMaxDays, GAP_BY_STREAK_KIND.veryKind);
 
   const { summaryByMonth, summary } = Object.values(summaryByDay)
     .filter(filterEmpty)
@@ -308,16 +315,9 @@ export const getFiltered = (dataByDay: DataStoreState['dataByDay']): FiltersStor
     summaryByMonth,
     summary,
     streaks: {
-      maxDays: sortedStreaksMaxDays,
-      maxCountries: toMaxCountriesStreaks(sortedStreaksMaxDays),
-    },
-    kindStreaks: {
-      maxDays: kindStreaksMaxDays,
-      maxCountries: toMaxCountriesStreaks(kindStreaksMaxDays),
-    },
-    veryKindStreaks: {
-      maxDays: veryKindStreaksMaxDays,
-      maxCountries: toMaxCountriesStreaks(veryKindStreaksMaxDays),
+      regular: toStreaksByType(regularStreaksMaxDays),
+      kind: toStreaksByType(kindStreaksMaxDays),
+      veryKind: toStreaksByType(veryKindStreaksMaxDays),
     },
   };
 };

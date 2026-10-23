@@ -33,6 +33,15 @@ type SummaryMonth = {
 
 export type StreakType = 'maxDays' | 'maxCountries';
 
+// Max days allowed between two abroad periods for them to still count as one streak
+export const GAP_BY_STREAK_KIND = {
+  regular: 0,
+  kind: 1,
+  veryKind: 2,
+} as const;
+
+export type StreakKind = keyof typeof GAP_BY_STREAK_KIND;
+
 export type StreakSummary = {
   type: StreakType;
   countriesCodes: string[];
@@ -42,6 +51,10 @@ export type StreakSummary = {
   from: DateYYYYMMDD | undefined;
   to: DateYYYYMMDD | undefined;
   count: number;
+};
+
+export type StreaksByType = {
+  [type in StreakType]: StreakSummary[];
 };
 
 export type FiltersStoreState = {
@@ -72,16 +85,7 @@ export type FiltersStoreState = {
       [monthKey: string]: SummaryMonth | undefined;
     };
     streaks: {
-      maxDays: StreakSummary[];
-      maxCountries: StreakSummary[];
-    };
-    kindStreaks: {
-      maxDays: StreakSummary[];
-      maxCountries: StreakSummary[];
-    };
-    veryKindStreaks: {
-      maxDays: StreakSummary[];
-      maxCountries: StreakSummary[];
+      [kind in StreakKind]: StreaksByType;
     };
   };
 };
@@ -96,6 +100,11 @@ export const getEmptyStreak = (type: StreakType): StreakSummary => {
     count: 0,
   };
 };
+
+export const getEmptyStreaksByType = (): StreaksByType => ({
+  maxDays: [],
+  maxCountries: [],
+});
 
 const emptyStore: FiltersStoreState = {
   activeFilters: {
@@ -119,16 +128,9 @@ const emptyStore: FiltersStoreState = {
     summaryByDay: {},
     summaryByMonth: {},
     streaks: {
-      maxDays: [],
-      maxCountries: [],
-    },
-    kindStreaks: {
-      maxDays: [],
-      maxCountries: [],
-    },
-    veryKindStreaks: {
-      maxDays: [],
-      maxCountries: [],
+      regular: getEmptyStreaksByType(),
+      kind: getEmptyStreaksByType(),
+      veryKind: getEmptyStreaksByType(),
     },
   },
 };

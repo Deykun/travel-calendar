@@ -35,7 +35,7 @@ export const SidebarCountry = ({ className, countryCode }: Props) => {
   const unlockingDate = useDataStore((store) => store.unlockingDateByCountry[countryCode]);
   const tripsByKey = useDataStore((store) => store.tripsByKey);
   const placesByKey = useDataStore((store) => store.placesByKey);
-  const maxDaysStreaks = useFiltersStore((store) => store.filtered.streaks.maxDays);
+  const maxDaysStreaks = useFiltersStore((store) => store.filtered.streaks.regular.maxDays);
   const homeCountriesCodes = useFiltersStore((store) => store.activeFilters.homeCountriesCodes || EMPTY_ARRAY);
 
   const { t } = useTranslation();

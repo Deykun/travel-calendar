@@ -7,8 +7,8 @@ import { cn } from '@/utils/tailwind';
 import { StreakList } from './streak-list/StreakList';
 
 export function StreaksSummary() {
-  const streakMaxDays = useFiltersStore((store) => store.filtered.streaks.maxDays?.[0]);
-  const streakMaxCountries = useFiltersStore((store) => store.filtered.streaks.maxCountries?.[0]);
+  const streakMaxDays = useFiltersStore((store) => store.filtered.streaks.regular.maxDays?.[0]);
+  const streakMaxCountries = useFiltersStore((store) => store.filtered.streaks.regular.maxCountries?.[0]);
 
   const { isSameStreak } = useMemo(() => {
     const isSameStreak = streakMaxDays?.from === streakMaxCountries?.from;
