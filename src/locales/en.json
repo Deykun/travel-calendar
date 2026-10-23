@@ -78,6 +78,7 @@
   "preferences.years": "Years",
   "preferences.from": "From",
   "preferences.to": "To",
+  "preferences.shouldFilterToSingleYear": "One year at a time",
   "preferences.language.title": "Language",
   "preferences.language.current": "English",
   "integration.title": "Integration",

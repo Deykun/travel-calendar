@@ -1,7 +1,8 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
-import useFiltersStore, { setToFilter } from '@/features/filters/stores/useFilterStore';
+import useFiltersStore, { setDateFilter, setToFilter } from '@/features/filters/stores/useFilterStore';
+import usePreferencesStore from '@/features/preferences/stores/usePreferencesStore';
 import { objectDateToString, stringDateToObject } from '@/utils/date';
 
 const FRAME_DURATION_MS = 400;
@@ -31,6 +32,7 @@ export const usePlayStore = create<PlayStoreState>()(
 );
 
 const playNextFrameIfNeeded = () => {
+  const shouldFilterToSingleYear = usePreferencesStore.getState().date.shouldFilterToSingleYear;
   const playStore = usePlayStore.getState();
 
   if (playStore.state !== 'playing') {
@@ -46,13 +48,27 @@ const playNextFrameIfNeeded = () => {
       const { year, month, day } = stringDateToObject(currentTo);
 
       if (year < targetYearTo) {
-        setToFilter(
-          objectDateToString({
-            year: year + 1,
-            month,
-            day,
-          }),
-        );
+        const nextTo = objectDateToString({
+          year: year + 1,
+          month,
+          day,
+        });
+        const currentFrom = useFiltersStore.getState().activeFilters.from;
+
+        if (shouldFilterToSingleYear && currentFrom) {
+          const fromObject = stringDateToObject(currentFrom);
+
+          setDateFilter(
+            objectDateToString({
+              year: year + 1,
+              month: fromObject.month,
+              day: fromObject.day,
+            }),
+            nextTo,
+          );
+        } else {
+          setToFilter(nextTo);
+        }
 
         setTimeout(() => {
           playNextFrameIfNeeded();
