@@ -59,11 +59,11 @@ export const SidebarMonth = ({ className, monthNumber }: Props) => {
         <div className="grid grid-cols-2 gap-2 mb-4">
           <div className="inline-flex flex-col gap-2 items-center">
             <IconTravel total={countriesCodes.length} shouldShowAllNumbers />
-            <span className="text-[#979797] text-sm tracking-wider">{t('summary.totalCountries')}</span>
+            <span className="text-[#b3b3a8] text-sm tracking-wider">{t('summary.totalCountries')}</span>
           </div>
           <div className="inline-flex flex-col gap-2 items-center">
             <IconTravel total={totalYears} shouldShowAllNumbers />
-            <span className="text-[#979797] text-sm tracking-wider">{t('summary.totalYearsAbroad')}</span>
+            <span className="text-[#b3b3a8] text-sm tracking-wider">{t('summary.totalYearsAbroad')}</span>
           </div>
         </div>
         <div className={cn('flex flex-wrap justify-center gap-3', 'p-2 pb-3')}>

@@ -64,7 +64,7 @@ export function StreakPeriod({
       wasUnlocked={wasUnlocked}
       isActive={isSidebarOpen}
     >
-      <div className={cn('w-full mt-1 flex items-center justify-center', 'text-gray-400 tracking-wider text-[7px]')}>
+      <div className={cn('w-full mt-1 flex items-center justify-center', 'text-[#c6c7a7] tracking-wider text-[7px]')}>
         {shouldShowDates && isEndPoint && !isStartPoint && to && appFormatDate(to)}
         {!isOnlyPoint && !isEndPoint && (
           <IconCaretLeft className={cn('inline-flex size-2', 'absolute top-6 -left-3', 'opacity-50')} />

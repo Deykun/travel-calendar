@@ -1,6 +1,7 @@
 import { Fragment, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { VisitedCountries } from '@/features/calendar/components/common/VisitedCountries';
 import useFiltersStore from '@/features/filters/stores/useFilterStore';
 import usePreferencesStore from '@/features/preferences/stores/usePreferencesStore';
 import { cn } from '@/utils/tailwind';
@@ -12,10 +13,9 @@ type Props = {
 };
 
 export function StreakList({ className }: Props) {
-  const streakTypeToUse = usePreferencesStore((store) => store.streaks?.typeToShow || 'kindStreaks');
+  const streakKindToUse = usePreferencesStore((store) => store.streaks?.typeToShow || 'kind');
   const totalDaysAbroad = useFiltersStore((store) => store.filtered.summary.totalDaysAbroad);
-  const visitedCountriesTotal = useFiltersStore((store) => store.filtered.summary.countriesCodes.length);
-  const maxDaysStreaks = useFiltersStore((store) => store.filtered[streakTypeToUse].maxDays);
+  const maxDaysStreaks = useFiltersStore((store) => store.filtered.streaks[streakKindToUse].maxDays);
 
   const { t } = useTranslation();
 
@@ -43,7 +43,7 @@ export function StreakList({ className }: Props) {
       <h2 className={cn('text-2xl text-white', 'font-semibold mb-3')}>{t(`summary.tripsTitle`)}</h2>
       <p className={cn('flex items-center justify-center gap-2', 'mb-2')}>
         <span
-          className={cn('text-xs text-gray-400 tracking-wider', {
+          className={cn('text-xs text-[#c6c7a7] tracking-wider', {
             'text-gray-500': streaks.length === 0,
           })}
         >
@@ -53,19 +53,10 @@ export function StreakList({ className }: Props) {
           })}
         </span>
         <span>{' - '}</span>
-        <span
-          className={cn('text-xs text-gray-400 tracking-wider', {
-            'text-gray-500': visitedCountriesTotal === 0,
-          })}
-        >
-          {t('summary.countries', {
-            postProcess: 'interval',
-            count: visitedCountriesTotal,
-          })}
-        </span>
+        <VisitedCountries place="streaks" />
         <span>{' - '}</span>
         <span
-          className={cn('text-xs text-gray-400 tracking-wider', {
+          className={cn('text-xs text-[#c6c7a7] tracking-wider', {
             'text-gray-500': totalDaysAbroad === 0,
           })}
         >

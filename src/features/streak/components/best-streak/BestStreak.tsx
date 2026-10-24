@@ -18,13 +18,13 @@ type Props = {
 };
 
 export function BestStreak({ type, index = 0, className }: Props) {
-  const streakTypeToUse = usePreferencesStore((store) => store.streaks?.typeToShow || 'kindStreaks');
+  const streakKindToUse = usePreferencesStore((store) => store.streaks?.typeToShow || 'kind');
   const shouldCounterUseScale = usePreferencesStore((store) => store.calendar.shouldCounterUseScale);
-  const maxTotalDays = useFiltersStore((store) => store.filtered[streakTypeToUse].maxDays?.[index]?.count || 0);
+  const maxTotalDays = useFiltersStore((store) => store.filtered.streaks[streakKindToUse].maxDays?.[index]?.count || 0);
   const maxTotalCountries = useFiltersStore(
-    (store) => store.filtered[streakTypeToUse].maxCountries?.[index]?.count || 0,
+    (store) => store.filtered.streaks[streakKindToUse].maxCountries?.[index]?.count || 0,
   );
-  const streak = useFiltersStore((store) => store.filtered[streakTypeToUse][type][index]);
+  const streak = useFiltersStore((store) => store.filtered.streaks[streakKindToUse][type][index]);
 
   const { t } = useTranslation();
 

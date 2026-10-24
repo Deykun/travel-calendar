@@ -1,6 +1,8 @@
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
 
+import type { StreakKind } from '@/features/filters/stores/useFilterStore';
+
 export type PreferencesStoreState = {
   calendar: {
     counterShouldShow:
@@ -17,10 +19,11 @@ export type PreferencesStoreState = {
     shouldShowHome: boolean;
   };
   streaks: {
-    typeToShow: 'streaks' | 'kindStreaks' | 'veryKindStreaks';
+    typeToShow: StreakKind;
     shouldHighlightNewCountries: boolean;
   };
   date: {
+    shouldShowChangesInLastYearRange: boolean;
     shouldFilterToSingleYear: boolean;
   };
 };
@@ -36,10 +39,11 @@ const emptyStore: PreferencesStoreState = {
     shouldShowHome: false,
   },
   streaks: {
-    typeToShow: 'kindStreaks',
+    typeToShow: 'kind',
     shouldHighlightNewCountries: true,
   },
   date: {
+    shouldShowChangesInLastYearRange: false,
     shouldFilterToSingleYear: false,
   },
 };
@@ -112,6 +116,15 @@ export const toggleShouldFilterToSingleYear = () => {
     date: {
       ...state.date,
       shouldFilterToSingleYear: !state.date.shouldFilterToSingleYear,
+    },
+  }));
+};
+
+export const toggleShouldShowChangesInLastYearRange = () => {
+  usePreferencesStore.setState((state) => ({
+    date: {
+      ...state.date,
+      shouldShowChangesInLastYearRange: !state.date.shouldShowChangesInLastYearRange,
     },
   }));
 };

@@ -65,11 +65,11 @@ export const SidebarDay = ({ className, dayKey }: Props) => {
         <div className="grid grid-cols-2 gap-2 mb-4">
           <div className="inline-flex flex-col gap-2 items-center">
             <IconTravel total={countriesCodes.length} shouldShowAllNumbers />
-            <span className="text-[#979797] text-sm tracking-wider">{t('summary.totalCountries')}</span>
+            <span className="text-[#b3b3a8] text-sm tracking-wider">{t('summary.totalCountries')}</span>
           </div>
           <div className="inline-flex flex-col gap-2 items-center">
             <IconTravel total={yearsAbroad.length} shouldShowAllNumbers />
-            <span className="text-[#979797] text-sm tracking-wider">{t('summary.totalYearsAbroad')}</span>
+            <span className="text-[#b3b3a8] text-sm tracking-wider">{t('summary.totalYearsAbroad')}</span>
           </div>
         </div>
         <div className={cn('flex flex-wrap justify-center gap-3', 'p-2 pb-3')}>
@@ -97,10 +97,14 @@ export const SidebarDay = ({ className, dayKey }: Props) => {
       </div>
       {details.tripsKeys.length > 0 && (
         <div className={cn(sidebarStyles, 'mt-8', 'flex flex-col gap-3')}>
-          <strong className="text-[#979797] text-sm tracking-wider font-normal">{t('summary.tripsTitle')}</strong>
+          <strong className="text-[#b3b3a8] text-sm tracking-wider font-normal">{t('summary.tripsTitle')}</strong>
           <div className="flex flex-col gap-5">
             {details.tripsKeys.map((tripKey) => (
-              <DayTripDetails key={tripKey} tripKey={tripKey} showOnlyForCountryCode={details.countryCode || undefined} />
+              <DayTripDetails
+                key={tripKey}
+                tripKey={tripKey}
+                showOnlyForCountryCode={details.countryCode || undefined}
+              />
             ))}
           </div>
         </div>

@@ -46,12 +46,12 @@ export function PaneIntegrationManagement({ id, onOpenIntegrations }: Props) {
         </Button>
       </div>
       {sourceLabelKey && (
-        <p className="text-[#979797] text-xs mt-2">
+        <p className="text-[#b3b3a8] text-xs mt-2">
           {t('integration.sourcePrefix')} <span className="text-white">{t(sourceLabelKey)}</span>.
         </p>
       )}
       {hasDataPoints && (
-        <p className="text-[#979797] text-xs">
+        <p className="text-[#b3b3a8] text-xs">
           {t('integration.dataPointsPrefix')}{' '}
           <span className="text-white">{t(dataPointsLabelKey, { count: integration.totalDataPoints })}</span>.
         </p>

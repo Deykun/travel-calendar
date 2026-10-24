@@ -25,17 +25,16 @@ export const Image = ({ className, alt = '', src = '', onLoad, onError, ...props
 
   const isSettled = isLoaded || hasError;
 
-  const loadedEarlier = loadedImages[src] || false;
+  const wasLoadedEarlier = loadedImages[src] || false;
 
   return (
     <img
       {...props}
       src={src}
       className={cn(
+        'transition-opacity opacity-100 duration-250',
         {
-          'transition-opacity duration-250': !loadedEarlier,
-          'opacity-100': !loadedEarlier && isSettled,
-          'opacity-0': !loadedEarlier && !isSettled,
+          'opacity-0': !wasLoadedEarlier && !isSettled,
         },
         className,
       )}

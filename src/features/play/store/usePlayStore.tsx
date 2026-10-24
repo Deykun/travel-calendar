@@ -5,7 +5,7 @@ import useFiltersStore, { setDateFilter, setToFilter } from '@/features/filters/
 import usePreferencesStore from '@/features/preferences/stores/usePreferencesStore';
 import { objectDateToString, stringDateToObject } from '@/utils/date';
 
-const FRAME_DURATION_MS = 400;
+const FRAME_DURATION_MS = 700;
 
 type Frame = {
   from?: number;

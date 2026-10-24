@@ -19,9 +19,9 @@ export function PaneSettingsTrips({ id }: Props) {
   const shouldIncludeFuture = useFiltersStore((store) => store.activeFilters.shouldIncludeFuture);
   const streakTypeToShow = usePreferencesStore((store) => store.streaks.typeToShow);
   const rangeTo = useDataStore((store) => store.date.to);
-  const streaksCount = useFiltersStore((store) => store.filtered.streaks.maxDays.length);
-  const kindStreaksCount = useFiltersStore((store) => store.filtered.kindStreaks.maxDays.length);
-  const veryKindStreaksCount = useFiltersStore((store) => store.filtered.veryKindStreaks.maxDays.length);
+  const streaksCount = useFiltersStore((store) => store.filtered.streaks.regular.maxDays.length);
+  const kindStreaksCount = useFiltersStore((store) => store.filtered.streaks.kind.maxDays.length);
+  const veryKindStreaksCount = useFiltersStore((store) => store.filtered.streaks.veryKind.maxDays.length);
 
   const { t } = useTranslation();
 
@@ -32,8 +32,8 @@ export function PaneSettingsTrips({ id }: Props) {
       <Pane.List>
         <Radiobox
           classNameChildren="overflow-hidden"
-          isActive={streakTypeToShow === 'streaks'}
-          onChange={() => setStreakTypeToUse('streaks')}
+          isActive={streakTypeToShow === 'regular'}
+          onChange={() => setStreakTypeToUse('regular')}
           isDisabled={streaksCount === 0}
         >
           <span className="whitespace-nowrap text-ellipsis overflow-hidden">{t('preferences.shouldShowStreaks')}</span>
@@ -43,8 +43,8 @@ export function PaneSettingsTrips({ id }: Props) {
         </Radiobox>
         <Radiobox
           classNameChildren={cn('flex-col items-start', 'text-wrap', 'overflow-hidden')}
-          isActive={streakTypeToShow === 'kindStreaks'}
-          onChange={() => setStreakTypeToUse('kindStreaks')}
+          isActive={streakTypeToShow === 'kind'}
+          onChange={() => setStreakTypeToUse('kind')}
           isDisabled={streaksCount === 0}
         >
           <span className={cn('flex gap-1 items-center', 'max-w-full')}>
@@ -59,8 +59,8 @@ export function PaneSettingsTrips({ id }: Props) {
         </Radiobox>
         <Radiobox
           classNameChildren={cn('flex-col items-start', 'text-wrap', 'overflow-hidden')}
-          isActive={streakTypeToShow === 'veryKindStreaks'}
-          onChange={() => setStreakTypeToUse('veryKindStreaks')}
+          isActive={streakTypeToShow === 'veryKind'}
+          onChange={() => setStreakTypeToUse('veryKind')}
           isDisabled={streaksCount === 0}
         >
           <span className={cn('flex gap-1 items-center', 'max-w-full')}>

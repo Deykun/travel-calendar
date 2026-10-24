@@ -8,6 +8,7 @@ import usePreferencesStore, {
   toggleShouldHighlightAbroadTravel,
   toggleShouldHighlightNewCountriesInCalendar,
   toggleShouldHighlightNewCountriesInStreaks,
+  toggleShouldShowChangesInLastYearRange,
 } from '@/features/preferences/stores/usePreferencesStore';
 import { Pane } from '@/features/sidebar/components/pane/Pane';
 import { cn } from '@/utils/tailwind';
@@ -25,6 +26,7 @@ export function PaneVisibilityCalendar() {
 
   const shouldCounterUseScale = usePreferencesStore((store) => store.calendar.shouldCounterUseScale);
   const counterShouldShow = usePreferencesStore((store) => store.calendar.counterShouldShow);
+  const shouldShowChangesInLastYearRange = usePreferencesStore((store) => store.date.shouldShowChangesInLastYearRange);
 
   const { t } = useTranslation();
 
@@ -93,11 +95,16 @@ export function PaneVisibilityCalendar() {
             </small>
           </div>
         </Checkbox>
-
         <Checkbox isActive={shouldHighlightAbroadTravel} onChange={toggleShouldHighlightAbroadTravel}>
           <div className={cn('flex flex-col gap-1', 'text-wrap')}>
             {t('preferences.shouldHighlightAbroadTravel')}
             <small className="opacity-75">{t('preferences.shouldHighlightAbroadTravel.tip')}</small>
+          </div>
+        </Checkbox>
+        <Checkbox isActive={shouldShowChangesInLastYearRange} onChange={toggleShouldShowChangesInLastYearRange}>
+          <div className={cn('flex flex-col gap-1', 'text-wrap')}>
+            {t('preferences.shouldShowChangesInLastYearRange')}
+            <small className="opacity-75">{t('preferences.shouldShowChangesInLastYearRange.tip')}</small>
           </div>
         </Checkbox>
       </Pane.List>

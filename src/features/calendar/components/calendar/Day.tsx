@@ -108,7 +108,7 @@ export const Day = memo(({ className = '', dayNumber, dayKey }: Props) => {
         'duration-500',
         'group',
         {
-          'text-[#979797] hover:bg-[#fffb000d] hover:text-white': !isSidebarOpen && total > 0,
+          'text-[#b3b3a8] hover:bg-[#fffb000d] hover:text-white': !isSidebarOpen && total > 0,
           'text-[#3d3d3d] hover:bg-[#4545341c] hover:text-[#656565]': !isSidebarOpen && total === 0,
           'text-white bg-[#fff3]': isSidebarOpen,
         },

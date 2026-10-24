@@ -3,9 +3,11 @@ import { useTranslation } from 'react-i18next';
 import IconPlus from '@/components/icons/IconPlus';
 import IconTravel from '@/components/icons/IconTravel';
 import IconTravelWrapper from '@/components/icons/IconTravelWrapper';
-import { TextCounter } from '@/components/text-counter/TextCounter';
 import { AppIntro } from '@/features/app-intro/components/AppIntro';
+import { VisitedCountries } from '@/features/calendar/components/common/VisitedCountries';
+import { VisitedDays } from '@/features/calendar/components/common/VisitedDays';
 import { useTotalDays } from '@/features/filters/hooks/use-total-days/useTotalDays';
+import { useTimeRange } from '@/features/filters/hooks/useRange';
 import useFiltersStore from '@/features/filters/stores/useFilterStore';
 import useDataStore from '@/features/settings/stores/useDateStore';
 import { StreaksSummary } from '@/features/streak/components/StreaksSummary';
@@ -19,18 +21,14 @@ export function CalendarHeader() {
   const totalDaysAbroad = useFiltersStore((store) => store.filtered.summary.totalDaysAbroad);
   const maxCountriesInDay = useFiltersStore((store) => store.filtered.summary.maxCountriesInDay);
   const maxYearsAbroadInDay = useFiltersStore((store) => store.filtered.summary.maxYearsAbroadInDay);
-  const visitedCountriesTotal = useFiltersStore((store) => store.filtered.summary.countriesCodes.length);
   const unlockedCountriesTotal = useFiltersStore((store) => store.filtered.summary.countriesUnlocked.length);
-  const activeDaysTotal = useFiltersStore((store) => store.filtered.summary.activeDays.length);
-  const activeFrom = useFiltersStore((store) => store.activeFilters.from);
-  const activeTo = useFiltersStore((store) => store.activeFilters.to);
-  const { from, to } = useDataStore((store) => store.date);
+  const { from, to } = useTimeRange();
 
   const totalDays = useTotalDays();
 
   const { t } = useTranslation();
 
-  const years = getArrayOfYears(activeFrom ?? from, activeTo ?? to);
+  const years = getArrayOfYears(from, to);
   const totalYears = years.length;
 
   if (!lastUpdate) {
@@ -50,16 +48,7 @@ export function CalendarHeader() {
           'rounded-lg',
         )}
       >
-        <span
-          className={cn('absolute top-5 left-5', 'text-xs text-gray-400 tracking-wider', {
-            'text-gray-500': visitedCountriesTotal === 0,
-          })}
-        >
-          {t('summary.countries', {
-            postProcess: 'interval',
-            count: visitedCountriesTotal,
-          })}
-        </span>
+        <VisitedCountries className="absolute top-5 left-5" place="year" />
         <div
           className={cn(
             'grid pointer-events-none',
@@ -78,7 +67,7 @@ export function CalendarHeader() {
             </span>
           ))}
         </div>
-        <TextCounter className="absolute top-5 right-5" value={activeDaysTotal} max={366} />
+        <VisitedDays className="absolute top-5 right-5" place="year" max={366} />
       </div>
       <StreaksSummary />
       <div

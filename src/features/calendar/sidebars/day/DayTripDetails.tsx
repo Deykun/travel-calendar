@@ -34,7 +34,7 @@ export const DayTripDetails = ({ tripKey, showOnlyForCountryCode }: Props) => {
   }
 
   return (
-    <div className={cn('flex flex-col gap-0.5', 'relative', 'text-[#979797]')}>
+    <div className={cn('flex flex-col gap-0.5', 'relative', 'text-[#b3b3a8]')}>
       <div className={cn('flex gap-4 items-center')}>
         <strong className="text-white tracking-wider font-semibold mr-auto">
           <PlaceName placeKey={trip?.placeKey} />
@@ -66,7 +66,7 @@ export const DayTripDetails = ({ tripKey, showOnlyForCountryCode }: Props) => {
       </div>
       <div className={cn('flex items-center gap-5')}>
         <TextDateRange
-          className={cn('text-[#979797] text-[12px] text-right', 'text-nowrap tracking-wider font-semibold', 'ml-auto')}
+          className={cn('text-[#b3b3a8] text-[12px] text-right', 'text-nowrap tracking-wider font-semibold', 'ml-auto')}
           from={trip.from}
           to={trip.to}
         />
