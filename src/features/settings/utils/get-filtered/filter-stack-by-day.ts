@@ -38,7 +38,7 @@ export const filterStackByDay = (
   const dayWithoutYear = getDateWithoutYear(dataDay.date);
   const { year } = stringDateToObject(dataDay.date);
 
-  stack = extendYearSummary(stack, year, dayWithoutYear, filteredCountriesForDay);
+  stack = extendYearSummary(stack, dataDay.date, filteredCountriesForDay);
 
   const isLastDayOfRange = to === dataDay.date;
 

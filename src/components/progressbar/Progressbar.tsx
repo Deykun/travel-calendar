@@ -50,7 +50,7 @@ export const Progressbar = ({ value, total, className = '', startedAt }: Props) 
         />
       </div>
       {remainingSeconds !== undefined && (
-        <span className={cn('self-end', 'text-xs text-[#979797] tracking-wider')}>
+        <span className={cn('self-end', 'text-xs text-[#b3b3a8] tracking-wider')}>
           {t('progress.remaining', { count: remainingSeconds })}
         </span>
       )}

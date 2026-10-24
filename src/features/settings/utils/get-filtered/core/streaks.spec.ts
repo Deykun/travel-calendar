@@ -12,7 +12,7 @@ const getStack = (streak: Partial<StreakSummary> = {}): StackByDay => ({
     streak: { ...getEmptyStreak('maxDays'), ...streak },
   },
   indexInSortingByUnlocking: 0,
-  yearOfUnlockingByCountry: {},
+  dateOfUnlockingByCountry: {},
   yearOfUnlockingByDateMMDD: {},
 });
 

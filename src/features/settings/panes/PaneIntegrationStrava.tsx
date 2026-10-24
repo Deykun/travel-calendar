@@ -30,7 +30,7 @@ export function PaneIntegrationStrava() {
     <Pane>
       <Pane.Title>{t('integration.fromStrava')}</Pane.Title>
       <Pane.Subtitle>{t('integration.strava.subtitle')}</Pane.Subtitle>
-      <ol className="list-decimal pl-4 flex flex-col gap-2 text-[#979797] text-sm [&_a]:text-white [&_a]:hover:text-[#d8da51] [&_a]:duration-500">
+      <ol className="list-decimal pl-4 flex flex-col gap-2 text-[#b3b3a8] text-sm [&_a]:text-white [&_a]:hover:text-[#d8da51] [&_a]:duration-500">
         <li>
           <span
             dangerouslySetInnerHTML={{
@@ -56,9 +56,9 @@ export function PaneIntegrationStrava() {
           'relative',
           'flex items-center justify-center',
           'w-full min-h-25 p-3',
-          'text-xs text-center text-[#979797]',
+          'text-xs text-center text-[#b3b3a8]',
           'bg-[#282824] rounded-sm',
-          'border-2 border-dashed border-[#979797]/40',
+          'border-2 border-dashed border-[#b3b3a8]/40',
           'hover:border-[#d8da51] hover:text-white',
           'focus-within:border-[#fcff4e] focus-within:text-white',
           'has-disabled:opacity-45 has-disabled:pointer-events-none',

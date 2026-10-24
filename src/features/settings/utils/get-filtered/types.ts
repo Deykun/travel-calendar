@@ -1,5 +1,5 @@
 import type { FiltersStoreState, StreakSummary } from '@/features/filters/stores/useFilterStore';
-import type { DateMMDD } from '@/types';
+import type { DateMMDD, DateYYYYMMDD } from '@/types';
 
 export type StackByDay = {
   summaryByDay: FiltersStoreState['filtered']['summaryByDay'];
@@ -8,8 +8,8 @@ export type StackByDay = {
     streak: StreakSummary;
   };
   indexInSortingByUnlocking: number;
-  yearOfUnlockingByCountry: {
-    [countryCode: string]: number;
+  dateOfUnlockingByCountry: {
+    [countryCode: string]: DateYYYYMMDD;
   };
   yearOfUnlockingByDateMMDD: {
     [dateMMDD: DateMMDD]: number;

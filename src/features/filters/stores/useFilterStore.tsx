@@ -32,7 +32,9 @@ type SummaryMonth = {
 };
 
 export type SummaryYear = {
-  countriesUnlocked: string[];
+  countriesUnlocked: {
+    [countryCode: string]: DateYYYYMMDD;
+  };
   daysUnlocked: DateMMDD[];
 };
 

@@ -17,7 +17,7 @@ export function IntegrationLastUpdate({ date, className = '' }: Props) {
   }
 
   return (
-    <p className={cn('text-[#979797] text-xs', className)}>
+    <p className={cn('text-[#b3b3a8] text-xs', className)}>
       {t('integration.lastUpdatePrefix')}{' '}
       <span className="text-white">
         <Datetime date={date} />

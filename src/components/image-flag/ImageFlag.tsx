@@ -42,7 +42,7 @@ export const ImageFlag = ({
           'rounded-sm',
           'saturate-75',
           'drop-shadow',
-          'bg-transparent text-gray-400',
+          'bg-transparent text-[#c6c7a7]',
           'leading-none',
           'tracking-widest',
           'text-xs',

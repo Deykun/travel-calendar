@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 
 import type { DateYYYYMMDD } from '@/types';
 import { cn } from '@/utils/tailwind';
+
 import { appFormatDate } from './utils/format-date';
 
 type Props = {
@@ -9,8 +10,6 @@ type Props = {
   from: DateYYYYMMDD | undefined;
   to: DateYYYYMMDD | undefined;
 };
-
-
 
 export const TextDateRange = ({ className = '', from, to }: Props) => {
   const label = useMemo(() => {
@@ -40,5 +39,5 @@ export const TextDateRange = ({ className = '', from, to }: Props) => {
     return null;
   }
 
-  return <span className={cn('text-xs text-gray-400 tracking-wider', className)}>{label}</span>;
+  return <span className={cn('text-xs text-[#c6c7a7] tracking-wider', className)}>{label}</span>;
 };

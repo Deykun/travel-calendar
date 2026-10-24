@@ -1,20 +1,23 @@
-import type { DateMMDD } from '@/types';
+import type { DateYYYYMMDD } from '@/types';
+import { getDateWithoutYear, getYearFromDate } from '@/utils/date';
 
 import type { StackByDay } from '../types';
 
 export const extendYearSummary = (
   stack: StackByDay,
-  year: number,
-  dayWithoutYear: DateMMDD,
+  dateYYYYMMDD: DateYYYYMMDD,
   countriesCodes: string[],
 ): StackByDay => {
+  const year = getYearFromDate(dateYYYYMMDD);
+  const dayWithoutYear = getDateWithoutYear(dateYYYYMMDD);
+
   if (!year) {
     return stack;
   }
 
   countriesCodes.forEach((countryCode) => {
-    if (stack.yearOfUnlockingByCountry[countryCode] === undefined) {
-      stack.yearOfUnlockingByCountry[countryCode] = year;
+    if (stack.dateOfUnlockingByCountry[countryCode] === undefined) {
+      stack.dateOfUnlockingByCountry[countryCode] = dateYYYYMMDD;
     }
   });
 

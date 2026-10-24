@@ -20,10 +20,9 @@ export function VisitedDaysDifference({ className, year, ...props }: Props) {
 
     if (props.place === 'month') {
       return (
-        summaryByYear[year]?.daysUnlocked.filter((dateMMDD) => {
-          console.log(dateMMDD, `${props.monthNumber}-`.padStart(3, '0'));
-          return dateMMDD.startsWith(`${props.monthNumber}-`.padStart(3, '0'));
-        }).length || 0
+        summaryByYear[year]?.daysUnlocked.filter((dateMMDD) =>
+          dateMMDD.startsWith(`${props.monthNumber}-`.padStart(3, '0')),
+        ).length || 0
       );
     }
 
@@ -37,17 +36,20 @@ export function VisitedDaysDifference({ className, year, ...props }: Props) {
   return (
     <div
       className={cn(
-        'block text-right text-[10px] tracking-wider',
+        'block text-right text-[10px]',
         {
           'mt-2': props.place === 'year',
           'mt-1': props.place !== 'year',
         },
+        'starting:opacity-0 opacity-100',
+        'starting:translate-y-1 translate-y-0',
+        'duration-300',
         'flex items-center justify-end gap-1 leading-none',
         className,
       )}
     >
-      <span className="opacity-60">{props.place === 'year' && year}</span>
-      <span className="text-[#fcff4e] font-semibold">+{total}</span>
+      <span className="opacity-60">{year}</span>
+      <span className="text-[#ff4e4e] font-semibold tracking-widest">+{total}</span>
     </div>
   );
 }

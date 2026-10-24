@@ -49,7 +49,7 @@ export const Period = ({
         'duration-150',
         'group',
         {
-          'text-[#979797] hover:bg-[#fffb000d] hover:text-white': !isActive,
+          'text-[#b3b3a8] hover:bg-[#fffb000d] hover:text-white': !isActive,
           'text-white bg-[#fff3] shadow-[0_0_15px_#021019]': isActive,
         },
         className,

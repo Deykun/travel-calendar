@@ -1,10 +1,11 @@
 import type { FiltersStoreState, SummaryYear } from '@/features/filters/stores/useFilterStore';
 import type { DateMMDD } from '@/types';
 import { mergeUniqueAndSort } from '@/utils/array';
+import { getYearFromDate } from '@/utils/date';
 
 import type { StackByDay } from './types';
 
-type FilterByYearParams = Pick<StackByDay, 'yearOfUnlockingByCountry' | 'yearOfUnlockingByDateMMDD'>;
+type FilterByYearParams = Pick<StackByDay, 'dateOfUnlockingByCountry' | 'yearOfUnlockingByDateMMDD'>;
 
 type SummaryByYear = FiltersStoreState['filtered']['summaryByYear'];
 
@@ -16,7 +17,7 @@ const getOrCreateSummaryYear = (summaryByYear: SummaryByYear, year: number): Sum
   }
 
   const created: SummaryYear = {
-    countriesUnlocked: [],
+    countriesUnlocked: {},
     daysUnlocked: [],
   };
 
@@ -26,15 +27,15 @@ const getOrCreateSummaryYear = (summaryByYear: SummaryByYear, year: number): Sum
 };
 
 export const filterByYear = ({
-  yearOfUnlockingByCountry,
+  dateOfUnlockingByCountry,
   yearOfUnlockingByDateMMDD,
 }: FilterByYearParams): SummaryByYear => {
   const summaryByYear: SummaryByYear = {};
 
-  Object.entries(yearOfUnlockingByCountry).forEach(([countryCode, year]) => {
-    const summaryYear = getOrCreateSummaryYear(summaryByYear, year);
+  Object.entries(dateOfUnlockingByCountry).forEach(([countryCode, dateYYYYMMDD]) => {
+    const summaryYear = getOrCreateSummaryYear(summaryByYear, getYearFromDate(dateYYYYMMDD));
 
-    summaryYear.countriesUnlocked = mergeUniqueAndSort(summaryYear.countriesUnlocked, [countryCode]);
+    summaryYear.countriesUnlocked[countryCode] = dateYYYYMMDD;
   });
 
   Object.entries(yearOfUnlockingByDateMMDD).forEach(([dateMMDD, year]) => {

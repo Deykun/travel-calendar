@@ -30,7 +30,7 @@ export function VisitedCountries({ className, ...placeProps }: Props) {
     <div
       className={cn(
         'text-left',
-        'text-xs text-gray-400 tracking-wider',
+        'text-xs text-[#c6c7a7] tracking-wider',
         {
           'text-gray-500': total === 0,
         },
@@ -43,7 +43,9 @@ export function VisitedCountries({ className, ...placeProps }: Props) {
           count: total,
         })}
       </div>
-      {shouldShowChangesInLastYearRange && toYear && <VisitedCountriesDifference year={toYear} {...placeProps} />}
+      {shouldShowChangesInLastYearRange && toYear && (
+        <VisitedCountriesDifference key={toYear} year={toYear} {...placeProps} />
+      )}
     </div>
   );
 }

@@ -6,6 +6,7 @@ import { VisitedCountries } from '@/features/calendar/components/common/VisitedC
 import { VisitedDays } from '@/features/calendar/components/common/VisitedDays';
 import { useFlagsSimple } from '@/features/filters/hooks/useFlagsSimple';
 import useFiltersStore from '@/features/filters/stores/useFilterStore';
+import usePreferencesStore from '@/features/preferences/stores/usePreferencesStore';
 import { getDayKey } from '@/features/settings/utils/get-day-key';
 import { closeSidebar, openSidebar, useSidebarStore } from '@/features/sidebar/stores/useSidebarStore';
 import { cn } from '@/utils/tailwind';
@@ -20,6 +21,7 @@ type Props = {
 };
 
 export const Month = ({ className = '', month }: Props) => {
+  const shouldShowChangesInLastYearRange = usePreferencesStore((store) => store.date.shouldShowChangesInLastYearRange);
   const { t } = useTranslation();
 
   const isSidebarOpen = useSidebarStore(
@@ -54,7 +56,17 @@ export const Month = ({ className = '', month }: Props) => {
 
   return (
     <article className={cn('p-5 pt-3', 'bg-[#111110]', 'text-center', 'rounded-lg', 'relative hover:z-10', className)}>
-      <button className="absolute top-4 left-5" onClick={handleClick}>
+      <button
+        className={cn(
+          'absolute top-4 left-5 z-5',
+          'translate-y-0',
+          {
+            '-translate-y-1': shouldShowChangesInLastYearRange,
+          },
+          'duration-300',
+        )}
+        onClick={handleClick}
+      >
         <FlagHover flags={flagsToShow} from="bottom-left">
           <VisitedCountries
             className={cn('duration-500', { 'text-white': isSidebarOpen })}
@@ -64,7 +76,19 @@ export const Month = ({ className = '', month }: Props) => {
         </FlagHover>
       </button>
       <h2 className={cn('text-2xl text-white', 'font-semibold mb-4')}>{t(month.name)} </h2>
-      <VisitedDays className="absolute top-5 right-5" place="month" monthNumber={month.monthNumber} max={daysInMonth} />
+      <VisitedDays
+        className={cn(
+          'absolute top-4 right-5',
+          'translate-y-0',
+          {
+            '-translate-y-1': shouldShowChangesInLastYearRange,
+          },
+          'duration-300',
+        )}
+        place="month"
+        monthNumber={month.monthNumber}
+        max={daysInMonth}
+      />
       <div className={cn('grid grid-cols-7 gap-x-1.5 gap-y-1')}>
         {month.days.map((day) => (
           <Day key={day} dayKey={getDayKey({ day, month: month.monthNumber })} dayNumber={day} />

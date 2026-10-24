@@ -39,7 +39,7 @@ export function CalendarFootnote({ url = DEFAULT_URL, className = '' }: Props) {
 
   return (
     <p
-      className={cn('text-[#979797] text-sm', className)}
+      className={cn('text-[#b3b3a8] text-sm', className)}
       dangerouslySetInnerHTML={{
         __html: t(dataPoints ? 'share.footnote' : 'share.footnoteNoDataPoints', {
           source: highlight(source),

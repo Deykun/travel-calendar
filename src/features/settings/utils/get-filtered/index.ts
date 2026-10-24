@@ -24,7 +24,7 @@ export const getFiltered = (dataByDay: DataStoreState['dataByDay']): FiltersStor
   const sortedTo = dataByDateSorted.at(-1);
   const fullDateRange = sortedFrom && sortedTo ? getDateRange(sortedFrom, sortedTo) : dataByDateSorted;
 
-  const { summaryByDay, streaks, current, yearOfUnlockingByCountry, yearOfUnlockingByDateMMDD } = fullDateRange.reduce(
+  const { summaryByDay, streaks, current, dateOfUnlockingByCountry, yearOfUnlockingByDateMMDD } = fullDateRange.reduce(
     (stack: StackByDay, dateYYYYMMDD) => filterStackByDay(stack, dateYYYYMMDD, { dataByDay, activeFilters }),
     {
       summaryByDay: {},
@@ -33,7 +33,7 @@ export const getFiltered = (dataByDay: DataStoreState['dataByDay']): FiltersStor
         streak: getEmptyStreak('maxDays'),
       },
       indexInSortingByUnlocking: 0,
-      yearOfUnlockingByCountry: {},
+      dateOfUnlockingByCountry: {},
       yearOfUnlockingByDateMMDD: {},
     },
   );
@@ -64,7 +64,7 @@ export const getFiltered = (dataByDay: DataStoreState['dataByDay']): FiltersStor
       },
     });
 
-  const summaryByYear = filterByYear({ yearOfUnlockingByCountry, yearOfUnlockingByDateMMDD });
+  const summaryByYear = filterByYear({ dateOfUnlockingByCountry, yearOfUnlockingByDateMMDD });
 
   return {
     summaryByDay,

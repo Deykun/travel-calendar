@@ -14,12 +14,20 @@ export function VisitedCountriesDifference({ className, year, ...props }: Props)
   const summaryByYear = useFiltersStore((store) => store.filtered.summaryByYear);
 
   const total = useMemo(() => {
+    const countriesUnlocked = summaryByYear[year]?.countriesUnlocked ?? {};
+
     if (props.place === 'year') {
-      return summaryByYear[year]?.countriesUnlocked.length || 0;
+      return Object.keys(countriesUnlocked).length;
+    }
+
+    if (props.place === 'month') {
+      const yearMonthPrefix = `${year}-${String(props.monthNumber).padStart(2, '0')}-`;
+
+      return Object.values(countriesUnlocked).filter((dateYYYYMMDD) => dateYYYYMMDD.startsWith(yearMonthPrefix)).length;
     }
 
     return 0;
-  }, [props.place, summaryByYear, year]);
+  }, [props, summaryByYear, year]);
 
   if (props.place === 'streaks' || total < 1) {
     return null;
@@ -28,17 +36,20 @@ export function VisitedCountriesDifference({ className, year, ...props }: Props)
   return (
     <div
       className={cn(
-        'block text-right text-[10px] tracking-wider',
+        'block text-right text-[10px]',
         {
           'mt-2': props.place === 'year',
           'mt-1': props.place !== 'year',
         },
+        'starting:opacity-0 opacity-100',
+        'starting:translate-y-1 translate-y-0',
+        'duration-300',
         'flex items-center gap-1 leading-none',
         className,
       )}
     >
-      <span className="text-[#fcff4e] font-semibold">+{total}</span>
-      <span className="opacity-60">{props.place === 'year' && year}</span>
+      <span className="text-[#ff4e4e] font-semibold tracking-widest">+{total}</span>
+      <span className="opacity-60">{year}</span>
     </div>
   );
 }

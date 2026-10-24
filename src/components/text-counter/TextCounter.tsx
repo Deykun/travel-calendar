@@ -20,7 +20,7 @@ export const TextCounter = ({ className = '', value, max, variant = 'slash' }: P
   return (
     <span
       className={cn(
-        'text-xs text-gray-400 tracking-wider',
+        'text-xs text-[#c6c7a7] tracking-wider',
         {
           'text-[#fcff4e] font-semibold': value === max,
         },

@@ -25,9 +25,11 @@ export function VisitedDays({ className, max, ...placeProps }: Props) {
   );
 
   return (
-    <div className={cn('text-right', 'text-xs text-gray-400 tracking-wider', className)}>
+    <div className={cn('text-right', 'text-xs text-[#c6c7a7] tracking-wider', className)}>
       <TextCounter value={total} max={max} />
-      {shouldShowChangesInLastYearRange && toYear && <VisitedDaysDifference year={toYear} {...placeProps} />}
+      {shouldShowChangesInLastYearRange && toYear && (
+        <VisitedDaysDifference key={toYear} year={toYear} {...placeProps} />
+      )}
     </div>
   );
 }

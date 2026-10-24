@@ -43,7 +43,7 @@ export function StreakList({ className }: Props) {
       <h2 className={cn('text-2xl text-white', 'font-semibold mb-3')}>{t(`summary.tripsTitle`)}</h2>
       <p className={cn('flex items-center justify-center gap-2', 'mb-2')}>
         <span
-          className={cn('text-xs text-gray-400 tracking-wider', {
+          className={cn('text-xs text-[#c6c7a7] tracking-wider', {
             'text-gray-500': streaks.length === 0,
           })}
         >
@@ -56,7 +56,7 @@ export function StreakList({ className }: Props) {
         <VisitedCountries place="streaks" />
         <span>{' - '}</span>
         <span
-          className={cn('text-xs text-gray-400 tracking-wider', {
+          className={cn('text-xs text-[#c6c7a7] tracking-wider', {
             'text-gray-500': totalDaysAbroad === 0,
           })}
         >
