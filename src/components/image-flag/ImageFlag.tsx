@@ -8,13 +8,10 @@ import IconPlus from '../icons/IconPlus';
 import IconTravel from '../icons/IconTravel';
 import IconTravelWrapper from '../icons/IconTravelWrapper';
 import { Image } from '../image/Image';
-
-const fallbackFlags: { [key: string]: string | undefined } = {
-  UK: 'GB',
-  KS: 'XK',
-};
+import { fallbackFlags } from './constants';
 
 type Props = {
+  className?: string;
   countryCode: string;
   shouldShowHomeMarker?: boolean;
   wasUnlocked?: boolean;
@@ -22,6 +19,7 @@ type Props = {
 };
 
 export const ImageFlag = ({
+  className = '',
   countryCode,
   shouldShowHomeMarker = false,
   wasUnlocked = false,
@@ -31,7 +29,7 @@ export const ImageFlag = ({
   const safeCountryCodeForImage = fallbackFlags[countryCode.toUpperCase()] || countryCode.toUpperCase();
 
   return (
-    <span className={cn('inline-flex relative', 'p-1.5', 'bg-[#3d3d3d6e]', 'rounded-[10px]')}>
+    <span className={cn('inline-flex relative', 'p-1.5', 'bg-[#3d3d3d6e]', 'rounded-[10px]', className)}>
       <Image
         className={cn(
           'w-9',

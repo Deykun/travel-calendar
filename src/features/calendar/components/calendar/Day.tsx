@@ -2,6 +2,7 @@ import { memo, useCallback, useMemo } from 'react';
 
 import { FlagHover } from '@/components/flag-hover/FlagHover';
 import type { PanelFrom } from '@/components/flag-hover/FlagHoverPanel';
+import { FlagStack } from '@/components/flag-stack/FlagStack';
 import { useFlagsSimple } from '@/features/filters/hooks/useFlagsSimple';
 import { useIsDifferenceDay } from '@/features/filters/hooks/useIsDifferenceDay';
 import useFiltersStore from '@/features/filters/stores/useFilterStore';
@@ -120,13 +121,24 @@ export const Day = memo(({ className = '', dayNumber, dayKey }: Props) => {
       )}
     >
       <FlagHover flags={flags} className="inline-flex flex-col gap-1" from={from} shouldSkipGroup>
-        <IconTravelForDay
+        {/* <IconTravelForDay
           total={total}
           hasScale
           visualTotal={visualTotal}
           isNewCountryActive={isNewCountryActive}
           isHighlightAbroadTravelActive={isHighlightAbroadTravelActive}
-        />
+        /> */}
+        {flags.length > 0 ? (
+          <FlagStack flags={flags} />
+        ) : (
+          <IconTravelForDay
+            total={total}
+            hasScale
+            visualTotal={visualTotal}
+            isNewCountryActive={isNewCountryActive}
+            isHighlightAbroadTravelActive={isHighlightAbroadTravelActive}
+          />
+        )}
         <p className={cn('text-sm tracking-wider duration-500')}>{dayNumber}</p>
       </FlagHover>
     </button>
