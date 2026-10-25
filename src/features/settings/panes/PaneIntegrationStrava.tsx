@@ -1,21 +1,26 @@
 import { useTranslation } from 'react-i18next';
 
 import IconBulb from '@/components/icons/IconBulb';
+import IconStrava from '@/components/icons/IconStrava';
 import { Progressbar } from '@/components/progressbar/Progressbar';
 import { Pane } from '@/features/sidebar/components/pane/Pane';
+import type { SettingsScrollTarget } from '@/features/sidebar/stores/useSidebarStore';
 import { cn } from '@/utils/tailwind';
 
 import { getDataFromStrava } from '../actions/get-data-from-strava';
 import useStravaIntegrationsStore from '../actions/strava/stores/useStravaIntegrationStore';
 import { IntegrationLastUpdate } from '../components/IntegrationLastUpdate';
-import { WindowDropzone } from '../components/WindowDropzone';
 import useDataStore from '../stores/useDateStore';
 
 const STRAVA_EXPORT_URL = 'https://www.strava.com/athlete/delete_your_account';
 
 const handleFiles = (files: File[]) => getDataFromStrava({ files });
 
-export function PaneIntegrationStrava() {
+type Props = {
+  id?: SettingsScrollTarget;
+};
+
+export function PaneIntegrationStrava({ id }: Props) {
   const integration = useDataStore((store) => store.integration);
   const integrationStatus = useStravaIntegrationsStore((store) => store.status);
 
@@ -27,10 +32,19 @@ export function PaneIntegrationStrava() {
     integrationStatus.total > 0 && integrationStatus.total !== integrationStatus.processed + integrationStatus.rejected;
 
   return (
-    <Pane>
-      <Pane.Title>{t('integration.fromStrava')}</Pane.Title>
+    <Pane id={id}>
+      <Pane.Title className="flex gap-2 items-center">
+        <IconStrava className="text-[#d8da51] size-6" /> <span>{t('integration.fromStrava')}</span>
+      </Pane.Title>
       <Pane.Subtitle>{t('integration.strava.subtitle')}</Pane.Subtitle>
-      <ol className="list-decimal pl-4 flex flex-col gap-2 text-[#b3b3a8] text-sm [&_a]:text-white [&_a]:hover:text-[#d8da51] [&_a]:duration-500">
+      <ol
+        className={cn(
+          'list-decimal pl-4 flex flex-col gap-2',
+          'text-[#b3b3a8] text-sm',
+          'tracking-wide leading-relaxed',
+          '[&_a]:text-[#d8da51] [&_a]:hover:text-[#fcff4e] [&_a]:duration-500',
+        )}
+      >
         <li>
           <span
             dangerouslySetInnerHTML={{
@@ -39,7 +53,7 @@ export function PaneIntegrationStrava() {
               }),
             }}
           />
-          <small className="block text-xs opacity-50 mt-2">{t('integration.strava.step1Note')}</small>
+          <small className="block text-xs opacity-60 mt-2">{t('integration.strava.step1Note')}</small>
         </li>
         <li>{t('integration.strava.step2')}</li>
         <li
@@ -76,7 +90,6 @@ export function PaneIntegrationStrava() {
           multiple
         />
       </label>
-      <WindowDropzone onDrop={handleFiles} isDisabled={isLoading} />
       {shouldShowProgress && (
         <Progressbar
           key={integrationStatus.startedAt}

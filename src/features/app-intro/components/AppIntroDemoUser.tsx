@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 
 import { Button } from '@/components/button/Button';
-import IconBolt from '@/components/icons/IconBolt';
+import IconCalendarSmile from '@/components/icons/IconCalendarSmile';
 import IconWarning from '@/components/icons/IconWarning';
 import { useNomadsIntegration } from '@/features/settings/hooks/useNomadsIntegration';
 import { cn } from '@/utils/tailwind';
@@ -19,8 +19,8 @@ export function AppIntroDemoUser() {
   return (
     <div className={cn('flex flex-col items-center gap-3')}>
       <Button type="button" onClick={handleDownloadDemoUser} isLoading={isLoading}>
-        <IconBolt />
-        <span>{t('integration.getData')}</span>
+        <IconCalendarSmile />
+        <span>{t('integration.loadExampleUser')}</span>
       </Button>
       {errorMessage && (
         <p className={cn('flex items-center gap-2', 'text-xs text-left')}>

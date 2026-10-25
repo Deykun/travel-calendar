@@ -1,7 +1,6 @@
 import { useTranslation } from 'react-i18next';
 
 import { Button } from '@/components/button/Button';
-import IconBolt from '@/components/icons/IconBolt';
 import { refreshStore } from '@/features/error-boundary/actions/refresh';
 import { Pane } from '@/features/sidebar/components/pane/Pane';
 import type { SettingsScrollTarget } from '@/features/sidebar/stores/useSidebarStore';
@@ -38,11 +37,10 @@ export function PaneIntegrationManagement({ id, onOpenIntegrations }: Props) {
       <Pane.Subtitle>{t('integration.management.subtitle')}</Pane.Subtitle>
       <div className="flex flex-wrap justify-end gap-2 mt-2">
         <Button onClick={refreshStore} variant="secondary" size="sm">
-          <span>{t('common.reset')}</span>
+          <span>{t('common.clear')}</span>
         </Button>
         <Button onClick={onOpenIntegrations} variant="primary" size="sm">
-          <IconBolt />
-          <span>{t('integration.changeData')}</span>
+          <span>{t('common.edit')}</span>
         </Button>
       </div>
       {sourceLabelKey && (
