@@ -23,8 +23,12 @@ export type PreferencesStoreState = {
     shouldHighlightNewCountries: boolean;
   };
   date: {
-    shouldShowChangesInLastYearRange: boolean;
     shouldFilterToSingleYear: boolean;
+  };
+  differences: {
+    shouldShowDifferencesCounters: boolean;
+    shouldHighlightDays: boolean;
+    shouldHighlightFlags: boolean;
   };
 };
 
@@ -43,8 +47,12 @@ const emptyStore: PreferencesStoreState = {
     shouldHighlightNewCountries: true,
   },
   date: {
-    shouldShowChangesInLastYearRange: false,
     shouldFilterToSingleYear: false,
+  },
+  differences: {
+    shouldShowDifferencesCounters: false,
+    shouldHighlightDays: false,
+    shouldHighlightFlags: false,
   },
 };
 
@@ -120,11 +128,29 @@ export const toggleShouldFilterToSingleYear = () => {
   }));
 };
 
-export const toggleShouldShowChangesInLastYearRange = () => {
+export const toggleShouldShowDifferencesCounters = () => {
   usePreferencesStore.setState((state) => ({
-    date: {
-      ...state.date,
-      shouldShowChangesInLastYearRange: !state.date.shouldShowChangesInLastYearRange,
+    differences: {
+      ...state.differences,
+      shouldShowDifferencesCounters: !state.differences.shouldShowDifferencesCounters,
+    },
+  }));
+};
+
+export const toggleShouldHighlightDays = () => {
+  usePreferencesStore.setState((state) => ({
+    differences: {
+      ...state.differences,
+      shouldHighlightDays: !state.differences.shouldHighlightDays,
+    },
+  }));
+};
+
+export const toggleShouldHighlightFlags = () => {
+  usePreferencesStore.setState((state) => ({
+    differences: {
+      ...state.differences,
+      shouldHighlightFlags: !state.differences.shouldHighlightFlags,
     },
   }));
 };

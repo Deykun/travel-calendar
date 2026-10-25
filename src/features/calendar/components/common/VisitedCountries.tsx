@@ -18,7 +18,7 @@ type Props = VisitedCountriesPlace & {
 };
 
 export function VisitedCountries({ className, ...props }: Props) {
-  const shouldShowChangesInLastYearRange = usePreferencesStore((store) => store.date.shouldShowChangesInLastYearRange);
+  const shouldShowDifferencesCounters = usePreferencesStore((store) => store.differences.shouldShowDifferencesCounters);
   const { toYear } = useTimeRange();
 
   const { t } = useTranslation();
@@ -46,9 +46,7 @@ export function VisitedCountries({ className, ...props }: Props) {
           count: total,
         })}
       </div>
-      {shouldShowChangesInLastYearRange && toYear && (
-        <VisitedCountriesDifference key={toYear} year={toYear} {...props} />
-      )}
+      {shouldShowDifferencesCounters && toYear && <VisitedCountriesDifference key={toYear} year={toYear} {...props} />}
     </div>
   );
 }

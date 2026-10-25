@@ -22,7 +22,9 @@ type Props = {
 };
 
 export const Month = ({ className = '', month }: Props) => {
-  const shouldShowChangesInLastYearRange = usePreferencesStore((store) => store.date.shouldShowChangesInLastYearRange);
+  const shouldHighlightFlags = usePreferencesStore(
+    (store) => store.differences.shouldShowDifferencesCounters && store.differences.shouldHighlightFlags,
+  );
   const { t } = useTranslation();
 
   const isSidebarOpen = useSidebarStore(
@@ -65,7 +67,7 @@ export const Month = ({ className = '', month }: Props) => {
         )}
         onClick={handleClick}
       >
-        {shouldShowChangesInLastYearRange ? (
+        {shouldHighlightFlags ? (
           <DifferenceMonthFlagHover flags={flagsToShow} from="bottom-left" monthNumber={month.monthNumber}>
             <VisitedCountries
               className={cn('duration-500', { 'text-white': isSidebarOpen })}

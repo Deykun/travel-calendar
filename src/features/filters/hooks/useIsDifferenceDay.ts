@@ -7,12 +7,14 @@ import useFiltersStore from '../stores/useFilterStore';
 import { useTimeRange } from './useRange';
 
 export function useIsDifferenceDay(date: DateMMDD) {
-  const shouldShowChangesInLastYearRange = usePreferencesStore((store) => store.date.shouldShowChangesInLastYearRange);
+  const shouldHighlightDays = usePreferencesStore(
+    (store) => store.differences.shouldShowDifferencesCounters && store.differences.shouldHighlightDays,
+  );
   const summaryByYear = useFiltersStore((store) => store.filtered.summaryByYear);
   const { toYear } = useTimeRange();
 
   return useMemo(() => {
-    if (!shouldShowChangesInLastYearRange) {
+    if (!shouldHighlightDays) {
       return false;
     }
 
@@ -21,5 +23,5 @@ export function useIsDifferenceDay(date: DateMMDD) {
     }
 
     return (summaryByYear[toYear]?.daysUnlocked || []).includes(date);
-  }, [date, shouldShowChangesInLastYearRange, summaryByYear, toYear]);
+  }, [date, shouldHighlightDays, summaryByYear, toYear]);
 }

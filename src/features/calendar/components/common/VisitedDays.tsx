@@ -15,7 +15,7 @@ type Props = VisitedDaysPlace & {
 };
 
 export function VisitedDays({ className, max, ...placeProps }: Props) {
-  const shouldShowChangesInLastYearRange = usePreferencesStore((store) => store.date.shouldShowChangesInLastYearRange);
+  const shouldShowDifferencesCounters = usePreferencesStore((store) => store.differences.shouldShowDifferencesCounters);
   const { toYear } = useTimeRange();
 
   const total = useFiltersStore((store) =>
@@ -27,9 +27,7 @@ export function VisitedDays({ className, max, ...placeProps }: Props) {
   return (
     <div className={cn('text-right', 'text-xs text-[#c6c7a7] tracking-wider', className)}>
       <TextCounter value={total} max={max} />
-      {shouldShowChangesInLastYearRange && toYear && (
-        <VisitedDaysDifference key={toYear} year={toYear} {...placeProps} />
-      )}
+      {shouldShowDifferencesCounters && toYear && <VisitedDaysDifference key={toYear} year={toYear} {...placeProps} />}
     </div>
   );
 }
