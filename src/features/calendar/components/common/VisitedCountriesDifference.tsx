@@ -46,6 +46,7 @@ export function VisitedCountriesDifference({ className, year, ...props }: Props)
         'flex items-center gap-1 leading-none',
         className,
       )}
+      data-type="difference"
     >
       <span className="text-[#ff4e4e] font-semibold tracking-widest">+{total}</span>
       <span className="opacity-60">{year}</span>

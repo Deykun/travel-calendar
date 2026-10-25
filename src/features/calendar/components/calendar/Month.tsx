@@ -6,7 +6,6 @@ import { VisitedCountries } from '@/features/calendar/components/common/VisitedC
 import { VisitedDays } from '@/features/calendar/components/common/VisitedDays';
 import { useFlagsSimple } from '@/features/filters/hooks/useFlagsSimple';
 import useFiltersStore from '@/features/filters/stores/useFilterStore';
-import usePreferencesStore from '@/features/preferences/stores/usePreferencesStore';
 import { getDayKey } from '@/features/settings/utils/get-day-key';
 import { closeSidebar, openSidebar, useSidebarStore } from '@/features/sidebar/stores/useSidebarStore';
 import { cn } from '@/utils/tailwind';
@@ -21,7 +20,6 @@ type Props = {
 };
 
 export const Month = ({ className = '', month }: Props) => {
-  const shouldShowChangesInLastYearRange = usePreferencesStore((store) => store.date.shouldShowChangesInLastYearRange);
   const { t } = useTranslation();
 
   const isSidebarOpen = useSidebarStore(
@@ -59,10 +57,7 @@ export const Month = ({ className = '', month }: Props) => {
       <button
         className={cn(
           'absolute top-4 left-5 z-5',
-          'translate-y-0',
-          {
-            '-translate-y-1': shouldShowChangesInLastYearRange,
-          },
+          'translate-y-0 has-data-[type=difference]:-translate-y-1',
           'duration-300',
         )}
         onClick={handleClick}
@@ -80,10 +75,7 @@ export const Month = ({ className = '', month }: Props) => {
       <VisitedDays
         className={cn(
           'absolute top-4 right-5',
-          'translate-y-0',
-          {
-            '-translate-y-1': shouldShowChangesInLastYearRange,
-          },
+          'translate-y-0 has-data-[type=difference]:-translate-y-1',
           'duration-300',
         )}
         place="month"

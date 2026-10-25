@@ -3,6 +3,7 @@ import { memo, useCallback, useMemo } from 'react';
 import { FlagHover } from '@/components/flag-hover/FlagHover';
 import type { PanelFrom } from '@/components/flag-hover/FlagHoverPanel';
 import { useFlagsSimple } from '@/features/filters/hooks/useFlagsSimple';
+import { useIsDifferenceDay } from '@/features/filters/hooks/useIsDifferenceDay';
 import useFiltersStore from '@/features/filters/stores/useFilterStore';
 import usePreferencesStore from '@/features/preferences/stores/usePreferencesStore';
 import { closeSidebar, openSidebar, useSidebarStore } from '@/features/sidebar/stores/useSidebarStore';
@@ -42,6 +43,8 @@ export const Day = memo(({ className = '', dayNumber, dayKey }: Props) => {
   const { flags, isHighlightAbroadTravelActive, isNewCountryActive } = useFlagsSimple(countriesCodesByYear, {
     countriesUnlockedThisDay,
   });
+
+  const isDifferenceDay = useIsDifferenceDay(dayKey);
 
   const total = useMemo(() => {
     if (counterShouldShow === 'yearsAbroad') {
@@ -108,6 +111,7 @@ export const Day = memo(({ className = '', dayNumber, dayKey }: Props) => {
         'duration-500',
         'group',
         {
+          'bg-[#ff4e4e17]': isDifferenceDay,
           'text-[#b3b3a8] hover:bg-[#fffb000d] hover:text-white': !isSidebarOpen && total > 0,
           'text-[#3d3d3d] hover:bg-[#4545341c] hover:text-[#656565]': !isSidebarOpen && total === 0,
           'text-white bg-[#fff3]': isSidebarOpen,
