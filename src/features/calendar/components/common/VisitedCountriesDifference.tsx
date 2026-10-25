@@ -1,9 +1,10 @@
 import { useMemo } from 'react';
 
 import useFiltersStore from '@/features/filters/stores/useFilterStore';
+import useDataStore from '@/features/settings/stores/useDateStore';
 import { cn } from '@/utils/tailwind';
 
-import { getCountriesUnlockedInYear } from '../../utils/get-countries-unlocked-in-year';
+import { getCountriesUnlockedInYearForMonth } from '../../utils/get-countries-unlocked-in-year-for-month';
 import type { VisitedCountriesPlace } from './VisitedCountries';
 
 type Props = VisitedCountriesPlace & {
@@ -13,20 +14,26 @@ type Props = VisitedCountriesPlace & {
 
 export function VisitedCountriesDifference({ className, year, ...props }: Props) {
   const summaryByYear = useFiltersStore((store) => store.filtered.summaryByYear);
+  const daysByCountryByMonthByYear = useDataStore((store) => store.daysByCountryByMonthByYear);
 
   const total = useMemo(() => {
-    const countriesUnlocked = summaryByYear[year]?.countriesUnlocked ?? {};
-
     if (props.place === 'year') {
+      const countriesUnlocked = summaryByYear[year]?.countriesUnlocked ?? {};
+
       return Object.keys(countriesUnlocked).length;
     }
 
     if (props.place === 'month') {
-      return getCountriesUnlockedInYear(year, props.flags).length;
+      return getCountriesUnlockedInYearForMonth({
+        year,
+        monthNumber: props.monthNumber,
+        flags: props.flags,
+        daysByCountryByMonthByYear,
+      }).length;
     }
 
     return 0;
-  }, [props, summaryByYear, year]);
+  }, [daysByCountryByMonthByYear, props, summaryByYear, year]);
 
   if (props.place === 'streaks' || total < 1) {
     return null;
