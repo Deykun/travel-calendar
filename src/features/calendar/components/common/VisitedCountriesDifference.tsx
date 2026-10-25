@@ -3,6 +3,7 @@ import { useMemo } from 'react';
 import useFiltersStore from '@/features/filters/stores/useFilterStore';
 import { cn } from '@/utils/tailwind';
 
+import { getCountriesUnlockedInYear } from '../../utils/get-countries-unlocked-in-year';
 import type { VisitedCountriesPlace } from './VisitedCountries';
 
 type Props = VisitedCountriesPlace & {
@@ -21,9 +22,7 @@ export function VisitedCountriesDifference({ className, year, ...props }: Props)
     }
 
     if (props.place === 'month') {
-      const yearMonthPrefix = `${year}-${String(props.monthNumber).padStart(2, '0')}-`;
-
-      return Object.values(countriesUnlocked).filter((dateYYYYMMDD) => dateYYYYMMDD.startsWith(yearMonthPrefix)).length;
+      return getCountriesUnlockedInYear(year, props.flags).length;
     }
 
     return 0;

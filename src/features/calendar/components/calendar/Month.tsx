@@ -72,6 +72,7 @@ export const Month = ({ className = '', month }: Props) => {
             className={cn('duration-500', { 'text-white': isSidebarOpen })}
             place="month"
             monthNumber={month.monthNumber}
+            flags={flagsToShow}
           />
         </FlagHover>
       </button>
