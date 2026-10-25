@@ -4,6 +4,7 @@ import { Checkbox } from '@/components/checkbox/Checkbox';
 import usePreferencesStore, {
   toggleShouldCounterUseScale,
   toggleShouldHighlightAbroadTravel,
+  toggleShouldShowFlags,
 } from '@/features/preferences/stores/usePreferencesStore';
 import { Pane } from '@/features/sidebar/components/pane/Pane';
 import { cn } from '@/utils/tailwind';
@@ -17,6 +18,7 @@ type Props = {
 export function SubPaneOther({ subtitleClassName }: Props) {
   const shouldCounterUseScale = usePreferencesStore((store) => store.calendar.shouldCounterUseScale);
   const shouldHighlightAbroadTravel = usePreferencesStore((store) => store.calendar.shouldHighlightAbroadTravel);
+  const shouldShowFlags = usePreferencesStore((store) => store.flags.shouldShowFlags);
 
   const { t } = useTranslation();
 
@@ -26,6 +28,9 @@ export function SubPaneOther({ subtitleClassName }: Props) {
     <>
       <Pane.Subtitle className={subtitleClassName}>{t('preferences.calendarOther')}</Pane.Subtitle>
       <Pane.List>
+        <Checkbox isActive={shouldShowFlags} onChange={toggleShouldShowFlags}>
+          <div className={cn('flex flex-col gap-1', 'text-wrap')}>{t('preferences.shouldShowFlags')}</div>
+        </Checkbox>
         <Checkbox
           isActive={shouldCounterUseScale}
           onChange={toggleShouldCounterUseScale}

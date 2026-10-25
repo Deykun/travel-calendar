@@ -10,17 +10,20 @@ type Props = {
   className?: string;
   countryCode: string;
   style?: CSSProperties;
+  aspect?: '3x2' | '1x1';
 };
 
-export const ImageFlagSimple = ({ className = '', style, countryCode }: PropsWithChildren<Props>) => {
+export const ImageFlagSimple = ({ className = '', style, aspect = '3x2', countryCode }: PropsWithChildren<Props>) => {
   const { t } = useTranslation();
   const safeCountryCodeForImage = fallbackFlags[countryCode.toUpperCase()] || countryCode.toUpperCase();
 
   return (
     <Image
       className={cn(
-        'w-9',
-        'aspect-3/2',
+        {
+          'aspect-3/2': aspect === '3x2',
+          'aspect-square': aspect === '1x1',
+        },
         'object-cover',
         'max-w-none',
         'shrink-0',
@@ -37,7 +40,7 @@ export const ImageFlagSimple = ({ className = '', style, countryCode }: PropsWit
       alt={countryCode}
       loading="lazy"
       // https://purecatamphetamine.github.io/country-flag-icons/1x1/index.html
-      src={`https://purecatamphetamine.github.io/country-flag-icons/3x2/${safeCountryCodeForImage}.svg`}
+      src={`https://purecatamphetamine.github.io/country-flag-icons/${aspect}/${safeCountryCodeForImage}.svg`}
       onError={() => console.error(`Missing flag for "${safeCountryCodeForImage}".`)}
       title={t(`country.name.${countryCode}`)}
     />

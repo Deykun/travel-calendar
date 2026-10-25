@@ -24,6 +24,7 @@ const HAS_ZERO_BUT_PRESENT = 0.001;
 
 export const Day = memo(({ className = '', dayNumber, dayKey }: Props) => {
   const counterShouldShow = usePreferencesStore((store) => store.calendar.counterShouldShow);
+  const shouldShowFlags = usePreferencesStore((store) => store.flags.shouldShowFlags);
   const isSidebarOpen = useSidebarStore(
     (state) => state?.sidebar?.type === 'day' && state.sidebar.dayKey === dayKey && state.isCollapsed === false,
   );
@@ -46,6 +47,8 @@ export const Day = memo(({ className = '', dayNumber, dayKey }: Props) => {
   });
 
   const isDifferenceDay = useIsDifferenceDay(dayKey);
+
+  const hasVisibleFlags = shouldShowFlags && flags.length > 0;
 
   const total = useMemo(() => {
     if (counterShouldShow === 'yearsAbroad') {
@@ -121,24 +124,17 @@ export const Day = memo(({ className = '', dayNumber, dayKey }: Props) => {
       )}
     >
       <FlagHover flags={flags} className="inline-flex flex-col gap-1" from={from} shouldSkipGroup>
-        {/* <IconTravelForDay
-          total={total}
-          hasScale
-          visualTotal={visualTotal}
-          isNewCountryActive={isNewCountryActive}
-          isHighlightAbroadTravelActive={isHighlightAbroadTravelActive}
-        /> */}
-        {flags.length > 0 ? (
-          <FlagStack flags={flags} />
-        ) : (
+        <span className="relative h-6">
+          {hasVisibleFlags && <FlagStack flags={flags} />}
           <IconTravelForDay
+            className={cn({ 'absolute -bottom-1 -right-1.5 scale-60': hasVisibleFlags }, 'origin-bottom-right')}
             total={total}
             hasScale
             visualTotal={visualTotal}
             isNewCountryActive={isNewCountryActive}
             isHighlightAbroadTravelActive={isHighlightAbroadTravelActive}
           />
-        )}
+        </span>
         <p className={cn('text-sm tracking-wider duration-500')}>{dayNumber}</p>
       </FlagHover>
     </button>
