@@ -65,6 +65,7 @@
   "preferences.calendar": "Kalendarz",
   "preferences.theDayNumber.title": "Numer dnia pokazuje liczbę",
   "preferences.calendarOther": "Inne",
+  "preferences.shouldShowFlags": "Pokazuj flagi",
   "preferences.shouldCounterUseScale": "Skalowany numer dnia",
   "preferences.shouldCounterUseScale.tip": "Obecna maksymalna wartość to",
   "preferences.shouldHighlightAbroadTravel": "Wyróżniaj \"tranzyt\"",

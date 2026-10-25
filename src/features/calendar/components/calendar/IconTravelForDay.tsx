@@ -7,6 +7,7 @@ import usePreferencesStore from '@/features/preferences/stores/usePreferencesSto
 import { cn } from '@/utils/tailwind';
 
 type Props = {
+  className?: string;
   total: number;
   visualTotal?: number | string;
   hasScale?: boolean;
@@ -15,6 +16,7 @@ type Props = {
 };
 
 export const IconTravelForDay = ({
+  className,
   total,
   visualTotal,
   hasScale = false,
@@ -32,6 +34,7 @@ export const IconTravelForDay = ({
 
   return (
     <IconTravel
+      className={className}
       total={total}
       visualTotal={visualTotal}
       maxTotal={hasScale && shouldCounterUseScale ? maxTotal : undefined}

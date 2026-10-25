@@ -15,6 +15,9 @@ export type PreferencesStoreState = {
     shouldHighlightAbroadTravel: boolean;
     shouldHighlightNewCountries: boolean;
   };
+  flags: {
+    shouldShowFlags: boolean;
+  };
   sidebars: {
     shouldShowHome: boolean;
   };
@@ -38,6 +41,9 @@ const emptyStore: PreferencesStoreState = {
     shouldCounterUseScale: false,
     shouldHighlightAbroadTravel: false,
     shouldHighlightNewCountries: true,
+  },
+  flags: {
+    shouldShowFlags: true,
   },
   sidebars: {
     shouldShowHome: false,
@@ -79,6 +85,15 @@ export const toggleShouldShowHomeInSidebar = () => {
     sidebars: {
       ...state.sidebars,
       shouldShowHome: !state.sidebars.shouldShowHome,
+    },
+  }));
+};
+
+export const toggleShouldShowFlags = () => {
+  usePreferencesStore.setState((state) => ({
+    flags: {
+      ...state.flags,
+      shouldShowFlags: !state.flags.shouldShowFlags,
     },
   }));
 };

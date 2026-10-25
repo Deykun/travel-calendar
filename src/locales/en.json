@@ -56,6 +56,7 @@
   "preferences.calendar": "Calendar",
   "preferences.theDayNumber.title": "The day number shows",
   "preferences.calendarOther": "Other",
+  "preferences.shouldShowFlags": "Show flags",
   "preferences.shouldCounterUseScale": "The scaled day number",
   "preferences.shouldCounterUseScale.tip": "The current maximum value is",
   "preferences.shouldHighlightAbroadTravel": "Highlight \"transit\"",
