@@ -2,7 +2,6 @@ import { useTranslation } from 'react-i18next';
 
 import { Button } from '@/components/button/Button';
 import IconMap from '@/components/icons/IconMap';
-import IconPlusCircle from '@/components/icons/IconPlusCircle';
 import IconStrava from '@/components/icons/IconStrava';
 import { openSidebarSettings } from '@/features/sidebar/stores/useSidebarStore';
 import { classNamesLayoutGap, classNamesLayoutPx } from '@/layouts/layout-app';

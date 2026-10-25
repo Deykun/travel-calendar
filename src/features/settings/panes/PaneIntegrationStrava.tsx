@@ -42,6 +42,7 @@ export function PaneIntegrationStrava({ id }: Props) {
         className={cn(
           'list-decimal pl-4 flex flex-col gap-2',
           'text-[#b3b3a8] text-sm',
+          'tracking-wide leading-relaxed',
           '[&_a]:text-[#d8da51] [&_a]:hover:text-[#fcff4e] [&_a]:duration-500',
         )}
       >

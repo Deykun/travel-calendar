@@ -1,7 +1,6 @@
 import { useTranslation } from 'react-i18next';
 
 import { Button } from '@/components/button/Button';
-import IconBolt from '@/components/icons/IconBolt';
 import { refreshStore } from '@/features/error-boundary/actions/refresh';
 import { Pane } from '@/features/sidebar/components/pane/Pane';
 import type { SettingsScrollTarget } from '@/features/sidebar/stores/useSidebarStore';
