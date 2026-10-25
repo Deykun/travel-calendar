@@ -11,6 +11,7 @@ type Props = {
 };
 
 export function Sidebar({ className = '' }: Props) {
+  const sidebar = useSidebarStore((store) => store.sidebar);
   const isCollapsed = useSidebarStore((store) => store.isCollapsed);
 
   return (
@@ -29,6 +30,7 @@ export function Sidebar({ className = '' }: Props) {
         onClick={collapseSidebar}
       />
       <aside
+        key={sidebar?.type}
         className={cn(
           'fixed top-0 left-0',
           'h-dvh',

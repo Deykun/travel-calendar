@@ -5,7 +5,7 @@ import type { MonthNumber } from '@/features/calendar/types';
 import type { StreakType } from '@/features/filters/stores/useFilterStore';
 import type { DateMMDD } from '@/types';
 
-export type SettingsScrollTarget = 'data' | 'home' | 'trips';
+export type SettingsScrollTarget = 'data' | 'strava' | 'nomads' | 'home' | 'trips';
 
 export type Sidebar =
   | {

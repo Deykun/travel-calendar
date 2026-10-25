@@ -42,8 +42,8 @@ export function SidebarSettings({ scrollTo }: Props) {
       <PaneLanguage />
       {shouldShowIntegrations ? (
         <>
-          <PaneIntegrationStrava />
-          <PaneIntegrationNomads />
+          <PaneIntegrationStrava id="strava" />
+          <PaneIntegrationNomads id="nomads" />
         </>
       ) : (
         <PaneIntegrationManagement id="data" onOpenIntegrations={() => setAreIntegrationsVisible(true)} />
