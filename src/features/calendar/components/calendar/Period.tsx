@@ -51,7 +51,7 @@ export const Period = ({
         'duration-150',
         'group',
         {
-          'bg-[#ff4e4e17]': isDifference,
+          'bg-[#261615]': isDifference,
           'text-[#b3b3a8] hover:bg-[#fffb000d] hover:text-white': !isActive,
           'text-white bg-[#fff3] shadow-[0_0_15px_#021019]': isActive,
         },
