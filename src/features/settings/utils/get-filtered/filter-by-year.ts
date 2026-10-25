@@ -32,6 +32,11 @@ export const filterByYear = ({
 }: FilterByYearParams): SummaryByYear => {
   const summaryByYear: SummaryByYear = {};
 
+  console.log({
+    dateOfUnlockingByCountry,
+    yearOfUnlockingByDateMMDD,
+  });
+
   Object.entries(dateOfUnlockingByCountry).forEach(([countryCode, dateYYYYMMDD]) => {
     const summaryYear = getOrCreateSummaryYear(summaryByYear, getYearFromDate(dateYYYYMMDD));
 

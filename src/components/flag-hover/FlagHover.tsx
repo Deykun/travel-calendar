@@ -5,7 +5,7 @@ import { cn } from '@/utils/tailwind';
 
 import { FlagHoverPanel, type PanelFrom } from './FlagHoverPanel';
 
-type Props = {
+export type Props = {
   flags?: FlagData[];
   from?: PanelFrom;
   className?: string;

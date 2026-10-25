@@ -47,6 +47,7 @@ export function VisitedDaysDifference({ className, year, ...props }: Props) {
         'flex items-center justify-end gap-1 leading-none',
         className,
       )}
+      data-type="difference"
     >
       <span className="opacity-60">{year}</span>
       <span className="text-[#ff4e4e] font-semibold tracking-widest">+{total}</span>

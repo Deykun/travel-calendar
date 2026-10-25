@@ -14,6 +14,7 @@ export type FlagData = {
   to: number;
   tripsKeys: string[];
   wasUnlocked?: boolean;
+  isDifference?: boolean;
   hasAbroadTravel?: boolean;
 };
 

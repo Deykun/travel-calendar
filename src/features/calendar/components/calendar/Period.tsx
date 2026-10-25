@@ -10,6 +10,7 @@ type SharedProps = {
   onClick?: () => void;
   isActive?: boolean;
   wasUnlocked?: boolean;
+  isDifference?: boolean;
   hasAbroadTravel?: boolean;
   shouldShowHomeMarker?: boolean;
 };
@@ -33,6 +34,7 @@ export const Period = ({
   children,
   shouldShowHomeMarker,
   wasUnlocked = false,
+  isDifference = false,
   hasAbroadTravel = false,
   ...props
 }: PropsWithChildren<Props>) => {
@@ -49,6 +51,7 @@ export const Period = ({
         'duration-150',
         'group',
         {
+          'bg-[#261615]': isDifference,
           'text-[#b3b3a8] hover:bg-[#fffb000d] hover:text-white': !isActive,
           'text-white bg-[#fff3] shadow-[0_0_15px_#021019]': isActive,
         },

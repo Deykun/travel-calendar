@@ -14,6 +14,7 @@ import { cn } from '@/utils/tailwind';
 import type { MonthMetadata } from '../../types';
 import { getDaysInMonth } from '../../utils/get-days';
 import { Day } from './Day';
+import { DifferenceMonthFlagHover } from './DifferenceMonthFlagHover';
 
 type Props = {
   className?: string;
@@ -21,7 +22,9 @@ type Props = {
 };
 
 export const Month = ({ className = '', month }: Props) => {
-  const shouldShowChangesInLastYearRange = usePreferencesStore((store) => store.date.shouldShowChangesInLastYearRange);
+  const shouldHighlightFlags = usePreferencesStore(
+    (store) => store.differences.shouldShowDifferencesCounters && store.differences.shouldHighlightFlags,
+  );
   const { t } = useTranslation();
 
   const isSidebarOpen = useSidebarStore(
@@ -59,30 +62,36 @@ export const Month = ({ className = '', month }: Props) => {
       <button
         className={cn(
           'absolute top-4 left-5 z-5',
-          'translate-y-0',
-          {
-            '-translate-y-1': shouldShowChangesInLastYearRange,
-          },
+          'translate-y-0 has-data-[type=difference]:-translate-y-1',
           'duration-300',
         )}
         onClick={handleClick}
       >
-        <FlagHover flags={flagsToShow} from="bottom-left">
-          <VisitedCountries
-            className={cn('duration-500', { 'text-white': isSidebarOpen })}
-            place="month"
-            monthNumber={month.monthNumber}
-          />
-        </FlagHover>
+        {shouldHighlightFlags ? (
+          <DifferenceMonthFlagHover flags={flagsToShow} from="bottom-left" monthNumber={month.monthNumber}>
+            <VisitedCountries
+              className={cn('duration-500', { 'text-white': isSidebarOpen })}
+              place="month"
+              monthNumber={month.monthNumber}
+              flags={flagsToShow}
+            />
+          </DifferenceMonthFlagHover>
+        ) : (
+          <FlagHover flags={flagsToShow} from="bottom-left">
+            <VisitedCountries
+              className={cn('duration-500', { 'text-white': isSidebarOpen })}
+              place="month"
+              monthNumber={month.monthNumber}
+              flags={flagsToShow}
+            />
+          </FlagHover>
+        )}
       </button>
       <h2 className={cn('text-2xl text-white', 'font-semibold mb-4')}>{t(month.name)} </h2>
       <VisitedDays
         className={cn(
           'absolute top-4 right-5',
-          'translate-y-0',
-          {
-            '-translate-y-1': shouldShowChangesInLastYearRange,
-          },
+          'translate-y-0 has-data-[type=difference]:-translate-y-1',
           'duration-300',
         )}
         place="month"
