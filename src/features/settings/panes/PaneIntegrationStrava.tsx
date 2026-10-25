@@ -10,7 +10,6 @@ import { cn } from '@/utils/tailwind';
 import { getDataFromStrava } from '../actions/get-data-from-strava';
 import useStravaIntegrationsStore from '../actions/strava/stores/useStravaIntegrationStore';
 import { IntegrationLastUpdate } from '../components/IntegrationLastUpdate';
-import { WindowDropzone } from '../components/WindowDropzone';
 import useDataStore from '../stores/useDateStore';
 
 const STRAVA_EXPORT_URL = 'https://www.strava.com/athlete/delete_your_account';
@@ -91,7 +90,6 @@ export function PaneIntegrationStrava({ id }: Props) {
           multiple
         />
       </label>
-      <WindowDropzone onDrop={handleFiles} isDisabled={isLoading} />
       {shouldShowProgress && (
         <Progressbar
           key={integrationStatus.startedAt}

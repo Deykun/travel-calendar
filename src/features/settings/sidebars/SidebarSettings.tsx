@@ -21,7 +21,9 @@ export function SidebarSettings({ scrollTo }: Props) {
   const version = useDataStore((store) => store.version);
   const integrationType = useDataStore((store) => store.integration.type);
   // Seeded once on mount: integrations stay collapsed when data is already loaded
-  const [areIntegrationsVisible, setAreIntegrationsVisible] = useState(() => integrationType === undefined);
+  const [areIntegrationsVisible, setAreIntegrationsVisible] = useState(
+    () => integrationType === undefined || (scrollTo && ['nomads', 'strava'].includes(scrollTo)),
+  );
   const wrapperRef = useRef<HTMLDivElement>(null);
   const { t } = useTranslation();
 
@@ -30,9 +32,16 @@ export function SidebarSettings({ scrollTo }: Props) {
       return;
     }
 
+    const shouldMakeIntegrationsVisibleBefore = ['nomads', 'strava'].includes(scrollTo) && !areIntegrationsVisible;
+    if (shouldMakeIntegrationsVisibleBefore) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setAreIntegrationsVisible(true);
+      return;
+    }
+
     // Target may be absent (e.g. 'data' while integrations are shown) - then do nothing
     wrapperRef.current?.querySelector(`#${scrollTo}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }, [scrollTo]);
+  }, [areIntegrationsVisible, scrollTo]);
 
   // Always show integrations when there is no data (e.g. right after removing it)
   const shouldShowIntegrations = areIntegrationsVisible || integrationType === undefined;

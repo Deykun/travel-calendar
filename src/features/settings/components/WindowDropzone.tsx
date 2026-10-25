@@ -2,17 +2,20 @@ import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useTranslation } from 'react-i18next';
 
+import { openSidebarSettings } from '@/features/sidebar/stores/useSidebarStore';
 import { cn } from '@/utils/tailwind';
 
-type Props = {
-  onDrop: (files: File[]) => void;
-  isDisabled?: boolean;
-};
+import { getDataFromStrava } from '../actions/get-data-from-strava';
+import useStravaIntegrationsStore from '../actions/strava/stores/useStravaIntegrationStore';
+
+const onDrop = (files: File[]) => getDataFromStrava({ files });
 
 const hasFiles = (event: DragEvent) => Boolean(event.dataTransfer?.types.includes('Files'));
 
 // Whole-window drop target, active only while mounted. Overlay is portaled to body.
-export const WindowDropzone = ({ onDrop, isDisabled = false }: Props) => {
+export const WindowDropzone = () => {
+  const integrationStatus = useStravaIntegrationsStore((store) => store.status);
+  const isDisabled = integrationStatus.state === 'loading';
   const [isDragging, setIsDragging] = useState(false);
   // dragenter/dragleave fire for every child element, counter tells when the cursor really left the window
   const depth = useRef(0);
@@ -75,6 +78,7 @@ export const WindowDropzone = ({ onDrop, isDisabled = false }: Props) => {
       const files = Array.from(event.dataTransfer?.files ?? []);
 
       if (!isDisabled && files.length > 0) {
+        openSidebarSettings('strava');
         onDrop(files);
       }
     };

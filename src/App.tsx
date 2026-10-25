@@ -4,6 +4,7 @@ import { Calendar } from './features/calendar/components/calendar/Calendar';
 import ErrorBoundary from './features/error-boundary/components/ErrorBoundary';
 import { Fallback } from './features/error-boundary/components/fallback/Fallback';
 import { useRefreshIfNeeded } from './features/error-boundary/hooks/useShouldRefresh';
+import { WindowDropzone } from './features/settings/components/WindowDropzone';
 import { ButtonCopySharableLink } from './features/share/components/ButtonCopySharableLink';
 import { ButtonDownloadImage } from './features/share/components/ButtonDownloadImage';
 import { ButtonGoToNomads } from './features/share/components/ButtonGoToNomads';
@@ -40,6 +41,7 @@ function App() {
         </div>
       </div>
       <LoadingOverlay />
+      <WindowDropzone />
     </ErrorBoundary>
   );
 }
