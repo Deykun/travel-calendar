@@ -34,24 +34,24 @@ export const getDataFromStravaActivities = (items: IntegrationStravaActivity[]):
   const unlockedCountries = new Set<string>();
 
   // Activity can be in multiple countries, that separates them
-  const itemsToUse = items
-    .sort((a, b) => (isBefore(a.date_start, b.date_start) ? -1 : 1))
-    .reduce((stack: IntegrationStravaActivity[], item) => {
-      (item.country_codes || []).forEach((countryCode) => {
-        if (countryCode) {
-          stack.push({
-            ...item,
-            country_codes: [countryCode],
-            latitude: item.coordinatesByCountry[countryCode]?.latitude || item.latitude,
-            longitude: item.coordinatesByCountry[countryCode]?.longitude || item.longitude,
-          });
-        }
-      });
+  const itemsToUse = items.reduce((stack: IntegrationStravaActivity[], item) => {
+    (item.country_codes || []).forEach((countryCode) => {
+      if (countryCode) {
+        stack.push({
+          ...item,
+          country_codes: [countryCode],
+          latitude: item.coordinatesByCountry[countryCode]?.latitude || item.latitude,
+          longitude: item.coordinatesByCountry[countryCode]?.longitude || item.longitude,
+        });
+      }
+    });
 
-      return stack;
-    }, []);
+    return stack;
+  }, []);
 
+  // Sort by start date, then by end date (longest trips first) when start dates match.
   return itemsToUse
+    .sort((a, b) => (isBefore(a.date_end, b.date_end) ? 1 : -1))
     .sort((a, b) => (isBefore(a.date_start, b.date_start) ? -1 : 1))
     .reduce(
       (stack: Response, item) => {

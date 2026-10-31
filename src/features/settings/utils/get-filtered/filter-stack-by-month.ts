@@ -1,6 +1,6 @@
 import { getDaysInMonth } from '@/features/calendar/utils/get-days';
 import type { FiltersStoreState, SummaryDay } from '@/features/filters/stores/useFilterStore';
-import { mergeUniqueAndSort } from '@/utils/array';
+import { mergeUnique, mergeUniqueAndSort } from '@/utils/array';
 
 import { getMonthWithoutDay } from '../../../../utils/date';
 import type { StackByMonth } from './types';
@@ -44,7 +44,7 @@ export const filterStackByMonth = (
     stack.summary.maxYearsAbroadInDay = summaryDay.yearsAbroad.length;
   }
 
-  stack.summaryByMonth[monthNumber].countriesCodes = mergeUniqueAndSort(
+  stack.summaryByMonth[monthNumber].countriesCodes = mergeUnique(
     stack.summaryByMonth[monthNumber].countriesCodes,
     summaryDay.countriesCodes,
   );
@@ -70,11 +70,8 @@ export const filterStackByMonth = (
       summaryDay.dayKey,
     ]);
     stack.summary.activeDays = mergeUniqueAndSort(stack.summary.activeDays, [summaryDay.dayKey]);
-    stack.summary.countriesCodes = mergeUniqueAndSort(stack.summary.countriesCodes, activeCountriesCodes);
-    stack.summary.countriesUnlocked = mergeUniqueAndSort(
-      stack.summary.countriesUnlocked,
-      summaryDay.countriesUnlockedThisDay,
-    );
+    stack.summary.countriesCodes = mergeUnique(stack.summary.countriesCodes, activeCountriesCodes);
+    stack.summary.countriesUnlocked = mergeUnique(stack.summary.countriesUnlocked, summaryDay.countriesUnlockedThisDay);
 
     if (summaryDay.countriesUnlockedThisDay.length > stack.summary.maxCountriesUnlockedInDay) {
       stack.summary.maxCountriesUnlockedInDay = summaryDay.countriesUnlockedThisDay.length;
@@ -85,10 +82,7 @@ export const filterStackByMonth = (
         stack.summary.countriesCodesByYear[year] = [];
       }
 
-      stack.summary.countriesCodesByYear[year] = mergeUniqueAndSort(
-        stack.summary.countriesCodesByYear[year],
-        countriesCodes,
-      );
+      stack.summary.countriesCodesByYear[year] = mergeUnique(stack.summary.countriesCodesByYear[year], countriesCodes);
     });
   }
 

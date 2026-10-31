@@ -3,14 +3,16 @@ import { devtools, persist } from 'zustand/middleware';
 
 import type { StreakKind } from '@/features/filters/stores/useFilterStore';
 
+export type CounterShowOption =
+  | 'numberOfCountries'
+  | 'yearsAbroad'
+  | 'yearOfUnlocking'
+  | 'numberOfUnlockedCountries'
+  | 'numberOfUnlockedCountries';
+
 export type PreferencesStoreState = {
   calendar: {
-    counterShouldShow:
-      | 'numberOfCountries'
-      | 'yearsAbroad'
-      | 'yearOfUnlocking'
-      | 'numberOfUnlockedCountries'
-      | 'numberOfUnlockedCountries';
+    counterShouldShow: CounterShowOption;
     shouldCounterUseScale: boolean;
     shouldHighlightAbroadTravel: boolean;
     shouldHighlightNewCountries: boolean;
@@ -170,7 +172,7 @@ export const toggleShouldHighlightFlags = () => {
   }));
 };
 
-export const setCounterShouldShow = (value: PreferencesStoreState['calendar']['counterShouldShow']) => {
+export const setCounterShouldShow = (value: CounterShowOption) => {
   usePreferencesStore.setState((state) => ({
     calendar: {
       ...state.calendar,
