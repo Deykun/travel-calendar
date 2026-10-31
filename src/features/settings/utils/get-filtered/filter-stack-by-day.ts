@@ -3,7 +3,7 @@ import { isBefore } from 'date-fns/isBefore';
 
 import type { FiltersStoreState } from '@/features/filters/stores/useFilterStore';
 import type { DateYYYYMMDD } from '@/types';
-import { mergeUnique, mergeUniqueAndSort } from '@/utils/array';
+import { mergeUnique } from '@/utils/array';
 
 import { getDateWithoutYear, getIsFuture, stringDateToObject } from '../../../../utils/date';
 import type { DataStoreState } from '../../stores/useDateStore';
@@ -37,8 +37,11 @@ export const filterStackByDay = (
 
   const dayWithoutYear = getDateWithoutYear(dataDay.date);
   const { year } = stringDateToObject(dataDay.date);
+  const isFuture = getIsFuture(dataDay.date);
 
-  stack = extendYearSummary(stack, dataDay.date, filteredCountriesForDay);
+  if (!isFuture || shouldIncludeFuture) {
+    stack = extendYearSummary(stack, dataDay.date, filteredCountriesForDay);
+  }
 
   const isLastDayOfRange = to === dataDay.date;
 
@@ -52,7 +55,6 @@ export const filterStackByDay = (
     return stack;
   }
 
-  const isFuture = getIsFuture(dataDay.date);
   if (isFuture && !shouldIncludeFuture) {
     return stack;
   }
@@ -94,7 +96,7 @@ export const filterStackByDay = (
 
     if (filteredUnlockedForDay.length) {
       stack.summaryByDay[dayWithoutYear].totalUnlockedCountries += filteredUnlockedForDay.length;
-      stack.summaryByDay[dayWithoutYear].countriesUnlockedThisDay = mergeUniqueAndSort(
+      stack.summaryByDay[dayWithoutYear].countriesUnlockedThisDay = mergeUnique(
         stack.summaryByDay[dayWithoutYear].countriesUnlockedThisDay,
         filteredUnlockedForDay,
       );
@@ -105,12 +107,12 @@ export const filterStackByDay = (
     dataDay.date,
   ]);
 
-  stack.summaryByDay[dayWithoutYear].countriesCodes = mergeUniqueAndSort(
+  stack.summaryByDay[dayWithoutYear].countriesCodes = mergeUnique(
     stack.summaryByDay[dayWithoutYear].countriesCodes,
     filteredCountriesForDay,
   );
 
-  stack.summaryByDay[dayWithoutYear].countriesCodesByYear[year] = mergeUniqueAndSort(
+  stack.summaryByDay[dayWithoutYear].countriesCodesByYear[year] = mergeUnique(
     stack.summaryByDay[dayWithoutYear].countriesCodesByYear[year],
     filteredCountriesForDay,
   );

@@ -33,7 +33,9 @@ type Response = Pick<
 export const getDataFromNomadsTrips = (items: IntegrationNomadsTrip[]): Response => {
   const unlockedCountries = new Set<string>();
 
+  // Sort by start date, then by end date (longest trips first) when start dates match.
   return items
+    .sort((a, b) => (isBefore(a.date_end, b.date_end) ? 1 : -1))
     .sort((a, b) => (isBefore(a.date_start, b.date_start) ? -1 : 1))
     .reduce(
       (stack: Response, item) => {

@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 
-import usePreferencesStore, { type PreferencesStoreState } from '@/features/preferences/stores/usePreferencesStore';
+import usePreferencesStore, { type CounterShowOption } from '@/features/preferences/stores/usePreferencesStore';
 import useDataStore from '@/features/settings/stores/useDateStore';
 import { classNamesLayoutGap, classNamesLayoutGrid, classNamesLayoutPx } from '@/layouts/layout-app';
 import { cn } from '@/utils/tailwind';
@@ -12,7 +12,7 @@ type Props = {
   className?: string;
 };
 
-const titleByCountryShouldShow: Record<PreferencesStoreState['calendar']['counterShouldShow'], string> = {
+const titleByCountryShouldShow: Record<CounterShowOption, string> = {
   numberOfCountries: 'summary.totalCountries',
   yearsAbroad: 'summary.totalYearsAbroad',
   numberOfUnlockedCountries: 'summary.numberOfUnlockedCountries',

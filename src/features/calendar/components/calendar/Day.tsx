@@ -125,7 +125,7 @@ export const Day = memo(({ className = '', dayNumber, dayKey }: Props) => {
     >
       <FlagHover flags={flags} className="inline-flex flex-col gap-1" from={from} shouldSkipGroup>
         <span className="relative h-6">
-          {hasVisibleFlags && <FlagStack flags={flags} />}
+          {hasVisibleFlags && <FlagStack flags={flags} counterShouldShow={counterShouldShow} />}
           <IconTravelForDay
             className={cn({ 'absolute -bottom-1 -right-1.5 scale-60': hasVisibleFlags }, 'origin-bottom-right')}
             total={total}
