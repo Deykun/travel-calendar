@@ -50,20 +50,32 @@ export const Day = memo(({ className = '', dayNumber, dayKey }: Props) => {
 
   const hasVisibleFlags = shouldShowFlags && flags.length > 0;
 
-  const total = useMemo(() => {
+  const { total, shouldShowAllNumbers } = useMemo(() => {
     if (counterShouldShow === 'yearsAbroad') {
-      return yearsAbroad.length;
+      return {
+        total: yearsAbroad.length,
+        shouldShowAllNumbers: false,
+      };
     }
 
     if (counterShouldShow === 'numberOfUnlockedCountries') {
-      return totalUnlockedCountries || (countriesCodes.length > 0 ? HAS_ZERO_BUT_PRESENT : 0);
+      return {
+        total: totalUnlockedCountries || (countriesCodes.length > 0 ? HAS_ZERO_BUT_PRESENT : 0),
+        shouldShowAllNumbers: false,
+      };
     }
 
     if (counterShouldShow === 'yearOfUnlocking') {
-      return indexInSortingByUnlocking;
+      return {
+        total: indexInSortingByUnlocking,
+        shouldShowAllNumbers: true,
+      };
     }
 
-    return countriesCodes.length;
+    return {
+      total: countriesCodes.length,
+      shouldShowAllNumbers: false,
+    };
   }, [counterShouldShow, countriesCodes.length, indexInSortingByUnlocking, totalUnlockedCountries, yearsAbroad.length]);
 
   const visualTotal = useMemo(() => {
@@ -125,7 +137,9 @@ export const Day = memo(({ className = '', dayNumber, dayKey }: Props) => {
     >
       <FlagHover flags={flags} className="inline-flex flex-col gap-1" from={from} shouldSkipGroup>
         <span className="relative h-6">
-          {hasVisibleFlags && <FlagStack flags={flags} counterShouldShow={counterShouldShow} />}
+          {hasVisibleFlags && (
+            <FlagStack flags={flags} counterShouldShow={counterShouldShow} isActive={isSidebarOpen} />
+          )}
           <IconTravelForDay
             className={cn({ 'absolute -bottom-1 -right-1.5 scale-60': hasVisibleFlags }, 'origin-bottom-right')}
             total={total}
@@ -133,6 +147,7 @@ export const Day = memo(({ className = '', dayNumber, dayKey }: Props) => {
             visualTotal={visualTotal}
             isNewCountryActive={isNewCountryActive}
             isHighlightAbroadTravelActive={isHighlightAbroadTravelActive}
+            shouldShowAllNumbers={shouldShowAllNumbers}
           />
         </span>
         <p className={cn('text-sm tracking-wider duration-500')}>{dayNumber}</p>
