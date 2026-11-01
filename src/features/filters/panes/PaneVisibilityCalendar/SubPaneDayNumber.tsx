@@ -34,6 +34,13 @@ export function SubPaneDayNumber({ subtitleClassName }: Props) {
           <div className={cn('flex flex-col gap-1', 'text-wrap')}>{t('summary.yearOfUnlocking')}</div>
         </Radiobox>
         <Radiobox
+          isActive={counterShouldShow === 'lastYearAbroad'}
+          onChange={() => setCounterShouldShow('lastYearAbroad')}
+        >
+          <div className={cn('flex flex-col gap-1', 'text-wrap')}>{t('summary.lastYearAbroad')}</div>
+        </Radiobox>
+
+        <Radiobox
           isActive={counterShouldShow === 'numberOfUnlockedCountries'}
           onChange={() => setCounterShouldShow('numberOfUnlockedCountries')}
         >

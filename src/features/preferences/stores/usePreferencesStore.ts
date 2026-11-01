@@ -7,6 +7,7 @@ export type CounterShowOption =
   | 'numberOfCountries'
   | 'yearsAbroad'
   | 'yearOfUnlocking'
+  | 'lastYearAbroad'
   | 'numberOfUnlockedCountries'
   | 'numberOfUnlockedCountries';
 

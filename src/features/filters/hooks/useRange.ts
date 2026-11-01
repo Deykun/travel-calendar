@@ -3,12 +3,14 @@ import { stringDateToObject } from '@/utils/date';
 
 import useFiltersStore from '../stores/useFilterStore';
 
-export const useTimeRange = () => {
+type Params = { shouldUseDataFrom?: boolean };
+
+export const useTimeRange = ({ shouldUseDataFrom = false }: Params = {}) => {
   const activeFrom = useFiltersStore((store) => store.activeFilters.from);
   const activeTo = useFiltersStore((store) => store.activeFilters.to);
   const { from, to } = useDataStore((store) => store.date);
 
-  const rangeFrom = activeFrom || from;
+  const rangeFrom = shouldUseDataFrom ? from : activeFrom || from;
   const rangeTo = activeTo || to;
 
   return {

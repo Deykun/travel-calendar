@@ -98,6 +98,11 @@ export type FiltersStoreState = {
       [kind in StreakKind]: StreaksByType;
     };
   };
+  general: {
+    yearOfUnlockingByDateMMDD: {
+      [dateMMDD: DateMMDD]: number | undefined;
+    };
+  };
 };
 
 export const getEmptyStreak = (type: StreakType): StreakSummary => {
@@ -144,6 +149,9 @@ const emptyStore: FiltersStoreState = {
       veryKind: getEmptyStreaksByType(),
     },
   },
+  general: {
+    yearOfUnlockingByDateMMDD: {},
+  },
 };
 
 export const useFiltersStore = create<FiltersStoreState>()(
@@ -167,11 +175,14 @@ export const resetFilterStore = () => {
 export const refreshFiltered = () => {
   const dataByDay = useDataStore.getState().dataByDay;
 
-  const filtered = getFiltered(dataByDay);
+  const { filtered, general } = getFiltered(dataByDay);
 
   useFiltersStore.setState({
     filtered: {
       ...filtered,
+    },
+    general: {
+      ...general,
     },
   });
 };

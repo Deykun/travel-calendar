@@ -5,6 +5,7 @@ import type { PanelFrom } from '@/components/flag-hover/FlagHoverPanel';
 import { FlagStack } from '@/components/flag-stack/FlagStack';
 import { useFlagsSimple } from '@/features/filters/hooks/useFlagsSimple';
 import { useIsDifferenceDay } from '@/features/filters/hooks/useIsDifferenceDay';
+import { useTimeRange } from '@/features/filters/hooks/useRange';
 import useFiltersStore from '@/features/filters/stores/useFilterStore';
 import usePreferencesStore from '@/features/preferences/stores/usePreferencesStore';
 import { closeSidebar, openSidebar, useSidebarStore } from '@/features/sidebar/stores/useSidebarStore';
@@ -23,6 +24,7 @@ type Props = {
 const HAS_ZERO_BUT_PRESENT = 0.001;
 
 export const Day = memo(({ className = '', dayNumber, dayKey }: Props) => {
+  const { fromYear, toYear } = useTimeRange({ shouldUseDataFrom: true });
   const counterShouldShow = usePreferencesStore((store) => store.calendar.counterShouldShow);
   const shouldShowFlags = usePreferencesStore((store) => store.flags.shouldShowFlags);
   const isSidebarOpen = useSidebarStore(
@@ -39,6 +41,7 @@ export const Day = memo(({ className = '', dayNumber, dayKey }: Props) => {
   const countriesUnlockedThisDay = useFiltersStore(
     (store) => store.filtered.summaryByDay[dayKey]?.countriesUnlockedThisDay || EMPTY_ARRAY,
   );
+  const yearOfUnlocking = useFiltersStore((store) => store.general.yearOfUnlockingByDateMMDD[dayKey]);
 
   const countriesCodesByYear = useFiltersStore((store) => store.filtered.summaryByDay[dayKey]?.countriesCodesByYear);
 
@@ -50,11 +53,16 @@ export const Day = memo(({ className = '', dayNumber, dayKey }: Props) => {
 
   const hasVisibleFlags = shouldShowFlags && flags.length > 0;
 
-  const { total, shouldShowAllNumbers } = useMemo(() => {
+  const { total, shouldShowAllNumbers, visualTotal } = useMemo((): {
+    total: number;
+    shouldShowAllNumbers: boolean;
+    visualTotal: string | undefined;
+  } => {
     if (counterShouldShow === 'yearsAbroad') {
       return {
         total: yearsAbroad.length,
         shouldShowAllNumbers: false,
+        visualTotal: undefined,
       };
     }
 
@@ -62,38 +70,65 @@ export const Day = memo(({ className = '', dayNumber, dayKey }: Props) => {
       return {
         total: totalUnlockedCountries || (countriesCodes.length > 0 ? HAS_ZERO_BUT_PRESENT : 0),
         shouldShowAllNumbers: false,
+        visualTotal: total === HAS_ZERO_BUT_PRESENT ? ' ' : undefined,
       };
     }
 
     if (counterShouldShow === 'yearOfUnlocking') {
+      if (toYear) {
+        if (yearOfUnlocking) {
+          return {
+            total: toYear - yearOfUnlocking + 1,
+            shouldShowAllNumbers: true,
+            // visualTotal: undefined,
+            visualTotal: `'${String(yearOfUnlocking).slice(2)}`,
+          };
+        }
+      }
+
       return {
-        total: indexInSortingByUnlocking,
-        shouldShowAllNumbers: true,
+        total: indexInSortingByUnlocking || 0,
+        shouldShowAllNumbers: false,
+        visualTotal: undefined,
+      };
+    }
+
+    if (counterShouldShow === 'lastYearAbroad') {
+      if (fromYear && toYear) {
+        const lastYearInRange = flags?.at(-1)?.to;
+        if (lastYearInRange) {
+          return {
+            total: lastYearInRange - fromYear + 1,
+            shouldShowAllNumbers: true,
+            // visualTotal: undefined,
+            visualTotal: `'${String(lastYearInRange).slice(2)}`,
+          };
+        }
+      }
+
+      return {
+        total: indexInSortingByUnlocking || 0,
+        shouldShowAllNumbers: false,
+        visualTotal: undefined,
       };
     }
 
     return {
       total: countriesCodes.length,
       shouldShowAllNumbers: false,
+      visualTotal: undefined,
     };
-  }, [counterShouldShow, countriesCodes.length, indexInSortingByUnlocking, totalUnlockedCountries, yearsAbroad.length]);
-
-  const visualTotal = useMemo(() => {
-    if (counterShouldShow === 'numberOfUnlockedCountries') {
-      if (total === HAS_ZERO_BUT_PRESENT) {
-        return ' ';
-      }
-    }
-
-    if (counterShouldShow === 'yearOfUnlocking') {
-      const firstYear = flags?.[0]?.from;
-      if (firstYear) {
-        return `'${String(firstYear).slice(2)}`;
-      }
-    }
-
-    return undefined;
-  }, [counterShouldShow, flags, total]);
+  }, [
+    counterShouldShow,
+    countriesCodes.length,
+    flags,
+    fromYear,
+    indexInSortingByUnlocking,
+    toYear,
+    totalUnlockedCountries,
+    yearOfUnlocking,
+    yearsAbroad.length,
+  ]);
 
   const handleClick = useCallback(() => {
     if (isSidebarOpen) {
