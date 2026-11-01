@@ -17,6 +17,7 @@ const titleByCountryShouldShow: Record<CounterShowOption, string> = {
   yearsAbroad: 'summary.totalYearsAbroad',
   numberOfUnlockedCountries: 'summary.numberOfUnlockedCountries',
   yearOfUnlocking: 'summary.yearOfUnlocking',
+  lastYearAbroad: 'summary.lastYearAbroad',
 };
 
 export const Calendar = ({ className }: Props) => {

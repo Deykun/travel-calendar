@@ -15,7 +15,9 @@ import { filterStackByDay } from './filter-stack-by-day';
 import { filterStackByMonth } from './filter-stack-by-month';
 import type { StackByDay, StackByMonth } from './types';
 
-export const getFiltered = (dataByDay: DataStoreState['dataByDay']): FiltersStoreState['filtered'] => {
+export const getFiltered = (
+  dataByDay: DataStoreState['dataByDay'],
+): Pick<FiltersStoreState, 'filtered' | 'general'> => {
   console.info('Filtering...');
   const { activeFilters } = useFiltersStore.getState();
 
@@ -67,14 +69,19 @@ export const getFiltered = (dataByDay: DataStoreState['dataByDay']): FiltersStor
   const summaryByYear = filterByYear({ dateOfUnlockingByCountry, yearOfUnlockingByDateMMDD });
 
   return {
-    summaryByDay,
-    summaryByMonth,
-    summaryByYear,
-    summary,
-    streaks: {
-      regular: toStreaksByType(regularStreaksMaxDays),
-      kind: toStreaksByType(kindStreaksMaxDays),
-      veryKind: toStreaksByType(veryKindStreaksMaxDays),
+    filtered: {
+      summaryByDay,
+      summaryByMonth,
+      summaryByYear,
+      summary,
+      streaks: {
+        regular: toStreaksByType(regularStreaksMaxDays),
+        kind: toStreaksByType(kindStreaksMaxDays),
+        veryKind: toStreaksByType(veryKindStreaksMaxDays),
+      },
+    },
+    general: {
+      yearOfUnlockingByDateMMDD,
     },
   };
 };

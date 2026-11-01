@@ -4,21 +4,28 @@ import type { FlagData } from '@/features/filters/hooks/useFlagsForDate';
 import type { CounterShowOption } from '@/features/preferences/stores/usePreferencesStore';
 import { cn } from '@/utils/tailwind';
 
+import IconPlaneAlt from '../icons/IconPlaneAlt';
 import { ImageFlagSimple } from '../image-flag/ImageFlagSimple';
 
 type Props = {
   className?: string;
   flags?: FlagData[];
   counterShouldShow?: CounterShowOption;
+  isActive?: boolean;
 };
 
-export const FlagStack = ({ flags = [], className = '', counterShouldShow }: PropsWithChildren<Props>) => {
+export const FlagStack = ({
+  flags = [],
+  className = '',
+  counterShouldShow,
+  isActive = false,
+}: PropsWithChildren<Props>) => {
   const { lastFlag, shouldBeMuted } = useMemo(() => {
     if (counterShouldShow === 'numberOfUnlockedCountries') {
       const lastUnlockedCountry = flags.filter((flag) => flag.wasUnlocked).at(-1);
       return {
         lastFlag: lastUnlockedCountry || flags.at(-1),
-        shouldBeMuted: !lastUnlockedCountry,
+        shouldBeMuted: !lastUnlockedCountry && !isActive,
       };
     }
 
@@ -26,7 +33,7 @@ export const FlagStack = ({ flags = [], className = '', counterShouldShow }: Pro
       lastFlag: flags.at(-1),
       shouldBeMuted: false,
     };
-  }, [counterShouldShow, flags]);
+  }, [counterShouldShow, flags, isActive]);
 
   if (!lastFlag) {
     return null;
@@ -37,16 +44,23 @@ export const FlagStack = ({ flags = [], className = '', counterShouldShow }: Pro
       className={cn(
         'inline-grid place-items-center',
         'h-6',
-        'p-px bg-[#3d3d3d6e] rounded-md',
-        {
-          'saturate-0 group-hover:saturate-100 duration-300': shouldBeMuted,
-        },
+        'p-px rounded-md',
+        'bg-[#272620] text-[#54544b]',
         className,
       )}
     >
       {/* {flags.map(({ countryCode }) => { */}
       {/* return ( */}
-      <div className={cn('col-start-1 row-start-1', 'w-8 scale-70 origin-center')}>
+      {shouldBeMuted && (
+        <div className={cn('col-start-1 row-start-1')}>
+          <IconPlaneAlt className={cn('size-4 text-[#54544b]')} />
+        </div>
+      )}
+      <div
+        className={cn('col-start-1 row-start-1', 'w-8 scale-70 group-hover:scale-80 duration-300 origin-center', {
+          'scale-50': shouldBeMuted,
+        })}
+      >
         <ImageFlagSimple
           key={lastFlag.countryCode}
           countryCode={lastFlag.countryCode}
