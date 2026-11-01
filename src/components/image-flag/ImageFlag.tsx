@@ -40,9 +40,11 @@ export const ImageFlag = ({
           'rounded-sm',
           'saturate-75',
           'drop-shadow',
-          'bg-transparent text-[#c6c7a7]',
-          'leading-none',
+          'bg-transparent text-[#c6c7a744]',
+          'leading-1.5',
+          'font-medium',
           'tracking-widest',
+          'uppercase',
           'text-xs',
         )}
         alt={countryCode}

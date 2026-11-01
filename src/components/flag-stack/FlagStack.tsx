@@ -57,8 +57,8 @@ export const FlagStack = ({
         </div>
       )}
       <div
-        className={cn('col-start-1 row-start-1', 'w-8 scale-70 origin-center', {
-          'scale-50 group-hover:scale-70 duration-300': shouldBeMuted,
+        className={cn('col-start-1 row-start-1', 'w-8 scale-70 group-hover:scale-80 duration-300 origin-center', {
+          'scale-50': shouldBeMuted,
         })}
       >
         <ImageFlagSimple

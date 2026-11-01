@@ -32,9 +32,10 @@ export const Image = ({ className, alt = '', src = '', onLoad, onError, ...props
       {...props}
       src={src}
       className={cn(
-        'transition-opacity opacity-100 duration-250',
+        'transition-opacity duration-250',
         {
-          'opacity-0': !wasLoadedEarlier && !isSettled,
+          'starting:opacity-0 opacity-0': !wasLoadedEarlier,
+          'opacity-100': isSettled || wasLoadedEarlier,
         },
         className,
       )}
