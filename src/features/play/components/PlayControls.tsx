@@ -20,7 +20,7 @@ export const PlayControls = ({ fromYear, toYear }: Props) => {
 
   return (
     <Pane.Footer className="flex gap-1">
-      {hasEnoughData === false && <p className="ml-auto text-xs">Pick filters to activate play.</p>}
+      {hasEnoughData === false && <p className="ml-auto text-xs">{t('play.pickDates')}</p>}
       {hasEnoughData && (
         <>
           <button
