@@ -7,6 +7,7 @@ import { TextCounter } from '@/components/text-counter/TextCounter';
 import { TextDateRange } from '@/components/text-date/TextDateRange';
 import { PlaceName } from '@/features/calendar/components/calendar/PlaceName';
 import useFiltersStore from '@/features/filters/stores/useFilterStore';
+import { ToggleHomeCountry } from '@/features/preferences/components/ToggleHomeCountry';
 import useDataStore from '@/features/settings/stores/useDateStore';
 import { getDayKey } from '@/features/settings/utils/get-day-key';
 import { openSidebar } from '@/features/sidebar/stores/useSidebarStore';
@@ -117,7 +118,6 @@ export const SidebarCountry = ({ className, countryCode }: Props) => {
           </div>
         </div>
       </div>
-
       {unlockingDate && (
         <p className={cn('text-center mt-6 text-[10px]')}>
           {t('summary.firstTimeInCountry')}{' '}
@@ -149,6 +149,9 @@ export const SidebarCountry = ({ className, countryCode }: Props) => {
             </div>
           </div>
         ))}
+      </div>
+      <div className={cn('flex justify-center')}>
+        <ToggleHomeCountry className="mt-4" countryCode={countryCode} />
       </div>
       {places.length > 0 && (
         <div className={cn(sidebarStyles, 'mt-8', 'flex flex-col gap-3')}>

@@ -11,6 +11,8 @@ export type CounterShowOption =
   | 'numberOfUnlockedCountries'
   | 'numberOfUnlockedCountries';
 
+export type FlagsSortOption = 'lastVisited' | 'rarest';
+
 export type PreferencesStoreState = {
   calendar: {
     counterShouldShow: CounterShowOption;
@@ -20,6 +22,7 @@ export type PreferencesStoreState = {
   };
   flags: {
     shouldShowFlags: boolean;
+    sortBy: FlagsSortOption;
   };
   sidebars: {
     shouldShowHome: boolean;
@@ -47,6 +50,7 @@ const emptyStore: PreferencesStoreState = {
   },
   flags: {
     shouldShowFlags: true,
+    sortBy: 'lastVisited',
   },
   sidebars: {
     shouldShowHome: false,
@@ -60,8 +64,8 @@ const emptyStore: PreferencesStoreState = {
   },
   differences: {
     shouldShowDifferencesCounters: false,
-    shouldHighlightDays: false,
-    shouldHighlightFlags: false,
+    shouldHighlightDays: true,
+    shouldHighlightFlags: true,
   },
 };
 
@@ -97,6 +101,15 @@ export const toggleShouldShowFlags = () => {
     flags: {
       ...state.flags,
       shouldShowFlags: !state.flags.shouldShowFlags,
+    },
+  }));
+};
+
+export const sortFlagsBy = (sortBy: FlagsSortOption) => {
+  usePreferencesStore.setState((state) => ({
+    flags: {
+      ...state.flags,
+      sortBy,
     },
   }));
 };
