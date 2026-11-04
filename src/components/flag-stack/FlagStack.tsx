@@ -1,7 +1,9 @@
 import { type PropsWithChildren, useMemo } from 'react';
 
 import type { FlagData } from '@/features/filters/hooks/useFlagsForDate';
-import type { CounterShowOption } from '@/features/preferences/stores/usePreferencesStore';
+import { useFlagsSorting } from '@/features/filters/hooks/useFlagsSorting';
+import { type CounterShowOption, usePreferencesStore } from '@/features/preferences/stores/usePreferencesStore';
+import useDataStore from '@/features/settings/stores/useDateStore';
 import { cn } from '@/utils/tailwind';
 
 import IconPlaneAlt from '../icons/IconPlaneAlt';
@@ -20,20 +22,28 @@ export const FlagStack = ({
   counterShouldShow,
   isActive = false,
 }: PropsWithChildren<Props>) => {
+  const totalDaysByCountry = useDataStore((store) => store.totalDaysByCountry);
+  const { sortBy } = useFlagsSorting();
+
   const { lastFlag, shouldBeMuted } = useMemo(() => {
+    const flagsSorted =
+      sortBy === 'rarest'
+        ? [...flags].sort((a, b) => (totalDaysByCountry[b.countryCode] || 0) - (totalDaysByCountry[a.countryCode] || 0))
+        : flags;
+
     if (counterShouldShow === 'numberOfUnlockedCountries') {
-      const lastUnlockedCountry = flags.filter((flag) => flag.wasUnlocked).at(-1);
+      const lastUnlockedCountry = flagsSorted.filter((flag) => flag.wasUnlocked).at(-1);
       return {
-        lastFlag: lastUnlockedCountry || flags.at(-1),
+        lastFlag: lastUnlockedCountry || flagsSorted.at(-1),
         shouldBeMuted: !lastUnlockedCountry && !isActive,
       };
     }
 
     return {
-      lastFlag: flags.at(-1),
+      lastFlag: flagsSorted.at(-1),
       shouldBeMuted: false,
     };
-  }, [counterShouldShow, flags, isActive]);
+  }, [counterShouldShow, flags, isActive, sortBy, totalDaysByCountry]);
 
   if (!lastFlag) {
     return null;

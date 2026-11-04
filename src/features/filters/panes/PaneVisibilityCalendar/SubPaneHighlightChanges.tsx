@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Checkbox } from '@/components/checkbox/Checkbox';
 import usePreferencesStore, {
   toggleShouldHighlightDays,
-  toggleShouldHighlightFlags,
+  // toggleShouldHighlightFlags,
   toggleShouldShowDifferencesCounters,
 } from '@/features/preferences/stores/usePreferencesStore';
 import { Pane } from '@/features/sidebar/components/pane/Pane';
@@ -16,7 +16,7 @@ type Props = {
 export function SubPaneHighlightChanges({ subtitleClassName }: Props) {
   const shouldShowDifferencesCounters = usePreferencesStore((store) => store.differences.shouldShowDifferencesCounters);
   const shouldHighlightDays = usePreferencesStore((store) => store.differences.shouldHighlightDays);
-  const shouldHighlightFlags = usePreferencesStore((store) => store.differences.shouldHighlightFlags);
+  // const shouldHighlightFlags = usePreferencesStore((store) => store.differences.shouldHighlightFlags);
 
   const { t } = useTranslation();
 
@@ -37,13 +37,13 @@ export function SubPaneHighlightChanges({ subtitleClassName }: Props) {
         >
           <div className={cn('flex flex-col gap-1', 'text-wrap')}>{t('preferences.shouldHighlightDays')}</div>
         </Checkbox>
-        <Checkbox
+        {/* <Checkbox
           isActive={shouldHighlightFlags}
           onChange={toggleShouldHighlightFlags}
           isDisabled={!shouldShowDifferencesCounters}
         >
           <div className={cn('flex flex-col gap-1', 'text-wrap')}>{t('preferences.shouldHighlightFlags')}</div>
-        </Checkbox>
+        </Checkbox> */}
       </Pane.List>
     </>
   );
