@@ -2,7 +2,7 @@ import { type PropsWithChildren, useMemo } from 'react';
 
 import type { FlagData } from '@/features/filters/hooks/useFlagsForDate';
 import { useFlagsSorting } from '@/features/filters/hooks/useFlagsSorting';
-import { type CounterShowOption, usePreferencesStore } from '@/features/preferences/stores/usePreferencesStore';
+import { type CounterShowOption } from '@/features/preferences/stores/usePreferencesStore';
 import useDataStore from '@/features/settings/stores/useDateStore';
 import { cn } from '@/utils/tailwind';
 
