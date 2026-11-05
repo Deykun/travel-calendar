@@ -11,10 +11,12 @@ import { ButtonGoToNomads } from './features/share/components/ButtonGoToNomads';
 import { LoadingOverlay } from './features/share/components/LoadingOverlay';
 import { useLoadDataFromUrlIfPossible } from './features/share/hooks/useLoadDataFromUrlIfPossible';
 import { Sidebar } from './features/sidebar/components/Sidebar';
+import { useSetInitialSidebar } from './features/sidebar/hooks/useSetInitialSidebar';
 
 function App() {
   useLoadDataFromUrlIfPossible();
   useRefreshIfNeeded();
+  useSetInitialSidebar();
 
   return (
     <ErrorBoundary fallback={<Fallback />}>

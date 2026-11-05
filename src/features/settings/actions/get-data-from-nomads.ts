@@ -1,5 +1,4 @@
 import { setDateFilter, setHomeCountriesCodes } from '@/features/filters/stores/useFilterStore';
-import { openSidebarFilters } from '@/features/sidebar/stores/useSidebarStore';
 import type { DateYYYYMMDD } from '@/types';
 
 import { APP_VERSION, setIntegration } from '../stores/useDateStore';
@@ -78,7 +77,6 @@ export const getDataFromNomads = async ({ username }: Params): Promise<FetchResp
 
   setHomeCountriesCodes(homeCountries);
   setDateFilter(undefined, undefined);
-  openSidebarFilters();
 
   return { isSuccess: true };
 };

@@ -1,5 +1,4 @@
 import { setDateFilter, setHomeCountriesCodes } from '@/features/filters/stores/useFilterStore';
-import { openSidebarFilters } from '@/features/sidebar/stores/useSidebarStore';
 import type { DateYYYYMMDD } from '@/types';
 
 import { APP_VERSION, setIntegration } from '../stores/useDateStore';
@@ -55,7 +54,6 @@ const setStoreWithActivities = (
 
   setHomeCountriesCodes(getHomeCountriesForStrava(daysByCountry));
   setDateFilter(undefined, undefined);
-  openSidebarFilters();
 };
 
 export const getDataFromStrava = async ({ files }: Params): Promise<FetchResponse> => {
