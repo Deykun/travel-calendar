@@ -67,15 +67,16 @@ export function CalendarFooter() {
       <div
         className={cn(
           'col-span-4',
-          'p-5 pt-10 sm:pt-5',
+          'p-5',
           'bg-[#111110]',
-          'flex items-center justify-between',
+          'flex items-center justify-between items-center',
+          'gap-5',
           'text-right',
           'rounded-lg',
         )}
       >
         <span
-          className={cn('inline-grid place-items-center size-10', 'bg-[#d8da51] text-black', 'rounded-lg')}
+          className={cn('shrink-0', 'inline-grid place-items-center size-10', 'bg-[#d8da51] text-black', 'rounded-lg')}
           style={{
             // @ts-expect-error Doesn't know css
             cornerShape: 'superellipse(1.5)',

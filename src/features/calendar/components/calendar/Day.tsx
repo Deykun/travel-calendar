@@ -75,6 +75,15 @@ export const Day = memo(({ className = '', dayNumber, dayKey }: Props) => {
     }
 
     if (counterShouldShow === 'yearOfUnlocking') {
+      // yearOfUnlocking is always available and not filter so we hide it for date by detecting if there is data
+      if (yearsAbroad.length === 0) {
+        return {
+          total: 0,
+          shouldShowAllNumbers: false,
+          visualTotal: undefined,
+        };
+      }
+
       if (toYear) {
         if (yearOfUnlocking) {
           return {
