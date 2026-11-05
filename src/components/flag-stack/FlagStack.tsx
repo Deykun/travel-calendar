@@ -63,7 +63,7 @@ export const FlagStack = ({
       {/* return ( */}
       {shouldBeMuted && (
         <div className={cn('col-start-1 row-start-1')}>
-          <IconPlaneAlt className={cn('size-4 text-[#54544b]')} />
+          <IconPlaneAlt className={cn('size-4 text-[#d8da51]')} />
         </div>
       )}
       <div
