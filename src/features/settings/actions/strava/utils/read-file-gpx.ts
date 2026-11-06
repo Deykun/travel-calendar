@@ -21,11 +21,11 @@ export const isGpxContent = (content: string) => content.includes('<trkpt');
 
 const toCoordinate = (value: string | null) => (value ? Number(value) : undefined);
 
-export const parseGpxContent = (
+export const parseGpxContent = async (
   id: string,
   fileContent: string,
   mode: ParseFileMode,
-): IntegrationStravaActivity | undefined => {
+): Promise<IntegrationStravaActivity | undefined> => {
   const xmlParser = new DOMParser();
   const xmlFileContent = xmlParser.parseFromString(fileContent, 'text/xml');
 

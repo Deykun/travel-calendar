@@ -1,9 +1,8 @@
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Button } from '@/components/button/Button';
 import IconGithub from '@/components/icons/IconGithub';
-import { SCROLL_TARGET, type SidebarScrollTarget } from '@/features/sidebar/stores/useSidebarStore';
 
 import { PaneIntegrationManagement } from '../panes/PaneIntegrationManagement';
 import { PaneIntegrationNomads } from '../panes/PaneIntegrationNomads';
@@ -29,14 +28,14 @@ export function SidebarSettings() {
       <PaneLanguage />
       {shouldShowIntegrations ? (
         <>
-          <PaneIntegrationStrava id={SCROLL_TARGET.STRAVA} />
-          <PaneIntegrationNomads id={SCROLL_TARGET.NOMADS} />
+          <PaneIntegrationStrava />
+          <PaneIntegrationNomads />
         </>
       ) : (
-        <PaneIntegrationManagement id={SCROLL_TARGET.DATA} onOpenIntegrations={() => setAreIntegrationsVisible(true)} />
+        <PaneIntegrationManagement onOpenIntegrations={() => setAreIntegrationsVisible(true)} />
       )}
-      <PaneSettingsTrips id={SCROLL_TARGET.TRIPS} />
-      <PaneSettingsHome id={SCROLL_TARGET.HOME} />
+      <PaneSettingsTrips />
+      <PaneSettingsHome />
       <div className="flex justify-between items-center">
         <Button tagName="a" href="https://github.com/Deykun/travel-calendar" target="_blank">
           <IconGithub />

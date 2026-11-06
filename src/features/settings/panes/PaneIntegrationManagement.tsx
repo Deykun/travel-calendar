@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/button/Button';
 import { refreshStore } from '@/features/error-boundary/actions/refresh';
 import { Pane } from '@/features/sidebar/components/pane/Pane';
-import type { SidebarScrollTarget } from '@/features/sidebar/stores/useSidebarStore';
+import { SCROLL_TARGET } from '@/features/sidebar/stores/useSidebarStore';
 
 import { IntegrationLastUpdate } from '../components/IntegrationLastUpdate';
 import useDataStore, { type IntegrationType } from '../stores/useDateStore';
@@ -19,11 +19,10 @@ const dataPointsLabelKeyByType: Record<IntegrationType, string> = {
 };
 
 type Props = {
-  id?: SidebarScrollTarget;
   onOpenIntegrations: () => void;
 };
 
-export function PaneIntegrationManagement({ id, onOpenIntegrations }: Props) {
+export function PaneIntegrationManagement({ onOpenIntegrations }: Props) {
   const integration = useDataStore((store) => store.integration);
   const { t } = useTranslation();
 
@@ -32,7 +31,7 @@ export function PaneIntegrationManagement({ id, onOpenIntegrations }: Props) {
   const hasDataPoints = dataPointsLabelKey !== undefined && integration.totalDataPoints !== undefined;
 
   return (
-    <Pane id={id}>
+    <Pane id={SCROLL_TARGET.DATA}>
       <Pane.Title>{t('integration.management.title')}</Pane.Title>
       <Pane.Subtitle>{t('integration.management.subtitle')}</Pane.Subtitle>
       <div className="flex flex-wrap justify-end gap-2 mt-2">

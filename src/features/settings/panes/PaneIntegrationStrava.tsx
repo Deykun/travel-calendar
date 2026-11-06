@@ -4,7 +4,7 @@ import IconBulb from '@/components/icons/IconBulb';
 import IconStrava from '@/components/icons/IconStrava';
 import { Progressbar } from '@/components/progressbar/Progressbar';
 import { Pane } from '@/features/sidebar/components/pane/Pane';
-import type { SidebarScrollTarget } from '@/features/sidebar/stores/useSidebarStore';
+import { SCROLL_TARGET } from '@/features/sidebar/stores/useSidebarStore';
 import { cn } from '@/utils/tailwind';
 
 import { getDataFromStrava } from '../actions/get-data-from-strava';
@@ -16,11 +16,7 @@ const STRAVA_EXPORT_URL = 'https://www.strava.com/athlete/delete_your_account';
 
 const handleFiles = (files: File[]) => getDataFromStrava({ files });
 
-type Props = {
-  id?: SidebarScrollTarget;
-};
-
-export function PaneIntegrationStrava({ id }: Props) {
+export function PaneIntegrationStrava() {
   const integration = useDataStore((store) => store.integration);
   const integrationStatus = useStravaIntegrationsStore((store) => store.status);
 
@@ -32,7 +28,7 @@ export function PaneIntegrationStrava({ id }: Props) {
     integrationStatus.total > 0 && integrationStatus.total !== integrationStatus.processed + integrationStatus.rejected;
 
   return (
-    <Pane id={id}>
+    <Pane id={SCROLL_TARGET.STRAVA}>
       <Pane.Title className="flex gap-2 items-center">
         <IconStrava className="text-[#d8da51] size-6" /> <span>{t('integration.fromStrava')}</span>
       </Pane.Title>

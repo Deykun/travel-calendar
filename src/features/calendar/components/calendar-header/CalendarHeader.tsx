@@ -12,7 +12,7 @@ import { useTotalDays } from '@/features/filters/hooks/use-total-days/useTotalDa
 import { useTimeRange } from '@/features/filters/hooks/useRange';
 import useFiltersStore from '@/features/filters/stores/useFilterStore';
 import useDataStore from '@/features/settings/stores/useDateStore';
-import { SCROLL_TARGET, openSidebarFilters, openSidebarSettings } from '@/features/sidebar/stores/useSidebarStore';
+import { SCROLL_TARGET, openSidebarFilters } from '@/features/sidebar/stores/useSidebarStore';
 import { StreaksSummary } from '@/features/streak/components/StreaksSummary';
 import { classNamesLayoutGap, classNamesLayoutGrid, classNamesLayoutPx } from '@/layouts/layout-app';
 import { getArrayOfYears } from '@/utils/date';
