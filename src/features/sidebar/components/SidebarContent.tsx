@@ -11,7 +11,7 @@ export const SidebarContent = () => {
   const sidebar = useSidebarStore((store) => store.sidebar);
 
   if (sidebar?.type === 'setting') {
-    return <SidebarSettings scrollTo={sidebar.scrollTo} />;
+    return <SidebarSettings />;
   }
 
   if (sidebar?.type === 'share') {

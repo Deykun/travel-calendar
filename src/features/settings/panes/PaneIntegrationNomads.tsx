@@ -7,18 +7,14 @@ import IconMap from '@/components/icons/IconMap';
 import IconWarning from '@/components/icons/IconWarning';
 import Input from '@/components/input/Input';
 import { Pane } from '@/features/sidebar/components/pane/Pane';
-import type { SettingsScrollTarget } from '@/features/sidebar/stores/useSidebarStore';
+import { SCROLL_TARGET } from '@/features/sidebar/stores/useSidebarStore';
 import { cn } from '@/utils/tailwind';
 
 import { IntegrationLastUpdate } from '../components/IntegrationLastUpdate';
 import { useNomadsIntegration } from '../hooks/useNomadsIntegration';
 import useDataStore from '../stores/useDateStore';
 
-type Props = {
-  id?: SettingsScrollTarget;
-};
-
-export function PaneIntegrationNomads({ id }: Props) {
+export function PaneIntegrationNomads() {
   const { isLoading, errorMessage, clearError, fetchNomads } = useNomadsIntegration();
   const integration = useDataStore((store) => store.integration);
   const integrationCode = useDataStore((store) => store.integration.integrationCode);
@@ -42,7 +38,7 @@ export function PaneIntegrationNomads({ id }: Props) {
   };
 
   return (
-    <Pane id={id}>
+    <Pane id={SCROLL_TARGET.NOMADS}>
       <Pane.Title className="flex gap-2 items-center">
         <IconMap className="text-[#d8da51] size-6" />
         <span>{t('integration.fromNomads')}</span>

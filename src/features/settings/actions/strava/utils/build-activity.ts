@@ -1,12 +1,11 @@
 import type { DateLike, DateYYYYMMDD } from '@/types';
 import { getSpreadIndexes } from '@/utils/array';
 import { getAppDateIfPossible, getDaysBetweenDates } from '@/utils/date';
-import { createLocationFinder, getCountryCodeFromStringIfPossible } from '@/utils/location';
+import { getCountryCodeFromStringIfPossible } from '@/utils/location';
+import { getLocationFinder } from '@/utils/location-finder';
 
 import type { IntegrationStravaActivity } from '../types';
 import { STRAVA_PREFLIGHT_POINTS_TO_CHECK } from './constants';
-
-const locationFinder = createLocationFinder();
 
 export type ParseFileMode = 'preflight' | 'allPoints';
 
@@ -18,12 +17,14 @@ export type TrackPoint = {
 
 // Shared by GPX / FIT parsers. toPoint runs only for sampled points in 'preflight' mode,
 // so expensive per-point work (DOM queries) stays lazy.
-export const buildActivity = <T extends object>(
+export const buildActivity = async <T extends object>(
   id: string,
   rawPoints: T[],
   toPoint: (rawPoint: T) => TrackPoint,
   mode: ParseFileMode,
-): IntegrationStravaActivity | undefined => {
+): Promise<IntegrationStravaActivity | undefined> => {
+  const locationFinder = await getLocationFinder();
+
   const pointsToCheck =
     mode === 'preflight'
       ? getSpreadIndexes(rawPoints.length, STRAVA_PREFLIGHT_POINTS_TO_CHECK)

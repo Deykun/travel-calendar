@@ -8,14 +8,13 @@ import { MiniCalendarForCountry } from '@/features/calendar/components/mini-cale
 import useFiltersStore, { setHomeCountriesCodes, toggleHomeCountry } from '@/features/filters/stores/useFilterStore';
 import useDataStore from '@/features/settings/stores/useDateStore';
 import { Pane } from '@/features/sidebar/components/pane/Pane';
-import type { SettingsScrollTarget } from '@/features/sidebar/stores/useSidebarStore';
+import { SCROLL_TARGET } from '@/features/sidebar/stores/useSidebarStore';
 
 type Props = {
   className?: string;
-  id?: SettingsScrollTarget;
 };
 
-export const PaneSettingsHome = ({ className = '', id }: Props) => {
+export const PaneSettingsHome = ({ className = '' }: Props) => {
   const [wasAllToggled, setWasAllToggled] = useState(true);
   const homeCountriesCodes = useFiltersStore((store) => store.activeFilters.homeCountriesCodes);
   const totalDaysByCountry = useDataStore((store) => store.totalDaysByCountry);
@@ -26,7 +25,7 @@ export const PaneSettingsHome = ({ className = '', id }: Props) => {
 
   const { t } = useTranslation();
   return (
-    <Pane className={className} id={id}>
+    <Pane className={className} id={SCROLL_TARGET.HOME}>
       <Pane.Title>{t('preferences.homeCountry')}</Pane.Title>
       <p className="mb-2 w-full">
         {t('preferences.homeCountry.tip')} <IconTravel total={0} />

@@ -1,5 +1,7 @@
 import { useTranslation } from 'react-i18next';
 
+import { Button } from '@/components/button/Button';
+import IconGear from '@/components/icons/IconGear';
 import IconPlus from '@/components/icons/IconPlus';
 import IconTravel from '@/components/icons/IconTravel';
 import IconTravelWrapper from '@/components/icons/IconTravelWrapper';
@@ -10,6 +12,7 @@ import { useTotalDays } from '@/features/filters/hooks/use-total-days/useTotalDa
 import { useTimeRange } from '@/features/filters/hooks/useRange';
 import useFiltersStore from '@/features/filters/stores/useFilterStore';
 import useDataStore from '@/features/settings/stores/useDateStore';
+import { SCROLL_TARGET, openSidebarFilters } from '@/features/sidebar/stores/useSidebarStore';
 import { StreaksSummary } from '@/features/streak/components/StreaksSummary';
 import { classNamesLayoutGap, classNamesLayoutGrid, classNamesLayoutPx } from '@/layouts/layout-app';
 import { getArrayOfYears } from '@/utils/date';
@@ -46,6 +49,7 @@ export function CalendarHeader() {
           'bg-[#111110]',
           'text-center',
           'rounded-lg',
+          'group',
         )}
       >
         <VisitedCountries className="absolute top-5 left-5" place="year" />
@@ -68,6 +72,18 @@ export function CalendarHeader() {
           ))}
         </div>
         <VisitedDays className="absolute top-5 right-5" place="year" max={366} />
+        <Button
+          className={cn(
+            'absolute bottom-4 right-4',
+            'opacity-0 group-hover:opacity-100 focus-visible:opacity-100',
+            'duration-150',
+          )}
+          size="sm"
+          variant="secondary"
+          onClick={() => openSidebarFilters(SCROLL_TARGET.DATES)}
+        >
+          <IconGear />
+        </Button>
       </div>
       <StreaksSummary />
       <div

@@ -28,7 +28,7 @@ export function CalendarFooter() {
   return (
     <section className={cn(classNamesLayoutGap, classNamesLayoutPx, classNamesLayoutGrid, 'my-8', 'group')}>
       {homeCountriesCodes.length > 0 && (
-        <div className="col-span-4 p-5">
+        <div className="col-span-4 p-5 relative">
           <div className="flex gap-8 items-center mb-4">
             <button
               type="button"
@@ -53,15 +53,20 @@ export function CalendarFooter() {
           </div>
           <div className="flex items-center gap-4">
             <small>{t('preferences.homeCountry.tip')}</small>
-            <Button
-              className={cn('shrink-0', 'opacity-0 group-hover:opacity-100 focus-visible:opacity-100', 'duration-150')}
-              size="sm"
-              variant="secondary"
-              onClick={() => openSidebarSettings('home')}
-            >
-              <IconGear />
-            </Button>
           </div>
+
+          <Button
+            className={cn(
+              'absolute bottom-4 right-0',
+              'opacity-0 group-hover:opacity-100 focus-visible:opacity-100',
+              'duration-150',
+            )}
+            size="sm"
+            variant="secondary"
+            onClick={() => openSidebarSettings('home')}
+          >
+            <IconGear />
+          </Button>
         </div>
       )}
       <div
@@ -69,7 +74,7 @@ export function CalendarFooter() {
           'col-span-4',
           'p-5',
           'bg-[#111110]',
-          'flex items-center justify-between items-center',
+          'flex items-center justify-between',
           'gap-5',
           'text-right',
           'rounded-lg',
