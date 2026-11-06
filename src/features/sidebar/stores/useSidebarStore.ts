@@ -5,36 +5,50 @@ import type { MonthNumber } from '@/features/calendar/types';
 import type { StreakType } from '@/features/filters/stores/useFilterStore';
 import type { DateMMDD } from '@/types';
 
-export type SettingsScrollTarget = 'data' | 'strava' | 'nomads' | 'home' | 'trips';
+export const SCROLL_TARGET = {
+  DATA: 'data',
+  STRAVA: 'strava',
+  NOMADS: 'nomads',
+  HOME: 'home',
+  TRIPS: 'trips',
+  DATES: 'dates',
+} as const;
 
-export type Sidebar =
-  | {
-      type: 'setting';
-      scrollTo?: SettingsScrollTarget;
-    }
-  | {
-      type: 'share';
-    }
-  | {
-      type: 'day';
-      dayKey: DateMMDD;
-    }
-  | {
-      type: 'month';
-      monthNumber: MonthNumber;
-    }
-  | {
-      type: 'filters';
-    }
-  | {
-      type: 'country';
-      countryCode: string;
-    }
-  | {
-      type: 'streak';
-      streakType: StreakType;
-      index: number;
-    };
+export type SidebarScrollTarget = (typeof SCROLL_TARGET)[keyof typeof SCROLL_TARGET];
+
+type SidebarBase = {
+  scrollTo?: SidebarScrollTarget;
+};
+
+export type Sidebar = SidebarBase &
+  (
+    | {
+        type: 'setting';
+      }
+    | {
+        type: 'share';
+      }
+    | {
+        type: 'day';
+        dayKey: DateMMDD;
+      }
+    | {
+        type: 'month';
+        monthNumber: MonthNumber;
+      }
+    | {
+        type: 'filters';
+      }
+    | {
+        type: 'country';
+        countryCode: string;
+      }
+    | {
+        type: 'streak';
+        streakType: StreakType;
+        index: number;
+      }
+  );
 
 type SidebarStore = {
   sidebar: Sidebar | null;
@@ -65,22 +79,24 @@ export function openSidebar(sidebar: Sidebar) {
   });
 }
 
-export function openSidebarSettings(scrollTo?: SettingsScrollTarget) {
+export function openSidebarSettings(scrollTo?: SidebarScrollTarget) {
   openSidebar({
     type: 'setting',
     scrollTo,
   });
 }
 
-export function openSidebarFilters() {
+export function openSidebarFilters(scrollTo?: SidebarScrollTarget) {
   openSidebar({
     type: 'filters',
+    scrollTo,
   });
 }
 
-export function openSidebarShare() {
+export function openSidebarShare(scrollTo?: SidebarScrollTarget) {
   openSidebar({
     type: 'share',
+    scrollTo,
   });
 }
 

@@ -1,3 +1,5 @@
+import { useEffect, useRef } from 'react';
+
 import { ButtonFilter } from '@/features/filters/components/ButtonFilter';
 import { ButtonSettings } from '@/features/settings/components/ButtonSettings';
 import { cn } from '@/utils/tailwind';
@@ -11,8 +13,25 @@ type Props = {
 };
 
 export function Sidebar({ className = '' }: Props) {
+  const wrapperRef = useRef<HTMLElement>(null);
   const sidebar = useSidebarStore((store) => store.sidebar);
   const isCollapsed = useSidebarStore((store) => store.isCollapsed);
+
+  useEffect(() => {
+    const wrapper = wrapperRef.current;
+    if (!wrapper) {
+      return;
+    }
+
+    const target = sidebar?.scrollTo ? wrapper.querySelector(`#${sidebar.scrollTo}`) : null;
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      return;
+    }
+
+    // Target may be absent (e.g. 'data' while integrations are shown) - scroll wrapper to top
+    wrapper.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [sidebar]);
 
   return (
     <>
@@ -30,6 +49,7 @@ export function Sidebar({ className = '' }: Props) {
         onClick={collapseSidebar}
       />
       <aside
+        ref={wrapperRef}
         key={sidebar?.type}
         className={cn(
           'fixed top-0 left-0',

@@ -7,7 +7,7 @@ import IconMap from '@/components/icons/IconMap';
 import IconWarning from '@/components/icons/IconWarning';
 import Input from '@/components/input/Input';
 import { Pane } from '@/features/sidebar/components/pane/Pane';
-import type { SettingsScrollTarget } from '@/features/sidebar/stores/useSidebarStore';
+import type { SidebarScrollTarget } from '@/features/sidebar/stores/useSidebarStore';
 import { cn } from '@/utils/tailwind';
 
 import { IntegrationLastUpdate } from '../components/IntegrationLastUpdate';
@@ -15,7 +15,7 @@ import { useNomadsIntegration } from '../hooks/useNomadsIntegration';
 import useDataStore from '../stores/useDateStore';
 
 type Props = {
-  id?: SettingsScrollTarget;
+  id?: SidebarScrollTarget;
 };
 
 export function PaneIntegrationNomads({ id }: Props) {

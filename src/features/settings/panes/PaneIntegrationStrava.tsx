@@ -4,7 +4,7 @@ import IconBulb from '@/components/icons/IconBulb';
 import IconStrava from '@/components/icons/IconStrava';
 import { Progressbar } from '@/components/progressbar/Progressbar';
 import { Pane } from '@/features/sidebar/components/pane/Pane';
-import type { SettingsScrollTarget } from '@/features/sidebar/stores/useSidebarStore';
+import type { SidebarScrollTarget } from '@/features/sidebar/stores/useSidebarStore';
 import { cn } from '@/utils/tailwind';
 
 import { getDataFromStrava } from '../actions/get-data-from-strava';
@@ -17,7 +17,7 @@ const STRAVA_EXPORT_URL = 'https://www.strava.com/athlete/delete_your_account';
 const handleFiles = (files: File[]) => getDataFromStrava({ files });
 
 type Props = {
-  id?: SettingsScrollTarget;
+  id?: SidebarScrollTarget;
 };
 
 export function PaneIntegrationStrava({ id }: Props) {

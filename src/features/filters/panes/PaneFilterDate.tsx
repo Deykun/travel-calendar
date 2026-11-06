@@ -8,6 +8,7 @@ import { PlayControls } from '@/features/play/components/PlayControls';
 import usePreferencesStore, { toggleShouldFilterToSingleYear } from '@/features/preferences/stores/usePreferencesStore';
 import useDataStore from '@/features/settings/stores/useDateStore';
 import { Pane } from '@/features/sidebar/components/pane/Pane';
+import { SCROLL_TARGET } from '@/features/sidebar/stores/useSidebarStore';
 import type { DateYYYYMMDD } from '@/types';
 import { getArrayOfYears } from '@/utils/date';
 
@@ -57,7 +58,7 @@ export function PaneFilterDate() {
   const years = getArrayOfYears(from, to);
 
   return (
-    <Pane>
+    <Pane id={SCROLL_TARGET.DATES}>
       <Pane.Title>{t('preferences.years')}</Pane.Title>
       <Pane.Subtitle>{t('label.settings')}</Pane.Subtitle>
       <Pane.List>

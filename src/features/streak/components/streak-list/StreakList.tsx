@@ -1,9 +1,12 @@
 import { Fragment, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { Button } from '@/components/button/Button';
+import IconGear from '@/components/icons/IconGear';
 import { VisitedCountries } from '@/features/calendar/components/common/VisitedCountries';
 import useFiltersStore from '@/features/filters/stores/useFilterStore';
 import usePreferencesStore from '@/features/preferences/stores/usePreferencesStore';
+import { SCROLL_TARGET, openSidebarSettings } from '@/features/sidebar/stores/useSidebarStore';
 import { cn } from '@/utils/tailwind';
 
 import { StreakPeriod } from '../streak-period/StreakPeriod';
@@ -99,6 +102,18 @@ export function StreakList({ className }: Props) {
           })}
         </div>
       </div>
+      <Button
+        className={cn(
+          'absolute top-4 right-4',
+          'opacity-0 group-hover:opacity-100 focus-visible:opacity-100',
+          'duration-150',
+        )}
+        size="sm"
+        variant="secondary"
+        onClick={() => openSidebarSettings(SCROLL_TARGET.TRIPS)}
+      >
+        <IconGear />
+      </Button>
     </div>
   );
 }

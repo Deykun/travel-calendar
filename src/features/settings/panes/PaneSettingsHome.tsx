@@ -8,11 +8,11 @@ import { MiniCalendarForCountry } from '@/features/calendar/components/mini-cale
 import useFiltersStore, { setHomeCountriesCodes, toggleHomeCountry } from '@/features/filters/stores/useFilterStore';
 import useDataStore from '@/features/settings/stores/useDateStore';
 import { Pane } from '@/features/sidebar/components/pane/Pane';
-import type { SettingsScrollTarget } from '@/features/sidebar/stores/useSidebarStore';
+import type { SidebarScrollTarget } from '@/features/sidebar/stores/useSidebarStore';
 
 type Props = {
   className?: string;
-  id?: SettingsScrollTarget;
+  id?: SidebarScrollTarget;
 };
 
 export const PaneSettingsHome = ({ className = '', id }: Props) => {

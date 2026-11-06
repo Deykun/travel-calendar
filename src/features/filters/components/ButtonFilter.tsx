@@ -9,7 +9,7 @@ export const ButtonFilter = () => {
   const { t } = useTranslation();
 
   return (
-    <Button onClick={openSidebarFilters} variant={isSidebarOpen ? 'primary' : 'secondary'}>
+    <Button onClick={() => openSidebarFilters()} variant={isSidebarOpen ? 'primary' : 'secondary'}>
       <IconFilter />
       <span>{t('label.filters')}</span>
     </Button>

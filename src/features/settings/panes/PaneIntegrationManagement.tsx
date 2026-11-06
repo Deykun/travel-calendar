@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/button/Button';
 import { refreshStore } from '@/features/error-boundary/actions/refresh';
 import { Pane } from '@/features/sidebar/components/pane/Pane';
-import type { SettingsScrollTarget } from '@/features/sidebar/stores/useSidebarStore';
+import type { SidebarScrollTarget } from '@/features/sidebar/stores/useSidebarStore';
 
 import { IntegrationLastUpdate } from '../components/IntegrationLastUpdate';
 import useDataStore, { type IntegrationType } from '../stores/useDateStore';
@@ -19,7 +19,7 @@ const dataPointsLabelKeyByType: Record<IntegrationType, string> = {
 };
 
 type Props = {
-  id?: SettingsScrollTarget;
+  id?: SidebarScrollTarget;
   onOpenIntegrations: () => void;
 };
 
