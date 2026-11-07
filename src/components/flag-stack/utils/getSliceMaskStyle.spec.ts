@@ -16,7 +16,7 @@ describe('getSliceMaskStyle', () => {
     expect(getSliceMaskStyle(0, 4, 'blend')).toEqual({});
   });
 
-  // Both modes: seam tilted 20deg (gradient angle 110deg). Boundaries are measured on the
+  // Both modes: seam tilted -20deg (gradient angle 70deg). Boundaries are measured on the
   // horizontal midline and projected onto the tilted gradient line of a 3:2 box.
   describe('sharp', () => {
     it('is the default mode', () => {
@@ -24,50 +24,50 @@ describe('getSliceMaskStyle', () => {
     });
 
     it('tilts the gradient by the seam angle', () => {
-      expect(getSliceMaskStyle(1, 4, 'sharp').maskImage).toMatch(/^linear-gradient\(110deg, /);
+      expect(getSliceMaskStyle(1, 4, 'sharp').maskImage).toMatch(/^linear-gradient\(70deg, /);
     });
 
     it('hides second of 4 left of the 25% boundary with a hard edge', () => {
       const { maskImage, WebkitMaskImage } = getSliceMaskStyle(1, 4, 'sharp');
 
-      expect(maskImage).toBe('linear-gradient(110deg, transparent 29.88%, #000 29.88%)');
+      expect(maskImage).toBe('linear-gradient(70deg, transparent 29.88%, #000 29.88%)');
       expect(WebkitMaskImage).toBe(maskImage);
     });
 
     it('hides last of 4 left of the 75% boundary', () => {
-      expect(getSliceMaskStyle(3, 4, 'sharp').maskImage).toBe('linear-gradient(110deg, transparent 70.12%, #000 70.12%)');
+      expect(getSliceMaskStyle(3, 4, 'sharp').maskImage).toBe('linear-gradient(70deg, transparent 70.12%, #000 70.12%)');
     });
 
     it('hides second of 2 left of the 50% boundary (box center, unaffected by tilt)', () => {
-      expect(getSliceMaskStyle(1, 2, 'sharp').maskImage).toBe('linear-gradient(110deg, transparent 50%, #000 50%)');
+      expect(getSliceMaskStyle(1, 2, 'sharp').maskImage).toBe('linear-gradient(70deg, transparent 50%, #000 50%)');
     });
 
     it('rounds awkward fractions to 2 decimals', () => {
-      expect(getSliceMaskStyle(1, 3, 'sharp').maskImage).toBe('linear-gradient(110deg, transparent 36.59%, #000 36.59%)');
+      expect(getSliceMaskStyle(1, 3, 'sharp').maskImage).toBe('linear-gradient(70deg, transparent 36.59%, #000 36.59%)');
     });
   });
 
-  // Blend: zone = half a slice, measured on the midline and projected the same way.
+  // Blend: zone = 0.8 of a slice, measured on the midline and projected the same way.
   describe('blend', () => {
     it('tilts the gradient by the seam angle', () => {
-      expect(getSliceMaskStyle(1, 4, 'blend').maskImage).toMatch(/^linear-gradient\(110deg, /);
+      expect(getSliceMaskStyle(1, 4, 'blend').maskImage).toMatch(/^linear-gradient\(70deg, /);
     });
 
     it('second of 4 fades in around the 25% boundary', () => {
       expect(getSliceMaskStyle(1, 4, 'blend').maskImage).toBe(
-        'linear-gradient(110deg, transparent 24.85%, #000 34.91%)',
+        'linear-gradient(70deg, transparent 21.83%, #000 37.93%)',
       );
     });
 
     it('last of 4 fades in around the 75% boundary', () => {
       expect(getSliceMaskStyle(3, 4, 'blend').maskImage).toBe(
-        'linear-gradient(110deg, transparent 65.09%, #000 75.15%)',
+        'linear-gradient(70deg, transparent 62.07%, #000 78.17%)',
       );
     });
 
     it('second of 2 fades in around the 50% boundary', () => {
       expect(getSliceMaskStyle(1, 2, 'blend').maskImage).toBe(
-        'linear-gradient(110deg, transparent 39.94%, #000 60.06%)',
+        'linear-gradient(70deg, transparent 33.91%, #000 66.09%)',
       );
     });
 
