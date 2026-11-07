@@ -34,7 +34,7 @@ export function SubPaneFlags({ subtitleClassName }: Props) {
         </Checkbox>
       </Pane.List>
 
-      <Pane.Subtitle className="mt-3">{t('preferences.flagsDisplayMode.title')}</Pane.Subtitle>
+      <Pane.Subtitle className="mt-3">{t('preferences.flagDisplayMode.title')}</Pane.Subtitle>
       <Pane.List>
         {displayModes.map((mode) => (
           <Radiobox
@@ -43,7 +43,7 @@ export function SubPaneFlags({ subtitleClassName }: Props) {
             onChange={() => setFlagsDisplayMode(mode)}
             isDisabled={!shouldShowFlags}
           >
-            <div className={cn('flex flex-col gap-1', 'text-wrap')}>{t(`preferences.flagsDisplayMode.${mode}`)}</div>
+            <div className={cn('flex flex-col gap-1', 'text-wrap')}>{t(`preferences.flagDisplayMode.${mode}`)}</div>
           </Radiobox>
         ))}
       </Pane.List>

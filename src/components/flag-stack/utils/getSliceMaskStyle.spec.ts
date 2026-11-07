@@ -80,4 +80,16 @@ describe('getSliceMaskStyle', () => {
       expect((stops[0]! + stops[1]!) / 2).toBeCloseTo(50, 1);
     });
   });
+
+  describe('cache', () => {
+    it('returns the same object for the same inputs', () => {
+      expect(getSliceMaskStyle(2, 5, 'blend')).toBe(getSliceMaskStyle(2, 5, 'blend'));
+      expect(getSliceMaskStyle(0, 5, 'blend')).toBe(getSliceMaskStyle(0, 3, 'sharp'));
+    });
+
+    it('does not mix up modes or positions', () => {
+      expect(getSliceMaskStyle(2, 5, 'blend')).not.toBe(getSliceMaskStyle(2, 5, 'sharp'));
+      expect(getSliceMaskStyle(2, 5, 'sharp')).not.toBe(getSliceMaskStyle(3, 5, 'sharp'));
+    });
+  });
 });

@@ -77,11 +77,7 @@ export const FlagStack = ({
               <IconPlaneAlt className={cn('size-4 text-[#d8da51]')} />
             </div>
           )}
-          <div
-            className={cn('col-start-1 row-start-1', 'w-8 scale-70 group-hover:scale-80 duration-300 origin-center', {
-              'scale-50': shouldBeMuted,
-            })}
-          >
+          <div className={cn('col-start-1 row-start-1', 'w-8 scale-70  duration-300 origin-center')}>
             <ImageFlagSimple
               key={sortedFlags[0].countryCode}
               countryCode={sortedFlags[0].countryCode}

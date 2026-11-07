@@ -42,11 +42,7 @@ const toStop = (midlineX: number, gradientAngleDeg: number) => {
  * - sharp: hard edge at the boundary.
  * - blend: boundary ± (BLEND_ZONE_RATIO / 2) of a slice width fades from transparent to opaque.
  */
-export const getSliceMaskStyle = (index: number, total: number, mode: SliceMaskMode = 'sharp'): CSSProperties => {
-  if (total < 2 || index === 0) {
-    return {};
-  }
-
+const computeSliceMaskStyle = (index: number, total: number, mode: SliceMaskMode): CSSProperties => {
   const slice = 100 / total;
   const start = index * slice;
   const feather = mode === 'blend' ? (slice * BLEND_ZONE_RATIO) / 2 : 0;
@@ -59,4 +55,27 @@ export const getSliceMaskStyle = (index: number, total: number, mode: SliceMaskM
     maskImage: mask,
     WebkitMaskImage: mask,
   };
+};
+
+const EMPTY_STYLE: CSSProperties = {};
+
+/** Input space is tiny (index/total/mode) and the call runs for every flag on every render, so results are memoized for the module lifetime. */
+const cache = new Map<string, CSSProperties>();
+
+export const getSliceMaskStyle = (index: number, total: number, mode: SliceMaskMode = 'sharp'): CSSProperties => {
+  if (total < 2 || index === 0) {
+    return EMPTY_STYLE;
+  }
+
+  const key = `${mode}:${index}/${total}`;
+  const cached = cache.get(key);
+
+  if (cached) {
+    return cached;
+  }
+
+  const style = computeSliceMaskStyle(index, total, mode);
+  cache.set(key, style);
+
+  return style;
 };

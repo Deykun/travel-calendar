@@ -20,7 +20,7 @@ export const FlagStackBlend = ({ flags = [], mode = 'sharp' }: PropsWithChildren
         return (
           <div
             key={countryCode}
-            className={cn('col-start-1 row-start-1', 'w-8 scale-70 group-hover:scale-80 duration-300 origin-center')}
+            className={cn('col-start-1 row-start-1', 'w-8 scale-70 origin-center')}
             style={getSliceMaskStyle(index, total, mode)}
           >
             <ImageFlagSimple countryCode={countryCode} />
