@@ -1,4 +1,4 @@
-import type { CSSProperties, PropsWithChildren } from 'react';
+import type { CSSProperties, PropsWithChildren, ReactEventHandler } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { cn } from '@/utils/tailwind';
@@ -11,9 +11,16 @@ type Props = {
   countryCode: string;
   style?: CSSProperties;
   aspect?: '3x2' | '1x1';
+  onLoad?: ReactEventHandler<HTMLImageElement>;
 };
 
-export const ImageFlagSimple = ({ className = '', style, aspect = '3x2', countryCode }: PropsWithChildren<Props>) => {
+export const ImageFlagSimple = ({
+  className = '',
+  style,
+  aspect = '3x2',
+  countryCode,
+  onLoad,
+}: PropsWithChildren<Props>) => {
   const { t } = useTranslation();
   const safeCountryCodeForImage = fallbackFlags[countryCode.toUpperCase()] || countryCode.toUpperCase();
 
@@ -42,6 +49,7 @@ export const ImageFlagSimple = ({ className = '', style, aspect = '3x2', country
       // https://purecatamphetamine.github.io/country-flag-icons/1x1/index.html
       src={`https://purecatamphetamine.github.io/country-flag-icons/${aspect}/${safeCountryCodeForImage}.svg`}
       onError={() => console.error(`Missing flag for "${safeCountryCodeForImage}".`)}
+      onLoad={onLoad}
       title={t(`country.name.${countryCode}`)}
     />
   );

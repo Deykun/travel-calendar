@@ -13,6 +13,8 @@ export type CounterShowOption =
 
 export type FlagsSortOption = 'lastVisited' | 'rarest';
 
+export type FlagsDisplayMode = 'single' | 'sharp' | 'blend';
+
 export type PreferencesStoreState = {
   calendar: {
     counterShouldShow: CounterShowOption;
@@ -22,6 +24,7 @@ export type PreferencesStoreState = {
   };
   flags: {
     shouldShowFlags: boolean;
+    displayMode: FlagsDisplayMode;
     sortBy: FlagsSortOption;
   };
   sidebars: {
@@ -50,6 +53,7 @@ const emptyStore: PreferencesStoreState = {
   },
   flags: {
     shouldShowFlags: true,
+    displayMode: 'single',
     sortBy: 'lastVisited',
   },
   sidebars: {
@@ -101,6 +105,15 @@ export const toggleShouldShowFlags = () => {
     flags: {
       ...state.flags,
       shouldShowFlags: !state.flags.shouldShowFlags,
+    },
+  }));
+};
+
+export const setFlagsDisplayMode = (displayMode: FlagsDisplayMode) => {
+  usePreferencesStore.setState((state) => ({
+    flags: {
+      ...state.flags,
+      displayMode: displayMode,
     },
   }));
 };
