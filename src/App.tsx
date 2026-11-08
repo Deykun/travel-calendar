@@ -4,6 +4,7 @@ import { Calendar } from './features/calendar/components/calendar/Calendar';
 import ErrorBoundary from './features/error-boundary/components/ErrorBoundary';
 import { Fallback } from './features/error-boundary/components/fallback/Fallback';
 import { useRefreshIfNeeded } from './features/error-boundary/hooks/useShouldRefresh';
+import { LazyFlagsImagesLoader } from './features/lazy-flags-image/components/LazyFlagsImagesLoader';
 import { WindowDropzone } from './features/settings/components/WindowDropzone';
 import { ButtonCopySharableLink } from './features/share/components/ButtonCopySharableLink';
 import { ButtonDownloadImage } from './features/share/components/ButtonDownloadImage';
@@ -42,6 +43,7 @@ function App() {
           </div>
         </div>
       </div>
+      <LazyFlagsImagesLoader />
       <LoadingOverlay />
       <WindowDropzone />
     </ErrorBoundary>

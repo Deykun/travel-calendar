@@ -3,6 +3,7 @@ import { devtools } from 'zustand/middleware';
 
 import type { MonthNumber } from '@/features/calendar/types';
 import type { StreakType } from '@/features/filters/stores/useFilterStore';
+import useDataStore from '@/features/settings/stores/useDateStore';
 import type { DateMMDD } from '@/types';
 
 export const SCROLL_TARGET = {
@@ -107,9 +108,10 @@ export function collapseSidebar() {
 }
 
 export function closeSidebar() {
+  const hasIntegration = !!useDataStore.getState().integration.lastUpdate;
   useSidebarStore.setState({
     sidebar: {
-      type: 'setting',
+      type: hasIntegration ? 'filters' : 'setting',
     },
     isCollapsed: true,
   });

@@ -18,7 +18,7 @@ type Props = {
   isActive?: boolean;
 };
 
-const MAXIMUM_FLAGS_TO_SHOW = 3;
+const MAXIMUM_FLAGS_TO_SHOW = 10;
 
 export const FlagStack = ({
   flags = [],
@@ -88,7 +88,6 @@ export const FlagStack = ({
           </div>
         </>
       )}
-
       {!shouldShowOneFlag && <FlagStackBlend flags={sortedFlags.slice(0, MAXIMUM_FLAGS_TO_SHOW)} mode={displayMode} />}
     </div>
   );

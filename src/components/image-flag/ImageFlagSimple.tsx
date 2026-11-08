@@ -12,6 +12,7 @@ type Props = {
   style?: CSSProperties;
   aspect?: '3x2' | '1x1';
   onLoad?: ReactEventHandler<HTMLImageElement>;
+  onError?: ReactEventHandler<HTMLImageElement>;
 };
 
 export const ImageFlagSimple = ({
@@ -20,6 +21,7 @@ export const ImageFlagSimple = ({
   aspect = '3x2',
   countryCode,
   onLoad,
+  onError,
 }: PropsWithChildren<Props>) => {
   const { t } = useTranslation();
   const safeCountryCodeForImage = fallbackFlags[countryCode.toUpperCase()] || countryCode.toUpperCase();
@@ -48,7 +50,10 @@ export const ImageFlagSimple = ({
       loading="lazy"
       // https://purecatamphetamine.github.io/country-flag-icons/1x1/index.html
       src={`https://purecatamphetamine.github.io/country-flag-icons/${aspect}/${safeCountryCodeForImage}.svg`}
-      onError={() => console.error(`Missing flag for "${safeCountryCodeForImage}".`)}
+      onError={(e) => {
+        console.error(`Missing flag for "${safeCountryCodeForImage}".`);
+        onError?.(e);
+      }}
       onLoad={onLoad}
       title={t(`country.name.${countryCode}`)}
     />
