@@ -38,6 +38,12 @@ export const LazyFlagsImagesLoaderRequestParser = ({ request: { key, countriesCo
     return URL.createObjectURL(blob);
   };
 
+  // A flag that never loads would never complete the request, stalling the queue head. Drop it instead.
+  const handleFlagError = (countryCode: string) => {
+    console.error(`Lazy flags image failed for "${key}": flag "${countryCode}" didn't load.`);
+    dropLazyFlagsImageRequest(key);
+  };
+
   const handleFlagLoad = (countryCode: string) => {
     loadedCountriesCodes.current.add(countryCode);
 
@@ -54,7 +60,7 @@ export const LazyFlagsImagesLoaderRequestParser = ({ request: { key, countriesCo
   };
 
   return (
-    <div className={cn('fixed bottom-0 left-0 z-10 opacity-0 pointer-none')}>
+    <div className={cn('fixed bottom-0 left-0 z-10 opacity-0 pointer-events-none')}>
       <div ref={gridRef} className="grid">
         {countriesCodes.toReversed().map((countryCode, index) => {
           return (
@@ -69,6 +75,7 @@ export const LazyFlagsImagesLoaderRequestParser = ({ request: { key, countriesCo
                 className="rounded-none opacity-100 transition-none"
                 countryCode={countryCode}
                 onLoad={() => handleFlagLoad(countryCode)}
+                onError={() => handleFlagError(countryCode)}
               />
             </div>
           );

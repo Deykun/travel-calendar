@@ -29,7 +29,7 @@ export const FlagStackBlend = ({ flags = [], mode = 'sharp' }: PropsWithChildren
   }, [flags, mode]);
 
   if (image || SHOW_WHILE_WAITING === 'single') {
-    const lastFlag = flags.toReversed().at(-1);
+    const lastFlag = flags[0];
 
     return (
       <div className="grid">
@@ -46,10 +46,7 @@ export const FlagStackBlend = ({ flags = [], mode = 'sharp' }: PropsWithChildren
         )}
         {lastFlag && !image && (
           <div className={cn('col-start-1 row-start-1', 'w-8 scale-70 origin-center')}>
-            <div
-              key={lastFlag.countryCode}
-              className={cn('col-start-1 row-start-1 opacity-100 duration-150 ease-in-out', { 'opacity-0': image })}
-            >
+            <div key={lastFlag.countryCode} className={cn('col-start-1 row-start-1')}>
               <ImageFlagSimple countryCode={lastFlag.countryCode} />
             </div>
           </div>

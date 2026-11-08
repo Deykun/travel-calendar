@@ -42,7 +42,7 @@ export function getLazyFlagsImageKeyIfPossible(params: Omit<LazyImageRequest, 'k
   return `${params.mode}-${params.countriesCodes.join('.')}`;
 }
 
-export async function requestLazyFlagsImage(params: Omit<LazyImageRequest, 'key'>) {
+export function requestLazyFlagsImage(params: Omit<LazyImageRequest, 'key'>) {
   const key = getLazyFlagsImageKeyIfPossible(params);
   if (!key) {
     return;
