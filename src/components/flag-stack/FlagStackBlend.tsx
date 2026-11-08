@@ -9,12 +9,15 @@ import {
 import { cn } from '@/utils/tailwind';
 
 import { ImageFlagSimple } from '../image-flag/ImageFlagSimple';
+import { Image } from '../image/Image';
 import { type SliceMaskMode, getSliceMaskStyle } from './utils/getSliceMaskStyle';
 
 type Props = {
   flags: FlagData[];
   mode?: SliceMaskMode;
 };
+
+const SHOW_WHILE_WAITING: 'single' | 'all' = 'single';
 
 export const FlagStackBlend = ({ flags = [], mode = 'sharp' }: PropsWithChildren<Props>) => {
   const key = getLazyFlagsImageKeyIfPossible({ countriesCodes: flags.map(({ countryCode }) => countryCode), mode });
@@ -25,6 +28,35 @@ export const FlagStackBlend = ({ flags = [], mode = 'sharp' }: PropsWithChildren
     requestLazyFlagsImage({ countriesCodes: flags.map(({ countryCode }) => countryCode), mode });
   }, [flags, mode]);
 
+  if (image || SHOW_WHILE_WAITING === 'single') {
+    const lastFlag = flags.toReversed().at(-1);
+
+    return (
+      <div className="grid">
+        {image && (
+          <div className={cn('col-start-1 row-start-1', 'w-8 scale-70 origin-center')}>
+            {image && (
+              <Image
+                className={cn('aspect-3/2 object-cover max-w-full shrink-0 rounded-sm drop-shadow')}
+                src={image}
+                alt={flags.map(({ countryCode }) => countryCode).join(', ')}
+              />
+            )}
+          </div>
+        )}
+        {lastFlag && !image && (
+          <div className={cn('col-start-1 row-start-1', 'w-8 scale-70 origin-center')}>
+            <div
+              key={lastFlag.countryCode}
+              className={cn('col-start-1 row-start-1 opacity-100 duration-150 ease-in-out', { 'opacity-0': image })}
+            >
+              <ImageFlagSimple countryCode={lastFlag.countryCode} />
+            </div>
+          </div>
+        )}
+      </div>
+    );
+  }
   return (
     <div className="grid">
       {flags.toReversed().map(({ countryCode }, index) => {

@@ -1,15 +1,13 @@
-import { cn } from '@/utils/tailwind';
-
 import { useLazyFlagsImageStore } from '../stores/useLazyFlagsImageStore';
 import { LazyFlagsImagesLoaderRequestParser } from './LazyFlagsImagesLoaderRequestParser';
 
 export const LazyFlagsImagesLoader = () => {
-  const request = useLazyFlagsImageStore((store) => store.queue.at(0));
+  const [request, request2] = useLazyFlagsImageStore((store) => store.queue);
 
-  console.log('request', request);
-
-  if (request) {
-    return <LazyFlagsImagesLoaderRequestParser request={request} />;
-  }
-  return null;
+  return (
+    <>
+      {request && <LazyFlagsImagesLoaderRequestParser key={request.key} request={request} />}
+      {request2 && <LazyFlagsImagesLoaderRequestParser key={request2.key} request={request2} />}
+    </>
+  );
 };
