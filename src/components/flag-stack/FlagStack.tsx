@@ -72,20 +72,14 @@ export const FlagStack = ({
     >
       {shouldShowOneFlag && (
         <>
-          {shouldBeMuted && (
-            <div className={cn('col-start-1 row-start-1')}>
-              <IconPlaneAlt className={cn('size-4 text-[#d8da51]')} />
-            </div>
-          )}
-          <div className={cn('col-start-1 row-start-1', 'w-8 scale-70  duration-300 origin-center')}>
-            <ImageFlagSimple
-              key={sortedFlags[0].countryCode}
-              countryCode={sortedFlags[0].countryCode}
-              className={cn({
-                'opacity-0 group-hover:opacity-100 duration-300': shouldBeMuted,
-              })}
-            />
-          </div>
+          {shouldBeMuted && <IconPlaneAlt className={cn('col-start-1 row-start-1', 'size-4 text-[#d8da51]')} />}
+          <ImageFlagSimple
+            key={sortedFlags[0].countryCode}
+            countryCode={sortedFlags[0].countryCode}
+            className={cn('col-start-1 row-start-1', 'w-8 scale-70  duration-300 origin-center', {
+              'opacity-0 group-hover:opacity-100 duration-300': shouldBeMuted,
+            })}
+          />
         </>
       )}
       {!shouldShowOneFlag && <FlagStackBlend flags={sortedFlags.slice(0, MAXIMUM_FLAGS_TO_SHOW)} mode={displayMode} />}

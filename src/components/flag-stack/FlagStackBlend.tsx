@@ -34,21 +34,22 @@ export const FlagStackBlend = ({ flags = [], mode = 'sharp' }: PropsWithChildren
     return (
       <div className="grid">
         {image && (
-          <div className={cn('col-start-1 row-start-1', 'w-8 scale-70 origin-center')}>
-            {image && (
-              <Image
-                className={cn('aspect-3/2 object-cover max-w-full shrink-0 rounded-sm drop-shadow')}
-                src={image}
-                alt={flags.map(({ countryCode }) => countryCode).join(', ')}
-              />
+          <Image
+            className={cn(
+              'aspect-3/2 object-cover max-w-full shrink-0 rounded-sm drop-shadow',
+              'col-start-1 row-start-1',
+              'w-8 scale-70 origin-center',
             )}
-          </div>
+            src={image}
+            alt={flags.map(({ countryCode }) => countryCode).join(', ')}
+          />
         )}
         {lastFlag && !image && (
-          <div className={cn('col-start-1 row-start-1', 'w-8 scale-70 origin-center')}>
-            <div key={lastFlag.countryCode} className={cn('col-start-1 row-start-1')}>
-              <ImageFlagSimple countryCode={lastFlag.countryCode} />
-            </div>
+          <div
+            key={lastFlag.countryCode}
+            className={cn('col-start-1 row-start-1', 'col-start-1 row-start-1', 'w-8 scale-70 origin-center')}
+          >
+            <ImageFlagSimple countryCode={lastFlag.countryCode} />
           </div>
         )}
       </div>

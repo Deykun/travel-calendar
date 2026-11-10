@@ -1,4 +1,4 @@
-import { PaneFilterDate } from '../panes/PaneFilterDate';
+import { PaneFilterDate } from '../panes/PaneFilterDate/PaneFilterDate';
 import { PaneVisibilityCalendar } from '../panes/PaneVisibilityCalendar';
 
 export const SidebarFilters = () => {
