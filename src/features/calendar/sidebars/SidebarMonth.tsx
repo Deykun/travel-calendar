@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import IconTravel from '@/components/icons/IconTravel';
 import { useFlagsSimple } from '@/features/filters/hooks/useFlagsSimple';
 import useFiltersStore from '@/features/filters/stores/useFilterStore';
+import { openSidebar } from '@/features/sidebar/stores/useSidebarStore';
 import { EMPTY_ARRAY, EMPTY_OBJECT } from '@/utils/empty';
 import { cn } from '@/utils/tailwind';
 
@@ -75,6 +76,7 @@ export const SidebarMonth = ({ className, monthNumber }: Props) => {
               to={to}
               countryCode={countryCode}
               shouldShowHomeMarker={homeCountriesCodes.includes(countryCode)}
+              onClick={() => openSidebar({ type: 'country', countryCode })}
             />
           ))}
         </div>
