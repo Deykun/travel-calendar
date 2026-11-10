@@ -1,9 +1,6 @@
 import { useTranslation } from 'react-i18next';
-import { Fragment } from 'react/jsx-runtime';
 
 import { Checkbox } from '@/components/checkbox/Checkbox';
-import { Radiobox } from '@/components/radiobox/Radiobox';
-import { MiniCalendarForYear } from '@/features/calendar/components/mini-calendar/MiniCalendarForYear';
 import { PlayControls } from '@/features/play/components/PlayControls';
 import usePreferencesStore, { toggleShouldFilterToSingleYear } from '@/features/preferences/stores/usePreferencesStore';
 import useDataStore from '@/features/settings/stores/useDateStore';
@@ -12,9 +9,9 @@ import { SCROLL_TARGET } from '@/features/sidebar/stores/useSidebarStore';
 import type { DateYYYYMMDD } from '@/types';
 import { getArrayOfYears } from '@/utils/date';
 
-import useFiltersStore, { setDateFilter, setFromFilter, setToFilter } from '../stores/useFilterStore';
+import useFiltersStore, { setDateFilter, setFromFilter, setToFilter } from '../../stores/useFilterStore';
 
-type DateBound = 'from' | 'to';
+import { type DateBound, PaneFilterDateRow } from './PaneFilterDateRow';
 
 export function PaneFilterDate() {
   const shouldFilterToSingleYear = usePreferencesStore((store) => store.date.shouldFilterToSingleYear);
@@ -74,20 +71,13 @@ export function PaneFilterDate() {
           const isToActive = (activeTo || '').startsWith(String(year));
 
           return (
-            <Fragment key={year}>
-              <span>
-                <Radiobox key={year} isActive={isFromActive} onChange={() => handleYearChange('from', year)}>
-                  <span>{year}</span>
-                  <MiniCalendarForYear year={year} />
-                </Radiobox>
-              </span>
-              <span>
-                <Radiobox key={year} isActive={isToActive} onChange={() => handleYearChange('to', year)}>
-                  <span>{year}</span>
-                  <MiniCalendarForYear year={year} />
-                </Radiobox>
-              </span>
-            </Fragment>
+            <PaneFilterDateRow
+              key={year}
+              year={year}
+              isFromActive={isFromActive}
+              isToActive={isToActive}
+              onYearChange={handleYearChange}
+            />
           );
         })}
       </Pane.List>
