@@ -1,11 +1,14 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { Button } from '@/components/button/Button';
 import { DatetimeDay } from '@/components/datetime/datetime-day';
+import IconGlobe from '@/components/icons/IconGlobe';
 import IconTravel from '@/components/icons/IconTravel';
 import { useFlagsForDay } from '@/features/filters/hooks/useFlagsForDate';
 import useFiltersStore from '@/features/filters/stores/useFilterStore';
 import { ToggleShowHome } from '@/features/preferences/components/ToggleShowHome';
+import { openSidebar } from '@/features/sidebar/stores/useSidebarStore';
 import type { DateMMDD } from '@/types';
 import { EMPTY_ARRAY } from '@/utils/empty';
 import { cn } from '@/utils/tailwind';
@@ -95,6 +98,16 @@ export const SidebarDay = ({ className, dayKey }: Props) => {
         </div>
         <ToggleShowHome className="mt-4" />
       </div>
+
+      {details.countryCode && (
+        <div className="mt-8 text-center">
+          <Button onClick={() => openSidebar({ type: 'country', countryCode: details.countryCode })}>
+            <IconGlobe />
+            <span>{t('place.countryStatistic')}</span>
+          </Button>
+        </div>
+      )}
+
       {details.tripsKeys.length > 0 && (
         <div className={cn(sidebarStyles, 'mt-8', 'flex flex-col gap-3')}>
           <strong className="text-[#b3b3a8] text-sm tracking-wider font-normal">{t('summary.tripsTitle')}</strong>
