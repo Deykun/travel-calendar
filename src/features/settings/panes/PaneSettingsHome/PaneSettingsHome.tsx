@@ -4,11 +4,12 @@ import { useTranslation } from 'react-i18next';
 import { Checkbox } from '@/components/checkbox/Checkbox';
 import IconBulb from '@/components/icons/IconBulb';
 import IconTravel from '@/components/icons/IconTravel';
-import { MiniCalendarForCountry } from '@/features/calendar/components/mini-calendar/MiniCalendarForCountry';
-import useFiltersStore, { setHomeCountriesCodes, toggleHomeCountry } from '@/features/filters/stores/useFilterStore';
+import useFiltersStore, { setHomeCountriesCodes } from '@/features/filters/stores/useFilterStore';
 import useDataStore from '@/features/settings/stores/useDateStore';
 import { Pane } from '@/features/sidebar/components/pane/Pane';
 import { SCROLL_TARGET } from '@/features/sidebar/stores/useSidebarStore';
+
+import { PaneSettingsHomeRow } from './PaneSettingsHomeRow';
 
 type Props = {
   className?: string;
@@ -33,21 +34,7 @@ export const PaneSettingsHome = ({ className = '' }: Props) => {
       <Pane.List>
         {countriesToList.map(([countryCode, total]) =>
           total < 0 ? null : (
-            <Checkbox
-              className="whitespace-nowrap text-ellipsis overflow-hidden"
-              classNameChildren="whitespace-nowrap text-ellipsis overflow-hidden"
-              key={countryCode}
-              isActive={homeCountriesCodes.includes(countryCode)}
-              onChange={() => toggleHomeCountry(countryCode)}
-            >
-              <span className="whitespace-nowrap text-ellipsis overflow-hidden">
-                {t(`country.name.${countryCode}`)}
-              </span>
-              <strong className="shrink-0 font-semibold text-white text-xs">
-                {t('summary.days', { postProcess: 'interval', count: total })}
-              </strong>
-              <MiniCalendarForCountry countryCode={countryCode} />
-            </Checkbox>
+            <PaneSettingsHomeRow key={countryCode} countryCode={countryCode} total={total} />
           ),
         )}
         {countriesToList.length > 10 && (

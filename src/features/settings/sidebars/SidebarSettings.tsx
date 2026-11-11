@@ -8,7 +8,7 @@ import { PaneIntegrationManagement } from '../panes/PaneIntegrationManagement';
 import { PaneIntegrationNomads } from '../panes/PaneIntegrationNomads';
 import { PaneIntegrationStrava } from '../panes/PaneIntegrationStrava';
 import { PaneLanguage } from '../panes/PaneLanguage';
-import { PaneSettingsHome } from '../panes/PaneSettingsHome';
+import { PaneSettingsHome } from '../panes/PaneSettingsHome/PaneSettingsHome';
 import { PaneSettingsTrips } from '../panes/PaneSettingsTrips';
 import useDataStore from '../stores/useDateStore';
 
