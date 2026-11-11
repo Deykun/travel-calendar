@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 
 import { ButtonFilter } from '@/features/filters/components/ButtonFilter';
 import { ButtonSettings } from '@/features/settings/components/ButtonSettings';
+import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { cn } from '@/utils/tailwind';
 
 import { collapseSidebar, useSidebarStore } from '../stores/useSidebarStore';
@@ -16,6 +17,9 @@ export function Sidebar({ className = '' }: Props) {
   const wrapperRef = useRef<HTMLElement>(null);
   const sidebar = useSidebarStore((store) => store.sidebar);
   const isCollapsed = useSidebarStore((store) => store.isCollapsed);
+  const lastChangeIndex = useSidebarStore((store) => store.lastChangeIndex);
+
+  const isSmallScreen = useMediaQuery('(max-width: 599px)');
 
   useEffect(() => {
     const wrapper = wrapperRef.current;
@@ -35,6 +39,21 @@ export function Sidebar({ className = '' }: Props) {
 
   return (
     <>
+      <header
+        className={cn(
+          'fixed left-0 bottom-0 z-100',
+          'flex gap-3 items-center justify-center',
+          'w-full [@media(min-width:860px)]:w-100 h-18',
+          'p-2 sm:px-6',
+          'bg-[#111110]',
+          'border-t-2 border-[#2b2b27]',
+          '[@media(min-width:860px)]:border-t [@media(min-width:860px)]:border-r-2',
+        )}
+      >
+        <ButtonSettings shouldShowLabel={!isSmallScreen || sidebar?.type === 'setting'} />
+        <ButtonFilter shouldShowLabel={!isSmallScreen || sidebar?.type === 'filters'} />
+        <SidebarToggle className="ml-auto [@media(min-width:860px)]:hidden" />
+      </header>
       <button
         className={cn(
           'fixed top-0 left-0 w-full h-dvh',
@@ -50,16 +69,15 @@ export function Sidebar({ className = '' }: Props) {
       />
       <aside
         ref={wrapperRef}
-        key={sidebar?.type}
+        key={lastChangeIndex}
         className={cn(
-          'fixed top-0 left-0',
-          'h-dvh',
+          'fixed top-0 left-0 bottom-18 z-20',
           'overflow-y-scroll',
           '[scrollbar-width:thin]',
           '[scrollbar-color:rgb(255_255_255/0.2)_transparent]',
           'w-100',
           'max-w-full',
-          'p-2 sm:p-6',
+          'p-2 py-6 sm:p-6',
           'bg-[#111110]',
           'border-r-2 border-r-[#2b2b27]',
           'duration-500',
@@ -70,17 +88,6 @@ export function Sidebar({ className = '' }: Props) {
           className,
         )}
       >
-        <header
-          className={cn(
-            'flex flex-col',
-            '[@media(min-width:860px)]:flex-row [@media(min-width:860px)]:flex-wrap gap-3',
-            'mb-6',
-          )}
-        >
-          <SidebarToggle className="ml-auto [@media(min-width:860px)]:hidden" />
-          <ButtonSettings />
-          <ButtonFilter />
-        </header>
         <SidebarContent />
       </aside>
     </>

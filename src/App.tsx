@@ -21,8 +21,8 @@ function App() {
 
   return (
     <ErrorBoundary fallback={<Fallback />}>
-      <div className="flex">
-        <Sidebar className="shrink-0 z-500" />
+      <div className="flex pb-18">
+        <Sidebar className="shrink-0" />
         <div className="w-full">
           <div className="overflow-hidden [@media(min-width:860px)]:pl-100 py-12">
             <div id="shareable-content-container">

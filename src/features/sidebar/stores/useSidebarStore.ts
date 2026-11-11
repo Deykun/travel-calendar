@@ -54,13 +54,15 @@ export type Sidebar = SidebarBase &
 type SidebarStore = {
   sidebar: Sidebar | null;
   isCollapsed: boolean;
+  lastChangeIndex: number;
 };
 
 const emptyStore: SidebarStore = {
   sidebar: {
     type: 'setting',
   },
-  isCollapsed: false,
+  isCollapsed: true,
+  lastChangeIndex: 0,
 };
 
 export const useSidebarStore = create<SidebarStore>()(
@@ -74,10 +76,11 @@ export const useSidebarStore = create<SidebarStore>()(
 );
 
 export function openSidebar(sidebar: Sidebar) {
-  useSidebarStore.setState({
+  useSidebarStore.setState((state) => ({
     sidebar,
     isCollapsed: false,
-  });
+    lastChangeIndex: state.lastChangeIndex + 1,
+  }));
 }
 
 export function openSidebarSettings(scrollTo?: SidebarScrollTarget) {
@@ -109,10 +112,11 @@ export function collapseSidebar() {
 
 export function closeSidebar() {
   const hasIntegration = !!useDataStore.getState().integration.lastUpdate;
-  useSidebarStore.setState({
+  useSidebarStore.setState((state) => ({
     sidebar: {
       type: hasIntegration ? 'filters' : 'setting',
     },
     isCollapsed: true,
-  });
+    lastChangeIndex: state.lastChangeIndex + 1,
+  }));
 }
