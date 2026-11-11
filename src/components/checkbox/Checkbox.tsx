@@ -1,4 +1,4 @@
-import { type PropsWithChildren } from 'react';
+import { type PropsWithChildren, type Ref } from 'react';
 
 import { cn } from '@/utils/tailwind';
 
@@ -6,6 +6,7 @@ import IconCheck from '../icons/IconCheck';
 import IconCheckboxFrame from '../icons/IconCheckboxFrame';
 
 export type Props = {
+  ref?: Ref<HTMLButtonElement>;
   className?: string;
   classNameWrapper?: string;
   classNameChildren?: string;
@@ -16,6 +17,7 @@ export type Props = {
 };
 
 export const Checkbox = ({
+  ref,
   className = '',
   classNameWrapper = '',
   classNameChildren = '',
@@ -29,6 +31,7 @@ export const Checkbox = ({
 
   return (
     <button
+      ref={ref}
       className={cn(
         'group',
         'max-w-full',

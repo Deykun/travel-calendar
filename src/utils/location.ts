@@ -48,6 +48,8 @@ const countryByLocation: { [location: string]: string | undefined } = {
   'Cameron Highlands': 'my',
   'Saint Martin': 'sx',
   Brunei: 'bn',
+  贵州: 'cn',
+  武隆: 'cn',
 };
 
 const countryByCountry: { [place: string]: string | undefined } = {
