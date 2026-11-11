@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 
 import useDataStore from '@/features/settings/stores/useDateStore';
 
-import { openSidebarFilters, openSidebarSettings } from '../stores/useSidebarStore';
+import { closeSidebar, openSidebarFilters, openSidebarSettings } from '../stores/useSidebarStore';
 
 export const useSetInitialSidebar = () => {
   const hasData = useDataStore((store) => !!store.integration.type);
@@ -13,6 +13,9 @@ export const useSetInitialSidebar = () => {
     } else {
       openSidebarSettings();
     }
+
+    // It collapses it on mobile too
+    closeSidebar();
   }, [hasData]);
 
   return null;
